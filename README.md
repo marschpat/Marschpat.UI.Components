@@ -10,3 +10,11 @@ Collection of
 for the MARSCHPAT ecosytem
 
 ## Usage
+
+### Add to the repository
+ - `git submodule add git@github.com:marschpat/Marschpat.UI.Components.git`
+
+### Update submodules
+Checkout latest changes in submodules
+  - `git submodule update --remote` or
+  - `git pull --recurse-submodules`
