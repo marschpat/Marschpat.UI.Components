@@ -13,7 +13,7 @@ import useDispatchFlashMessage from './utils/useDispatchFlashMessage';
 import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
-const MusicsheetUploaderIndex = props => {
+const MusicsheetUpload = props => {
     const inDebugMode = useInDebugMode();
     const [errors, setErrors] = useState(null);
     const [sheetId, setSheetId] = useState(null);
@@ -234,4 +234,4 @@ const MusicsheetUploaderIndex = props => {
     }
 }
 
-export default MusicsheetUploaderIndex;
+export default MusicsheetUpload;

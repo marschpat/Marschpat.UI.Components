@@ -124,7 +124,7 @@ const InstrumentSheetEditor = props => {
         dispatchFlashMessage('Instrumentenstimme gespeichert', 'success');
     }
 
-    /* Build the final InstrumentSheet Object and pass it up to parent component (MusicsheetUploaderIndex) */
+    /* Build the final InstrumentSheet Object and pass it up to parent component (MusicsheetUploadIndex) */
     function persistCurrentInstrumentSheet() {
         const editedSheet = {
             ...props.instrumentSheet,
