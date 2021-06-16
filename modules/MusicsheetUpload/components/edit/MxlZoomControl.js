@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TooltipStyled from '../TooltipStyled';
+import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import IconButton from '@material-ui/core/IconButton';

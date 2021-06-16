@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import TooltipStyled from '../TooltipStyled';
+import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 

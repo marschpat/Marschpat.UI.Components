@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import TooltipStyled from '../TooltipStyled';
+import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import ToggleButton from '@material-ui/lab/ToggleButton';
 import ViewCompactIcon from '@material-ui/icons/ViewCompact';
 

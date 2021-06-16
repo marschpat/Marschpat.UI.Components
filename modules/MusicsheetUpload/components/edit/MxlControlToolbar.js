@@ -1,5 +1,5 @@
 import React from 'react';
-import TooltipStyled from '../TooltipStyled';
+import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import MxlInfoButton from './MxlInfoButton';
 import MxlZoomControl from './MxlZoomControl';
 import MxlTitleControl from './MxlTitleControl';

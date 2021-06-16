@@ -1,5 +1,5 @@
 import React from 'react';
-import TooltipStyled from '../TooltipStyled';
+import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import Button from '@material-ui/core/Button';
 import CropIcon from '@material-ui/icons/Crop';
 import OrientationToggle from './OrientationToggle';
