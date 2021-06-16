@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay-marschpat';
+// import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay-marschpat';
 import MxlControlToolbar from '../edit/MxlControlToolbar';
 import LoadingBusyIndicator from '../LoadingBusyIndicator';
 import LoadingModal from '../LoadingModal';
@@ -84,7 +84,7 @@ const MxlToImageConverter = props => {
         // sorry for the hack, try fix an osmd issue.
         osmdEl.current.innerHTML = '';
 
-        const osmd = new OpenSheetMusicDisplay(osmdEl.current, options);
+        // const osmd = new OpenSheetMusicDisplay(osmdEl.current, options);
         osmd.EngravingRules.StemWidth = 0.2; // default 0.15. could be increased to 0.18 or something when increasing fontscale
         osmd.EngravingRules.StaffLineWidth = 0.15; // default 0.1
         osmd.EngravingRules.VexFlowDefaultNotationFontScale = 39; // default. scales notes, including rests

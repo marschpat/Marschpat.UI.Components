@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+// import { useDropzone } from 'react-dropzone';
 import FileHelper from "../../utils/FileHelper";
 import { generateInstrumentSheet } from '../../utils/InstrumentSheetsHelper'
 import Typography from '@material-ui/core/Typography';
@@ -37,7 +37,7 @@ const FileDropzone = props => {
             console.error('FileDropzone Error: ', error)
         });
     }, []);
-    const {getRootProps, getInputProps} = useDropzone({onDrop});
+    // const {getRootProps, getInputProps} = useDropzone({onDrop});
 
     useEffect(() => {
         if (originalFiles) {

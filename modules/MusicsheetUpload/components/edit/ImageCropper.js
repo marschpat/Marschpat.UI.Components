@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
+// import Cropper from 'react-cropper';
+// import 'cropperjs/dist/cropper.css';
 import ImageCropperToolbar from './ImageCropperToolbar';
 import LoadingBusyIndicator from '../LoadingBusyIndicator';
 
@@ -68,7 +68,7 @@ const ImageCropper = (props) => {
     return (
         <div>
             <div className="min-h-512">
-                {renderCropper ? (
+                {/* {renderCropper ? (
                     <Cropper
                         ref={cropper}
                         src={src}
@@ -80,7 +80,7 @@ const ImageCropper = (props) => {
                         style={{ height: 500, width: '100%' }}
                         checkOrientation={false}
                     />
-                ) : <LoadingBusyIndicator msg="Einen Moment..." />}
+                ) : <LoadingBusyIndicator msg="Einen Moment..." />} */}
             </div>
 
             <ImageCropperToolbar
