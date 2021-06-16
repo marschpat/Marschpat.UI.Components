@@ -8,8 +8,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const UploadScopeSelector = props => {
     const [uploadScope, setUploadScope] = useState('');
-    const user = useSelector(({ auth }) => auth.user);
-    const organisation = useSelector(({ marschpat }) => marschpat.organisation);
+    const user = props.user;
+    // const user = useSelector(({ auth }) => auth.user);
+    const organisation = props.organisation;
+    // const organisation = useSelector(({ marschpat }) => marschpat.organisation);
     const initialState = () => hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
         return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)

@@ -13,7 +13,7 @@ import useDispatchFlashMessage from './utils/useDispatchFlashMessage';
 import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
-const MusicsheetUploaderIndex = () => {
+const MusicsheetUploaderIndex = props => {
     const inDebugMode = useInDebugMode();
     const [errors, setErrors] = useState(null);
     const [sheetId, setSheetId] = useState(null);
@@ -60,6 +60,8 @@ const MusicsheetUploaderIndex = () => {
                                 handleVoicesAssignementReset={resetAllVoicesAssignements}
                             />
                             <UploadScopeSelector
+                                user={props.user}
+                                organisation={props.organisation}
                                 initialScope={initialEdit?.uploadScope}
                                 handleUploadScopeUpdate={setUploadScope}
                             />
