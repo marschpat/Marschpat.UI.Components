@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-// import { useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import FileHelper from "../../utils/FileHelper";
 import { generateInstrumentSheet } from '../../utils/InstrumentSheetsHelper'
 import Typography from '@material-ui/core/Typography';
@@ -37,7 +37,7 @@ const FileDropzone = props => {
             console.error('FileDropzone Error: ', error)
         });
     }, []);
-    // const {getRootProps, getInputProps} = useDropzone({onDrop});
+    const {getRootProps, getInputProps} = useDropzone({onDrop});
 
     useEffect(() => {
         if (originalFiles) {
@@ -58,7 +58,7 @@ const FileDropzone = props => {
 
     return (
         <section className="mt-20">
-             {/* <div {...getRootProps({ className: 'h-192 w-full flex justify-center items-center border-dashed border-4 border-gray-300 rounded-md cursor-pointer' })} id="file-dropzone">
+             <div {...getRootProps({ className: 'h-192 w-full flex justify-center items-center border-dashed border-4 border-gray-300 rounded-md cursor-pointer' })} id="file-dropzone">
                 <input {...getInputProps()}
                     accept={allowedExtensions}
                 />
@@ -66,7 +66,7 @@ const FileDropzone = props => {
                     <CloudUploadIcon style={{ fontSize: 120 }}  />
                     <Typography variant="h6">Ziehe Files per Drag & Drop hierher oder klicken um Files auszuwählen</Typography>
                 </div>
-            </div> */}
+            </div>
         </section>
     );
 }
