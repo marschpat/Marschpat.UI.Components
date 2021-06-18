@@ -9,8 +9,14 @@ Collection of
 
 for the MARSCHPAT ecosytem
 
-## Usage
+## Overview
+### Modules
+ - [MusicsheetUpload](./modules/MusicsheetUpload/readme.md)
 
+### Components
+ - [TooltipStyled](./components/TooltipStyled.js)
+
+## Initialization in project
 ### Add to the repository
  - `git submodule add git@github.com:marschpat/Marschpat.UI.Components.git`
 
@@ -20,5 +26,4 @@ Checkout latest changes in submodules
   - `git pull --recurse-submodules`
 
 ## Usage of Modules
-
-After initializing Marschpat.UI.Components within your project see the module specific `readme.md` within the module's directory. (e.g.: `src/@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/readme.md`)
+After initializing Marschpat.UI.Components within your project see the module specific `readme.md` within the module's directory.
