@@ -4,20 +4,9 @@ Marschpat Musicsheet Upload component
 
 ## Usage
 
-### Update THIRD PARTY npm dependencies
- - update `package.json` in main projects
-   ```
-    "dependencies": {
-        ...
-        "pdf-lib": "^1.16.0",
-        "pdfjs-dist": "^2.6.347",
-        "react-cropper": "^1.3.0",
-        "react-dropzone": "^11.0.3",
-        ...
-    },
-   ```
- - install new dependencies  
-   `yarn install`
+### Install npm dependencies
+ - cd into module root directory
+ - install dependencies: `yarn`
 
 ### Update MARSCHPAT vendor dependencies
 #### Custom OpenSheetMusicDisplay
@@ -30,5 +19,5 @@ Marschpat Musicsheet Upload component
         ...
     },
    ```
- - install new dependencies  
+ - install new dependencies
    `yarn`

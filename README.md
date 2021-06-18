@@ -18,3 +18,7 @@ for the MARSCHPAT ecosytem
 Checkout latest changes in submodules
   - `git submodule update --remote` or
   - `git pull --recurse-submodules`
+
+## Usage of Modules
+
+After initializing Marschpat.UI.Components within your project see the module specific `readme.md` within the module's directory. (e.g.: `src/@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/readme.md`)
