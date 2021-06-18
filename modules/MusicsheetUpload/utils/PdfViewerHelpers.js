@@ -1,10 +1,10 @@
 /**
  * Utilizes Mozilla's PDF Viewer library https://github.com/mozilla/pdf.js
  **/
-// import * as pdfjsLib from "pdfjs-dist/build/pdf";
+import * as pdfjsLib from "pdfjs-dist/build/pdf";
 
 // Linking the worker to an external resource might seem a bit risky, but couldn't find a better solution.
-// pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.js`;
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.js`;
 
 /**
  * Loads a pdf from dataUrlString and returns pdf.js pdf Object
@@ -13,9 +13,9 @@
  * @returns Object
  */
 export const loadPdf = async (data) => {
-    // return pdfjsLib.getDocument(data).promise.then(pdf => {
-    //     return pdf;
-    // });
+    return pdfjsLib.getDocument(data).promise.then(pdf => {
+        return pdf;
+    });
 }
 
 /**

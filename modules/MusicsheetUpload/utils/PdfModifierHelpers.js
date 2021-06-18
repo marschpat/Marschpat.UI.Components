@@ -2,7 +2,7 @@
  * Utilizes PDF LIB library to create and modify PDF documents.
  * https://github.com/Hopding/pdf-lib
  **/
-// import { PDFDocument } from 'pdf-lib';
+import { PDFDocument } from 'pdf-lib';
 
 export const createPdfDocument = async () => {
     return await PDFDocument.create();
