@@ -11,7 +11,7 @@ for the MARSCHPAT ecosytem
 
 ## Overview
 ### Modules
- - [MusicsheetUpload](./modules/MusicsheetUpload/readme.md)
+ - [MusicsheetUpload](./modules/MusicsheetUpload/)
 
 ### Components
  - [TooltipStyled](./components/TooltipStyled.js)
