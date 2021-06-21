@@ -25,5 +25,17 @@ Checkout latest changes in submodules
   - `git submodule update --remote` or
   - `git pull --recurse-submodules`
 
+## Install dependencies for all modules and components
+Run `Marschpat.UI.Components/install.js` after your root projects dependency installation. E.g. add the following to your root projects `package.json`:
+
+```
+  scripts: {
+    ...
+    "postinstall": "node path/to/library/Marschpat.UI.Components/install.js"
+    ...,
+  }
+```
+Marschpat.UI.Components/install.js
+
 ## Usage of Modules
 After initializing Marschpat.UI.Components within your project see the module specific `readme.md` within the module's directory.
