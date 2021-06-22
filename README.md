@@ -17,6 +17,7 @@ for the MARSCHPAT ecosytem
  - [ChooseOrCreateSelector](./components/ChooseOrCreateSelector.js)
  - [LinearProgressWithLabel](./components/LinearProgressWithLabel.js)
  - [LoadingBusyIndicator](./components/LoadingBusyIndicator.js)
+ - [LoadingModal](./components/LoadingModal.js)
  - [TooltipStyled](./components/TooltipStyled.js)
 
 ## Initialization in project
