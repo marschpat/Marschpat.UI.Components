@@ -21,6 +21,9 @@ for the MARSCHPAT ecosytem
  - [TextInput](./components/TextInput.js)
  - [TooltipStyled](./components/TooltipStyled.js)
 
+### Utilities, Hooks, etc
+ - [useDispatchFlashMessage](./utils/useDisaptchFlashMessage.js)
+ - [useInDebugMode](./utils/useInDebugMode)
 ## Initialization in project
 ### Add to the repository
  - `git submodule add git@github.com:marschpat/Marschpat.UI.Components.git`
