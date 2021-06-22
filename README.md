@@ -14,6 +14,7 @@ for the MARSCHPAT ecosytem
  - [MusicsheetUpload](./modules/MusicsheetUpload/)
 
 ### Components
+ - [ChooseOrCreateSelector](./components/ChooseOrCreateSelector.js)
  - [TooltipStyled](./components/TooltipStyled.js)
 
 ## Initialization in project
