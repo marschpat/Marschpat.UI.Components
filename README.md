@@ -18,6 +18,7 @@ for the MARSCHPAT ecosytem
  - [LinearProgressWithLabel](./components/LinearProgressWithLabel.js)
  - [LoadingBusyIndicator](./components/LoadingBusyIndicator.js)
  - [LoadingModal](./components/LoadingModal.js)
+ - [TextInput](./components/TextInput.js)
  - [TooltipStyled](./components/TooltipStyled.js)
 
 ## Initialization in project
