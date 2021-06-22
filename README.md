@@ -14,8 +14,16 @@ for the MARSCHPAT ecosytem
  - [MusicsheetUpload](./modules/MusicsheetUpload/)
 
 ### Components
+ - [ChooseOrCreateSelector](./components/ChooseOrCreateSelector.js)
+ - [LinearProgressWithLabel](./components/LinearProgressWithLabel.js)
+ - [LoadingBusyIndicator](./components/LoadingBusyIndicator.js)
+ - [LoadingModal](./components/LoadingModal.js)
+ - [TextInput](./components/TextInput.js)
  - [TooltipStyled](./components/TooltipStyled.js)
 
+### Utilities, Hooks, etc
+ - [useDispatchFlashMessage](./utils/useDisaptchFlashMessage.js)
+ - [useInDebugMode](./utils/useInDebugMode)
 ## Initialization in project
 ### Add to the repository
  - `git submodule add git@github.com:marschpat/Marschpat.UI.Components.git`
