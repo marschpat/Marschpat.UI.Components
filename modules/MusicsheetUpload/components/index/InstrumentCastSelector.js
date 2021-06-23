@@ -65,6 +65,7 @@ const InstrumentCastSelector = props => {
                 required
                 error={showError}
                 variant='fixed'
+                id="cast"
             />
             <ErrorMessage msg={props?.error?.msg} condition={showError}/>
         </div>
