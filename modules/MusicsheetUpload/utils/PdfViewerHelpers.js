@@ -1,10 +1,9 @@
 /**
  * Utilizes Mozilla's PDF Viewer library https://github.com/mozilla/pdf.js
- **/
-import * as pdfjsLib from "pdfjs-dist/build/pdf";
-
-// Linking the worker to an external resource might seem a bit risky, but couldn't find a better solution.
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.js`;
+ * Attention: webpack/worker-loader must be installed! https://github.com/webpack-contrib/worker-loader
+ * Alse see pdf.js webpack examples: https://github.com/mozilla/pdf.js/tree/master/examples/webpack
+**/
+import * as pdfjsLib from 'pdfjs-dist/webpack';
 
 /**
  * Loads a pdf from dataUrlString and returns pdf.js pdf Object
