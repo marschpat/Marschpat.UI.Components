@@ -6,7 +6,8 @@ class FileHelper {
      * Validates if given file is any of the accepted file types
      */
     static validateFileExtension(file, acceptedFileExtensions) {
-        const fileExtension = file.name.split('.').pop();
+        if (!file.name) return false;
+        const fileExtension = file.name.split('.').pop().toLowerCase();
         const allowedExtensions = acceptedFileExtensions.map(el => el.substring(1));
 
         if (allowedExtensions.includes(fileExtension)) {
@@ -29,7 +30,7 @@ class FileHelper {
             'image': ['png', 'jpg', 'jpeg'],
             'pdf': ['pdf'],
         };
-        const fileExtension = file.name.split('.').pop();
+        const fileExtension = file.name.split('.').pop().toLowerCase();
         let extensionType = null;
         for (const type in typeMap) {
             if(typeMap[type].includes(fileExtension)) {
@@ -51,7 +52,7 @@ class FileHelper {
     static updateMxlMimeTypeInDataString(fileObject) {
         const mxlFileTypes = ['mxl'];
         const musicXmlFileTypes = ['musicxml'];
-        const fileExtension = fileObject.file.name.split('.').pop();
+        const fileExtension = fileObject.file.name.split('.').pop().toLowerCase();
 
         if (mxlFileTypes.includes(fileExtension)) {
             fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/mxl;');

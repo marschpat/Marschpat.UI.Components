@@ -30,8 +30,8 @@ const ImageCropperToolbar = props => {
                     </IconButton>
                 </TooltipStyled>
 
-                <TooltipStyled title="Links Drehen 2°">
-                    <IconButton onClick={() => cropper.rotate(-2)}>
+                <TooltipStyled title="Links Drehen 1°">
+                    <IconButton onClick={() => cropper.rotate(-1)}>
                         <RotateLeftIcon classes={{ root: 'w-40 h-40' }} />
                     </IconButton>
                 </TooltipStyled>
@@ -42,8 +42,8 @@ const ImageCropperToolbar = props => {
                     </IconButton>
                 </TooltipStyled>
 
-                <TooltipStyled title="Rechts Drehen 2°">
-                    <IconButton onClick={() => cropper.rotate(2)}>
+                <TooltipStyled title="Rechts Drehen 1°">
+                    <IconButton onClick={() => cropper.rotate(1)}>
                         <RotateRightIcon classes={{ root: 'w-40 h-40' }} />
                     </IconButton>
                 </TooltipStyled>
