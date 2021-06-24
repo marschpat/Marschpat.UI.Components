@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import useInDebugMode from '../../utils/useInDebugMode';
-import useGeneratePages from '../../utils/useGeneratePages';
-import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
-import useDispatchFlashMessage from '../../utils/useDispatchFlashMessage';
 import PageEditor from './PageEditor';
 import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
-import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import OriginalFileManipulator from './OriginalFileManipulator';
 import VoicesAssignmentSelection from './VoicesAssignmentSelection';
+import useGeneratePages from '../../utils/useGeneratePages';
+import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
+import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
+import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
+import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import Typography from '@material-ui/core/Typography';
 
 const supportedTypes = ['image', 'pdf', 'mxl'];

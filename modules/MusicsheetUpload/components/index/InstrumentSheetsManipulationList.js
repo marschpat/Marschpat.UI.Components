@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useDispatchFlashMessage from '../../utils/useDispatchFlashMessage';
+import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import InstrumentSheetListItem from './InstrumentSheetListItem';
 import List from '@material-ui/core/List';

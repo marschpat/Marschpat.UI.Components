@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import DownloadEditData from './DownloadEditData';
 import InitializeFromLocalPayload from './InitializeFromLocalPayload';
-import useInDebugMode from '../../utils/useInDebugMode';
-import useDispatchFlashMessage from '../../utils/useDispatchFlashMessage';
 import MusicsheetDownloadApiAdapter from '../../utils/MusicsheetDownloadApiAdapter';
+import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
+import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import history from '@history';
 
 const EditModeInspector = props => {

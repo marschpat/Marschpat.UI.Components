@@ -1,6 +1,6 @@
 import React from 'react';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
-import useDispatchFlashMessage from '../../utils/useDispatchFlashMessage';
+import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import IconButton from '@material-ui/core/IconButton';
 import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 
