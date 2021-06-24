@@ -130,7 +130,7 @@ const MxlToImageConverter = props => {
             let pagesCount = 0;
             let imagesFromOsmd = [];
             const osmdImageCanvases = document.getElementsByTagName('canvas');
-            osmdImageCanvases.forEach((canvas, i) => {
+            [...osmdImageCanvases].forEach((canvas, i) => {
                 const iteration = i + 1;
 
                 // Seraching for the actual osmd "page" nbr. Hopefully hidden within
@@ -193,7 +193,8 @@ const MxlToImageConverter = props => {
     }
 
     function removeCanvases() {
-        const canvases = document.getElementsByTagName('canvas');
+        const canvasesCollection = document.getElementsByTagName('canvas');
+        const canvases = [...canvasesCollection];
         if (canvases && canvases.length < 1) return;
         canvases.forEach(canvas => canvas.remove());
     }
