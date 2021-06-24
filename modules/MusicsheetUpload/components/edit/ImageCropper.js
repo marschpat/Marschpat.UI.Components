@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import ImageCropperToolbar from './ImageCropperToolbar';
-import LoadingBusyIndicator from '../LoadingBusyIndicator';
+import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 
 const dimensions = {
     landscape: {

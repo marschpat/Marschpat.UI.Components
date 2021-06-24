@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import LoadingModal from '../LoadingModal';
 import ProgressInfo from '../ProgressInfo';
 import useUploadProgress from '../../utils/useUploadProgress';
+import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 
 const DownloadEditData = props => {
     const [isDownloading, setIsDownloading] = useState(props.sheetId ? true : false);

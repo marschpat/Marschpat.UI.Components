@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import TextInput from '../TextInput';
 import TagSelector from './TagSelector';
 import InstrumentCastSelector from './InstrumentCastSelector';
-import ChooseOrCreateSelector from '../ChooseOrCreateSelector';
 import useValidationErrors from '../../utils/useValidationErrors';
+import TextInput from '@marschpat/Marschpat.UI.Components/components/TextInput';
+import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';

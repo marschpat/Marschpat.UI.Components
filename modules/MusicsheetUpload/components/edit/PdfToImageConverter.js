@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ImageCropper from './ImageCropper';
-import LoadingBusyIndicator from '../LoadingBusyIndicator';
 import { loadPdf, renderPageAsImage } from '../../utils/PdfViewerHelpers';
+import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 
 const PdfToImageConverter = props => {
     const [imgSrc, setImgSrc] = useState(null);

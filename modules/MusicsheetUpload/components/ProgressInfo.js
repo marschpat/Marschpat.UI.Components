@@ -1,5 +1,5 @@
 import React from 'react';
-import LinearProgressWithLabel from './LinearProgressWithLabel';
+import LinearProgressWithLabel from '@marschpat/Marschpat.UI.Components/components/LinearProgressWithLabel';
 import Typography from '@material-ui/core/Typography';
 
 const ProgressInfo = props => {

@@ -1,7 +1,7 @@
 import React from 'react';
-import LoadingModal from '../LoadingModal';
 import ProgressInfo from '../ProgressInfo';
 import UploadSuccess from './UploadSuccess';
+import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 
 const UploadModal = props => {
     const isUploading = !props.success;

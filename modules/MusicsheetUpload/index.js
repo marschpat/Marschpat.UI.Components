@@ -8,9 +8,9 @@ import UploadScopeSelector from "./components/index/UploadScopeSelector";
 import InstrumentSheetsOverview from './components/index/InstrumentSheetsOverview';
 import EditModeInspector from './components/musicsheetEdit/EditModeInspector';
 import InstrumentSheetEditDialog from './InstrumentSheetEditDialog';
-import useInDebugMode from './utils/useInDebugMode';
-import useDispatchFlashMessage from './utils/useDispatchFlashMessage';
 import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
+import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
+import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
 const MusicsheetUpload = props => {
