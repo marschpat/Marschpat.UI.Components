@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import ErrorMessage from '../ErrorMessage';
-import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
+import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
+import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const InstrumentCastSelector = props => {
     const dispatchConfirm = useDispatchConfirmDialog();
@@ -67,7 +67,7 @@ const InstrumentCastSelector = props => {
                 variant='fixed'
                 id="cast"
             />
-            <ErrorMessage msg={props?.error?.msg} condition={showError}/>
+            <InputErrorMessage msg={props?.error?.msg} condition={showError}/>
         </div>
     );
 }

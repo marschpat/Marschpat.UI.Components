@@ -1,5 +1,5 @@
 import React from 'react';
-import ErrorMessage from './ErrorMessage';
+import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
 import TextField from '@material-ui/core/TextField';
 
 const TextInput = props => {
@@ -21,15 +21,9 @@ const TextInput = props => {
                 required={props.required ?? false}
                 autoFocus={props.autoFocus ?? false}
             />
-            <ErrorMessage msg={error?.msg} condition={showError}/>
+            <InputErrorMessage msg={error?.msg} condition={showError}/>
         </div>
     );
-}
-
-function ErrorMessage(props) {
-    return props.condition
-        ? (<div className="text-12 mt-4 ml-4 text-red-500">{props.msg}</div>)
-        : '';
 }
 
 export default TextInput;
