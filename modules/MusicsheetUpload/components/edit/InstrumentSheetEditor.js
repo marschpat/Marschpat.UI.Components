@@ -7,7 +7,7 @@ import PageEditor from './PageEditor';
 import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
-import LoadingBusyIndicator from '../LoadingBusyIndicator';
+import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import OriginalFileManipulator from './OriginalFileManipulator';
 import VoicesAssignmentSelection from './VoicesAssignmentSelection';
 import Typography from '@material-ui/core/Typography';

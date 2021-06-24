@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay-marschpat';
 import MxlControlToolbar from '../edit/MxlControlToolbar';
-import LoadingBusyIndicator from '../LoadingBusyIndicator';
+import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import LoadingModal from '../LoadingModal';
 
 const defaultOsmdOptions = {
