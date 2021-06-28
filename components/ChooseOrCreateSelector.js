@@ -18,8 +18,8 @@ const ChooseOrCreateSelector = props => {
         if (props.fetchOptionsUrl) {
             axios.get(props.fetchOptionsUrl)
                 .then(response => {
-                    const options = response.data?.map(item => ({ value: item.id, label: item[props.labelAttr] }));
-                    setOptions(options);
+                    const fetchOptions = response.data?.map(item => ({ value: item.id, label: item[props.labelAttr] }));
+                    setOptions(fetchOptions);
                 })
                 .catch(error => {
                     console.error(`Fetching options from GET ${props.fetchOptionsUrl} failed with an error.`, error);
