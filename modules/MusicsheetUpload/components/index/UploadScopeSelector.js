@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
@@ -9,12 +8,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 const UploadScopeSelector = props => {
     const [uploadScope, setUploadScope] = useState('');
     const user = props.user;
-    // const user = useSelector(({ auth }) => auth.user);
     const organisation = props.organisation;
-    // const organisation = useSelector(({ marschpat }) => marschpat.organisation);
     const initialState = () => hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
-        return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)
+        return organisation && (user.isAdmin || user.isTeacher);
+        // @ToDo: for webApp - implement switch to bypass for Edu
+        // return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)
 	};
 
     // Set the initial uploadScope
@@ -70,9 +69,15 @@ const UploadScopeSelector = props => {
     );
 
     function hasUserSubscribedRole() {
+        if (!props.userSubscriptionValidationRequired) {
+            return true;
+        }
 		return user?.role.some(r => ['admin', 'staff', 'userSubscribed'].includes(r));
 	}
 	function hasUserJumpSeatRole() {
+        if (!props.userSubscriptionValidationRequired) {
+            return true;
+        }
 		return user?.role.some(r => ['admin', 'staff', 'userSubscribed', 'userJumpseat'].includes(r));
 	}
 }

@@ -63,6 +63,7 @@ const MusicsheetUpload = props => {
                                 user={props.user}
                                 organisation={props.organisation}
                                 initialScope={initialEdit?.uploadScope}
+                                userSubscriptionValidationRequired={false}
                                 handleUploadScopeUpdate={setUploadScope}
                             />
                             <InstrumentSheetsOverview
