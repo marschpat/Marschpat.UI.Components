@@ -52,7 +52,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>In meinen privaten Notenpool hochladen.</Typography>}
+                            label={<Typography>Für mich hochladen (privater Notenpool)</Typography>}
                             className="-mb-12"
                         />
                     )}
@@ -60,7 +60,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="organisation"
                             control={<Radio />}
-                            label={<Typography>{`In den Notenpool meines Vereins: ${organisation?.name} hochladen.`}</Typography>}
+                            label={<Typography>{`Für Musikschule hochladen (${organisation?.name} Notenpool)`}</Typography>}
                         />
                     )}
                 </RadioGroup>
