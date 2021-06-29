@@ -17,7 +17,7 @@ const UploadSuccess = props => {
             <div className="mt-16 w-full flex justify-around">
                 <Button
                     component={Link}
-                    to="/musiclibary"
+                    to="/musiclibrary"
                     variant="contained"
                     color="primary"
                 >

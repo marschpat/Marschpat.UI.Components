@@ -7,12 +7,12 @@ const TagSelector = props => {
     const [selectedTags, setSelectedTags] = useState(null);
 
     useEffect(() => {
-        const request = axios.get('/musiclibary/tags')
+        const request = axios.get('/musiclibrary/tags')
             .then(response => {
                 setTagOptions(mapTags(response.data));
             })
             .catch(error => {
-                console.error('Fetching musiclibrary tags from GET /musiclibary/tags failed with an error.', error);
+                console.error('Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.', error);
             });
     }, []);
 
