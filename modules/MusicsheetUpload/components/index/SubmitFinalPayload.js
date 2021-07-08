@@ -87,6 +87,7 @@ const SubmitFinalPayload = props => {
                         onClick={submit}
                         variant="contained"
                         color="secondary"
+                        id="submit-final"
                     >
                         <div className="flex items-center">
                             <PublishIcon className="text-white" />
