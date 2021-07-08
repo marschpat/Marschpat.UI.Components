@@ -88,6 +88,7 @@ function CompletionStatus({instrumentSheet}) {
             label={labelText()}
             className={completed ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300' : 'px-6 cursor-pointer bg-grey-300'}
             title={`Zugewiesene Stimmen: ${voicesNames}`}
+            id="completion-status"
         />
     );
 }

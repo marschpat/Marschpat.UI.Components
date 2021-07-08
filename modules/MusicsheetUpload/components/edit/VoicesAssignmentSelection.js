@@ -43,6 +43,7 @@ const VoicesAssignmentSelection = props => {
 				options={availableVoices}
 				isMulti
                 variant='fixed'
+                id="voices-assignment"
 			/>
             {showWarning && (
                 <div className="mt-24 py-4 flex justify-center text-xl rounded-md bg-orange-700">
