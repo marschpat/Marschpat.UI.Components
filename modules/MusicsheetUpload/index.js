@@ -13,9 +13,10 @@ import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugM
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
 /**
+ * MusicsheetUpload index
  *
- * @param {object} props required props: { user, organisation, dispatchFlashMessage }
- * @returns
+ * @param {object} props required props:
+ * { user, organisation, implementationMode, dispatchFlashMessage }
  */
 const MusicsheetUpload = props => {
     const inDebugMode = useInDebugMode();
