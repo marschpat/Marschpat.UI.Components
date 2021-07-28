@@ -1,9 +1,21 @@
 import React, { useEffect, useState } from 'react';
+import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+const labelTexts = {
+    [MP_WEB]: {
+        private: 'In meinen privaten Notenpool hochladen',
+        org: 'In den Notenpool meines Vereins hochladen: ',
+    },
+    [MP_EDU]: {
+        private: 'Für mich hochladen (privater Notenpool)',
+        org: 'Für Musikschule Notenpool hochladen: ',
+    }
+}
 
 const UploadScopeSelector = props => {
     const [uploadScope, setUploadScope] = useState('');
@@ -11,9 +23,11 @@ const UploadScopeSelector = props => {
     const organisation = props.organisation;
     const initialState = () => hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
-        return organisation && (user.isAdmin || user.isTeacher);
-        // @ToDo: for webApp - implement switch to bypass for Edu
-        // return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)
+        if (props.implementationMode === MP_EDU) {
+            return organisation && (user.isAdmin || user.isTeacher);
+        }
+
+        return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)
 	};
 
     // Set the initial uploadScope
@@ -52,7 +66,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>Für mich hochladen (privater Notenpool)</Typography>}
+                            label={<Typography>{labelTexts[props.implementationMode].private}</Typography>}
                             className="-mb-12"
                         />
                     )}
@@ -60,7 +74,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="organisation"
                             control={<Radio />}
-                            label={<Typography>{`Für Musikschule hochladen (${organisation?.name} Notenpool)`}</Typography>}
+                            label={<Typography>{labelTexts[props.implementationMode].org + organisation?.name}</Typography>}
                         />
                     )}
                 </RadioGroup>

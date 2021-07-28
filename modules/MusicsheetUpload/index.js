@@ -68,6 +68,7 @@ const MusicsheetUpload = props => {
                             <UploadScopeSelector
                                 user={props.user}
                                 organisation={props.organisation}
+                                implementationMode={props.implementationMode}
                                 initialScope={initialEdit?.uploadScope}
                                 userSubscriptionValidationRequired={false}
                                 handleUploadScopeUpdate={setUploadScope}
