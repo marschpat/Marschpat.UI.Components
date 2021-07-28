@@ -22,7 +22,6 @@ for the MARSCHPAT ecosytem
  - [TooltipStyled](./components/TooltipStyled.js)
 
 ### Utilities, Hooks, etc
- - [useDispatchFlashMessage](./utils/useDisaptchFlashMessage.js)
  - [useInDebugMode](./utils/useInDebugMode)
 ## Initialization in project
 ### Add to the repository
