@@ -95,6 +95,7 @@ const MetaDataForm = props => {
                 <TagSelector
                     initialTags={metaData.tags}
                     resetState={props.resetState}
+                    implementationMode={props.implementationMode}
                     handleTagsChange={handleTagsChange}
                 />
                 <TextInput

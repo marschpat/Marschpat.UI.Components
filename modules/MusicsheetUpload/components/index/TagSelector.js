@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { apiRoutes } from '../../utils/ImplementationModesLookup'
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {
@@ -7,7 +8,7 @@ const TagSelector = props => {
     const [selectedTags, setSelectedTags] = useState(null);
 
     useEffect(() => {
-        const request = axios.get('/musiclibrary/tags')
+        const request = axios.get(apiRoutes[props.implementationMode])
             .then(response => {
                 setTagOptions(mapTags(response.data));
             })

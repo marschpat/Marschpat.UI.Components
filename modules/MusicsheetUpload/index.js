@@ -60,6 +60,7 @@ const MusicsheetUpload = props => {
                                 resetState={resetChildState}
                                 initialMetaData={initialEdit?.metaData}
                                 castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                implementationMode={props.implementationMode}
                                 handleUpdateErrors={setErrors}
                                 handleMetaDataUpdate={setMetaData}
                                 handleCastChange={handleCastChange}
