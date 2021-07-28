@@ -166,6 +166,9 @@ const MxlToImageConverter = props => {
             setPagesCount(pagesCount);
         } catch (e) {
             console.error('Error occured in MxlToImageConverter', e);
+            setIsLoading(false);
+            props.handleCloseOnError();
+            props.dispatchFlashMessage('MXL Datei fehlerhaft! Bitte überprüfe die MXL Datei. Ist es eine MXL Version 3.0 Datei?');
         }
     }
 

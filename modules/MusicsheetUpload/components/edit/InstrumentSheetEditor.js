@@ -45,8 +45,10 @@ const InstrumentSheetEditor = props => {
                             page={pageInEdit}
                             originalFile={originalFile}
                             supportedTypes={supportedTypes}
+                            dispatchFlashMessage={props.dispatchFlashMessage}
                             handlePageUpdate={updateEditedPage}
                             handleCropBoxOverrideForPages={applyCropBoxOverrideForPages}
+                            handleCloseOnError={closeEditor}
                         />
                         {inDebugMode && <PageImageExporter
                             data={(pages && pageInEdit) ? (pages.find(page => page.fileId === pageInEdit.fileId)?.pageData) : null}
@@ -58,13 +60,14 @@ const InstrumentSheetEditor = props => {
                             <div className="w-full flex justify-center"><img src={(pages && pageInEdit) ? (pages.find(page => page.fileId === pageInEdit.fileId)?.pageData) : null} className="border rounded-sm"/></div>
                         </div>}
 
-                        <OriginalFileManipulator
-                            pages={pages}
-                            pageNbr={pageInEdit?.pageNbr}
-                            currentInstrumentSheet={props.instrumentSheet}
-                            handleOriginalFileManipulation={props.handleOriginalFileManipulation}
-                        />
-
+                        {pages.length > 0 && (
+                            <OriginalFileManipulator
+                                pages={pages}
+                                pageNbr={pageInEdit?.pageNbr}
+                                currentInstrumentSheet={props.instrumentSheet}
+                                handleOriginalFileManipulation={props.handleOriginalFileManipulation}
+                            />
+                        )}
                     </div>
                     <div className="max-w-400 w-full flex justify-end">
                         <div className="w-full ml-36">
