@@ -9,3 +9,15 @@ export const MP_WEB = 1;
  * MARSCHPAT Education - https://web-edu-dev.marschpat.com/
  */
 export const MP_EDU = 2;
+
+/**
+ * Implementation details for varying API endpoints
+ */
+export const apiRoutes = {
+    [MP_WEB]: {
+        musiclibrary: '/musiclibary/tags',
+    },
+    [MP_EDU]: {
+        musiclibrary: '/musiclibrary/tags',
+    }
+}
