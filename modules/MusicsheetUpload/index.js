@@ -10,9 +10,13 @@ import EditModeInspector from './components/musicsheetEdit/EditModeInspector';
 import InstrumentSheetEditDialog from './InstrumentSheetEditDialog';
 import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import FusePageSimple from '@fuse/core/FusePageSimple';
 
+/**
+ *
+ * @param {object} props required props: { user, organisation, dispatchFlashMessage }
+ * @returns
+ */
 const MusicsheetUpload = props => {
     const inDebugMode = useInDebugMode();
     const [errors, setErrors] = useState(null);
@@ -25,7 +29,7 @@ const MusicsheetUpload = props => {
     const [openEdit, setOpenEdit] = useState(false);
     const [resetChildState, setResetChildState] = useState(false);
     const [agreedToLegalConsent, setAgreedToLegalConsent] = useState(false);
-    const dispatchFlashMessage = useDispatchFlashMessage();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
     const [
         castOptions,
         availableInstrumentVoices,
@@ -42,6 +46,7 @@ const MusicsheetUpload = props => {
     return (
         <div id="uploader-top">
             <EditModeInspector
+                dispatchFlashMessage={props.dispatchFlashMessage}
                 handleSheetId={setSheetId}
                 handleInitialEditValues={setInitialEdit}
                 handleInstrumentSheets={setInstrumentSheets}
@@ -69,6 +74,7 @@ const MusicsheetUpload = props => {
                             <InstrumentSheetsOverview
                                 instrumentSheets={instrumentSheets}
                                 availableVoices={availableInstrumentVoices}
+                                dispatchFlashMessage={props.dispatchFlashMessage}
                                 handleCastCheck={castIsSetOrError}
                                 handleInstrumentSheetsUpdate={setInstrumentSheets}
                                 handleRemoveInstrumentSheets={removeInstrumentSheets}
@@ -90,6 +96,7 @@ const MusicsheetUpload = props => {
                                 uploadScope={uploadScope}
                                 instrumentSheets={instrumentSheets}
                                 agreedToLegalConsent={agreedToLegalConsent}
+                                dispatchFlashMessage={props.dispatchFlashMessage}
                                 handleReset={resetUploaderState}
                             />
                             {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
@@ -102,6 +109,7 @@ const MusicsheetUpload = props => {
                         castName={metaData?.castName}
                         instrumentSheet={instrumentSheetInEdit}
                         availableVoices={availableInstrumentVoices}
+                        dispatchFlashMessage={props.dispatchFlashMessage}
                         handleClose={toggleInstrumentSheetEditDialog}
                         handleInstrumentSheetUpdate={updateInstrumentSheet}
                         handleAssignedVoicesChange={handleAvailableVoicesUpdate}
