@@ -6,9 +6,10 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 const TagSelector = props => {
     const [tagOptions, setTagOptions] = useState(null);
     const [selectedTags, setSelectedTags] = useState(null);
+    const GET_tags = apiRoutes[props.implementationMode].musiclibrary;
 
     useEffect(() => {
-        const request = axios.get(apiRoutes[props.implementationMode])
+        const request = axios.get(GET_tags)
             .then(response => {
                 setTagOptions(mapTags(response.data));
             })
