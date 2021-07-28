@@ -8,7 +8,6 @@ import VoicesAssignmentSelection from './VoicesAssignmentSelection';
 import useGeneratePages from '../../utils/useGeneratePages';
 import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import Typography from '@material-ui/core/Typography';
 
@@ -27,7 +26,7 @@ const InstrumentSheetEditor = props => {
     const [assignedVoices, setAssignedVoices] = useState(props.instrumentSheet.voices ?? null);
     const renderPagesPreview = (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') || props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const dispatchFlashMessage = useDispatchFlashMessage();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
 
     return pageInEdit ? (
         <div className="flex">

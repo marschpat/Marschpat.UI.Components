@@ -1,11 +1,10 @@
 import React from 'react';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import IconButton from '@material-ui/core/IconButton';
 import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 
 const VoicesAutoAssignButton = props => {
-    const dispatchFlashMessage = useDispatchFlashMessage();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
     const handleClick = () => {
         if (!props.handleCastCheck()) return false;
         autoAssignVoices();

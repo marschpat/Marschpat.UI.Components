@@ -7,18 +7,17 @@ import { getCompletionStatus } from '../../utils/InstrumentSheetsHelper';
 import MusicsheetUploadResponse from '../../utils/MusicsheetUploadResponse';
 import MusicsheetUploadApiAdapter from '../../utils/MusicsheetUploadApiAdapter';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import Button from '@material-ui/core/Button';
 import PublishIcon from '@material-ui/icons/Publish';
 
 const initialPayload = require('../../musicsheet.initial.json');
 
 const SubmitFinalPayload = props => {
-    const dispatchFlashMessage = useDispatchFlashMessage();
     const [finalPayload, setFinalPayload] = useState(initialPayload);
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const inDebugMode = useInDebugMode();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
     const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
     useEffect(() => updateMetaData(props.metaData), [props.metaData]);

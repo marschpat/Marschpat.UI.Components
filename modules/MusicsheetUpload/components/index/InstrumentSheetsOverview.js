@@ -14,6 +14,7 @@ const InstrumentSheetsOverview = props => {
                     <VoicesAutoAssignButton
                         instrumentSheets={props.instrumentSheets}
                         availableVoices={props.availableVoices}
+                        dispatchFlashMessage={props.dispatchFlashMessage}
                         handleCastCheck={props.handleCastCheck}
                         handleAssignedVoicesChange={props.handleAssignedVoicesChange}
                         handleInstrumentSheetsUpdate={props.handleInstrumentSheetsUpdate}

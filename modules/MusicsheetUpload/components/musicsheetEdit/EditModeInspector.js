@@ -3,12 +3,11 @@ import DownloadEditData from './DownloadEditData';
 import InitializeFromLocalPayload from './InitializeFromLocalPayload';
 import MusicsheetDownloadApiAdapter from '../../utils/MusicsheetDownloadApiAdapter';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import history from '@history';
 
 const EditModeInspector = props => {
     const [sheetInEdit, setSheetInEdit] = useState(null);
-    const dispatchFlashMessage = useDispatchFlashMessage();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
     const inDebugMode = useInDebugMode();
 
     const initializeEditMode = rawData => {

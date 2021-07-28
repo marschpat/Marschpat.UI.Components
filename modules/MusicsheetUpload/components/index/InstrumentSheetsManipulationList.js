@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import useDispatchFlashMessage from '@marschpat/Marschpat.UI.Components/utils/useDispatchFlashMessage';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import InstrumentSheetListItem from './InstrumentSheetListItem';
 import List from '@material-ui/core/List';
@@ -11,7 +10,7 @@ const InstrumentSheetsManipulationList = props => {
     const [inMergeMode, setInMergeMode] = useState(false);
     const [mergeChildren, setMergeChildren] = useState([]);
     const dispatchConfirm = useDispatchConfirmDialog();
-    const dispatchFlashMessage = useDispatchFlashMessage();
+    const dispatchFlashMessage = props.dispatchFlashMessage;
 
     const activateMergeMode = uuid => {
         setMergeParent(uuid);
