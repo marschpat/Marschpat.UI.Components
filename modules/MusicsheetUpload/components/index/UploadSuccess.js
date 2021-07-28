@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { clientRoutes } from '../../utils/ImplementationModesLookup';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -17,7 +18,7 @@ const UploadSuccess = props => {
             <div className="mt-16 w-full flex justify-around">
                 <Button
                     component={Link}
-                    to="/musiclibrary"
+                    to={clientRoutes[props.implementationMode].musiclibrary}
                     variant="contained"
                     color="primary"
                 >

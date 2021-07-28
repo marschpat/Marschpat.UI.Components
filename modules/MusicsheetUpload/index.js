@@ -99,6 +99,7 @@ const MusicsheetUpload = props => {
                                 uploadScope={uploadScope}
                                 instrumentSheets={instrumentSheets}
                                 agreedToLegalConsent={agreedToLegalConsent}
+                                implementationMode={props.implementationMode}
                                 dispatchFlashMessage={props.dispatchFlashMessage}
                                 handleReset={resetUploaderState}
                             />

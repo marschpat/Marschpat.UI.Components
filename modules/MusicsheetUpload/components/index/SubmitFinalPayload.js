@@ -101,6 +101,7 @@ const SubmitFinalPayload = props => {
                 success={isSuccess}
                 totalSize={totalUploadSize}
                 progress={uploadProgress}
+                implementationMode={props.implementationMode}
                 handleUploaderReset={resetUploader}
             />
         </section>
