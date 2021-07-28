@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
+import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
@@ -21,13 +22,14 @@ const UploadScopeSelector = props => {
     const [uploadScope, setUploadScope] = useState('');
     const user = props.user;
     const organisation = props.organisation;
+    const [ hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin ] = useHasUserRoles(user, organisation);
     const initialState = () => hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
         if (props.implementationMode === MP_EDU) {
             return organisation && (user.isAdmin || user.isTeacher);
         }
 
-        return organisation && organisation.members.find(member => member.userID === user.userID && member.isAdmin)
+        return isAdmin();
 	};
 
     // Set the initial uploadScope
@@ -81,19 +83,6 @@ const UploadScopeSelector = props => {
             </FormControl>
         </section>
     );
-
-    function hasUserSubscribedRole() {
-        if (!props.userSubscriptionValidationRequired) {
-            return true;
-        }
-		return user?.role.some(r => ['admin', 'staff', 'userSubscribed'].includes(r));
-	}
-	function hasUserJumpSeatRole() {
-        if (!props.userSubscriptionValidationRequired) {
-            return true;
-        }
-		return user?.role.some(r => ['admin', 'staff', 'userSubscribed', 'userJumpseat'].includes(r));
-	}
 }
 
 export default UploadScopeSelector;
