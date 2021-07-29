@@ -3,7 +3,7 @@ import ReviewPages from './components/index/ReviewPages';
 import FileDropzone from './components/index/FileDropzone';
 import MetaDataForm from './components/index/MetaDataForm';
 import LegalConsent from './components/index/LegalConsent';
-import UsagePermissionCheck from './components/UsagePermissionCheck';
+import UsagePermissionCheck from './components/index/UsagePermissionCheck';
 import SubmitFinalPayload from './components/index/SubmitFinalPayload';
 import UploadScopeSelector from "./components/index/UploadScopeSelector";
 import InstrumentSheetsOverview from './components/index/InstrumentSheetsOverview';
