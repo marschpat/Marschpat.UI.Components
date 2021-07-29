@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import { MP_WEB } from '../../utils/ImplementationModesLookup';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
 import Card from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -14,7 +15,11 @@ const UsagePermissionCheck = props => {
     const [ hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin ] = useHasUserRoles(user, organisation);
 
     function isAllowedToUse() {
-        return hasUserSubscribedRole() || (hasUserJumpSeatRole() && isAdmin());
+        if (props.implementationMode === MP_WEB) {
+            return hasUserSubscribedRole() || (hasUserJumpSeatRole() && isAdmin());
+        }
+
+        return true;
     }
 
     return isAllowedToUse() ? props.children : (

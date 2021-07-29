@@ -55,7 +55,7 @@ const MusicsheetUpload = props => {
             >
                 <FusePageSimple
                     content={
-                        <UsagePermissionCheck>
+                        <UsagePermissionCheck implementationMode={props.implementationMode}>
                             <div className="my-20 px-16 sm:px-24">
                                 <MetaDataForm
                                     castOptions={castOptions}
