@@ -53,6 +53,7 @@ const TagSelector = props => {
             error={false}
             isMulti
             variant='fixed'
+            id="tags"
         />
     );
 
