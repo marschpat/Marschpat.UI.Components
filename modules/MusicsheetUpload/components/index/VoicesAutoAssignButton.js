@@ -16,6 +16,7 @@ const VoicesAutoAssignButton = props => {
      */
     const autoAssignVoices = () => {
         const voices = props.availableVoices;
+        let alreadyAssignedVoices = [];
         const newInstrumentSheets = props.instrumentSheets.map(sheet => {
             if (sheet.voices && sheet.voices.length > 0) return sheet;
             const origFileNames = sheet.origFiles.map(file => {
@@ -25,7 +26,10 @@ const VoicesAutoAssignButton = props => {
             let matchingVoices = [];
             origFileNames.forEach(name => {
                 const voice = voices.find(voice => voice.voiceID === parseInt(name));
-                if (voice) matchingVoices.push(voice);
+                if (voice && !alreadyAssignedVoices.includes(voice)) {
+                    matchingVoices.push(voice);
+                    alreadyAssignedVoices.push(voice);
+                }
             });
             sheet.voices = matchingVoices;
             return sheet;
