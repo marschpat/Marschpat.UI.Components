@@ -106,14 +106,20 @@ const SubmitFinalPayload = props => {
                 progress={uploadProgress}
                 implementationMode={props.implementationMode}
                 handleUploaderReset={resetUploader}
+                handleSubmitPayloadReset={resetSubmitPayload}
             />
         </section>
     );
 
     function resetUploader() {
-        setIsSuccess(false);
-        setIsUploading(false);
+        resetSubmitPayload();
         props.handleReset();
+    }
+
+    function resetSubmitPayload() {
+        setIsUploading(false);
+        setIsSuccess(false);
+        setHasError(false);
     }
 
     function updateMetaData(metaData) {

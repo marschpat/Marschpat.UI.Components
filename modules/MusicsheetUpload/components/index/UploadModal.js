@@ -20,6 +20,7 @@ const UploadModal = props => {
                     hasError={props.hasError}
                     implementationMode={props.implementationMode}
                     handleUploaderReset={props.handleUploaderReset}
+                    handleSubmitPayloadReset={props.handleSubmitPayloadReset}
                 />
             )}
         </LoadingModal>
