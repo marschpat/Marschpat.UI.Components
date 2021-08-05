@@ -4,7 +4,7 @@ import UploadSuccess from './UploadSuccess';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 
 const UploadModal = props => {
-    const isUploading = !props.success;
+    const isUploading = !props.success && !props.hasError;
 
     return (
         <LoadingModal open={props.open}>
@@ -17,6 +17,7 @@ const UploadModal = props => {
                 />
             ) : (
                 <UploadSuccess
+                    hasError={props.hasError}
                     implementationMode={props.implementationMode}
                     handleUploaderReset={props.handleUploaderReset}
                 />

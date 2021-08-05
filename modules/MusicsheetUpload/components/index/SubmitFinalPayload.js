@@ -16,6 +16,7 @@ const SubmitFinalPayload = props => {
     const [finalPayload, setFinalPayload] = useState(initialPayload);
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
+    const [hasError, setHasError] = useState(false);
     const inDebugMode = useInDebugMode();
     const dispatchFlashMessage = props.dispatchFlashMessage;
     const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
@@ -67,6 +68,7 @@ const SubmitFinalPayload = props => {
                     const errorMsg = response.data?.messages[0] ?? '';
                     console.error('Upload failed with errrors: ', response.data.messages.map(msg => msg));
                     dispatchFlashMessage(`Upload fehlgeschlagen: ${errorMsg}`, 'error');
+                    setHasError(errorMsg);
                     return;
                 }
             })
@@ -99,6 +101,7 @@ const SubmitFinalPayload = props => {
             <UploadModal
                 open={isUploading}
                 success={isSuccess}
+                hasError={hasError}
                 totalSize={totalUploadSize}
                 progress={uploadProgress}
                 implementationMode={props.implementationMode}
