@@ -7,7 +7,6 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const UploadSuccess = props => {
-    console.log('has error', props.hasError);
     return (
         <div className="w-full flex flex-col items-center">
             <Typography className="text-40 text-center" color="primary">
