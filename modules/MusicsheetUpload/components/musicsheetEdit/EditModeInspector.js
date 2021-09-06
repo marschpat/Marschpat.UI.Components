@@ -11,7 +11,9 @@ const EditModeInspector = props => {
     const inDebugMode = useInDebugMode();
 
     const initializeEditMode = rawData => {
-        console.log('my rawdata', rawData);
+        if (inDebugMode) {
+            console.log('InitializeEditMode, rawData:', rawData);
+        }
         const apiAdapter = new MusicsheetDownloadApiAdapter(rawData);
         const metaData = apiAdapter.getMetaData();
         const uploadScope = apiAdapter.getUploadScope();
