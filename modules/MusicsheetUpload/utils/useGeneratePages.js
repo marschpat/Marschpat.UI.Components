@@ -53,9 +53,10 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         // Workaround to get the `index` with the new ES6 loop syntax
         for (const [index, origFile] of originalFiles.entries()) {
             const hasPages = originalFileHasExistingPages(origFile.uuid);
+            const hasPreviews = originalFileHasPreviews(origFile.uuid);
 
-            // it has pages, copy them later
-            if (hasPages) {
+            // it has pages (and previews), copy them later
+            if (hasPages && hasPreviews) {
                 pagesPerOriginalFiles.existingPages.push(origFile.uuid);
                 continue;
             }
@@ -93,6 +94,15 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
 
     function originalFileHasExistingPages(originalFileUuid) {
         return instrumentSheet.pages.some(page => page.belongsToOrigFile === originalFileUuid);
+    }
+
+    function originalFileHasPreviews(originalFileUuid) {
+        const pages = instrumentSheet.pages.filter(page => page.belongsToOrigFile === originalFileUuid);
+        const previewExistPerPage = pages.map(page => {
+            if (page.type === 'mxl') return true;
+            return instrumentSheet.previews.some(preview => preview.pageNbr === page.pageNbr);
+        });
+        return previewExistPerPage.length > 0 && previewExistPerPage.every(Boolean);
     }
 
     /**
