@@ -5,7 +5,7 @@ import MetaDataForm from './components/index/MetaDataForm';
 import LegalConsent from './components/index/LegalConsent';
 import UsagePermissionCheck from './components/index/UsagePermissionCheck';
 import SubmitFinalPayload from './components/index/SubmitFinalPayload';
-import UploadScopeSelector from "./components/index/UploadScopeSelector";
+import UploadScopeSelector from './components/index/UploadScopeSelector';
 import InstrumentSheetsOverview from './components/index/InstrumentSheetsOverview';
 import EditModeInspector from './components/musicsheetEdit/EditModeInspector';
 import InstrumentSheetEditDialog from './InstrumentSheetEditDialog';
@@ -37,7 +37,7 @@ const MusicsheetUpload = props => {
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset,
+        handleAvailableVoicesReset
     ] = useAvailableInstrumentVoices(instrumentSheets);
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
@@ -145,7 +145,7 @@ const MusicsheetUpload = props => {
     /**
      * Remove the "deleted" file from originalFiles array
      */
-     function removeInstrumentSheets(uuids) {
+    function removeInstrumentSheets(uuids) {
         setInstrumentSheets(prev => {
             return prev.filter(sheet => !uuids.includes(sheet.uuid));
         });
@@ -159,9 +159,11 @@ const MusicsheetUpload = props => {
         if (sheets.length < 1) return;
         setInstrumentSheets(prevSheets => {
             const existingFileNames = prevSheets.flatMap(sheet => sheet.origFiles.map(orig => orig.name));
-            const newSheets = sheets.filter(sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1));
+            const newSheets = sheets.filter(
+                sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1)
+            );
 
-            return [ ...prevSheets, ...newSheets];
+            return [...prevSheets, ...newSheets];
         });
     }
 
@@ -192,7 +194,7 @@ const MusicsheetUpload = props => {
         setInstrumentSheets(prev => {
             return prev
                 .concat(manipulation.add)
-                .map(sheet => sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet);
+                .map(sheet => (sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet));
         });
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
@@ -252,6 +254,6 @@ const MusicsheetUpload = props => {
         const newIndex = instrumentSheets[candidate] ? candidate : fallbackIndex;
         setInstrumentSheetInEdit(instrumentSheets[newIndex]);
     }
-}
+};
 
 export default MusicsheetUpload;

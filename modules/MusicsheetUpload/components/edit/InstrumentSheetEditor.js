@@ -14,17 +14,15 @@ import Typography from '@material-ui/core/Typography';
 const supportedTypes = ['image', 'pdf', 'mxl'];
 
 const InstrumentSheetEditor = props => {
-    const [
-        pages,
-        setPages,
-        pageInEdit,
-        setPageInEdit,
-        originalFile,
-        setOriginalFile,
-        previews
-    ] = useGeneratePages(props.instrumentSheet, supportedTypes);
+    const [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews] = useGeneratePages(
+        props.instrumentSheet,
+        supportedTypes,
+        true
+    );
     const [assignedVoices, setAssignedVoices] = useState(props.instrumentSheet.voices ?? null);
-    const renderPagesPreview = (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') || props.instrumentSheet.origFiles.length > 1;
+    const renderPagesPreview =
+        (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') ||
+        props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
     const dispatchFlashMessage = props.dispatchFlashMessage;
 
@@ -50,15 +48,35 @@ const InstrumentSheetEditor = props => {
                             handleCropBoxOverrideForPages={applyCropBoxOverrideForPages}
                             handleCloseOnError={closeEditor}
                         />
-                        {inDebugMode && <PageImageExporter
-                            data={(pages && pageInEdit) ? (pages.find(page => page.fileId === pageInEdit.fileId)?.pageData) : null}
-                        />}
-                        {inDebugMode && <div className="my-20 flex justify-end">
-                            <div>OriginalFile name: {originalFile.name}</div><div className="ml-20">pageNbr: {pageInEdit?.pageNbr}</div>
-                        </div>}
-                        {inDebugMode && <div className="my-20 flex justify-end">
-                            <div className="w-full flex justify-center"><img src={(pages && pageInEdit) ? (pages.find(page => page.fileId === pageInEdit.fileId)?.pageData) : null} className="border rounded-sm"/></div>
-                        </div>}
+                        {inDebugMode && (
+                            <PageImageExporter
+                                data={
+                                    pages && pageInEdit
+                                        ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                        : null
+                                }
+                            />
+                        )}
+                        {inDebugMode && (
+                            <div className="my-20 flex justify-end">
+                                <div>OriginalFile name: {originalFile.name}</div>
+                                <div className="ml-20">pageNbr: {pageInEdit?.pageNbr}</div>
+                            </div>
+                        )}
+                        {inDebugMode && (
+                            <div className="my-20 flex justify-end">
+                                <div className="w-full flex justify-center">
+                                    <img
+                                        src={
+                                            pages && pageInEdit
+                                                ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                                : null
+                                        }
+                                        className="border rounded-sm"
+                                    />
+                                </div>
+                            </div>
+                        )}
 
                         {pages.length > 0 && (
                             <OriginalFileManipulator
@@ -73,7 +91,9 @@ const InstrumentSheetEditor = props => {
                         <div className="w-full ml-36">
                             <div className="mb-24 flex flex-grow-0">
                                 <Typography variant="h6">Besetzung:</Typography>
-                                <Typography variant="h6" className="ml-12">{props.castName}</Typography>
+                                <Typography variant="h6" className="ml-12">
+                                    {props.castName}
+                                </Typography>
                             </div>
                             <VoicesAssignmentSelection
                                 assignedVoices={assignedVoices}
@@ -90,12 +110,14 @@ const InstrumentSheetEditor = props => {
                 />
             </div>
         </div>
-    ) : <LoadingBusyIndicator msg="Einen Moment, Datei wird geladen und zur Bearbeitung aufbereitet." />;
+    ) : (
+        <LoadingBusyIndicator msg="Einen Moment, Datei wird geladen und zur Bearbeitung aufbereitet." />
+    );
 
     /* Update the currently edited page */
     function updateEditedPage(editedPage) {
         setPages(prevPages => {
-            return prevPages.map(page => (page.pageNbr === editedPage.pageNbr) ? editedPage : page);
+            return prevPages.map(page => (page.pageNbr === editedPage.pageNbr ? editedPage : page));
         });
     }
 
@@ -132,7 +154,7 @@ const InstrumentSheetEditor = props => {
             ...props.instrumentSheet,
             pages,
             previews,
-            voices: assignedVoices,
+            voices: assignedVoices
         };
         props.handleInstrumentSheetUpdate(editedSheet);
     }
@@ -162,6 +184,6 @@ const InstrumentSheetEditor = props => {
         setPages(newPages);
         dispatchFlashMessage('Auswahl für alle Seiten im File übernommen', 'success');
     }
-}
+};
 
 export default InstrumentSheetEditor;

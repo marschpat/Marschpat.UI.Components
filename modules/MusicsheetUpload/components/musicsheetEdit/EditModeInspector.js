@@ -11,24 +11,26 @@ const EditModeInspector = props => {
     const inDebugMode = useInDebugMode();
 
     const initializeEditMode = rawData => {
+        console.log('my rawdata', rawData);
         const apiAdapter = new MusicsheetDownloadApiAdapter(rawData);
         const metaData = apiAdapter.getMetaData();
         const uploadScope = apiAdapter.getUploadScope();
         const instrumentSheets = apiAdapter.getInstrumentSheets();
         props.handleInitialEditValues({
             metaData,
-            uploadScope,
+            uploadScope
         });
         props.handleInstrumentSheets(instrumentSheets);
         props.handleSheetId(sheetInEdit);
         close();
-    }
+    };
 
     const abortEditMode = () => {
-        const msg = 'Aktuell können nur neue Musikstücke bearbeitet werden. Bitte warten, oder legen sie das Musikstück erneut an.'
+        const msg =
+            'Aktuell können nur neue Musikstücke bearbeitet werden. Bitte warten, oder legen sie das Musikstück erneut an.';
         dispatchFlashMessage(msg, 'warning');
         close();
-    }
+    };
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -57,6 +59,6 @@ const EditModeInspector = props => {
         setSheetInEdit(null);
         history.replace({ pathname: url.pathname });
     }
-}
+};
 
 export default EditModeInspector;
