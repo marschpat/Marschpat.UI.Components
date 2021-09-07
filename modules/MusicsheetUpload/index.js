@@ -49,10 +49,12 @@ const MusicsheetUpload = props => {
     return (
         <div id="uploader-top">
             <UploaderContext.Provider
-                value={{ implementationMode: props.implementationMode }}
+                value={{
+                    implementationMode: props.implementationMode,
+                    dispatchFlashMessage,
+                }}
             >
                 <EditModeInspector
-                    dispatchFlashMessage={props.dispatchFlashMessage}
                     handleSheetId={setSheetId}
                     handleInitialEditValues={setInitialEdit}
                     handleInstrumentSheets={setInstrumentSheets}
@@ -92,9 +94,6 @@ const MusicsheetUpload = props => {
                                         availableVoices={
                                             availableInstrumentVoices
                                         }
-                                        dispatchFlashMessage={
-                                            props.dispatchFlashMessage
-                                        }
                                         handleCastCheck={castIsSetOrError}
                                         handleInstrumentSheetsUpdate={
                                             setInstrumentSheets
@@ -132,9 +131,6 @@ const MusicsheetUpload = props => {
                                         agreedToLegalConsent={
                                             agreedToLegalConsent
                                         }
-                                        dispatchFlashMessage={
-                                            props.dispatchFlashMessage
-                                        }
                                         handleReset={resetUploaderState}
                                     />
                                     {inDebugMode && (
@@ -152,7 +148,6 @@ const MusicsheetUpload = props => {
                             castName={metaData?.castName}
                             instrumentSheet={instrumentSheetInEdit}
                             availableVoices={availableInstrumentVoices}
-                            dispatchFlashMessage={props.dispatchFlashMessage}
                             handleClose={toggleInstrumentSheetEditDialog}
                             handleInstrumentSheetUpdate={updateInstrumentSheet}
                             handleAssignedVoicesChange={

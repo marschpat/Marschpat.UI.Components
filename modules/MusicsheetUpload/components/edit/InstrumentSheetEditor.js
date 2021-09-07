@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PageEditor from './PageEditor';
 import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
 import OriginalFileManipulator from './OriginalFileManipulator';
 import VoicesAssignmentSelection from './VoicesAssignmentSelection';
+import { UploaderContext } from '../../context/UploaderContext';
 import useGeneratePages from '../../utils/useGeneratePages';
 import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
@@ -31,7 +32,7 @@ const InstrumentSheetEditor = props => {
             props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const dispatchFlashMessage = props.dispatchFlashMessage;
+    const { dispatchFlashMessage } = useContext(UploaderContext);
 
     return pageInEdit ? (
         <div className="flex">
@@ -50,7 +51,6 @@ const InstrumentSheetEditor = props => {
                             page={pageInEdit}
                             originalFile={originalFile}
                             supportedTypes={supportedTypes}
-                            dispatchFlashMessage={props.dispatchFlashMessage}
                             handlePageUpdate={updateEditedPage}
                             handleCropBoxOverrideForPages={
                                 applyCropBoxOverrideForPages

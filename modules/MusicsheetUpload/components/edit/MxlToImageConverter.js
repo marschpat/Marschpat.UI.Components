@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { OpenSheetMusicDisplay } from 'opensheetmusicdisplay-marschpat';
+import { UploaderContext } from '../../context/UploaderContext';
 import MxlControlToolbar from '../edit/MxlControlToolbar';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
@@ -18,6 +19,7 @@ const MxlToImageConverter = props => {
     const [pageImages, setPageImages] = useState(null);
     const [pagesCount, setPagesCount] = useState(null);
     const [osmdOptions, setOsmdOptions] = useState(defaultOsmdOptions);
+    const { dispatchFlashMessage } = useContext(UploaderContext);
 
     useEffect(() => {
         const options = props.osmdOptions ?? defaultOsmdOptions;
@@ -191,7 +193,7 @@ const MxlToImageConverter = props => {
             console.error('Error occured in MxlToImageConverter', e);
             setIsLoading(false);
             props.handleCloseOnError();
-            props.dispatchFlashMessage(
+            dispatchFlashMessage(
                 'MXL Datei fehlerhaft! Bitte überprüfe die MXL Datei. Ist es eine MXL Version 3.0 Datei?'
             );
         }

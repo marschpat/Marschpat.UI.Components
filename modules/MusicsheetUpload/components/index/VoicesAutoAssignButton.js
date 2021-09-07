@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UploaderContext } from '../../context/UploaderContext';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import IconButton from '@material-ui/core/IconButton';
 import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
 
 const VoicesAutoAssignButton = props => {
-    const dispatchFlashMessage = props.dispatchFlashMessage;
+    const { dispatchFlashMessage } = useContext(UploaderContext);
     const handleClick = () => {
         if (!props.handleCastCheck()) return false;
         autoAssignVoices();
