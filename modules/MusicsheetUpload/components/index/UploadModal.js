@@ -25,6 +25,6 @@ const UploadModal = props => {
             )}
         </LoadingModal>
     );
-}
+};
 
 export default UploadModal;

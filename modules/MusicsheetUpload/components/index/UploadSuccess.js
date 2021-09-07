@@ -10,18 +10,26 @@ const UploadSuccess = props => {
     return (
         <div className="w-full flex flex-col items-center">
             <Typography className="text-40 text-center" color="primary">
-                {!props.hasError ? 'Upload erfolgreich!' : 'Upload fehlgeschlagen'}
+                {!props.hasError
+                    ? 'Upload erfolgreich!'
+                    : 'Upload fehlgeschlagen'}
             </Typography>
             {!props.hasError ? (
                 <>
-                    <CheckCircleOutlineIcon fontSize="large" className="w-128 h-128 my-32 text-mp-gold" />
+                    <CheckCircleOutlineIcon
+                        fontSize="large"
+                        className="w-128 h-128 my-32 text-mp-gold"
+                    />
                     <Typography className="text-20 mb-16 text-center">
                         Das Musikstück steht in unserem Notenpool zur Verfügung.
                     </Typography>
                     <div className="mt-16 w-full flex justify-around">
                         <Button
                             component={Link}
-                            to={clientRoutes[props.implementationMode].musiclibrary}
+                            to={
+                                clientRoutes[props.implementationMode]
+                                    .musiclibrary
+                            }
                             variant="contained"
                             color="primary"
                         >
@@ -38,9 +46,13 @@ const UploadSuccess = props => {
                 </>
             ) : (
                 <>
-                    <CancelOutlinedIcon fontSize="large" className="w-128 h-128 my-32 text-red-500" />
+                    <CancelOutlinedIcon
+                        fontSize="large"
+                        className="w-128 h-128 my-32 text-red-500"
+                    />
                     <Typography className="text-20 mb-16 text-center">
-                        Beim Upload ist ein Fehler aufgetreten: <span class="text-red-500">{props.hasError}</span>
+                        Beim Upload ist ein Fehler aufgetreten:{' '}
+                        <span class="text-red-500">{props.hasError}</span>
                     </Typography>
                     <Button
                         onClick={props.handleSubmitPayloadReset}
@@ -52,6 +64,6 @@ const UploadSuccess = props => {
             )}
         </div>
     );
-}
+};
 
 export default UploadSuccess;

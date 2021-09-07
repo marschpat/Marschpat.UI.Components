@@ -15,24 +15,23 @@ const InstrumentSheetsManipulationList = props => {
     const activateMergeMode = uuid => {
         setMergeParent(uuid);
         setInMergeMode(true);
-    }
+    };
     const cancelMergeMode = () => {
         setMergeParent(null);
         setMergeChildren([]);
         setInMergeMode(false);
-    }
+    };
     const toggleMergeChildren = v => {
         const currentIndex = mergeChildren.indexOf(v);
         const newChecked = [...mergeChildren];
         if (currentIndex === -1) {
-          newChecked.push(v);
+            newChecked.push(v);
         } else {
-          newChecked.splice(currentIndex, 1);
+            newChecked.splice(currentIndex, 1);
         }
         setMergeChildren(newChecked);
-    }
+    };
     const mergeSheets = () => {
-
         // get the parent
         const parent = findInstrumentSheetsByUuid(mergeParent);
         if (parent.length < 1) return false;
@@ -42,16 +41,25 @@ const InstrumentSheetsManipulationList = props => {
         }
 
         // get each child
-        const childs = mergeChildren.flatMap(childId => findInstrumentSheetsByUuid(childId));
+        const childs = mergeChildren.flatMap(childId =>
+            findInstrumentSheetsByUuid(childId)
+        );
         if (childs.length < 1) return false;
 
         // merge them
         childs.forEach(child => {
-            newInstrumentSheet.origFiles = newInstrumentSheet.origFiles.concat(child.origFiles);
-            newInstrumentSheet.pages = newInstrumentSheet.pages.concat(child.pages);
-            newInstrumentSheet.voices = newInstrumentSheet.voices.concat(child.voices);
+            newInstrumentSheet.origFiles = newInstrumentSheet.origFiles.concat(
+                child.origFiles
+            );
+            newInstrumentSheet.pages = newInstrumentSheet.pages.concat(
+                child.pages
+            );
+            newInstrumentSheet.voices = newInstrumentSheet.voices.concat(
+                child.voices
+            );
             if (child.previews) {
-                newInstrumentSheet.previews = newInstrumentSheet.previews.concat(child.previews);
+                newInstrumentSheet.previews =
+                    newInstrumentSheet.previews.concat(child.previews);
             }
         });
 
@@ -60,7 +68,7 @@ const InstrumentSheetsManipulationList = props => {
         props.handleRemoveInstrumentSheets(childs.map(child => child.uuid));
         setInMergeMode(false);
         dispatchFlashMessage('Stimmen erfolgreich zusammen geführt', 'success');
-    }
+    };
 
     const handleConfirmMerge = () => {
         dispatchConfirm(
@@ -69,20 +77,32 @@ const InstrumentSheetsManipulationList = props => {
             'Stimmen wirklich zusammenführen? Diese Aktion kann nicht rückgängig gemacht werden. Bearbeitungsvortschritt in den Stimmen geht gegebenenfalls verloren.',
             'Stimmen zusammenführen'
         );
-    }
+    };
 
     return (
         <List>
-            {instrumentSheets.map((instrumentSheet) => {
+            {instrumentSheets.map(instrumentSheet => {
                 return (
                     <InstrumentSheetListItem
                         inMergeMode={inMergeMode}
-                        mergeParent={mergeParent === instrumentSheet.uuid ? mergeParent : null}
-                        mergeChildren={mergeChildren.includes(instrumentSheet.uuid) ? mergeChildren : null}
+                        mergeParent={
+                            mergeParent === instrumentSheet.uuid
+                                ? mergeParent
+                                : null
+                        }
+                        mergeChildren={
+                            mergeChildren.includes(instrumentSheet.uuid)
+                                ? mergeChildren
+                                : null
+                        }
                         instrumentSheet={instrumentSheet}
                         renderMergeButton={renderMergeButton}
-                        handleRemoveInstrumentSheets={props.handleRemoveInstrumentSheets}
-                        handleOpenInstrumentSheetEdit={props.handleOpenInstrumentSheetEdit}
+                        handleRemoveInstrumentSheets={
+                            props.handleRemoveInstrumentSheets
+                        }
+                        handleOpenInstrumentSheetEdit={
+                            props.handleOpenInstrumentSheetEdit
+                        }
                         handleConfirmMerge={handleConfirmMerge}
                         handleActivateMergeMode={activateMergeMode}
                         handleCancelMergeMode={cancelMergeMode}
@@ -97,6 +117,6 @@ const InstrumentSheetsManipulationList = props => {
     function findInstrumentSheetsByUuid(uuid) {
         return instrumentSheets.filter(sheet => sheet.uuid === uuid);
     }
-}
+};
 
 export default InstrumentSheetsManipulationList;

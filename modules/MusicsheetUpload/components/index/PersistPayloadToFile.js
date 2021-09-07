@@ -4,17 +4,20 @@ import Button from '@material-ui/core/Button';
 
 const PersistPayloadToFile = props => {
     const downloadJsonPayload = () => {
-        const apiAdapter = new MusicsheetUploadApiAdapter(props.finalPayload, true);
+        const apiAdapter = new MusicsheetUploadApiAdapter(
+            props.finalPayload,
+            true
+        );
         const payload = {
             ...props.finalPayload,
             instrumentSheets: apiAdapter.getCleanInstrumentSheets(),
-        }
-        const data = "data:text/json;charset=utf-8," + JSON.stringify(payload);
+        };
+        const data = 'data:text/json;charset=utf-8,' + JSON.stringify(payload);
         const dl = document.createElement('a');
         dl.download = 'payload.json';
         dl.href = data;
         dl.click();
-    }
+    };
 
     return (
         <div className="mt-12 flex justify-end">
@@ -27,6 +30,6 @@ const PersistPayloadToFile = props => {
             </Button>
         </div>
     );
-}
+};
 
 export default PersistPayloadToFile;

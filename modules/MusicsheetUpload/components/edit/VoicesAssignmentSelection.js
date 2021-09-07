@@ -12,15 +12,21 @@ const VoicesAssignmentSelection = props => {
             setAvailableVoices(prev => {
                 let newAvailable = prev;
                 const removedValue = detail.removedValue;
-                if (removedValue && removedValue.voiceID && !newAvailable.find(item => item.voiceID === removedValue.voiceID)) {
+                if (
+                    removedValue &&
+                    removedValue.voiceID &&
+                    !newAvailable.find(
+                        item => item.voiceID === removedValue.voiceID
+                    )
+                ) {
                     newAvailable.push(removedValue);
                     newAvailable = newAvailable.sort(compareByVoiceId);
                 }
                 return newAvailable;
-            })
+            });
         }
         props.handleVoicesAssignemnt(values);
-    }
+    };
 
     useEffect(() => {
         if (!props.availableVoices) {
@@ -36,15 +42,15 @@ const VoicesAssignmentSelection = props => {
             <Typography variant="h5">Stimme auswählen</Typography>
             <FuseChipSelect
                 className="mt-8"
-				value={props.assignedVoices}
-				onChange={handleChange}
-				placeholder="Instrumentenstimme wählen"
-				textFieldProps={{ variant: 'standard' }}
-				options={availableVoices}
-				isMulti
-                variant='fixed'
+                value={props.assignedVoices}
+                onChange={handleChange}
+                placeholder="Instrumentenstimme wählen"
+                textFieldProps={{ variant: 'standard' }}
+                options={availableVoices}
+                isMulti
+                variant="fixed"
                 id="voices-assignment"
-			/>
+            />
             {showWarning && (
                 <div className="mt-24 py-4 flex justify-center text-xl rounded-md bg-orange-700">
                     <span>! Bitte zuerst Besetzung auswählen !</span>
@@ -52,9 +58,9 @@ const VoicesAssignmentSelection = props => {
             )}
         </div>
     );
-}
+};
 
-function compareByVoiceId(itemA, itemB ) {
+function compareByVoiceId(itemA, itemB) {
     if (itemA.voiceID < itemB.voiceID) return -1;
     if (itemA.voiceID > itemB.voiceID) return 1;
     return 0;

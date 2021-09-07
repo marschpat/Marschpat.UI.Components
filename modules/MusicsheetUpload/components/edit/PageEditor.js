@@ -6,7 +6,9 @@ import PdfToImageConverter from './PdfToImageConverter';
 const PageEditor = props => {
     const page = props.page;
     const originalFileData = props.originalFile.data;
-    const editType = props.supportedTypes.includes(page.type) ? page.type : 'no-support';
+    const editType = props.supportedTypes.includes(page.type)
+        ? page.type
+        : 'no-support';
     const getAppropriateEditor = () => {
         if (editType === 'image') {
             return (
@@ -14,7 +16,9 @@ const PageEditor = props => {
                     src={originalFileData}
                     cropBox={page.cropBox}
                     handlePageImageUpdate={handlePageEdit}
-                    handleCropBoxOverrideForPages={props.handleCropBoxOverrideForPages}
+                    handleCropBoxOverrideForPages={
+                        props.handleCropBoxOverrideForPages
+                    }
                 />
             );
         }
@@ -26,7 +30,9 @@ const PageEditor = props => {
                     orientation={page.cropBox?.orientation}
                     cropBox={page.cropBox}
                     handlePageImageUpdate={handlePageEdit}
-                    handleCropBoxOverrideForPages={props.handleCropBoxOverrideForPages}
+                    handleCropBoxOverrideForPages={
+                        props.handleCropBoxOverrideForPages
+                    }
                 />
             );
         }
@@ -43,7 +49,11 @@ const PageEditor = props => {
             );
         }
 
-        return <div className="text-gray-600 text-center italic">...not yet supported...</div>
+        return (
+            <div className="text-gray-600 text-center italic">
+                ...not yet supported...
+            </div>
+        );
     };
 
     return (
@@ -52,7 +62,11 @@ const PageEditor = props => {
         </div>
     );
 
-    function handlePageEdit(editedPageDataUrl, cropBox = null, osmdOptions = null) {
+    function handlePageEdit(
+        editedPageDataUrl,
+        cropBox = null,
+        osmdOptions = null
+    ) {
         props.handlePageUpdate({
             ...page,
             type: editType,
@@ -62,6 +76,6 @@ const PageEditor = props => {
             orientation: cropBox?.orientation ?? 'landscape',
         });
     }
-}
+};
 
 export default PageEditor;

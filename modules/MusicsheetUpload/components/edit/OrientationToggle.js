@@ -9,7 +9,7 @@ const OrientationToggle = props => {
     const toggleOrientation = (e, value) => {
         if (!value) return;
         props.handleOrientationChange(value);
-    }
+    };
 
     return (
         <ToggleButtonGroup
@@ -18,18 +18,18 @@ const OrientationToggle = props => {
             onChange={toggleOrientation}
             aria-label="Orientierung - Quer / Hochformat"
         >
-                <ToggleButton value="landscape" aria-label="Querformat - Landscape">
-                    <TooltipStyled title="Querformat">
-                        <CropLandscapeIcon />
-                    </TooltipStyled>
-                </ToggleButton>
-                <ToggleButton value="portrait" aria-label="Hochformat - Portrait">
-                    <TooltipStyled title="Hochformat">
-                        <CropPortraitIcon />
-                    </TooltipStyled>
-                </ToggleButton>
+            <ToggleButton value="landscape" aria-label="Querformat - Landscape">
+                <TooltipStyled title="Querformat">
+                    <CropLandscapeIcon />
+                </TooltipStyled>
+            </ToggleButton>
+            <ToggleButton value="portrait" aria-label="Hochformat - Portrait">
+                <TooltipStyled title="Hochformat">
+                    <CropPortraitIcon />
+                </TooltipStyled>
+            </ToggleButton>
         </ToggleButtonGroup>
     );
-}
+};
 
 export default OrientationToggle;

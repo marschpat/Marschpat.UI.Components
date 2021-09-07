@@ -11,9 +11,11 @@ const LinearProgressWithLabel = props => {
                 color="secondary"
                 className="max-w-sm w-full"
             />
-            <Typography className="ml-10 flex-shrink-0">{props.value ?? '0'} %</Typography>
+            <Typography className="ml-10 flex-shrink-0">
+                {props.value ?? '0'} %
+            </Typography>
         </div>
     );
-}
+};
 
 export default LinearProgressWithLabel;

@@ -23,8 +23,8 @@ export const apiRoutes = {
     },
     [MP_EDU]: {
         musiclibrary: '/musiclibrary/tags',
-    }
-}
+    },
+};
 
 /** Implementation details for varying API endpoints */
 export const clientRoutes = {
@@ -33,5 +33,5 @@ export const clientRoutes = {
     },
     [MP_EDU]: {
         musiclibrary: '/musiclibrary',
-    }
-}
+    },
+};

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const useAvailableInstrumentVoices = (instrumentSheets) => {
+const useAvailableInstrumentVoices = instrumentSheets => {
     const [castOptions, setCastOptions] = useState(null);
-    const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null);
-    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
+    const [availableInstrumentVoices, setAvailableInstrumentVoices] =
+        useState(null);
+    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] =
+        useState(null);
 
     useEffect(() => {
         fetchInstrumentVoicesInCastGroups();
@@ -14,25 +16,27 @@ const useAvailableInstrumentVoices = (instrumentSheets) => {
         handleAvailableVoicesUpdate();
     }, [instrumentVoicesOfCurrentCast]);
 
-    const handleCastChange = (selectedCast) => {
+    const handleCastChange = selectedCast => {
         const availableInstruments = mapCastToInstrumentVoices(selectedCast);
         setInstrumentVoicesOfCurrentCast(availableInstruments);
-    }
+    };
 
     const handleAvailableVoicesUpdate = () => {
         let allAssignedVoices = [];
         instrumentSheets.forEach(instrumentSheet => {
             if (instrumentSheet.voices && instrumentSheet.voices.length > 0) {
-                allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
+                allAssignedVoices = allAssignedVoices.concat(
+                    instrumentSheet.voices
+                );
             }
         });
         const availableVoices = determineRenamingVoices(allAssignedVoices);
         setAvailableInstrumentVoices(availableVoices);
-    }
+    };
 
     const handleAvailableVoicesReset = () => {
         setAvailableInstrumentVoices(null);
-    }
+    };
 
     return [
         castOptions,
@@ -43,18 +47,25 @@ const useAvailableInstrumentVoices = (instrumentSheets) => {
     ];
 
     function fetchInstrumentVoicesInCastGroups() {
-        axios.get('/cast').then(response => {
-            setCastOptions(mapCasts(response.data));
-        })
-        .catch(error => {
-            console.error('Fetching castOptions from GET /cast failed with an error.', error);
-        });
+        axios
+            .get('/cast')
+            .then(response => {
+                setCastOptions(mapCasts(response.data));
+            })
+            .catch(error => {
+                console.error(
+                    'Fetching castOptions from GET /cast failed with an error.',
+                    error
+                );
+            });
     }
 
     function determineRenamingVoices(assignedVoices) {
         const assignedIds = assignedVoices.map(item => item.voiceID);
         if (!instrumentVoicesOfCurrentCast) return [];
-        const remainingAvailableVoices = instrumentVoicesOfCurrentCast.filter(available => !assignedIds.includes(available.voiceID));
+        const remainingAvailableVoices = instrumentVoicesOfCurrentCast.filter(
+            available => !assignedIds.includes(available.voiceID)
+        );
 
         return remainingAvailableVoices;
     }
@@ -73,7 +84,7 @@ const useAvailableInstrumentVoices = (instrumentSheets) => {
                         group: group.name,
                         instrument: instrument.name,
                         ...voice,
-                    }
+                    };
                 });
             });
         });

@@ -15,9 +15,7 @@ const ImageCropperToolbar = props => {
 
     return (
         <div className="mt-20">
-
             <div className="flex items-center justify-between">
-
                 <TooltipStyled title="Zoom in 10%">
                     <IconButton onClick={() => cropper.zoom(0.1)}>
                         <ZoomInIcon classes={{ root: 'w-40 h-40' }} />
@@ -38,7 +36,9 @@ const ImageCropperToolbar = props => {
 
                 <TooltipStyled title="90° Drehung">
                     <IconButton onClick={() => cropper.rotate(-90)}>
-                        <Rotate90DegreesCcwIcon classes={{ root: 'w-40 h-40' }} />
+                        <Rotate90DegreesCcwIcon
+                            classes={{ root: 'w-40 h-40' }}
+                        />
                     </IconButton>
                 </TooltipStyled>
 
@@ -47,7 +47,6 @@ const ImageCropperToolbar = props => {
                         <RotateRightIcon classes={{ root: 'w-40 h-40' }} />
                     </IconButton>
                 </TooltipStyled>
-
 
                 <TooltipStyled title="Alle Seiten in dieser Stimme (Datei) auf die Auswahl zuschneiden">
                     <Button
@@ -66,6 +65,6 @@ const ImageCropperToolbar = props => {
             </div>
         </div>
     );
-}
+};
 
 export default ImageCropperToolbar;
