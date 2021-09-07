@@ -14,14 +14,21 @@ import Typography from '@material-ui/core/Typography';
 const supportedTypes = ['image', 'pdf', 'mxl'];
 
 const InstrumentSheetEditor = props => {
-    const [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews] = useGeneratePages(
-        props.instrumentSheet,
-        supportedTypes,
-        true
+    const [
+        pages,
+        setPages,
+        pageInEdit,
+        setPageInEdit,
+        originalFile,
+        setOriginalFile,
+        previews,
+    ] = useGeneratePages(props.instrumentSheet, supportedTypes, true);
+    const [assignedVoices, setAssignedVoices] = useState(
+        props.instrumentSheet.voices ?? null
     );
-    const [assignedVoices, setAssignedVoices] = useState(props.instrumentSheet.voices ?? null);
     const renderPagesPreview =
-        (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') ||
+        (props.instrumentSheet.origFiles.length === 1 &&
+            props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
     const dispatchFlashMessage = props.dispatchFlashMessage;
@@ -45,22 +52,32 @@ const InstrumentSheetEditor = props => {
                             supportedTypes={supportedTypes}
                             dispatchFlashMessage={props.dispatchFlashMessage}
                             handlePageUpdate={updateEditedPage}
-                            handleCropBoxOverrideForPages={applyCropBoxOverrideForPages}
+                            handleCropBoxOverrideForPages={
+                                applyCropBoxOverrideForPages
+                            }
                             handleCloseOnError={closeEditor}
                         />
                         {inDebugMode && (
                             <PageImageExporter
                                 data={
                                     pages && pageInEdit
-                                        ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                        ? pages.find(
+                                              page =>
+                                                  page.fileId ===
+                                                  pageInEdit.fileId
+                                          )?.pageData
                                         : null
                                 }
                             />
                         )}
                         {inDebugMode && (
                             <div className="my-20 flex justify-end">
-                                <div>OriginalFile name: {originalFile.name}</div>
-                                <div className="ml-20">pageNbr: {pageInEdit?.pageNbr}</div>
+                                <div>
+                                    OriginalFile name: {originalFile.name}
+                                </div>
+                                <div className="ml-20">
+                                    pageNbr: {pageInEdit?.pageNbr}
+                                </div>
                             </div>
                         )}
                         {inDebugMode && (
@@ -69,7 +86,11 @@ const InstrumentSheetEditor = props => {
                                     <img
                                         src={
                                             pages && pageInEdit
-                                                ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                                ? pages.find(
+                                                      page =>
+                                                          page.fileId ===
+                                                          pageInEdit.fileId
+                                                  )?.pageData
                                                 : null
                                         }
                                         className="border rounded-sm"
@@ -83,7 +104,9 @@ const InstrumentSheetEditor = props => {
                                 pages={pages}
                                 pageNbr={pageInEdit?.pageNbr}
                                 currentInstrumentSheet={props.instrumentSheet}
-                                handleOriginalFileManipulation={props.handleOriginalFileManipulation}
+                                handleOriginalFileManipulation={
+                                    props.handleOriginalFileManipulation
+                                }
                             />
                         )}
                     </div>
@@ -117,7 +140,9 @@ const InstrumentSheetEditor = props => {
     /* Update the currently edited page */
     function updateEditedPage(editedPage) {
         setPages(prevPages => {
-            return prevPages.map(page => (page.pageNbr === editedPage.pageNbr ? editedPage : page));
+            return prevPages.map(page =>
+                page.pageNbr === editedPage.pageNbr ? editedPage : page
+            );
         });
     }
 
@@ -154,7 +179,7 @@ const InstrumentSheetEditor = props => {
             ...props.instrumentSheet,
             pages,
             previews,
-            voices: assignedVoices
+            voices: assignedVoices,
         };
         props.handleInstrumentSheetUpdate(editedSheet);
     }
@@ -171,7 +196,9 @@ const InstrumentSheetEditor = props => {
     function changePageInEdit(pageNbr) {
         if (!pages || pages.length < 1) return;
         const page = pages.find(page => page.pageNbr === pageNbr) ?? pages[0];
-        setOriginalFile(findOrigFileForPage(page, props.instrumentSheet.origFiles));
+        setOriginalFile(
+            findOrigFileForPage(page, props.instrumentSheet.origFiles)
+        );
         setPageInEdit(page);
     }
 
@@ -182,7 +209,10 @@ const InstrumentSheetEditor = props => {
             return page;
         });
         setPages(newPages);
-        dispatchFlashMessage('Auswahl für alle Seiten im File übernommen', 'success');
+        dispatchFlashMessage(
+            'Auswahl für alle Seiten im File übernommen',
+            'success'
+        );
     }
 };
 

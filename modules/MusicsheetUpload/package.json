@@ -1,16 +1,16 @@
 {
-  "name": "musicsheet-upload",
-  "version": "0.0.1",
-  "private": true,
-  "description": "Marschpat Musicsheet Upload component",
-  "main": "index.js",
-  "author": "Marschpat - Stefan Stifter",
-  "dependencies": {
-    "pdf-lib": "^1.16.0",
-    "pdfjs-dist": "~2.6",
-    "react-cropper": "^1.3.0",
-    "react-dropzone": "^11.0.3",
-    "worker-loader": "^3.0.8",
-    "opensheetmusicdisplay-marschpat": "file:./vendor/opensheetmusicdisplay"
-  }
+    "name": "musicsheet-upload",
+    "version": "0.0.1",
+    "private": true,
+    "description": "Marschpat Musicsheet Upload component",
+    "main": "index.js",
+    "author": "Marschpat - Stefan Stifter",
+    "dependencies": {
+        "pdf-lib": "^1.16.0",
+        "pdfjs-dist": "~2.6",
+        "react-cropper": "^1.3.0",
+        "react-dropzone": "^11.0.3",
+        "worker-loader": "^3.0.8",
+        "opensheetmusicdisplay-marschpat": "file:./vendor/opensheetmusicdisplay"
+    }
 }

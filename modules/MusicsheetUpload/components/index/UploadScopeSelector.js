@@ -93,8 +93,8 @@ const UploadScopeSelector = props => {
                                 control={<Radio />}
                                 label={
                                     <Typography>
-                                        {labelTexts[implementationMode].org +
-                                            organisation?.name}
+                                        {labelTexts[props.implementationMode]
+                                            .org + organisation?.name}
                                     </Typography>
                                 }
                             />

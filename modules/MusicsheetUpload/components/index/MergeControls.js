@@ -16,21 +16,27 @@ const MergeControls = props => {
 
     const handleToggle = () => {
         setChecked(!checked);
-        props.handleToggleMergeChildren(props.instrumentSheetId)
-    }
+        props.handleToggleMergeChildren(props.instrumentSheetId);
+    };
 
     return !inMergeMode ? (
         <div className="inline-block">
-            {props.wasMerged && <div className="inline-block" title="Zusammengefügte Stimmen">
-                <EmojiFlagsIcon className="mr-20 text-mp-gold"/>
-            </div>}
-            {props.renderMergeButton && <IconButton
-                onClick={() => props.handleActivateMergeMode(props.instrumentSheetId)}
-                aria-label="merge-instrument-voices"
-                title="Stimmen zusammen führen"
-            >
-                <MergeTypeIcon />
-            </IconButton>}
+            {props.wasMerged && (
+                <div className="inline-block" title="Zusammengefügte Stimmen">
+                    <EmojiFlagsIcon className="mr-20 text-mp-gold" />
+                </div>
+            )}
+            {props.renderMergeButton && (
+                <IconButton
+                    onClick={() =>
+                        props.handleActivateMergeMode(props.instrumentSheetId)
+                    }
+                    aria-label="merge-instrument-voices"
+                    title="Stimmen zusammen führen"
+                >
+                    <MergeTypeIcon />
+                </IconButton>
+            )}
         </div>
     ) : (
         <div className="inline-block">
@@ -62,6 +68,6 @@ const MergeControls = props => {
             )}
         </div>
     );
-}
+};
 
 export default MergeControls;

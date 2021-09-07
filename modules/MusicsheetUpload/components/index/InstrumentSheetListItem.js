@@ -25,7 +25,9 @@ const InstrumentSheetListItem = props => {
             role={undefined}
             dense
             button
-            onClick={() => props.handleOpenInstrumentSheetEdit(props.instrumentSheet)}
+            onClick={() =>
+                props.handleOpenInstrumentSheetEdit(props.instrumentSheet)
+            }
             divider
         >
             <ListItemIcon className="flex items-center">
@@ -35,71 +37,95 @@ const InstrumentSheetListItem = props => {
                 className="w-full"
                 id={`checkbox-list-label-${props.instrumentSheet.uuid}`}
                 primary={props.instrumentSheet.origFiles[0].name}
-                secondary={<PageInformation instrumentSheet={props.instrumentSheet} />}
+                secondary={
+                    <PageInformation instrumentSheet={props.instrumentSheet} />
+                }
             />
             <ListItemText className="w-full">
                 <CompletionStatus instrumentSheet={props.instrumentSheet} />
             </ListItemText>
             <ListItemSecondaryAction>
-                {allowMergeMode && <MergeControls
-                    inMergeMode={props.inMergeMode}
-                    isParent={props.instrumentSheet.uuid === props.mergeParent}
-                    isMergeChild={props.mergeChildren?.includes(props.instrumentSheet.uuid) ?? false}
-                    wasMerged={props.instrumentSheet.origFiles.length > 1}
-                    renderMergeButton={props.renderMergeButton}
-                    instrumentSheetId={props.instrumentSheet.uuid}
-                    handleConfirmMerge={props.handleConfirmMerge}
-                    handleCancelMergeMode={props.handleCancelMergeMode}
-                    handleActivateMergeMode={props.handleActivateMergeMode}
-                    handleToggleMergeChildren={props.handleToggleMergeChildren}
-                />}
+                {allowMergeMode && (
+                    <MergeControls
+                        inMergeMode={props.inMergeMode}
+                        isParent={
+                            props.instrumentSheet.uuid === props.mergeParent
+                        }
+                        isMergeChild={
+                            props.mergeChildren?.includes(
+                                props.instrumentSheet.uuid
+                            ) ?? false
+                        }
+                        wasMerged={props.instrumentSheet.origFiles.length > 1}
+                        renderMergeButton={props.renderMergeButton}
+                        instrumentSheetId={props.instrumentSheet.uuid}
+                        handleConfirmMerge={props.handleConfirmMerge}
+                        handleCancelMergeMode={props.handleCancelMergeMode}
+                        handleActivateMergeMode={props.handleActivateMergeMode}
+                        handleToggleMergeChildren={
+                            props.handleToggleMergeChildren
+                        }
+                    />
+                )}
                 <DeleteInstrumentSheetButton
                     sheetId={props.instrumentSheet.uuid}
-                    handleRemoveInstrumentSheets={props.handleRemoveInstrumentSheets}
+                    handleRemoveInstrumentSheets={
+                        props.handleRemoveInstrumentSheets
+                    }
                 />
-                <IconButton edge="end" aria-label="edit-instrument-voice" title="Stimme bearbeiten">
+                <IconButton
+                    edge="end"
+                    aria-label="edit-instrument-voice"
+                    title="Stimme bearbeiten"
+                >
                     <ChevronRightIcon />
                 </IconButton>
             </ListItemSecondaryAction>
         </ListItem>
     );
-}
+};
 
-function FileTypeIcon({type}) {
-    if (type === 'mxl') return < DescriptionIcon />;
+function FileTypeIcon({ type }) {
+    if (type === 'mxl') return <DescriptionIcon />;
     if (type === 'image') return <ImageIcon />;
     if (type === 'pdf') return <PictureAsPdfIcon />;
 
     return <WarningIcon />;
 }
 
-function CompletionStatus({instrumentSheet}) {
-    const [ completed, voicesReady, pagesReady ] = getCompletionStatus(instrumentSheet);
-    const voicesNames = voicesReady() ? instrumentSheet.voices.map(voice => voice.label).join(', ') : null;
+function CompletionStatus({ instrumentSheet }) {
+    const [completed, voicesReady, pagesReady] =
+        getCompletionStatus(instrumentSheet);
+    const voicesNames = voicesReady()
+        ? instrumentSheet.voices.map(voice => voice.label).join(', ')
+        : null;
     const labelText = () => {
         if (completed) return voicesNames;
-        if (voicesReady() && !pagesReady()) return voicesNames + ' --- Stimme noch bearbeiten! ';
+        if (voicesReady() && !pagesReady())
+            return voicesNames + ' --- Stimme noch bearbeiten! ';
         return 'Stimme noch nicht bearbeitet';
-    }
+    };
 
     return (
         <Chip
             icon={completed ? <CheckCircleIcon /> : <WarningIcon />}
             label={labelText()}
-            className={completed ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300' : 'px-6 cursor-pointer bg-grey-300'}
+            className={
+                completed
+                    ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300'
+                    : 'px-6 cursor-pointer bg-grey-300'
+            }
             title={`Zugewiesene Stimmen: ${voicesNames}`}
             id="completion-status"
         />
     );
 }
 
-function PageInformation({instrumentSheet}) {
+function PageInformation({ instrumentSheet }) {
     const pageCount = instrumentSheet.pages.length;
     const isDirty = instrumentSheet?.dirty ?? false;
     const showPagesCount = !isDirty && instrumentSheet.pages.length > 0;
-    return showPagesCount && (
-        <span>{`Seiten: ${pageCount}`}</span>
-    );
+    return showPagesCount && <span>{`Seiten: ${pageCount}`}</span>;
 }
 
 export default InstrumentSheetListItem;

@@ -3,18 +3,22 @@ import Button from '@material-ui/core/Button';
 
 const InitializeFromLocalPayload = props => {
     const inputEl = useRef(null);
-    const [ logMsg, setLogMsg ] = useState('');
-    const [ rawInitialData, setRawInitialData ] = useState(null);
+    const [logMsg, setLogMsg] = useState('');
+    const [rawInitialData, setRawInitialData] = useState(null);
 
     useEffect(() => {
         if (rawInitialData) {
-            setLogMsg(prev => prev += 'Try to initialize payload \n');
+            setLogMsg(prev => (prev += 'Try to initialize payload \n'));
             console.log('paylaod', rawInitialData);
             try {
                 props.handleMusicsheetEditData(rawInitialData);
             } catch (error) {
                 console.error(error);
-                setLogMsg(prev => prev += "Seems something's not right with the payload. Check errors in dev console. \n");
+                setLogMsg(
+                    prev =>
+                        (prev +=
+                            "Seems something's not right with the payload. Check errors in dev console. \n")
+                );
             }
         }
     }, [rawInitialData]);
@@ -26,9 +30,9 @@ const InitializeFromLocalPayload = props => {
         reader.onload = event => {
             const rawData = JSON.parse(event.target.result);
             setRawInitialData(rawData);
-        }
+        };
         reader.readAsText(file);
-    }
+    };
 
     const handleClick = () => {
         const file = inputEl.current.files[0];
@@ -38,7 +42,7 @@ const InitializeFromLocalPayload = props => {
         }
 
         initializeFromFile(file);
-    }
+    };
 
     return (
         <div className="mx-20 py-20">
@@ -60,6 +64,6 @@ const InitializeFromLocalPayload = props => {
             </div>
         </div>
     );
-}
+};
 
 export default InitializeFromLocalPayload;

@@ -21,9 +21,9 @@ const TextInput = props => {
                 required={props.required ?? false}
                 autoFocus={props.autoFocus ?? false}
             />
-            <InputErrorMessage msg={error?.msg} condition={showError}/>
+            <InputErrorMessage msg={error?.msg} condition={showError} />
         </div>
     );
-}
+};
 
 export default TextInput;

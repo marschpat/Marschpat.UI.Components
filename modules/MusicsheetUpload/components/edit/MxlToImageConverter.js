@@ -9,7 +9,7 @@ const defaultOsmdOptions = {
     drawTitle: false,
     drawSubtitle: false,
     skyBottomDistance: 3,
-    drawingParameters: "default",
+    drawingParameters: 'default',
 };
 
 const MxlToImageConverter = props => {
@@ -23,7 +23,7 @@ const MxlToImageConverter = props => {
         const options = props.osmdOptions ?? defaultOsmdOptions;
         removeRenderedOsmdImages();
         setOsmdOptions(options);
-    }, [props.osmdOptions])
+    }, [props.osmdOptions]);
 
     useEffect(() => {
         setIsLoading(true);
@@ -49,15 +49,29 @@ const MxlToImageConverter = props => {
             />
             {pageImages ? (
                 pageImages.map(img => (
-                    <div className="my-20 relative renderedOsmd" id={`renderedOsmdImage${img.pageNbr}`} key={Math.random()}>
-                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">Seite {img.pageNbr}</span>
+                    <div
+                        className="my-20 relative renderedOsmd"
+                        id={`renderedOsmdImage${img.pageNbr}`}
+                        key={Math.random()}
+                    >
+                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">
+                            Seite {img.pageNbr}
+                        </span>
                         <img src={img.data} className="border" />
                     </div>
                 ))
-            ) : <></>}
+            ) : (
+                <></>
+            )}
             <div
                 ref={osmdEl}
-                style={{width: "1448px", height: "1072px", position: 'absolute', visibility: 'hidden', marginLeft: '-99999px'}}
+                style={{
+                    width: '1448px',
+                    height: '1072px',
+                    position: 'absolute',
+                    visibility: 'hidden',
+                    marginLeft: '-99999px',
+                }}
             ></div>
 
             <LoadingModal open={isLoading}>
@@ -71,7 +85,7 @@ const MxlToImageConverter = props => {
 
     function osmdInit() {
         const options = {
-            backend: "canvas",
+            backend: 'canvas',
             autoResize: false,
             newPageFromXML: true,
             newSystemFromXML: true,
@@ -90,29 +104,35 @@ const MxlToImageConverter = props => {
         osmd.EngravingRules.VexFlowDefaultNotationFontScale = 39; // default. scales notes, including rests
         osmd.EngravingRules.VexFlowDefaultTabFontScale = 39; // default. doesn't seem to do anything for now
         osmd.EngravingRules.StemWidth = 0.15; // default. should probably be adjusted when increasing vexFlowDefaultNotationFontScale.
-        osmd.EngravingRules.StaffLineWidth = 0.10; //default. 1 pixels in vexflow. 2 pixels would be 0.20
+        osmd.EngravingRules.StaffLineWidth = 0.1; //default. 1 pixels in vexflow. 2 pixels would be 0.20
         osmd.EngravingRules.LedgerLineWidth = 1; // default. vexflow units (pixels).
         osmd.EngravingRules.LedgerLineStrokeStyle = undefined; // if not undefined, the vexflow default will be overwritten.
-        osmd.EngravingRules.LedgerLineColorDefault = "#000000"; // black, previously grey by default
+        osmd.EngravingRules.LedgerLineColorDefault = '#000000'; // black, previously grey by default
         osmd.rules.VexFlowDefaultNotationFontScale = 45; // default 39, 42 or 45 looks good to me
         osmd.rules.LedgerLineWidth = 2; // default around 1.2
-        osmd.rules.LedgerLineStrokeStyle = "#000000"; // color, default seems to be gray
-        osmd.rules.PerformanceMode = true;      // new performance mode since v1.0.0
+        osmd.rules.LedgerLineStrokeStyle = '#000000'; // color, default seems to be gray
+        osmd.rules.PerformanceMode = true; // new performance mode since v1.0.0
         osmd.rules.PageTopMargin = 0.2;
         osmd.rules.PageBottomMargin = 0.2;
         osmd.rules.PageLeftMargin = 0.2;
         osmd.rules.PageRightMargin = 0.2;
-        osmd.rules.MinimumDistanceBetweenSystems = 0.2  // set via osmdOption?
+        osmd.rules.MinimumDistanceBetweenSystems = 0.2; // set via osmdOption?
 
         // dynamically set from osmdOptions
-        osmd.rules.MinSkyBottomDistBetweenSystems = osmdOptions.skyBottomDistance;
+        osmd.rules.MinSkyBottomDistBetweenSystems =
+            osmdOptions.skyBottomDistance;
 
         osmd.setCustomPageFormat(1448, 1072);
 
         osmd.load(props.data)
             .then(() => renderOsmdImage(osmd))
             .then(() => removeCanvases())
-            .catch((e) => console.error('Error occured loading the Osmd in MxlToImageConverter', e));
+            .catch(e =>
+                console.error(
+                    'Error occured loading the Osmd in MxlToImageConverter',
+                    e
+                )
+            );
     }
 
     /**
@@ -146,7 +166,8 @@ const MxlToImageConverter = props => {
                 if (iteration === 1 && pageNbr !== 1) {
                     pageNbr = osmdImageCanvases.length;
                 }
-                const prevPageNbr = imagesFromOsmd[imagesFromOsmd.length - 1]?.pageNbr ?? 0;
+                const prevPageNbr =
+                    imagesFromOsmd[imagesFromOsmd.length - 1]?.pageNbr ?? 0;
                 if (pageNbr === prevPageNbr) {
                     pageNbr = iteration;
                 }
@@ -161,14 +182,18 @@ const MxlToImageConverter = props => {
                 });
                 pagesCount += 1;
             });
-            const sortedPageImages = imagesFromOsmd.sort((a, b) => a.pageNbr - b.pageNbr);
+            const sortedPageImages = imagesFromOsmd.sort(
+                (a, b) => a.pageNbr - b.pageNbr
+            );
             setPageImages(sortedPageImages);
             setPagesCount(pagesCount);
         } catch (e) {
             console.error('Error occured in MxlToImageConverter', e);
             setIsLoading(false);
             props.handleCloseOnError();
-            props.dispatchFlashMessage('MXL Datei fehlerhaft! Bitte überprüfe die MXL Datei. Ist es eine MXL Version 3.0 Datei?');
+            props.dispatchFlashMessage(
+                'MXL Datei fehlerhaft! Bitte überprüfe die MXL Datei. Ist es eine MXL Version 3.0 Datei?'
+            );
         }
     }
 
@@ -183,7 +208,7 @@ const MxlToImageConverter = props => {
     function changeCompactMode(value) {
         setOsmdOptions(options => ({
             ...options,
-            drawingParameters: value ? 'compacttight' : 'default',      // or `compact` ?
+            drawingParameters: value ? 'compacttight' : 'default', // or `compact` ?
         }));
     }
 
@@ -207,6 +232,6 @@ const MxlToImageConverter = props => {
         if (renderedBefore.length < 1) return;
         renderedBefore.forEach(div => div.remove());
     }
-}
+};
 
 export default MxlToImageConverter;

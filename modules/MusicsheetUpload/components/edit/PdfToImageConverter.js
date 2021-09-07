@@ -10,10 +10,10 @@ const PdfToImageConverter = props => {
     const [isLoading, setIsLoading] = useState(true);
     const renderPageNbr = async (pdf, pageNbr) => {
         setIsLoading(true);
-        const img = await renderPageAsImage(pdf, pageNbr)
+        const img = await renderPageAsImage(pdf, pageNbr);
         setImgSrc(img);
         setPageNbr(pageNbr);
-    }
+    };
 
     // Render the first page of the PDF Document for ImageCropper
     useEffect(() => {
@@ -26,7 +26,7 @@ const PdfToImageConverter = props => {
     // When pageNbr updates, render the corresponding page
     useEffect(() => {
         const newPageNbr = props.documentPageNbr;
-        if ((newPageNbr !== pageNbr) && pdfDocument) {
+        if (newPageNbr !== pageNbr && pdfDocument) {
             renderPageNbr(pdfDocument, newPageNbr);
         }
     }, [props.documentPageNbr]);
@@ -43,7 +43,11 @@ const PdfToImageConverter = props => {
             handlePageImageUpdate={props.handlePageImageUpdate}
             handleCropBoxOverrideForPages={props.handleCropBoxOverrideForPages}
         />
-    ) : <div style={{height: 584}}><LoadingBusyIndicator msg="PDF Seite wird geladen..." /></div>
-}
+    ) : (
+        <div style={{ height: 584 }}>
+            <LoadingBusyIndicator msg="PDF Seite wird geladen..." />
+        </div>
+    );
+};
 
 export default PdfToImageConverter;
