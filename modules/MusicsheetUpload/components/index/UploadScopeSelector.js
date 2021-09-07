@@ -20,10 +20,9 @@ const labelTexts = {
 };
 
 const UploadScopeSelector = props => {
-    const { implementationMode } = useContext(UploaderContext);
+    const { implementationMode, user, organisation } =
+        useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
-    const user = props.user;
-    const organisation = props.organisation;
     const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] =
         useHasUserRoles(user, organisation);
     const initialState = () =>

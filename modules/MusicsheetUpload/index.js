@@ -52,6 +52,8 @@ const MusicsheetUpload = props => {
                 value={{
                     implementationMode: props.implementationMode,
                     dispatchFlashMessage,
+                    user: props.user,
+                    organisation: props.organisation,
                 }}
             >
                 <EditModeInspector
@@ -61,10 +63,7 @@ const MusicsheetUpload = props => {
                 >
                     <FusePageSimple
                         content={
-                            <UsagePermissionCheck
-                                user={props.user}
-                                organisation={props.organisation}
-                            >
+                            <UsagePermissionCheck>
                                 <div className="my-20 px-16 sm:px-24">
                                     <MetaDataForm
                                         castOptions={castOptions}
@@ -81,8 +80,6 @@ const MusicsheetUpload = props => {
                                         }
                                     />
                                     <UploadScopeSelector
-                                        user={props.user}
-                                        organisation={props.organisation}
                                         initialScope={initialEdit?.uploadScope}
                                         userSubscriptionValidationRequired={
                                             false

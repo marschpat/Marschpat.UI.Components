@@ -9,10 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 
 const UsagePermissionCheck = props => {
-    const { implementationMode } = useContext(UploaderContext);
+    const { implementationMode, user, organisation } =
+        useContext(UploaderContext);
     const history = useHistory();
     const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] =
-        useHasUserRoles(props.user, props.organisation);
+        useHasUserRoles(user, organisation);
 
     function isAllowedToUse() {
         if (implementationMode === MP_WEB) {
