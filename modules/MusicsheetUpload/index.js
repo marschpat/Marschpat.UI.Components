@@ -20,7 +20,12 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
  * @param {object} props required props:
  * { user, organisation, implementationMode, dispatchFlashMessage }
  */
-const MusicsheetUpload = props => {
+const MusicsheetUpload = ({
+    user,
+    organisation,
+    implementationMode,
+    dispatchFlashMessage,
+}) => {
     const inDebugMode = useInDebugMode();
     const [errors, setErrors] = useState(null);
     const [sheetId, setSheetId] = useState(null);
@@ -32,7 +37,6 @@ const MusicsheetUpload = props => {
     const [openEdit, setOpenEdit] = useState(false);
     const [resetChildState, setResetChildState] = useState(false);
     const [agreedToLegalConsent, setAgreedToLegalConsent] = useState(false);
-    const dispatchFlashMessage = props.dispatchFlashMessage;
     const [
         castOptions,
         availableInstrumentVoices,
@@ -50,10 +54,10 @@ const MusicsheetUpload = props => {
         <div id="uploader-top">
             <UploaderContext.Provider
                 value={{
-                    implementationMode: props.implementationMode,
+                    user,
+                    organisation,
+                    implementationMode,
                     dispatchFlashMessage,
-                    user: props.user,
-                    organisation: props.organisation,
                 }}
             >
                 <EditModeInspector
