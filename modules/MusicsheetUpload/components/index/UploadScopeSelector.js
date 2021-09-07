@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
 import Radio from '@material-ui/core/Radio';
@@ -6,6 +6,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { UploaderContext } from '../../context/UploaderContext';
 
 const labelTexts = {
     [MP_WEB]: {
@@ -15,27 +16,29 @@ const labelTexts = {
     [MP_EDU]: {
         private: 'Für mich hochladen (privater Notenpool)',
         org: 'Für Musikschule Notenpool hochladen: ',
-    }
-}
+    },
+};
 
 const UploadScopeSelector = props => {
     const [uploadScope, setUploadScope] = useState('');
     const user = props.user;
     const organisation = props.organisation;
-    const [ hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin ] = useHasUserRoles(user, organisation);
-    const initialState = () => hasUserSubscribedRole() ? 'private' : 'organisation';
+    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] =
+        useHasUserRoles(user, organisation);
+    const initialState = () =>
+        hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
         if (props.implementationMode === MP_EDU) {
             return organisation && (user.isAdmin || user.isTeacher);
         }
 
         return isAdmin();
-	};
+    };
 
     // Set the initial uploadScope
     useEffect(() => {
-        setUploadScope(initialState)
-    }, [])
+        setUploadScope(initialState);
+    }, []);
 
     useEffect(() => {
         if (props.initialScope) {
@@ -46,16 +49,21 @@ const UploadScopeSelector = props => {
     // Handle uploadScope changes
     useEffect(() => {
         const apiUploadScopeMap = {
-            'public': { ownerType: 0, ownerId: 0 },
-            'organisation': { ownerType: 1, ownerId: organisation?.organisationId },
-            'private': { ownerType: 2, ownerId: 0 },
-        }
+            public: { ownerType: 0, ownerId: 0 },
+            organisation: {
+                ownerType: 1,
+                ownerId: organisation?.organisationId,
+            },
+            private: { ownerType: 2, ownerId: 0 },
+        };
         props.handleUploadScopeUpdate(apiUploadScopeMap[uploadScope]);
     }, [uploadScope]);
 
     return (
         <section className="mt-20">
-            <Typography variant="h6" className="font-bold">Zuordnung</Typography>
+            <Typography variant="h6" className="font-bold">
+                Zuordnung
+            </Typography>
             <FormControl component="fieldset" className="pl-24">
                 <RadioGroup
                     value={uploadScope}
@@ -68,21 +76,35 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[props.implementationMode].private}</Typography>}
+                            label={
+                                <Typography>
+                                    {
+                                        labelTexts[props.implementationMode]
+                                            .private
+                                    }
+                                </Typography>
+                            }
                             className="-mb-12"
                         />
                     )}
-                    {organisation && hasUserJumpSeatRole() && allowAdminActions() && (
-                        <FormControlLabel
-                            value="organisation"
-                            control={<Radio />}
-                            label={<Typography>{labelTexts[props.implementationMode].org + organisation?.name}</Typography>}
-                        />
-                    )}
+                    {organisation &&
+                        hasUserJumpSeatRole() &&
+                        allowAdminActions() && (
+                            <FormControlLabel
+                                value="organisation"
+                                control={<Radio />}
+                                label={
+                                    <Typography>
+                                        {labelTexts[props.implementationMode]
+                                            .org + organisation?.name}
+                                    </Typography>
+                                }
+                            />
+                        )}
                 </RadioGroup>
             </FormControl>
         </section>
     );
-}
+};
 
 export default UploadScopeSelector;

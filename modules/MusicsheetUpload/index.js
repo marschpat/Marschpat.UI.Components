@@ -3,6 +3,7 @@ import ReviewPages from './components/index/ReviewPages';
 import FileDropzone from './components/index/FileDropzone';
 import MetaDataForm from './components/index/MetaDataForm';
 import LegalConsent from './components/index/LegalConsent';
+import { UploaderContext } from './context/UploaderContext';
 import UsagePermissionCheck from './components/index/UsagePermissionCheck';
 import SubmitFinalPayload from './components/index/SubmitFinalPayload';
 import UploadScopeSelector from './components/index/UploadScopeSelector';
@@ -47,124 +48,134 @@ const MusicsheetUpload = props => {
 
     return (
         <div id="uploader-top">
-            <EditModeInspector
-                dispatchFlashMessage={props.dispatchFlashMessage}
-                handleSheetId={setSheetId}
-                handleInitialEditValues={setInitialEdit}
-                handleInstrumentSheets={setInstrumentSheets}
-            >
-                <FusePageSimple
-                    content={
-                        <UsagePermissionCheck
-                            user={props.user}
-                            organisation={props.organisation}
-                            implementationMode={props.implementationMode}
-                        >
-                            <div className="my-20 px-16 sm:px-24">
-                                <MetaDataForm
-                                    castOptions={castOptions}
-                                    resetState={resetChildState}
-                                    initialMetaData={initialEdit?.metaData}
-                                    castWarningRequired={
-                                        checkIfCastWarningMessageMayBeNeeded
-                                    }
-                                    implementationMode={
-                                        props.implementationMode
-                                    }
-                                    handleUpdateErrors={setErrors}
-                                    handleMetaDataUpdate={setMetaData}
-                                    handleCastChange={handleCastChange}
-                                    handleVoicesAssignementReset={
-                                        resetAllVoicesAssignements
-                                    }
-                                />
-                                <UploadScopeSelector
-                                    user={props.user}
-                                    organisation={props.organisation}
-                                    implementationMode={
-                                        props.implementationMode
-                                    }
-                                    initialScope={initialEdit?.uploadScope}
-                                    userSubscriptionValidationRequired={false}
-                                    handleUploadScopeUpdate={setUploadScope}
-                                />
-                                <InstrumentSheetsOverview
-                                    instrumentSheets={instrumentSheets}
-                                    availableVoices={availableInstrumentVoices}
-                                    dispatchFlashMessage={
-                                        props.dispatchFlashMessage
-                                    }
-                                    handleCastCheck={castIsSetOrError}
-                                    handleInstrumentSheetsUpdate={
-                                        setInstrumentSheets
-                                    }
-                                    handleRemoveInstrumentSheets={
-                                        removeInstrumentSheets
-                                    }
-                                    handleAssignedVoicesChange={
-                                        handleAvailableVoicesUpdate
-                                    }
-                                    handleOpenInstrumentSheetEdit={
-                                        toggleInstrumentSheetEditDialog
-                                    }
-                                />
-                                <FileDropzone
-                                    resetState={resetChildState}
-                                    handleInstrumentSheetsUpdate={
-                                        addNewInstrumentSheets
-                                    }
-                                />
-                                <LegalConsent
-                                    agreed={agreedToLegalConsent}
-                                    handleChange={() =>
-                                        setAgreedToLegalConsent(
-                                            !agreedToLegalConsent
-                                        )
-                                    }
-                                />
-                                <SubmitFinalPayload
-                                    errors={errors}
-                                    sheetId={sheetId}
-                                    metaData={metaData}
-                                    uploadScope={uploadScope}
-                                    instrumentSheets={instrumentSheets}
-                                    agreedToLegalConsent={agreedToLegalConsent}
-                                    implementationMode={
-                                        props.implementationMode
-                                    }
-                                    dispatchFlashMessage={
-                                        props.dispatchFlashMessage
-                                    }
-                                    handleReset={resetUploaderState}
-                                />
-                                {inDebugMode && (
-                                    <ReviewPages
-                                        instrumentSheets={instrumentSheets}
+            <UploaderContext.Provider value={'foo'}>
+                <EditModeInspector
+                    dispatchFlashMessage={props.dispatchFlashMessage}
+                    handleSheetId={setSheetId}
+                    handleInitialEditValues={setInitialEdit}
+                    handleInstrumentSheets={setInstrumentSheets}
+                >
+                    <FusePageSimple
+                        content={
+                            <UsagePermissionCheck
+                                user={props.user}
+                                organisation={props.organisation}
+                                implementationMode={props.implementationMode}
+                            >
+                                <div className="my-20 px-16 sm:px-24">
+                                    <MetaDataForm
+                                        castOptions={castOptions}
+                                        resetState={resetChildState}
+                                        initialMetaData={initialEdit?.metaData}
+                                        castWarningRequired={
+                                            checkIfCastWarningMessageMayBeNeeded
+                                        }
+                                        implementationMode={
+                                            props.implementationMode
+                                        }
+                                        handleUpdateErrors={setErrors}
+                                        handleMetaDataUpdate={setMetaData}
+                                        handleCastChange={handleCastChange}
+                                        handleVoicesAssignementReset={
+                                            resetAllVoicesAssignements
+                                        }
                                     />
-                                )}
-                            </div>
-                        </UsagePermissionCheck>
-                    }
-                />
-                {instrumentSheetInEdit && openEdit && (
-                    <InstrumentSheetEditDialog
-                        open={openEdit}
-                        castName={metaData?.castName}
-                        instrumentSheet={instrumentSheetInEdit}
-                        availableVoices={availableInstrumentVoices}
-                        dispatchFlashMessage={props.dispatchFlashMessage}
-                        handleClose={toggleInstrumentSheetEditDialog}
-                        handleInstrumentSheetUpdate={updateInstrumentSheet}
-                        handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                        handleNextInstrumentSheet={
-                            openNextAvailableInstrumentSheet
-                        }
-                        handleOriginalFileManipulation={
-                            manipulateInstrumentSheets
+                                    <UploadScopeSelector
+                                        user={props.user}
+                                        organisation={props.organisation}
+                                        implementationMode={
+                                            props.implementationMode
+                                        }
+                                        initialScope={initialEdit?.uploadScope}
+                                        userSubscriptionValidationRequired={
+                                            false
+                                        }
+                                        handleUploadScopeUpdate={setUploadScope}
+                                    />
+                                    <InstrumentSheetsOverview
+                                        instrumentSheets={instrumentSheets}
+                                        availableVoices={
+                                            availableInstrumentVoices
+                                        }
+                                        dispatchFlashMessage={
+                                            props.dispatchFlashMessage
+                                        }
+                                        handleCastCheck={castIsSetOrError}
+                                        handleInstrumentSheetsUpdate={
+                                            setInstrumentSheets
+                                        }
+                                        handleRemoveInstrumentSheets={
+                                            removeInstrumentSheets
+                                        }
+                                        handleAssignedVoicesChange={
+                                            handleAvailableVoicesUpdate
+                                        }
+                                        handleOpenInstrumentSheetEdit={
+                                            toggleInstrumentSheetEditDialog
+                                        }
+                                    />
+                                    <FileDropzone
+                                        resetState={resetChildState}
+                                        handleInstrumentSheetsUpdate={
+                                            addNewInstrumentSheets
+                                        }
+                                    />
+                                    <LegalConsent
+                                        agreed={agreedToLegalConsent}
+                                        handleChange={() =>
+                                            setAgreedToLegalConsent(
+                                                !agreedToLegalConsent
+                                            )
+                                        }
+                                    />
+                                    <SubmitFinalPayload
+                                        errors={errors}
+                                        sheetId={sheetId}
+                                        metaData={metaData}
+                                        uploadScope={uploadScope}
+                                        instrumentSheets={instrumentSheets}
+                                        agreedToLegalConsent={
+                                            agreedToLegalConsent
+                                        }
+                                        implementationMode={
+                                            props.implementationMode
+                                        }
+                                        dispatchFlashMessage={
+                                            props.dispatchFlashMessage
+                                        }
+                                        handleReset={resetUploaderState}
+                                    />
+                                    {inDebugMode && (
+                                        <ReviewPages
+                                            instrumentSheets={instrumentSheets}
+                                        />
+                                    )}
+                                </div>
+                            </UsagePermissionCheck>
                         }
                     />
-                )}
-            </EditModeInspector>
+                    {instrumentSheetInEdit && openEdit && (
+                        <InstrumentSheetEditDialog
+                            open={openEdit}
+                            castName={metaData?.castName}
+                            instrumentSheet={instrumentSheetInEdit}
+                            availableVoices={availableInstrumentVoices}
+                            dispatchFlashMessage={props.dispatchFlashMessage}
+                            handleClose={toggleInstrumentSheetEditDialog}
+                            handleInstrumentSheetUpdate={updateInstrumentSheet}
+                            handleAssignedVoicesChange={
+                                handleAvailableVoicesUpdate
+                            }
+                            handleNextInstrumentSheet={
+                                openNextAvailableInstrumentSheet
+                            }
+                            handleOriginalFileManipulation={
+                                manipulateInstrumentSheets
+                            }
+                        />
+                    )}
+                </EditModeInspector>
+            </UploaderContext.Provider>
         </div>
     );
 
