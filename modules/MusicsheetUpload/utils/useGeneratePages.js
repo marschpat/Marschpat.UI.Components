@@ -47,15 +47,16 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
     async function getPagesArrayFromInstrumentSheet() {
         const pagesPerOriginalFiles = {
             newPages: [],
-            existingPages: []
+            existingPages: [],
         };
 
-        // Workaround to get the `index` with the new ES6 loop syntax
         for (const [index, origFile] of originalFiles.entries()) {
             const hasPages = originalFileHasExistingPages(origFile.uuid);
             const hasPreviews = originalFileHasPreviews(origFile.uuid);
 
-            // it has pages (and previews), copy them later
+            // it has pages (and previews), copy them later.
+            // btw: check for previews is only needed because of
+            // "edit old musicsheets in MARSCHPAT (Marching) Web App".
             if (hasPages && hasPreviews) {
                 pagesPerOriginalFiles.existingPages.push(origFile.uuid);
                 continue;
@@ -63,7 +64,11 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
 
             // it doesn't has pages, add new onews
             const supportedType = supportedTypes.includes(origFile.type);
-            let pagesFromOrigFile = { previews: [], origFileIndex: 1, pagesCount: 1 };
+            let pagesFromOrigFile = {
+                previews: [],
+                origFileIndex: 1,
+                pagesCount: 1,
+            };
 
             // Generate the appropiate pages depending on originalFile type
             if (origFile.type === 'pdf' && supportedType) {
@@ -73,14 +78,18 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                 pagesFromOrigFile = await getImagePreview(origFile);
             }
             if (origFile.type === 'mxl' && supportedType) {
-                pagesFromOrigFile = { previews: [], origFileIndex: 1, pagesCount: 1 };
+                pagesFromOrigFile = {
+                    previews: [],
+                    origFileIndex: 1,
+                    pagesCount: 1,
+                };
             }
 
             pagesPerOriginalFiles.newPages.push({
                 previews: pagesFromOrigFile.previews,
                 preRenderedImages: pagesFromOrigFile.preRenderedImages ?? null,
                 origFileIndex: index,
-                pagesCount: pagesFromOrigFile.pagesCount
+                pagesCount: pagesFromOrigFile.pagesCount,
             });
         }
 
@@ -88,7 +97,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
 
         return {
             pagesArray: finalPagesArray.pagesArray,
-            previews: finalPagesArray.previews
+            previews: finalPagesArray.previews,
         };
     }
 
@@ -120,7 +129,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             if (instrumentSheet.previews) {
                 const previewsCopy = instrumentSheet.previews.map((preview, index) => ({
                     ...preview,
-                    pageNbr: pageNbr + index
+                    pageNbr: pageNbr + index,
                 }));
                 previews.push(...previewsCopy);
             }
@@ -154,7 +163,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                         pageNbr,
                         documentPageNbr,
                         orientation: 'landscape',
-                        belongsToOrigFile: originalFiles[origFileIndex].uuid
+                        belongsToOrigFile: originalFiles[origFileIndex].uuid,
                     });
 
                     const preview = newPageCandidate.previews[i];
@@ -189,9 +198,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             previews: [
                 {
                     pageNbr: currentPageNbr,
-                    thumbnail: thumbnailData
-                }
-            ]
+                    thumbnail: thumbnailData,
+                },
+            ],
         };
         setCurrentPageNbr(currentPageNbr + 1);
 
@@ -220,7 +229,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         return {
             pagesCount: numberOfPages,
             previews: pagesPreviews,
-            preRenderedImages
+            preRenderedImages,
         };
     }
 };
