@@ -20,6 +20,7 @@ const labelTexts = {
 };
 
 const UploadScopeSelector = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
     const user = props.user;
     const organisation = props.organisation;
@@ -28,7 +29,7 @@ const UploadScopeSelector = props => {
     const initialState = () =>
         hasUserSubscribedRole() ? 'private' : 'organisation';
     const allowAdminActions = () => {
-        if (props.implementationMode === MP_EDU) {
+        if (implementationMode === MP_EDU) {
             return organisation && (user.isAdmin || user.isTeacher);
         }
 
@@ -78,10 +79,7 @@ const UploadScopeSelector = props => {
                             control={<Radio />}
                             label={
                                 <Typography>
-                                    {
-                                        labelTexts[props.implementationMode]
-                                            .private
-                                    }
+                                    {labelTexts[implementationMode].private}
                                 </Typography>
                             }
                             className="-mb-12"
@@ -95,8 +93,8 @@ const UploadScopeSelector = props => {
                                 control={<Radio />}
                                 label={
                                     <Typography>
-                                        {labelTexts[props.implementationMode]
-                                            .org + organisation?.name}
+                                        {labelTexts[implementationMode].org +
+                                            organisation?.name}
                                     </Typography>
                                 }
                             />

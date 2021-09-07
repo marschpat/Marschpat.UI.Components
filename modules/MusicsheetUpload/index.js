@@ -48,7 +48,9 @@ const MusicsheetUpload = props => {
 
     return (
         <div id="uploader-top">
-            <UploaderContext.Provider value={'foo'}>
+            <UploaderContext.Provider
+                value={{ implementationMode: props.implementationMode }}
+            >
                 <EditModeInspector
                     dispatchFlashMessage={props.dispatchFlashMessage}
                     handleSheetId={setSheetId}
@@ -83,9 +85,6 @@ const MusicsheetUpload = props => {
                                     <UploadScopeSelector
                                         user={props.user}
                                         organisation={props.organisation}
-                                        implementationMode={
-                                            props.implementationMode
-                                        }
                                         initialScope={initialEdit?.uploadScope}
                                         userSubscriptionValidationRequired={
                                             false
