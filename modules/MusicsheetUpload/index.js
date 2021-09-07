@@ -62,7 +62,6 @@ const MusicsheetUpload = props => {
                             <UsagePermissionCheck
                                 user={props.user}
                                 organisation={props.organisation}
-                                implementationMode={props.implementationMode}
                             >
                                 <div className="my-20 px-16 sm:px-24">
                                     <MetaDataForm
@@ -71,9 +70,6 @@ const MusicsheetUpload = props => {
                                         initialMetaData={initialEdit?.metaData}
                                         castWarningRequired={
                                             checkIfCastWarningMessageMayBeNeeded
-                                        }
-                                        implementationMode={
-                                            props.implementationMode
                                         }
                                         handleUpdateErrors={setErrors}
                                         handleMetaDataUpdate={setMetaData}
@@ -135,9 +131,6 @@ const MusicsheetUpload = props => {
                                         instrumentSheets={instrumentSheets}
                                         agreedToLegalConsent={
                                             agreedToLegalConsent
-                                        }
-                                        implementationMode={
-                                            props.implementationMode
                                         }
                                         dispatchFlashMessage={
                                             props.dispatchFlashMessage

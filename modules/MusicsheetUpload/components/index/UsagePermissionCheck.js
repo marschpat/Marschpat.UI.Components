@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import { UploaderContext } from '../../context/UploaderContext';
 import { MP_WEB } from '../../utils/ImplementationModesLookup';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
 import Card from '@material-ui/core/Card';
@@ -8,12 +9,13 @@ import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
 
 const UsagePermissionCheck = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const history = useHistory();
     const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] =
         useHasUserRoles(props.user, props.organisation);
 
     function isAllowedToUse() {
-        if (props.implementationMode === MP_WEB) {
+        if (implementationMode === MP_WEB) {
             return (
                 hasUserSubscribedRole() || (hasUserJumpSeatRole() && isAdmin())
             );

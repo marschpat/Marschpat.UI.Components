@@ -134,7 +134,6 @@ const SubmitFinalPayload = props => {
                 hasError={hasError}
                 totalSize={totalUploadSize}
                 progress={uploadProgress}
-                implementationMode={props.implementationMode}
                 handleUploaderReset={resetUploader}
                 handleSubmitPayloadReset={resetSubmitPayload}
             />

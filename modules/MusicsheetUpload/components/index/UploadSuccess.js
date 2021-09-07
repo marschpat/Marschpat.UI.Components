@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UploaderContext } from '../../context/UploaderContext';
 import { clientRoutes } from '../../utils/ImplementationModesLookup';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -7,6 +8,8 @@ import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const UploadSuccess = props => {
+    const { implementationMode } = useContext(UploaderContext);
+
     return (
         <div className="w-full flex flex-col items-center">
             <Typography className="text-40 text-center" color="primary">
@@ -26,10 +29,7 @@ const UploadSuccess = props => {
                     <div className="mt-16 w-full flex justify-around">
                         <Button
                             component={Link}
-                            to={
-                                clientRoutes[props.implementationMode]
-                                    .musiclibrary
-                            }
+                            to={clientRoutes[implementationMode].musiclibrary}
                             variant="contained"
                             color="primary"
                         >

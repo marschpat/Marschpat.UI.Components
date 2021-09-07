@@ -18,7 +18,6 @@ const UploadModal = props => {
             ) : (
                 <UploadSuccess
                     hasError={props.hasError}
-                    implementationMode={props.implementationMode}
                     handleUploaderReset={props.handleUploaderReset}
                     handleSubmitPayloadReset={props.handleSubmitPayloadReset}
                 />
