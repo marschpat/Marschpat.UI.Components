@@ -37,7 +37,7 @@ const MusicsheetUpload = props => {
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset
+        handleAvailableVoicesReset,
     ] = useAvailableInstrumentVoices(instrumentSheets);
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
@@ -65,17 +65,25 @@ const MusicsheetUpload = props => {
                                     castOptions={castOptions}
                                     resetState={resetChildState}
                                     initialMetaData={initialEdit?.metaData}
-                                    castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
-                                    implementationMode={props.implementationMode}
+                                    castWarningRequired={
+                                        checkIfCastWarningMessageMayBeNeeded
+                                    }
+                                    implementationMode={
+                                        props.implementationMode
+                                    }
                                     handleUpdateErrors={setErrors}
                                     handleMetaDataUpdate={setMetaData}
                                     handleCastChange={handleCastChange}
-                                    handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                    handleVoicesAssignementReset={
+                                        resetAllVoicesAssignements
+                                    }
                                 />
                                 <UploadScopeSelector
                                     user={props.user}
                                     organisation={props.organisation}
-                                    implementationMode={props.implementationMode}
+                                    implementationMode={
+                                        props.implementationMode
+                                    }
                                     initialScope={initialEdit?.uploadScope}
                                     userSubscriptionValidationRequired={false}
                                     handleUploadScopeUpdate={setUploadScope}
@@ -83,20 +91,36 @@ const MusicsheetUpload = props => {
                                 <InstrumentSheetsOverview
                                     instrumentSheets={instrumentSheets}
                                     availableVoices={availableInstrumentVoices}
-                                    dispatchFlashMessage={props.dispatchFlashMessage}
+                                    dispatchFlashMessage={
+                                        props.dispatchFlashMessage
+                                    }
                                     handleCastCheck={castIsSetOrError}
-                                    handleInstrumentSheetsUpdate={setInstrumentSheets}
-                                    handleRemoveInstrumentSheets={removeInstrumentSheets}
-                                    handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                                    handleOpenInstrumentSheetEdit={toggleInstrumentSheetEditDialog}
+                                    handleInstrumentSheetsUpdate={
+                                        setInstrumentSheets
+                                    }
+                                    handleRemoveInstrumentSheets={
+                                        removeInstrumentSheets
+                                    }
+                                    handleAssignedVoicesChange={
+                                        handleAvailableVoicesUpdate
+                                    }
+                                    handleOpenInstrumentSheetEdit={
+                                        toggleInstrumentSheetEditDialog
+                                    }
                                 />
                                 <FileDropzone
                                     resetState={resetChildState}
-                                    handleInstrumentSheetsUpdate={addNewInstrumentSheets}
+                                    handleInstrumentSheetsUpdate={
+                                        addNewInstrumentSheets
+                                    }
                                 />
                                 <LegalConsent
                                     agreed={agreedToLegalConsent}
-                                    handleChange={() => setAgreedToLegalConsent(!agreedToLegalConsent)}
+                                    handleChange={() =>
+                                        setAgreedToLegalConsent(
+                                            !agreedToLegalConsent
+                                        )
+                                    }
                                 />
                                 <SubmitFinalPayload
                                     errors={errors}
@@ -105,11 +129,19 @@ const MusicsheetUpload = props => {
                                     uploadScope={uploadScope}
                                     instrumentSheets={instrumentSheets}
                                     agreedToLegalConsent={agreedToLegalConsent}
-                                    implementationMode={props.implementationMode}
-                                    dispatchFlashMessage={props.dispatchFlashMessage}
+                                    implementationMode={
+                                        props.implementationMode
+                                    }
+                                    dispatchFlashMessage={
+                                        props.dispatchFlashMessage
+                                    }
                                     handleReset={resetUploaderState}
                                 />
-                                {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
+                                {inDebugMode && (
+                                    <ReviewPages
+                                        instrumentSheets={instrumentSheets}
+                                    />
+                                )}
                             </div>
                         </UsagePermissionCheck>
                     }
@@ -124,8 +156,12 @@ const MusicsheetUpload = props => {
                         handleClose={toggleInstrumentSheetEditDialog}
                         handleInstrumentSheetUpdate={updateInstrumentSheet}
                         handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                        handleNextInstrumentSheet={openNextAvailableInstrumentSheet}
-                        handleOriginalFileManipulation={manipulateInstrumentSheets}
+                        handleNextInstrumentSheet={
+                            openNextAvailableInstrumentSheet
+                        }
+                        handleOriginalFileManipulation={
+                            manipulateInstrumentSheets
+                        }
                     />
                 )}
             </EditModeInspector>
@@ -158,9 +194,14 @@ const MusicsheetUpload = props => {
     function addNewInstrumentSheets(sheets) {
         if (sheets.length < 1) return;
         setInstrumentSheets(prevSheets => {
-            const existingFileNames = prevSheets.flatMap(sheet => sheet.origFiles.map(orig => orig.name));
+            const existingFileNames = prevSheets.flatMap(sheet =>
+                sheet.origFiles.map(orig => orig.name)
+            );
             const newSheets = sheets.filter(
-                sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1)
+                sheet =>
+                    !sheet.origFiles.some(
+                        file => existingFileNames.indexOf(file.name) !== -1
+                    )
             );
 
             return [...prevSheets, ...newSheets];
@@ -176,7 +217,9 @@ const MusicsheetUpload = props => {
         if ('dirty' in instrumentSheet) {
             instrumentSheet.dirty = false;
         }
-        const existingIndex = newSheets.findIndex(sheet => sheet.uuid === instrumentSheet.uuid);
+        const existingIndex = newSheets.findIndex(
+            sheet => sheet.uuid === instrumentSheet.uuid
+        );
         if (existingIndex >= 0) {
             newSheets[existingIndex] = instrumentSheet;
         } else {
@@ -194,7 +237,11 @@ const MusicsheetUpload = props => {
         setInstrumentSheets(prev => {
             return prev
                 .concat(manipulation.add)
-                .map(sheet => (sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet));
+                .map(sheet =>
+                    sheet.uuid === manipulation.replacement.uuid
+                        ? manipulation.replacement
+                        : sheet
+                );
         });
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
@@ -219,7 +266,10 @@ const MusicsheetUpload = props => {
     }
 
     function checkIfCastWarningMessageMayBeNeeded() {
-        if (instrumentSheets.length > 0 && instrumentSheets.some(sheet => sheet.voices.length > 0)) {
+        if (
+            instrumentSheets.length > 0 &&
+            instrumentSheets.some(sheet => sheet.voices.length > 0)
+        ) {
             return true;
         }
 
@@ -227,7 +277,8 @@ const MusicsheetUpload = props => {
     }
 
     function castIsSetOrError() {
-        const castError = errors.find(error => error.attrName === 'cast') ?? false;
+        const castError =
+            errors.find(error => error.attrName === 'cast') ?? false;
         if (castError) {
             dispatchFlashMessage(castError.msg, 'error');
             return false;
@@ -241,17 +292,25 @@ const MusicsheetUpload = props => {
      */
     function resetAllVoicesAssignements() {
         if (instrumentSheets.length < 1) return;
-        setInstrumentSheets(prevSheets => prevSheets.map(sheet => ({ ...sheet, voices: [] })));
+        setInstrumentSheets(prevSheets =>
+            prevSheets.map(sheet => ({ ...sheet, voices: [] }))
+        );
     }
 
     /**
      * Open the next available instrumentSheet, depending on the direction (next or previous)
      */
     function openNextAvailableInstrumentSheet(direction) {
-        const existingIndex = instrumentSheets.findIndex(sheet => sheet.uuid === instrumentSheetInEdit.uuid);
-        const candidate = direction === 'next' ? existingIndex + 1 : existingIndex - 1;
-        const fallbackIndex = direction === 'next' ? 0 : instrumentSheets.length - 1;
-        const newIndex = instrumentSheets[candidate] ? candidate : fallbackIndex;
+        const existingIndex = instrumentSheets.findIndex(
+            sheet => sheet.uuid === instrumentSheetInEdit.uuid
+        );
+        const candidate =
+            direction === 'next' ? existingIndex + 1 : existingIndex - 1;
+        const fallbackIndex =
+            direction === 'next' ? 0 : instrumentSheets.length - 1;
+        const newIndex = instrumentSheets[candidate]
+            ? candidate
+            : fallbackIndex;
         setInstrumentSheetInEdit(instrumentSheets[newIndex]);
     }
 };
