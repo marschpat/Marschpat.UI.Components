@@ -3,26 +3,33 @@ import axios from 'axios';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const ChooseOrCreateSelector = props => {
-    const [ selected, setSelected ] = useState(null);
-    const [ options, setOptions ] = useState(null);
+    const [selected, setSelected] = useState(null);
+    const [options, setOptions] = useState(null);
     const handleChange = newSelected => {
         setSelected(newSelected);
         props.handleSelectedChange({
             id: newSelected.value !== newSelected.label ? newSelected.value : 0,
-            name: newSelected.label
+            name: newSelected.label,
         });
-    }
+    };
 
     // only fetch options if fetchOptionsUrl is provided
     useEffect(() => {
         if (props.fetchOptionsUrl) {
-            axios.get(props.fetchOptionsUrl)
+            axios
+                .get(props.fetchOptionsUrl)
                 .then(response => {
-                    const fetchOptions = response.data?.map(item => ({ value: item.id, label: item[props.labelAttr] }));
+                    const fetchOptions = response.data?.map(item => ({
+                        value: item.id,
+                        label: item[props.labelAttr],
+                    }));
                     setOptions(fetchOptions);
                 })
                 .catch(error => {
-                    console.error(`Fetching options from GET ${props.fetchOptionsUrl} failed with an error.`, error);
+                    console.error(
+                        `Fetching options from GET ${props.fetchOptionsUrl} failed with an error.`,
+                        error
+                    );
                 });
         }
     }, []);
@@ -36,7 +43,9 @@ const ChooseOrCreateSelector = props => {
 
         // set non-custom option
         if (options && props.initialValue) {
-            const initialItem = options.find(item => item.value === props.initialValue);
+            const initialItem = options.find(
+                item => item.value === props.initialValue
+            );
             setSelected(initialItem);
         }
     }, [options, props.initialValue, props.initialCustomOption]);
@@ -64,11 +73,11 @@ const ChooseOrCreateSelector = props => {
             textFieldProps={{
                 label: props.label,
                 InputLabelProps: { shrink: true },
-                variant: 'outlined'
+                variant: 'outlined',
             }}
             id={props.label ? props.label.toLowerCase() : Math.random()}
         />
     );
-}
+};
 
 export default ChooseOrCreateSelector;

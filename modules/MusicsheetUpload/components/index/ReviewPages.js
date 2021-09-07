@@ -4,7 +4,8 @@ const ReviewPages = props => {
     const instrumentSheets = props.instrumentSheets;
     const [sheetIndex, setSheetIndex] = useState(0);
     const [pageIndex, setPageIndex] = useState(0);
-    const type = instrumentSheets[sheetIndex]?.pages[pageIndex]?.type ?? 'image';
+    const type =
+        instrumentSheets[sheetIndex]?.pages[pageIndex]?.type ?? 'image';
 
     return (
         <div className="mb-52">
@@ -13,7 +14,7 @@ const ReviewPages = props => {
                 <div className="flex flex-col">
                     <label htmlFor="sheetIndex">InstrumentSheet Index</label>
                     <input
-                        onChange={(e) => setSheetIndex(e.target.value)}
+                        onChange={e => setSheetIndex(e.target.value)}
                         value={sheetIndex}
                         type="number"
                         name="sheetIndex"
@@ -24,7 +25,7 @@ const ReviewPages = props => {
                 <div className="ml-48 flex flex-col">
                     <label htmlFor="pageIndex">Page Index</label>
                     <input
-                        onChange={(e) => setPageIndex(e.target.value)}
+                        onChange={e => setPageIndex(e.target.value)}
                         value={pageIndex}
                         type="number"
                         name="pageIndex"
@@ -35,16 +36,26 @@ const ReviewPages = props => {
             </div>
             <div className="mt-24 border">
                 {type !== 'mxl' ? (
-                    <img src={instrumentSheets[sheetIndex]?.pages[pageIndex]?.pageData} />
+                    <img
+                        src={
+                            instrumentSheets[sheetIndex]?.pages[pageIndex]
+                                ?.pageData
+                        }
+                    />
                 ) : (
                     <div>
                         MXLLLLL
-                        <img src={instrumentSheets[sheetIndex]?.pages[0]?.pageData[pageIndex]?.data} />
+                        <img
+                            src={
+                                instrumentSheets[sheetIndex]?.pages[0]
+                                    ?.pageData[pageIndex]?.data
+                            }
+                        />
                     </div>
                 )}
             </div>
         </div>
     );
-}
+};
 
 export default ReviewPages;

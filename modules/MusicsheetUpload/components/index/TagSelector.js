@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { apiRoutes } from '../../utils/ImplementationModesLookup'
+import { apiRoutes } from '../../utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {
@@ -9,22 +9,27 @@ const TagSelector = props => {
     const GET_tags = apiRoutes[props.implementationMode].musiclibrary;
 
     useEffect(() => {
-        const request = axios.get(GET_tags)
+        const request = axios
+            .get(GET_tags)
             .then(response => {
                 setTagOptions(mapTags(response.data));
             })
             .catch(error => {
-                console.error('Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.', error);
+                console.error(
+                    'Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.',
+                    error
+                );
             });
     }, []);
 
     useEffect(() => {
         if (tagOptions && props.initialTags && !selectedTags) {
-            const initialItems = props.initialTags.map(initTag => tagOptions.find(item => item.value === initTag.tagID));
+            const initialItems = props.initialTags.map(initTag =>
+                tagOptions.find(item => item.value === initTag.tagID)
+            );
             setSelectedTags(initialItems);
         }
-
-    }, [tagOptions, props.initialTags])
+    }, [tagOptions, props.initialTags]);
 
     useEffect(() => {
         props.handleTagsChange(selectedTags);
@@ -45,14 +50,14 @@ const TagSelector = props => {
             textFieldProps={{
                 label: 'Kategorie',
                 InputLabelProps: {
-                    shrink: true
+                    shrink: true,
                 },
-                variant: 'outlined'
+                variant: 'outlined',
             }}
             options={tagOptions}
             error={false}
             isMulti
-            variant='fixed'
+            variant="fixed"
             id="tags"
         />
     );
@@ -64,6 +69,6 @@ const TagSelector = props => {
             ...item,
         }));
     }
-}
+};
 
 export default TagSelector;

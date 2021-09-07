@@ -12,6 +12,6 @@ const useInDebugMode = () => {
     }, []);
 
     return inDebug;
-}
+};
 
 export default useInDebugMode;

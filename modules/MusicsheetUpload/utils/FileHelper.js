@@ -1,14 +1,15 @@
 import { v4 as uuidv4 } from 'uuid';
 
 class FileHelper {
-
     /**
      * Validates if given file is any of the accepted file types
      */
     static validateFileExtension(file, acceptedFileExtensions) {
         if (!file.name) return false;
         const fileExtension = file.name.split('.').pop().toLowerCase();
-        const allowedExtensions = acceptedFileExtensions.map(el => el.substring(1));
+        const allowedExtensions = acceptedFileExtensions.map(el =>
+            el.substring(1)
+        );
 
         if (allowedExtensions.includes(fileExtension)) {
             return true;
@@ -16,7 +17,9 @@ class FileHelper {
 
         // implement file.type validtion. but it seems .mxl and .musicxml
         // files most of the time have not a proper file type setup.
-        console.error('FileHelper: Invalid file extension provided: ' + fileExtension);
+        console.error(
+            'FileHelper: Invalid file extension provided: ' + fileExtension
+        );
         return false;
     }
 
@@ -26,14 +29,14 @@ class FileHelper {
      */
     static populateFileObject(file) {
         const typeMap = {
-            'mxl': ['mxl', 'musicxml'],
-            'image': ['png', 'jpg', 'jpeg'],
-            'pdf': ['pdf'],
+            mxl: ['mxl', 'musicxml'],
+            image: ['png', 'jpg', 'jpeg'],
+            pdf: ['pdf'],
         };
         const fileExtension = file.name.split('.').pop().toLowerCase();
         let extensionType = null;
         for (const type in typeMap) {
-            if(typeMap[type].includes(fileExtension)) {
+            if (typeMap[type].includes(fileExtension)) {
                 extensionType = type;
             }
         }
@@ -41,7 +44,7 @@ class FileHelper {
         return {
             uuid: uuidv4(),
             file,
-            extensionType
+            extensionType,
         };
     }
 
@@ -52,14 +55,23 @@ class FileHelper {
     static updateMxlMimeTypeInDataString(fileObject) {
         const mxlFileTypes = ['mxl'];
         const musicXmlFileTypes = ['musicxml'];
-        const fileExtension = fileObject.file.name.split('.').pop().toLowerCase();
+        const fileExtension = fileObject.file.name
+            .split('.')
+            .pop()
+            .toLowerCase();
 
         if (mxlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/mxl;');
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(
+                /data:(.*);/,
+                'data:application/mxl;'
+            );
         }
 
         if (musicXmlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/musicxml;');
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(
+                /data:(.*);/,
+                'data:application/musicxml;'
+            );
         }
 
         return fileObject;
@@ -69,7 +81,7 @@ class FileHelper {
      * Read the file as base64 dataUri string (dataUrl)
      * @param {object} fileObject
      * @returns
-    */
+     */
     static readFileAsDataUrl(fileObject) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -79,9 +91,15 @@ class FileHelper {
                     ...fileObject,
                     dataUrlString: reader.result,
                 });
-            }
-            reader.onabort = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
-            reader.onerror = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
+            };
+            reader.onabort = () =>
+                reject(
+                    'Error FileHelper.readFileAsDataUrl(): file reading was aborted'
+                );
+            reader.onerror = () =>
+                reject(
+                    'Error FileHelper.readFileAsDataUrl(): file reading was aborted'
+                );
         });
     }
 
@@ -89,7 +107,7 @@ class FileHelper {
      * Read the file as binary string (blob)
      * @param {object} fileObject
      * @returns
-    */
+     */
     static readAsBinaryString(fileObject) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -100,9 +118,11 @@ class FileHelper {
                     dataUrlString: null,
                     blob: reader.result,
                 });
-            }
-            reader.onabort = () => reject('Error FileHelper.readAsBinaryString()');
-            reader.onerror = (e) => reject('Error FileHelper.readAsBinaryString()');
+            };
+            reader.onabort = () =>
+                reject('Error FileHelper.readAsBinaryString()');
+            reader.onerror = e =>
+                reject('Error FileHelper.readAsBinaryString()');
         });
     }
 
@@ -113,10 +133,10 @@ class FileHelper {
         return {
             file: { name },
             extensionType,
-            dataUrlString: (extensionType === 'mxl') ? null : data,
-            blob: (extensionType === 'mxl') ? data : null,
+            dataUrlString: extensionType === 'mxl' ? null : data,
+            blob: extensionType === 'mxl' ? data : null,
             uuid: uuidv4(),
-        }
+        };
     }
 
     /**
@@ -129,10 +149,10 @@ class FileHelper {
             const reader = new FileReader();
             reader.readAsBinaryString(fileAsDataUri);
             reader.onload = () => {
-                resolve(reader.result)
+                resolve(reader.result);
             };
-            reader.onerror = (error) => {
-                reject(error)
+            reader.onerror = error => {
+                reject(error);
             };
         });
 

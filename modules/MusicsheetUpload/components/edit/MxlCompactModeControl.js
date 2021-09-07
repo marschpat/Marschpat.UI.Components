@@ -9,7 +9,7 @@ const MxlCompactModeControl = props => {
         const value = !compactMode;
         setCompactMode(value);
         props.handleCompactModeChange(value);
-    }
+    };
 
     return (
         <div>
@@ -24,6 +24,6 @@ const MxlCompactModeControl = props => {
             </TooltipStyled>
         </div>
     );
-}
+};
 
 export default MxlCompactModeControl;

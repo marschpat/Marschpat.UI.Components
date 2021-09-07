@@ -13,25 +13,27 @@ const InstrumentSheetEditDialog = props => {
     const handleClose = e => {
         setOpen(false);
         props.handleClose();
-    }
+    };
 
-    return open && (
-        <Dialog
-            fullScreen
-            open={open}
-            onClose={handleClose}
-            TransitionComponent={Transition}
-        >
-            <InstrumentSheetFullscreenHeader
-                name={props.instrumentSheet?.origFiles[0].name}
-                type={props.instrumentSheet?.origFiles[0].type}
-                handleClose={handleClose}
-            />
-            <div className="mt-24 px-24 py-84">
-                <InstrumentSheetEditor { ...props } />
-            </div>
-        </Dialog>
+    return (
+        open && (
+            <Dialog
+                fullScreen
+                open={open}
+                onClose={handleClose}
+                TransitionComponent={Transition}
+            >
+                <InstrumentSheetFullscreenHeader
+                    name={props.instrumentSheet?.origFiles[0].name}
+                    type={props.instrumentSheet?.origFiles[0].type}
+                    handleClose={handleClose}
+                />
+                <div className="mt-24 px-24 py-84">
+                    <InstrumentSheetEditor {...props} />
+                </div>
+            </Dialog>
+        )
     );
-}
+};
 
 export default InstrumentSheetEditDialog;

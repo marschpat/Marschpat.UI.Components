@@ -9,7 +9,7 @@ const MxlTitleControl = props => {
         const value = !showTitle;
         setShowTitle(value);
         props.handleShowTitleChange(value);
-    }
+    };
 
     return (
         <div className="ml-20">
@@ -24,6 +24,6 @@ const MxlTitleControl = props => {
             </TooltipStyled>
         </div>
     );
-}
+};
 
 export default MxlTitleControl;

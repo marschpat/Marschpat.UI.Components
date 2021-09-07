@@ -4,11 +4,10 @@ import SkipNextIcon from '@material-ui/icons/SkipNext';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 
 const NextPreviousVoice = props => {
-
     return (
         <div className="flex justify-end">
             <Button
-                onClick={(e) => props.handleNextInstrumentSheet(e, 'previous')}
+                onClick={e => props.handleNextInstrumentSheet(e, 'previous')}
                 variant="contained"
                 color="secondary"
                 className="text-white mr-10"
@@ -29,6 +28,6 @@ const NextPreviousVoice = props => {
             </Button>
         </div>
     );
-}
+};
 
 export default NextPreviousVoice;

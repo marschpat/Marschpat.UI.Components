@@ -13,7 +13,8 @@ const initialMetaData = require('../../metaData.initial.json');
 const MetaDataForm = props => {
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors();
+    const [errors, checkIfError, validateRequiredFields] =
+        useValidationErrors();
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
@@ -22,19 +23,19 @@ const MetaDataForm = props => {
     // Handle metaData change
     useEffect(() => {
         handleDebouncedMetaDataUpdate(metaData);
-    }, [metaData])
+    }, [metaData]);
 
     // Update errors
     useEffect(() => {
         props.handleUpdateErrors(errors);
-    }, [errors])
+    }, [errors]);
 
     // Reset MetaDataForm back to initial state
     useEffect(() => {
         if (props.resetState) {
             setMetaData(initialMetaData);
         }
-    }, [props.resetState])
+    }, [props.resetState]);
 
     useEffect(() => {
         fetchPersonOptions();
@@ -47,13 +48,17 @@ const MetaDataForm = props => {
 
     return (
         <section>
-            <Typography variant="h6" className="font-bold">Grunddaten des Musikstücks</Typography>
+            <Typography variant="h6" className="font-bold">
+                Grunddaten des Musikstücks
+            </Typography>
             <div className="flex flex-wrap pl-24">
                 <TextInput
                     label="Titel des Musikstücks"
                     name="title"
                     value={metaData.title}
-                    onChange={event => setMetaData({ ...metaData, title: event.target.value })}
+                    onChange={event =>
+                        setMetaData({ ...metaData, title: event.target.value })
+                    }
                     required={true}
                     autoFocus={true}
                     error={checkIfError('title')}
@@ -62,19 +67,23 @@ const MetaDataForm = props => {
                     castOptions={props.castOptions}
                     initialCast={metaData.castId}
                     handleCastChange={handleCastChange}
-                    handleVoicesAssignementReset={props.handleVoicesAssignementReset}
+                    handleVoicesAssignementReset={
+                        props.handleVoicesAssignementReset
+                    }
                     castWarningRequired={props.castWarningRequired}
                     resetState={props.resetState}
                     error={checkIfError('cast')}
                 />
                 <ChooseOrCreateSelector
-                    label='Verlag'
-                    labelAttr='name'
-                    fetchOptionsUrl='/publisher'
+                    label="Verlag"
+                    labelAttr="name"
+                    fetchOptionsUrl="/publisher"
                     initialValue={metaData.publisherId}
                     initialCustomOption={metaData.publisher}
                     resetState={props.resetState}
-                    handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
+                    handleSelectedChange={item =>
+                        handleChooseOrCreateChange('publisher', item)
+                    }
                 />
                 <ChooseOrCreateSelector
                     label="Komponist"
@@ -82,7 +91,9 @@ const MetaDataForm = props => {
                     resetState={props.resetState}
                     initialValue={metaData.composerId}
                     initialCustomOption={metaData.composer}
-                    handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
+                    handleSelectedChange={item =>
+                        handleChooseOrCreateChange('composer', item)
+                    }
                 />
                 <ChooseOrCreateSelector
                     label="Arrangeur"
@@ -90,7 +101,9 @@ const MetaDataForm = props => {
                     resetState={props.resetState}
                     initialValue={metaData.arrangerId}
                     initialCustomOption={metaData.arranger}
-                    handleSelectedChange={item => handleChooseOrCreateChange('arranger', item)}
+                    handleSelectedChange={item =>
+                        handleChooseOrCreateChange('arranger', item)
+                    }
                 />
                 <TagSelector
                     initialTags={metaData.tags}
@@ -102,21 +115,33 @@ const MetaDataForm = props => {
                     label="Copyright"
                     name="copyright"
                     value={metaData.copyright}
-                    onChange={event => setMetaData({ ...metaData, copyright: event.target.value })}
+                    onChange={event =>
+                        setMetaData({
+                            ...metaData,
+                            copyright: event.target.value,
+                        })
+                    }
                     error={false}
                 />
                 <TextInput
                     label="ISWC Nummer"
                     name="iswc"
                     value={metaData.iswc}
-                    onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
+                    onChange={event =>
+                        setMetaData({ ...metaData, iswc: event.target.value })
+                    }
                     error={false}
                 />
                 <TextInput
                     label="Untertitel"
                     name="subtitle"
                     value={metaData.subtitle}
-                    onChange={event => setMetaData({ ...metaData, subtitle: event.target.value })}
+                    onChange={event =>
+                        setMetaData({
+                            ...metaData,
+                            subtitle: event.target.value,
+                        })
+                    }
                     error={false}
                 />
             </div>
@@ -127,7 +152,7 @@ const MetaDataForm = props => {
      * Set attribute and attribute id in metaData.
      * E.g.: publisher, publisherId
      */
-     function handleChooseOrCreateChange(attrName, item) {
+    function handleChooseOrCreateChange(attrName, item) {
         setMetaData({
             ...metaData,
             [attrName]: item?.name,
@@ -150,23 +175,37 @@ const MetaDataForm = props => {
     function handleTagsChange(tags) {
         setMetaData({
             ...metaData,
-            tags: (tags && tags.length > 0) ? tags.map(tag => ({tagID: tag.tagID}) ) : tags,
+            tags:
+                tags && tags.length > 0
+                    ? tags.map(tag => ({ tagID: tag.tagID }))
+                    : tags,
         });
     }
 
     // @ToDo: See above... Look out for  a niceer solution to remove the "fetching" logic from here
     function fetchPersonOptions() {
-        axios.get('/persons').then(response => {
-            setPersonOptions(response.data?.map(item => ({ value: item.id, label: item.fullName })));
-        }).catch(error => {
-            console.error(`Fetching options from GET /persons failed with an error.`, error);
-        });
+        axios
+            .get('/persons')
+            .then(response => {
+                setPersonOptions(
+                    response.data?.map(item => ({
+                        value: item.id,
+                        label: item.fullName,
+                    }))
+                );
+            })
+            .catch(error => {
+                console.error(
+                    `Fetching options from GET /persons failed with an error.`,
+                    error
+                );
+            });
     }
 
     function setInitialMetaData(metaData) {
         if (!metaData) return;
         setMetaData(metaData);
     }
-}
+};
 
 export default MetaDataForm;

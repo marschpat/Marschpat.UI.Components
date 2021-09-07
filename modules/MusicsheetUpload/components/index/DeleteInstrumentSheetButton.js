@@ -8,15 +8,15 @@ const DeleteInstrumentSheetButton = props => {
 
     const removeInstrumentSheet = () => {
         props.handleRemoveInstrumentSheets([props.sheetId]);
-    }
+    };
 
     const handleClick = () => {
         dispatchConfirm(
             removeInstrumentSheet,
             'Stimme wirklich entfernen?',
-            'Stimme wirklich entfernen? Alle Änderungen gehen verloren.',
+            'Stimme wirklich entfernen? Alle Änderungen gehen verloren.'
         );
-    }
+    };
 
     return (
         <IconButton
@@ -27,6 +27,6 @@ const DeleteInstrumentSheetButton = props => {
             <DeleteIcon />
         </IconButton>
     );
-}
+};
 
 export default DeleteInstrumentSheetButton;

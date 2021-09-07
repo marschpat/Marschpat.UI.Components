@@ -6,13 +6,13 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-const InstrumentSheetFullscreenHeader = (props) => {
+const InstrumentSheetFullscreenHeader = props => {
     const [editMode, setEditMode] = useState(false);
     const modeTranslation = {
         mxl: 'MXL Editor',
         pdf: 'PDF Editor',
         image: 'Bild Editor',
-    }
+    };
 
     useEffect(() => {
         setEditMode(modeTranslation[props.type]);
@@ -29,12 +29,14 @@ const InstrumentSheetFullscreenHeader = (props) => {
                             onClick={props.handleClose}
                             aria-label="back"
                             title="Editor schließen, Stimme nicht speichern"
-                            >
+                        >
                             <Icon>arrow_back</Icon>
                             <span className="ml-8">Zurück</span>
                         </IconButton>
                     </div>
-                    <Typography variant="h6">{editMode}: {props.name}</Typography>
+                    <Typography variant="h6">
+                        {editMode}: {props.name}
+                    </Typography>
                     <div className="flex items-center">
                         <IconButton
                             edge="end"
@@ -50,6 +52,6 @@ const InstrumentSheetFullscreenHeader = (props) => {
             </Toolbar>
         </AppBar>
     );
-}
+};
 
 export default InstrumentSheetFullscreenHeader;

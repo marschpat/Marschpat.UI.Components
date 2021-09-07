@@ -6,17 +6,17 @@ import { PDFDocument } from 'pdf-lib';
 
 export const createPdfDocument = async () => {
     return await PDFDocument.create();
-}
+};
 
-export const loadPdf = async (pdfData) => {
+export const loadPdf = async pdfData => {
     return await PDFDocument.load(pdfData);
-}
+};
 
-export const savePdf = async (pdfDoc) => {
+export const savePdf = async pdfDoc => {
     return await pdfDoc.saveAsBase64({ dataUri: true });
-}
+};
 
-const getPageIndex = pageNbr => (pageNbr > 0) ? pageNbr - 1 : 0;
+const getPageIndex = pageNbr => (pageNbr > 0 ? pageNbr - 1 : 0);
 
 /**
  * Copy pageNbr from originalPdfData into new Pdf document and

@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import MxlInfo from './MxlInfo';
 import PagesOverviewPageThumbnail from './PagesOverviewPageThumbnail';
 
-const PagesOverview = ({ previews, pageNbrInEdit = 1, renderPagesPreview, handlePageInEditChange }) => {
+const PagesOverview = ({
+    previews,
+    pageNbrInEdit = 1,
+    renderPagesPreview,
+    handlePageInEditChange,
+}) => {
     const [pageThumbnails, setPageThumbails] = useState([]);
 
     useEffect(() => {
@@ -27,9 +32,11 @@ const PagesOverview = ({ previews, pageNbrInEdit = 1, renderPagesPreview, handle
                         handleClick={handlePageInEditChange}
                     />
                 ))
-            ) : <MxlInfo />}
+            ) : (
+                <MxlInfo />
+            )}
         </div>
     );
-}
+};
 
 export default PagesOverview;

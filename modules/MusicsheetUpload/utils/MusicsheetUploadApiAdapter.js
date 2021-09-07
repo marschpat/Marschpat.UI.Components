@@ -1,5 +1,5 @@
 class MusicsheetUploadApiAdapter {
-    constructor (rawPayload, humanReadable = false) {
+    constructor(rawPayload, humanReadable = false) {
         this.rawPayload = rawPayload;
         this.humanReadable = humanReadable;
     }
@@ -11,7 +11,10 @@ class MusicsheetUploadApiAdapter {
      */
     getCleanInstrumentSheets() {
         return this.rawPayload.instrumentSheets.map(sheet => {
-            const origFilesClean = this.cleanUpOrigFiles(sheet.origFiles, sheet.pages);
+            const origFilesClean = this.cleanUpOrigFiles(
+                sheet.origFiles,
+                sheet.pages
+            );
             const voicesClean = this.cleanUpVoices(sheet.voices);
             const pagesClean = this.cleanUpPages(sheet.pages);
             return {
@@ -19,7 +22,7 @@ class MusicsheetUploadApiAdapter {
                 origFiles: origFilesClean,
                 pages: pagesClean,
                 previews: sheet.previews,
-            }
+            };
         });
     }
 
@@ -27,7 +30,9 @@ class MusicsheetUploadApiAdapter {
         return origFiles.map(origFile => {
             const newOrigFile = { ...origFile };
             if (origFile.type === 'mxl') {
-                newOrigFile.dataBinary = !this.humanReadable ? origFile.blob : 'SOME-BINARY-RUBBISH';
+                newOrigFile.dataBinary = !this.humanReadable
+                    ? origFile.blob
+                    : 'SOME-BINARY-RUBBISH';
                 delete newOrigFile.data;
             }
             delete newOrigFile.blob;
@@ -38,7 +43,6 @@ class MusicsheetUploadApiAdapter {
 
     cleanUpPages(pages) {
         if (pages && pages.length > 0) {
-
             // Rename pageData, build options array,
             const newPages = pages.map(page => {
                 const finalPage = {
@@ -69,7 +73,7 @@ class MusicsheetUploadApiAdapter {
     cleanUpVoices(voices) {
         return voices.map(voice => ({
             voiceID: voice.voiceID,
-            label: voice.label
+            label: voice.label,
         }));
     }
 }

@@ -17,6 +17,6 @@ const PageImageExporter = props => {
             </Button>
         </div>
     );
-}
+};
 
 export default PageImageExporter;

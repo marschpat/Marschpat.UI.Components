@@ -13,7 +13,7 @@ const InstrumentCastSelector = props => {
         if (selectedCast?.id === cast.id) return;
         props.handleVoicesAssignementReset();
         setSelectedCast(cast);
-    }
+    };
 
     const handleCastChange = cast => {
         const warningRequired = props.castWarningRequired();
@@ -23,10 +23,10 @@ const InstrumentCastSelector = props => {
                 () => handleChange(cast),
                 'Besetzung wirklich ändern?',
                 'Besetzung wirklich ändern? Zuordnung bereits zugewiesener Stimmen gehen dadurch verloren.',
-                'Besetzung ändern',
+                'Besetzung ändern'
             );
         }
-    }
+    };
 
     // Update selected cast
     useEffect(() => {
@@ -37,10 +37,12 @@ const InstrumentCastSelector = props => {
     useEffect(() => {
         if (castOptions && props.initialCast) {
             const castId = props.initialCast;
-            const initialCastItem = castOptions.find(item => item.value === castId);
+            const initialCastItem = castOptions.find(
+                item => item.value === castId
+            );
             setSelectedCast(initialCastItem);
         }
-    }, [castOptions, props.initialCast])
+    }, [castOptions, props.initialCast]);
 
     useEffect(() => {
         if (props.resetState) {
@@ -57,19 +59,19 @@ const InstrumentCastSelector = props => {
                 textFieldProps={{
                     label: 'Besetzung',
                     InputLabelProps: {
-                        shrink: true
+                        shrink: true,
                     },
-                    variant: 'outlined'
+                    variant: 'outlined',
                 }}
                 options={castOptions}
                 required
                 error={showError}
-                variant='fixed'
+                variant="fixed"
                 id="cast"
             />
-            <InputErrorMessage msg={props?.error?.msg} condition={showError}/>
+            <InputErrorMessage msg={props?.error?.msg} condition={showError} />
         </div>
     );
-}
+};
 
 export default InstrumentCastSelector;

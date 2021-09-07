@@ -8,7 +8,7 @@ const VoicesAutoAssignButton = props => {
     const handleClick = () => {
         if (!props.handleCastCheck()) return false;
         autoAssignVoices();
-    }
+    };
 
     /**
      * Try to match voices by id if instrumentSheet hasn't assigned voices
@@ -19,13 +19,17 @@ const VoicesAutoAssignButton = props => {
         let alreadyAssignedVoices = [];
         const newInstrumentSheets = props.instrumentSheets.map(sheet => {
             if (sheet.voices && sheet.voices.length > 0) return sheet;
-            const origFileNames = sheet.origFiles.map(file => {
-                const fileName = file.name.split('.');
-                return fileName[0] ?? null;
-            }).filter(name => name);
+            const origFileNames = sheet.origFiles
+                .map(file => {
+                    const fileName = file.name.split('.');
+                    return fileName[0] ?? null;
+                })
+                .filter(name => name);
             let matchingVoices = [];
             origFileNames.forEach(name => {
-                const voice = voices.find(voice => voice.voiceID === parseInt(name));
+                const voice = voices.find(
+                    voice => voice.voiceID === parseInt(name)
+                );
                 if (voice && !alreadyAssignedVoices.includes(voice)) {
                     matchingVoices.push(voice);
                     alreadyAssignedVoices.push(voice);
@@ -36,14 +40,15 @@ const VoicesAutoAssignButton = props => {
         });
         props.handleInstrumentSheetsUpdate(newInstrumentSheets);
         props.handleAssignedVoicesChange();
-        dispatchFlashMessage('Automatische Stimmenzuordnung durchgeführt', 'success');
-    }
+        dispatchFlashMessage(
+            'Automatische Stimmenzuordnung durchgeführt',
+            'success'
+        );
+    };
 
     return (
         <div>
-            <TooltipStyled
-                title="Automatische Stimmenzuordnung versuchen?"
-            >
+            <TooltipStyled title="Automatische Stimmenzuordnung versuchen?">
                 <IconButton
                     onClick={handleClick}
                     aria-label="auto-assign-voices"
@@ -53,6 +58,6 @@ const VoicesAutoAssignButton = props => {
             </TooltipStyled>
         </div>
     );
-}
+};
 
 export default VoicesAutoAssignButton;

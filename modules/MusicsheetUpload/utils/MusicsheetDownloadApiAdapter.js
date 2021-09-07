@@ -1,5 +1,5 @@
 class MusicsheetDownloadApiAdapter {
-    constructor (rawApiData) {
+    constructor(rawApiData) {
         this.rawData = rawApiData;
     }
 
@@ -15,7 +15,7 @@ class MusicsheetDownloadApiAdapter {
                 pages: pagesClean,
                 previews: rawSheet.previews,
                 uuid: origFilesClean[0].uuid,
-            }
+            };
         });
     }
 
@@ -24,16 +24,16 @@ class MusicsheetDownloadApiAdapter {
             title: this.rawData.title || '',
             subtitle: this.rawData.subTitle || '',
             arrangerId: this.rawData.arrangeurId || 0,
-            arranger: this.rawData.customArrangeur || "",
+            arranger: this.rawData.customArrangeur || '',
             composerId: this.rawData.composerId || 0,
-            composer: this.rawData.customComposer || "",
+            composer: this.rawData.customComposer || '',
             publisherId: this.rawData.publisherId || 0,
-            publisher: this.rawData.customPublisher || "",
-            copyright: this.rawData.copyright || "",
-            iswc: this.rawData.iswc || "",
+            publisher: this.rawData.customPublisher || '',
+            copyright: this.rawData.copyright || '',
+            iswc: this.rawData.iswc || '',
             castId: this.rawData.castId || null,
             tags: this.rawData.tags || null,
-        }
+        };
     }
 
     getUploadScope() {
@@ -53,10 +53,17 @@ class MusicsheetDownloadApiAdapter {
     mapVoices(voices, voiceOptions = null) {
         return voices.map(voice => {
             if (!voiceOptions) {
-                return {voiceID: voice.voiceID, label: voice.label};
+                return { voiceID: voice.voiceID, label: voice.label };
             }
-            const voiceOption = voiceOptions.find(item => item.voiceID === voice.voiceID);
-            return voiceOption ?? {voiceID: voice.voiceID, label: 'Stimme noch nicht bearbeitet'};
+            const voiceOption = voiceOptions.find(
+                item => item.voiceID === voice.voiceID
+            );
+            return (
+                voiceOption ?? {
+                    voiceID: voice.voiceID,
+                    label: 'Stimme noch nicht bearbeitet',
+                }
+            );
         });
     }
 

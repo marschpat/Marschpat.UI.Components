@@ -9,23 +9,23 @@ const MxlSystemXmlControl = props => {
         const value = !systemXml;
         setSystemXml(value);
         props.handleSystemChange(value);
-    }
+    };
 
     return (
         <div className="ml-16 cursor-not-allowed">
             {/* <TooltipStyled title="Voreingestellte Seitenumbrüche aus MXL-File übernehmen"> */}
-                <ToggleButton
-                    value="system-xml"
-                    selected={systemXml}
-                    onChange={toggleSystemXml}
-                    disabled
-                    className="cursor-not-allowed"
-                >
-                    <SettingsInputComponentIcon />
-                </ToggleButton>
+            <ToggleButton
+                value="system-xml"
+                selected={systemXml}
+                onChange={toggleSystemXml}
+                disabled
+                className="cursor-not-allowed"
+            >
+                <SettingsInputComponentIcon />
+            </ToggleButton>
             {/* </TooltipStyled> */}
         </div>
     );
-}
+};
 
 export default MxlSystemXmlControl;
