@@ -73,7 +73,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[props.implementationMode].private}</Typography>}
+                            label={<Typography>{labelTexts[implementationMode].private}</Typography>}
                             className="-mb-12"
                         />
                     )}
