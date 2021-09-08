@@ -11,17 +11,14 @@ class MusicsheetUploadApiAdapter {
      */
     getCleanInstrumentSheets() {
         return this.rawPayload.instrumentSheets.map(sheet => {
-            const origFilesClean = this.cleanUpOrigFiles(
-                sheet.origFiles,
-                sheet.pages
-            );
+            const origFilesClean = this.cleanUpOrigFiles(sheet.origFiles, sheet.pages);
             const voicesClean = this.cleanUpVoices(sheet.voices);
             const pagesClean = this.cleanUpPages(sheet.pages);
             return {
                 voices: voicesClean,
                 origFiles: origFilesClean,
                 pages: pagesClean,
-                previews: sheet.previews,
+                previews: sheet.previews
             };
         });
     }
@@ -30,9 +27,7 @@ class MusicsheetUploadApiAdapter {
         return origFiles.map(origFile => {
             const newOrigFile = { ...origFile };
             if (origFile.type === 'mxl') {
-                newOrigFile.dataBinary = !this.humanReadable
-                    ? origFile.blob
-                    : 'SOME-BINARY-RUBBISH';
+                newOrigFile.dataBinary = !this.humanReadable ? origFile.blob : 'SOME-BINARY-RUBBISH';
                 delete newOrigFile.data;
             }
             delete newOrigFile.blob;
@@ -52,8 +47,8 @@ class MusicsheetUploadApiAdapter {
                     orientation: page.orientation,
                     origFile: page.belongsToOrigFile,
                     options: {
-                        cropbox: page.cropBox,
-                    },
+                        cropbox: page.cropBox
+                    }
                 };
 
                 if (page.type === 'mxl') {
@@ -73,7 +68,7 @@ class MusicsheetUploadApiAdapter {
     cleanUpVoices(voices) {
         return voices.map(voice => ({
             voiceID: voice.voiceID,
-            label: voice.label,
+            label: voice.label
         }));
     }
 }

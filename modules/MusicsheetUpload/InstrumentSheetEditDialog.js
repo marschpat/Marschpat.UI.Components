@@ -17,12 +17,7 @@ const InstrumentSheetEditDialog = props => {
 
     return (
         open && (
-            <Dialog
-                fullScreen
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Transition}
-            >
+            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
                 <InstrumentSheetFullscreenHeader
                     name={props.instrumentSheet?.origFiles[0].name}
                     type={props.instrumentSheet?.origFiles[0].type}

@@ -37,9 +37,7 @@ const InstrumentCastSelector = props => {
     useEffect(() => {
         if (castOptions && props.initialCast) {
             const castId = props.initialCast;
-            const initialCastItem = castOptions.find(
-                item => item.value === castId
-            );
+            const initialCastItem = castOptions.find(item => item.value === castId);
             setSelectedCast(initialCastItem);
         }
     }, [castOptions, props.initialCast]);
@@ -59,9 +57,9 @@ const InstrumentCastSelector = props => {
                 textFieldProps={{
                     label: 'Besetzung',
                     InputLabelProps: {
-                        shrink: true,
+                        shrink: true
                     },
-                    variant: 'outlined',
+                    variant: 'outlined'
                 }}
                 options={castOptions}
                 required

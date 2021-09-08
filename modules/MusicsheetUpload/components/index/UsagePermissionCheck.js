@@ -10,14 +10,11 @@ import CardContent from '@material-ui/core/CardContent';
 
 const UsagePermissionCheck = props => {
     const history = useHistory();
-    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] =
-        useHasUserRoles(props.user, props.organisation);
+    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(props.user, props.organisation);
 
     function isAllowedToUse() {
         if (props.implementationMode === MP_WEB) {
-            return (
-                hasUserSubscribedRole() || (hasUserJumpSeatRole() && isAdmin())
-            );
+            return hasUserSubscribedRole() || (hasUserJumpSeatRole() && isAdmin());
         }
 
         return true;
@@ -30,13 +27,11 @@ const UsagePermissionCheck = props => {
             <Card className="max-w-sm">
                 <CardContent>
                     <Typography color="textSecondary">
-                        Du kannst unseren Notenblatt Uploader leider nicht
-                        nützen.
+                        Du kannst unseren Notenblatt Uploader leider nicht nützen.
                     </Typography>
                     <Typography>
-                        Um unseren MARSCHPAT Notenblatt Uploader nützen zu
-                        können bitte eine MARSCHPAT Mitgliedschaft abschließen,
-                        oder Administrator in deinem Verein werden.
+                        Um unseren MARSCHPAT Notenblatt Uploader nützen zu können bitte eine MARSCHPAT Mitgliedschaft
+                        abschließen, oder Administrator in deinem Verein werden.
                     </Typography>
                 </CardContent>
             </Card>

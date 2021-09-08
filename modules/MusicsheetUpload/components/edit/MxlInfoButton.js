@@ -8,17 +8,14 @@ const MxlInfoButton = props => {
         <TooltipStyled
             title={
                 <>
-                    <p>
-                        Wenn möglich werden die Voreinstellungen aus dem
-                        MXL-File übernommen
-                    </p>
+                    <p>Wenn möglich werden die Voreinstellungen aus dem MXL-File übernommen</p>
                     <ul className="list-disc list-inside">
                         <li>Zeilenumbrüche aus MXL</li>
                         <li>Seitenumbrüche aus MXL</li>
                     </ul>
                     <p className="mt-16">
-                        Es wird empfohlen MXL-Files ab Version 3.0 zu verwenden,
-                        um eine optimale Darstellung zu ermöglichen.
+                        Es wird empfohlen MXL-Files ab Version 3.0 zu verwenden, um eine optimale Darstellung zu
+                        ermöglichen.
                     </p>
                 </>
             }

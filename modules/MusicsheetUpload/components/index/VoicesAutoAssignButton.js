@@ -27,9 +27,7 @@ const VoicesAutoAssignButton = props => {
                 .filter(name => name);
             let matchingVoices = [];
             origFileNames.forEach(name => {
-                const voice = voices.find(
-                    voice => voice.voiceID === parseInt(name)
-                );
+                const voice = voices.find(voice => voice.voiceID === parseInt(name));
                 if (voice && !alreadyAssignedVoices.includes(voice)) {
                     matchingVoices.push(voice);
                     alreadyAssignedVoices.push(voice);
@@ -40,19 +38,13 @@ const VoicesAutoAssignButton = props => {
         });
         props.handleInstrumentSheetsUpdate(newInstrumentSheets);
         props.handleAssignedVoicesChange();
-        dispatchFlashMessage(
-            'Automatische Stimmenzuordnung durchgeführt',
-            'success'
-        );
+        dispatchFlashMessage('Automatische Stimmenzuordnung durchgeführt', 'success');
     };
 
     return (
         <div>
             <TooltipStyled title="Automatische Stimmenzuordnung versuchen?">
-                <IconButton
-                    onClick={handleClick}
-                    aria-label="auto-assign-voices"
-                >
+                <IconButton onClick={handleClick} aria-label="auto-assign-voices">
                     <PageviewOutlinedIcon />
                 </IconButton>
             </TooltipStyled>

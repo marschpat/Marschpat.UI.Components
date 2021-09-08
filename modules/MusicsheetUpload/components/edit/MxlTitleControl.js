@@ -14,11 +14,7 @@ const MxlTitleControl = props => {
     return (
         <div className="ml-20">
             <TooltipStyled title="Titel und Untertitel des Musikstücks anzeigen">
-                <ToggleButton
-                    value="mxl-title"
-                    selected={showTitle}
-                    onChange={toggleShowTitle}
-                >
+                <ToggleButton value="mxl-title" selected={showTitle} onChange={toggleShowTitle}>
                     <TitleIcon />
                 </ToggleButton>
             </TooltipStyled>

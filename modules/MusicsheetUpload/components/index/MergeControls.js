@@ -28,9 +28,7 @@ const MergeControls = props => {
             )}
             {props.renderMergeButton && (
                 <IconButton
-                    onClick={() =>
-                        props.handleActivateMergeMode(props.instrumentSheetId)
-                    }
+                    onClick={() => props.handleActivateMergeMode(props.instrumentSheetId)}
                     aria-label="merge-instrument-voices"
                     title="Stimmen zusammen führen"
                 >
@@ -59,11 +57,7 @@ const MergeControls = props => {
                 </>
             ) : (
                 <div>
-                    <Checkbox
-                        edge="start"
-                        checked={checked}
-                        onChange={handleToggle}
-                    />
+                    <Checkbox edge="start" checked={checked} onChange={handleToggle} />
                 </div>
             )}
         </div>

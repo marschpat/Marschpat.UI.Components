@@ -6,14 +6,9 @@ const OriginalFileManipulator = props => {
     const pageNbr = props.pageNbr ?? 1;
     const instrumentSheet = props.currentInstrumentSheet;
     const page = props.pages.find(page => page.pageNbr == pageNbr);
-    const originalFile = instrumentSheet.origFiles.find(
-        file => file.uuid === page.belongsToOrigFile
-    );
-    const renderFileManipulator =
-        allowedTypes.includes(originalFile.type) && props.pages.length > 1;
-    const originalFileIndex = instrumentSheet.origFiles.findIndex(
-        origFile => origFile.uuid === originalFile.uuid
-    );
+    const originalFile = instrumentSheet.origFiles.find(file => file.uuid === page.belongsToOrigFile);
+    const renderFileManipulator = allowedTypes.includes(originalFile.type) && props.pages.length > 1;
+    const originalFileIndex = instrumentSheet.origFiles.findIndex(origFile => origFile.uuid === originalFile.uuid);
 
     return (
         renderFileManipulator && (
