@@ -81,13 +81,6 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="organisation"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[implementationMode].private}</Typography>}
-                        />
-                    )}
-                    {organisation && hasUserJumpSeatRole() && allowAdminActions() && (
-                        <FormControlLabel
-                            value="organisation"
-                            control={<Radio />}
                             label={<Typography>{labelTexts[implementationMode].org + organisation?.name}</Typography>}
                         />
                     )}
