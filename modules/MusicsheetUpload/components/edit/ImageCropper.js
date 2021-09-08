@@ -7,12 +7,12 @@ import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/
 const dimensions = {
     landscape: {
         aspectRatio: 1.41822 / 1, // landscape pocketbook dimensions: 1448 x 1021
-        width: 1800
+        width: 1800,
     },
     portrait: {
         aspectRatio: 0.70511 / 1, // portrait pocketbook dimensions: 1021 x 1448
-        width: 1270
-    }
+        width: 1270,
+    },
 };
 
 const ImageCropper = props => {
@@ -38,7 +38,7 @@ const ImageCropper = props => {
         const cropperTarget = cropper.current;
         const image = cropperTarget
             .getCroppedCanvas({
-                width: dimensions[orientation].width
+                width: dimensions[orientation].width,
                 // fillColor: '#fff',               // use this for .jpg
                 // imageSmoothingEnabled: false,
                 // imageSmoothingQuality: 'high',
@@ -49,7 +49,7 @@ const ImageCropper = props => {
         const cropBox = getCurrentCropBox(cropperTarget);
         setImage({
             image,
-            cropBox
+            cropBox,
         });
     };
 
@@ -103,7 +103,7 @@ const ImageCropper = props => {
             canvasData: cropperTarget.getCanvasData(),
             cropBoxData: cropperTarget.getCropBoxData(),
             rotation: imageData.rotate ? imageData.rotate : 0,
-            orientation
+            orientation,
         };
     }
 

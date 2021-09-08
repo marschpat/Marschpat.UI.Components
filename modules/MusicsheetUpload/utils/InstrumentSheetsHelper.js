@@ -7,11 +7,11 @@ export const generateInstrumentSheet = originalFile => {
                 type: originalFile.extensionType,
                 data: originalFile.dataUrlString,
                 blob: originalFile?.blob ?? null,
-                uuid: originalFile.uuid
-            }
+                uuid: originalFile.uuid,
+            },
         ],
         pages: [],
-        uuid: originalFile.uuid
+        uuid: originalFile.uuid,
     };
 };
 

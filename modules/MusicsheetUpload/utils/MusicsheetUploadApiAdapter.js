@@ -18,7 +18,7 @@ class MusicsheetUploadApiAdapter {
                 voices: voicesClean,
                 origFiles: origFilesClean,
                 pages: pagesClean,
-                previews: sheet.previews
+                previews: sheet.previews,
             };
         });
     }
@@ -47,8 +47,8 @@ class MusicsheetUploadApiAdapter {
                     orientation: page.orientation,
                     origFile: page.belongsToOrigFile,
                     options: {
-                        cropbox: page.cropBox
-                    }
+                        cropbox: page.cropBox,
+                    },
                 };
 
                 if (page.type === 'mxl') {
@@ -68,7 +68,7 @@ class MusicsheetUploadApiAdapter {
     cleanUpVoices(voices) {
         return voices.map(voice => ({
             voiceID: voice.voiceID,
-            label: voice.label
+            label: voice.label,
         }));
     }
 }

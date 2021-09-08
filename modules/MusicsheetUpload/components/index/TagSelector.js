@@ -47,9 +47,9 @@ const TagSelector = props => {
             textFieldProps={{
                 label: 'Kategorie',
                 InputLabelProps: {
-                    shrink: true
+                    shrink: true,
                 },
-                variant: 'outlined'
+                variant: 'outlined',
             }}
             options={tagOptions}
             error={false}
@@ -63,7 +63,7 @@ const TagSelector = props => {
         return tagItems.map(item => ({
             value: item.tagID,
             label: item.name,
-            ...item
+            ...item,
         }));
     }
 };

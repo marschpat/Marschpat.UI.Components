@@ -55,7 +55,7 @@ const PageEditor = props => {
             pageData: editedPageDataUrl,
             cropBox: cropBox,
             osmdOptions: osmdOptions,
-            orientation: cropBox?.orientation ?? 'landscape'
+            orientation: cropBox?.orientation ?? 'landscape',
         });
     }
 };

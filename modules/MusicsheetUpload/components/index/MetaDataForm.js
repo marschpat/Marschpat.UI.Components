@@ -107,7 +107,7 @@ const MetaDataForm = props => {
                     onChange={event =>
                         setMetaData({
                             ...metaData,
-                            copyright: event.target.value
+                            copyright: event.target.value,
                         })
                     }
                     error={false}
@@ -126,7 +126,7 @@ const MetaDataForm = props => {
                     onChange={event =>
                         setMetaData({
                             ...metaData,
-                            subtitle: event.target.value
+                            subtitle: event.target.value,
                         })
                     }
                     error={false}
@@ -143,7 +143,7 @@ const MetaDataForm = props => {
         setMetaData({
             ...metaData,
             [attrName]: item?.name,
-            [`${attrName}Id`]: item?.id
+            [`${attrName}Id`]: item?.id,
         });
     }
 
@@ -154,7 +154,7 @@ const MetaDataForm = props => {
         setMetaData({
             ...metaData,
             castId: selectedCast ? selectedCast.id : 0,
-            castName: selectedCast ? selectedCast.name : ''
+            castName: selectedCast ? selectedCast.name : '',
         });
         props.handleCastChange(selectedCast);
     }
@@ -162,7 +162,7 @@ const MetaDataForm = props => {
     function handleTagsChange(tags) {
         setMetaData({
             ...metaData,
-            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagID: tag.tagID })) : tags
+            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagID: tag.tagID })) : tags,
         });
     }
 
@@ -174,7 +174,7 @@ const MetaDataForm = props => {
                 setPersonOptions(
                     response.data?.map(item => ({
                         value: item.id,
-                        label: item.fullName
+                        label: item.fullName,
                     }))
                 );
             })

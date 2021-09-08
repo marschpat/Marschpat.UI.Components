@@ -15,7 +15,7 @@ const PageExtractor = props => {
         const [newInstrumentSheet, replacement] = await extractPage();
         const manipulationObject = {
             add: [newInstrumentSheet],
-            replacement: replacement
+            replacement: replacement,
         };
         props.handleOriginalFileManipulation(manipulationObject);
     };

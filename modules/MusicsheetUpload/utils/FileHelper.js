@@ -6,10 +6,7 @@ class FileHelper {
      */
     static validateFileExtension(file, acceptedFileExtensions) {
         if (!file.name) return false;
-        const fileExtension = file.name
-            .split('.')
-            .pop()
-            .toLowerCase();
+        const fileExtension = file.name.split('.').pop().toLowerCase();
         const allowedExtensions = acceptedFileExtensions.map(el => el.substring(1));
 
         if (allowedExtensions.includes(fileExtension)) {
@@ -30,12 +27,9 @@ class FileHelper {
         const typeMap = {
             mxl: ['mxl', 'musicxml'],
             image: ['png', 'jpg', 'jpeg'],
-            pdf: ['pdf']
+            pdf: ['pdf'],
         };
-        const fileExtension = file.name
-            .split('.')
-            .pop()
-            .toLowerCase();
+        const fileExtension = file.name.split('.').pop().toLowerCase();
         let extensionType = null;
         for (const type in typeMap) {
             if (typeMap[type].includes(fileExtension)) {
@@ -46,7 +40,7 @@ class FileHelper {
         return {
             uuid: uuidv4(),
             file,
-            extensionType
+            extensionType,
         };
     }
 
@@ -57,10 +51,7 @@ class FileHelper {
     static updateMxlMimeTypeInDataString(fileObject) {
         const mxlFileTypes = ['mxl'];
         const musicXmlFileTypes = ['musicxml'];
-        const fileExtension = fileObject.file.name
-            .split('.')
-            .pop()
-            .toLowerCase();
+        const fileExtension = fileObject.file.name.split('.').pop().toLowerCase();
 
         if (mxlFileTypes.includes(fileExtension)) {
             fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/mxl;');
@@ -85,7 +76,7 @@ class FileHelper {
             reader.onload = () => {
                 resolve({
                     ...fileObject,
-                    dataUrlString: reader.result
+                    dataUrlString: reader.result,
                 });
             };
             reader.onabort = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
@@ -106,7 +97,7 @@ class FileHelper {
                 resolve({
                     ...fileObject,
                     dataUrlString: null,
-                    blob: reader.result
+                    blob: reader.result,
                 });
             };
             reader.onabort = () => reject('Error FileHelper.readAsBinaryString()');
@@ -123,7 +114,7 @@ class FileHelper {
             extensionType,
             dataUrlString: extensionType === 'mxl' ? null : data,
             blob: extensionType === 'mxl' ? data : null,
-            uuid: uuidv4()
+            uuid: uuidv4(),
         };
     }
 

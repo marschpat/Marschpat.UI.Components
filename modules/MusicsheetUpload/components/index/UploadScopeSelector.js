@@ -10,12 +10,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 const labelTexts = {
     [MP_WEB]: {
         private: 'In meinen privaten Notenpool hochladen',
-        org: 'In den Notenpool meines Vereins hochladen: '
+        org: 'In den Notenpool meines Vereins hochladen: ',
     },
     [MP_EDU]: {
         private: 'Für mich hochladen (privater Notenpool)',
-        org: 'Für Musikschule Notenpool hochladen: '
-    }
+        org: 'Für Musikschule Notenpool hochladen: ',
+    },
 };
 
 const UploadScopeSelector = props => {
@@ -49,9 +49,9 @@ const UploadScopeSelector = props => {
             public: { ownerType: 0, ownerId: 0 },
             organisation: {
                 ownerType: 1,
-                ownerId: organisation?.organisationId
+                ownerId: organisation?.organisationId,
             },
-            private: { ownerType: 2, ownerId: 0 }
+            private: { ownerType: 2, ownerId: 0 },
         };
         props.handleUploadScopeUpdate(apiUploadScopeMap[uploadScope]);
     }, [uploadScope]);

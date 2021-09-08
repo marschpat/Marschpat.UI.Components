@@ -53,7 +53,7 @@ const SubmitFinalPayload = props => {
         const apiAdapter = new MusicsheetUploadApiAdapter(finalPayload);
         const payload = {
             ...finalPayload,
-            instrumentSheets: apiAdapter.getCleanInstrumentSheets()
+            instrumentSheets: apiAdapter.getCleanInstrumentSheets(),
         };
         if (inDebugMode) console.log('submit final payload: ', payload);
         axios
@@ -135,7 +135,7 @@ const SubmitFinalPayload = props => {
             copyright: metaData?.copyright,
             iswc: metaData?.iswc,
             castId: metaData?.castId,
-            tags: metaData?.tags
+            tags: metaData?.tags,
         }));
     }
 
@@ -143,21 +143,21 @@ const SubmitFinalPayload = props => {
         setFinalPayload(prev => ({
             ...prev,
             ownerId: scopeObject?.ownerId,
-            ownerType: scopeObject?.ownerType
+            ownerType: scopeObject?.ownerType,
         }));
     }
 
     function updateInstrumentSheets(instrumentSheets) {
         setFinalPayload(prev => ({
             ...prev,
-            instrumentSheets
+            instrumentSheets,
         }));
     }
 
     function updateSheetId(sheetId) {
         setFinalPayload(prev => ({
             ...prev,
-            sheetId: sheetId ?? 0
+            sheetId: sheetId ?? 0,
         }));
     }
 };
