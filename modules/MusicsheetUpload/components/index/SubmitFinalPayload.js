@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import UploadModal from './UploadModal';
 import PersistFinalPayloadToFile from './PersistPayloadToFile';
+import { UploaderContext } from '../../context/UploaderContext';
 import useUploadProgress from '../../utils/useUploadProgress';
 import { getCompletionStatus } from '../../utils/InstrumentSheetsHelper';
 import MusicsheetUploadResponse from '../../utils/MusicsheetUploadResponse';
@@ -17,8 +18,8 @@ const SubmitFinalPayload = props => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [hasError, setHasError] = useState(false);
+    const { dispatchFlashMessage } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
-    const dispatchFlashMessage = props.dispatchFlashMessage;
     const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
     useEffect(() => updateMetaData(props.metaData), [props.metaData]);
@@ -103,7 +104,6 @@ const SubmitFinalPayload = props => {
                 hasError={hasError}
                 totalSize={totalUploadSize}
                 progress={uploadProgress}
-                implementationMode={props.implementationMode}
                 handleUploaderReset={resetUploader}
                 handleSubmitPayloadReset={resetSubmitPayload}
             />

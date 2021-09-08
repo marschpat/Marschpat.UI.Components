@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
+import React, { useContext, useState } from 'react';
 import InstrumentSheetListItem from './InstrumentSheetListItem';
+import { UploaderContext } from '../../context/UploaderContext';
+import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import List from '@material-ui/core/List';
 
 const InstrumentSheetsManipulationList = props => {
@@ -10,7 +11,7 @@ const InstrumentSheetsManipulationList = props => {
     const [inMergeMode, setInMergeMode] = useState(false);
     const [mergeChildren, setMergeChildren] = useState([]);
     const dispatchConfirm = useDispatchConfirmDialog();
-    const dispatchFlashMessage = props.dispatchFlashMessage;
+    const { dispatchFlashMessage } = useContext(UploaderContext);
 
     const activateMergeMode = uuid => {
         setMergeParent(uuid);

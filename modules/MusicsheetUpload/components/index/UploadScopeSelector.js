@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
 import Radio from '@material-ui/core/Radio';
@@ -6,6 +6,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { UploaderContext } from '../../context/UploaderContext';
 
 const labelTexts = {
     [MP_WEB]: {
@@ -19,13 +20,12 @@ const labelTexts = {
 };
 
 const UploadScopeSelector = props => {
+    const { implementationMode, user, organisation } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
-    const user = props.user;
-    const organisation = props.organisation;
     const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(user, organisation);
     const initialState = () => (hasUserSubscribedRole() ? 'private' : 'organisation');
     const allowAdminActions = () => {
-        if (props.implementationMode === MP_EDU) {
+        if (implementationMode === MP_EDU) {
             return organisation && (user.isAdmin || user.isTeacher);
         }
 
@@ -73,7 +73,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[props.implementationMode].private}</Typography>}
+                            label={<Typography>{labelTexts[implementationMode].private}</Typography>}
                             className="-mb-12"
                         />
                     )}
@@ -81,9 +81,7 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="organisation"
                             control={<Radio />}
-                            label={
-                                <Typography>{labelTexts[props.implementationMode].org + organisation?.name}</Typography>
-                            }
+                            label={<Typography>{labelTexts[implementationMode].org + organisation?.name}</Typography>}
                         />
                     )}
                 </RadioGroup>

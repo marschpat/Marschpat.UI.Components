@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import DownloadEditData from './DownloadEditData';
 import InitializeFromLocalPayload from './InitializeFromLocalPayload';
+import { UploaderContext } from '../../context/UploaderContext';
 import MusicsheetDownloadApiAdapter from '../../utils/MusicsheetDownloadApiAdapter';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import history from '@history';
 
 const EditModeInspector = props => {
     const [sheetInEdit, setSheetInEdit] = useState(null);
-    const dispatchFlashMessage = props.dispatchFlashMessage;
+    const { dispatchFlashMessage } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
 
     const initializeEditMode = rawData => {

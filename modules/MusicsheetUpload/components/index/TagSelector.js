@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { UploaderContext } from '../../context/UploaderContext';
 import { apiRoutes } from '../../utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const [tagOptions, setTagOptions] = useState(null);
     const [selectedTags, setSelectedTags] = useState(null);
-    const GET_tags = apiRoutes[props.implementationMode].musiclibrary;
+    const GET_tags = apiRoutes[implementationMode].musiclibrary;
 
     useEffect(() => {
         const request = axios

@@ -36,7 +36,6 @@ const PageEditor = props => {
                     data={props.originalFile.blob}
                     origFileId={props.originalFile.uuid}
                     osmdOptions={page.osmdOptions}
-                    dispatchFlashMessage={props.dispatchFlashMessage}
                     handlePageImageUpdate={handlePageEdit}
                     handleCloseOnError={props.handleCloseOnError}
                 />
