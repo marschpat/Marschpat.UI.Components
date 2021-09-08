@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import ImageCropperToolbar from './ImageCropperToolbar';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { UploaderContext } from '../../context/UploaderContext';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 
 const dimensions = {
@@ -22,12 +24,14 @@ const ImageCropper = props => {
     const [cropBox, setCropBox] = useState(null);
     const [orientation, setOrientation] = useState(null);
     const [renderCropper, setRenderCropper] = useState(false);
+    const { implementationMode: imp } = useContext(UploaderContext);
 
     useEffect(() => {
+        const defaultOrientation = imp === MP_EDU ? 'portrait' : 'landscape';
         setRenderCropper(false);
         setSrc(props.src);
         setCropBox(props.cropBox);
-        setOrientation(props.cropBox?.orientation ?? 'landscape');
+        setOrientation(props.cropBox?.orientation ?? defaultOrientation);
     }, [props.src, props.cropBox]);
 
     useEffect(() => {
