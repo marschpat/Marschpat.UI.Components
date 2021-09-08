@@ -15,9 +15,7 @@ const VoicesAssignmentSelection = props => {
                 if (
                     removedValue &&
                     removedValue.voiceID &&
-                    !newAvailable.find(
-                        item => item.voiceID === removedValue.voiceID
-                    )
+                    !newAvailable.find(item => item.voiceID === removedValue.voiceID)
                 ) {
                     newAvailable.push(removedValue);
                     newAvailable = newAvailable.sort(compareByVoiceId);

@@ -41,25 +41,16 @@ const InstrumentSheetsManipulationList = props => {
         }
 
         // get each child
-        const childs = mergeChildren.flatMap(childId =>
-            findInstrumentSheetsByUuid(childId)
-        );
+        const childs = mergeChildren.flatMap(childId => findInstrumentSheetsByUuid(childId));
         if (childs.length < 1) return false;
 
         // merge them
         childs.forEach(child => {
-            newInstrumentSheet.origFiles = newInstrumentSheet.origFiles.concat(
-                child.origFiles
-            );
-            newInstrumentSheet.pages = newInstrumentSheet.pages.concat(
-                child.pages
-            );
-            newInstrumentSheet.voices = newInstrumentSheet.voices.concat(
-                child.voices
-            );
+            newInstrumentSheet.origFiles = newInstrumentSheet.origFiles.concat(child.origFiles);
+            newInstrumentSheet.pages = newInstrumentSheet.pages.concat(child.pages);
+            newInstrumentSheet.voices = newInstrumentSheet.voices.concat(child.voices);
             if (child.previews) {
-                newInstrumentSheet.previews =
-                    newInstrumentSheet.previews.concat(child.previews);
+                newInstrumentSheet.previews = newInstrumentSheet.previews.concat(child.previews);
             }
         });
 
@@ -85,24 +76,12 @@ const InstrumentSheetsManipulationList = props => {
                 return (
                     <InstrumentSheetListItem
                         inMergeMode={inMergeMode}
-                        mergeParent={
-                            mergeParent === instrumentSheet.uuid
-                                ? mergeParent
-                                : null
-                        }
-                        mergeChildren={
-                            mergeChildren.includes(instrumentSheet.uuid)
-                                ? mergeChildren
-                                : null
-                        }
+                        mergeParent={mergeParent === instrumentSheet.uuid ? mergeParent : null}
+                        mergeChildren={mergeChildren.includes(instrumentSheet.uuid) ? mergeChildren : null}
                         instrumentSheet={instrumentSheet}
                         renderMergeButton={renderMergeButton}
-                        handleRemoveInstrumentSheets={
-                            props.handleRemoveInstrumentSheets
-                        }
-                        handleOpenInstrumentSheetEdit={
-                            props.handleOpenInstrumentSheetEdit
-                        }
+                        handleRemoveInstrumentSheets={props.handleRemoveInstrumentSheets}
+                        handleOpenInstrumentSheetEdit={props.handleOpenInstrumentSheetEdit}
                         handleConfirmMerge={handleConfirmMerge}
                         handleActivateMergeMode={activateMergeMode}
                         handleCancelMergeMode={cancelMergeMode}

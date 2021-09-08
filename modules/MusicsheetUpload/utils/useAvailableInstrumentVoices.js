@@ -3,10 +3,8 @@ import axios from 'axios';
 
 const useAvailableInstrumentVoices = instrumentSheets => {
     const [castOptions, setCastOptions] = useState(null);
-    const [availableInstrumentVoices, setAvailableInstrumentVoices] =
-        useState(null);
-    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] =
-        useState(null);
+    const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null);
+    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
 
     useEffect(() => {
         fetchInstrumentVoicesInCastGroups();
@@ -25,9 +23,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
         let allAssignedVoices = [];
         instrumentSheets.forEach(instrumentSheet => {
             if (instrumentSheet.voices && instrumentSheet.voices.length > 0) {
-                allAssignedVoices = allAssignedVoices.concat(
-                    instrumentSheet.voices
-                );
+                allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
             }
         });
         const availableVoices = determineRenamingVoices(allAssignedVoices);
@@ -43,7 +39,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset,
+        handleAvailableVoicesReset
     ];
 
     function fetchInstrumentVoicesInCastGroups() {
@@ -53,10 +49,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
                 setCastOptions(mapCasts(response.data));
             })
             .catch(error => {
-                console.error(
-                    'Fetching castOptions from GET /cast failed with an error.',
-                    error
-                );
+                console.error('Fetching castOptions from GET /cast failed with an error.', error);
             });
     }
 
@@ -83,7 +76,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
                         label: voice.name,
                         group: group.name,
                         instrument: instrument.name,
-                        ...voice,
+                        ...voice
                     };
                 });
             });
@@ -95,7 +88,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
             value: item.id,
             label: item.name,
             groups: item.groups,
-            ...item,
+            ...item
         }));
     }
 };

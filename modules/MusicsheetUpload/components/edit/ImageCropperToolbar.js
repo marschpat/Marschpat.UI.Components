@@ -36,9 +36,7 @@ const ImageCropperToolbar = props => {
 
                 <TooltipStyled title="90° Drehung">
                     <IconButton onClick={() => cropper.rotate(-90)}>
-                        <Rotate90DegreesCcwIcon
-                            classes={{ root: 'w-40 h-40' }}
-                        />
+                        <Rotate90DegreesCcwIcon classes={{ root: 'w-40 h-40' }} />
                     </IconButton>
                 </TooltipStyled>
 
@@ -49,10 +47,7 @@ const ImageCropperToolbar = props => {
                 </TooltipStyled>
 
                 <TooltipStyled title="Alle Seiten in dieser Stimme (Datei) auf die Auswahl zuschneiden">
-                    <Button
-                        onClick={props.handleCopyCropbox}
-                        variant="outlined"
-                    >
+                    <Button onClick={props.handleCopyCropbox} variant="outlined">
                         <CropIcon />
                         <span className="ml-10">Alle Seiten</span>
                     </Button>

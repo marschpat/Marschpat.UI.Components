@@ -5,11 +5,8 @@ import useUploadProgress from '../../utils/useUploadProgress';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 
 const DownloadEditData = props => {
-    const [isDownloading, setIsDownloading] = useState(
-        props.sheetId ? true : false
-    );
-    const [uploadProgress, totalUploadSize, handleUploadProgress] =
-        useUploadProgress();
+    const [isDownloading, setIsDownloading] = useState(props.sheetId ? true : false);
+    const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
     const fetchMusicsheetEditData = dlUrl => {
         axios
@@ -17,17 +14,14 @@ const DownloadEditData = props => {
                 transformRequest: (data, headers) => {
                     delete headers.common['Authorization'];
                 },
-                onDownloadProgress: handleUploadProgress,
+                onDownloadProgress: handleUploadProgress
             })
             .then(response => {
                 const rawEditData = response.data ?? null;
                 props.handleMusicsheetEditData(rawEditData);
             })
             .catch(error => {
-                console.error(
-                    `Fetching musicsheet edit data from GET ${dlUrl} failed with an error.`,
-                    error
-                );
+                console.error(`Fetching musicsheet edit data from GET ${dlUrl} failed with an error.`, error);
             });
     };
 
@@ -40,10 +34,7 @@ const DownloadEditData = props => {
                 if (path) fetchMusicsheetEditData(path);
             })
             .catch(error => {
-                console.error(
-                    `Fetching musicsheet edit data from GET ${path} failed with an error.`,
-                    error
-                );
+                console.error(`Fetching musicsheet edit data from GET ${path} failed with an error.`, error);
                 props.abort();
             });
     };
