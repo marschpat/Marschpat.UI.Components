@@ -24,9 +24,7 @@ const MxlZoomControl = props => {
                     <ZoomInIcon classes={{ root: 'w-40 h-40' }} />
                 </IconButton>
             </TooltipStyled>
-            <h3 className="text-gray-500 text-lg font-semibold">
-                {Math.round(zoom * 100)} %
-            </h3>
+            <h3 className="text-gray-500 text-lg font-semibold">{Math.round(zoom * 100)} %</h3>
             <TooltipStyled title="Größenskalierung der Noten einstellen: Zoom Out">
                 <IconButton onClick={zoomOut}>
                     <ZoomOutIcon classes={{ root: 'w-40 h-40' }} />

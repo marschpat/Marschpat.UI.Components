@@ -2,12 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MxlInfo from './MxlInfo';
 import PagesOverviewPageThumbnail from './PagesOverviewPageThumbnail';
 
-const PagesOverview = ({
-    previews,
-    pageNbrInEdit = 1,
-    renderPagesPreview,
-    handlePageInEditChange,
-}) => {
+const PagesOverview = ({ previews, pageNbrInEdit = 1, renderPagesPreview, handlePageInEditChange }) => {
     const [pageThumbnails, setPageThumbails] = useState([]);
 
     useEffect(() => {
@@ -15,7 +10,7 @@ const PagesOverview = ({
             const currentPreviews = previews.map(preview => ({
                 pageNbr: preview.pageNbr,
                 isActive: preview.pageNbr === pageNbrInEdit,
-                preview: preview.thumbnail,
+                preview: preview.thumbnail
             }));
 
             setPageThumbails(currentPreviews);

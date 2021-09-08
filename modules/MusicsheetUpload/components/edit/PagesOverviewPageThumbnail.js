@@ -13,9 +13,7 @@ const PagesOverviewPageThumbnail = ({ thumbnail, handleClick }) => {
         >
             <div className="relative h-full flex items-center">
                 <div className="absolute top-0 left-0 z-10">
-                    <div className="px-4 py-2 text-gray-800 bg-gray-50">
-                        Seite {pageNbr}
-                    </div>
+                    <div className="px-4 py-2 text-gray-800 bg-gray-50">Seite {pageNbr}</div>
                 </div>
                 <div className="p-2 max-h-full overflow-hidden">
                     {thumbnail.preview ? (

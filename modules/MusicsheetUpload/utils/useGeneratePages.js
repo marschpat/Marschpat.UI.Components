@@ -25,8 +25,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
     useEffect(() => {
         async function getPages() {
             if (!instrumentSheet) return;
-            const { pagesArray, previews } =
-                await getPagesArrayFromInstrumentSheet();
+            const { pagesArray, previews } = await getPagesArrayFromInstrumentSheet();
             const firstPage = pagesArray[0];
             const origFile = findOrigFileForPage(firstPage, originalFiles);
             setPages(pagesArray);
@@ -37,15 +36,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         getPages();
     }, [instrumentSheet]);
 
-    return [
-        pages,
-        setPages,
-        pageInEdit,
-        setPageInEdit,
-        originalFile,
-        setOriginalFile,
-        previews,
-    ];
+    return [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews];
 
     /**
      * Return an object containing all pages and previews of the InstrumentSheet in current edit for each originalFile.
@@ -56,7 +47,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
     async function getPagesArrayFromInstrumentSheet() {
         const pagesPerOriginalFiles = {
             newPages: [],
-            existingPages: [],
+            existingPages: []
         };
 
         for (const [index, origFile] of originalFiles.entries()) {
@@ -76,7 +67,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             let pagesFromOrigFile = {
                 previews: [],
                 origFileIndex: 1,
-                pagesCount: 1,
+                pagesCount: 1
             };
 
             // Generate the appropiate pages depending on originalFile type
@@ -90,7 +81,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                 pagesFromOrigFile = {
                     previews: [],
                     origFileIndex: 1,
-                    pagesCount: 1,
+                    pagesCount: 1
                 };
             }
 
@@ -98,7 +89,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                 previews: pagesFromOrigFile.previews,
                 preRenderedImages: pagesFromOrigFile.preRenderedImages ?? null,
                 origFileIndex: index,
-                pagesCount: pagesFromOrigFile.pagesCount,
+                pagesCount: pagesFromOrigFile.pagesCount
             });
         }
 
@@ -106,29 +97,21 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
 
         return {
             pagesArray: finalPagesArray.pagesArray,
-            previews: finalPagesArray.previews,
+            previews: finalPagesArray.previews
         };
     }
 
     function originalFileHasExistingPages(originalFileUuid) {
-        return instrumentSheet.pages.some(
-            page => page.belongsToOrigFile === originalFileUuid
-        );
+        return instrumentSheet.pages.some(page => page.belongsToOrigFile === originalFileUuid);
     }
 
     function originalFileHasPreviews(originalFileUuid) {
-        const pages = instrumentSheet.pages.filter(
-            page => page.belongsToOrigFile === originalFileUuid
-        );
+        const pages = instrumentSheet.pages.filter(page => page.belongsToOrigFile === originalFileUuid);
         const previewExistPerPage = pages.map(page => {
             if (page.type === 'mxl') return true;
-            return instrumentSheet.previews.some(
-                preview => preview.pageNbr === page.pageNbr
-            );
+            return instrumentSheet.previews.some(preview => preview.pageNbr === page.pageNbr);
         });
-        return (
-            previewExistPerPage.length > 0 && previewExistPerPage.every(Boolean)
-        );
+        return previewExistPerPage.length > 0 && previewExistPerPage.every(Boolean);
     }
 
     /**
@@ -144,12 +127,10 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         // copy previews, existing pages and calculate new pageNbrs
         if (existingPages.length > 0) {
             if (instrumentSheet.previews) {
-                const previewsCopy = instrumentSheet.previews.map(
-                    (preview, index) => ({
-                        ...preview,
-                        pageNbr: pageNbr + index,
-                    })
-                );
+                const previewsCopy = instrumentSheet.previews.map((preview, index) => ({
+                    ...preview,
+                    pageNbr: pageNbr + index
+                }));
                 previews.push(...previewsCopy);
             }
 
@@ -176,15 +157,13 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                         : false;
 
                     pagesArray.push({
-                        pageData: preRendered
-                            ? preRendered.pageData
-                            : originalFiles[origFileIndex].data,
+                        pageData: preRendered ? preRendered.pageData : originalFiles[origFileIndex].data,
                         type: originalFiles[origFileIndex].type,
                         cropBox: null,
                         pageNbr,
                         documentPageNbr,
                         orientation: 'landscape',
-                        belongsToOrigFile: originalFiles[origFileIndex].uuid,
+                        belongsToOrigFile: originalFiles[origFileIndex].uuid
                     });
 
                     const preview = newPageCandidate.previews[i];
@@ -210,15 +189,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         img.src = originalFile.data;
         canvas.width = thumbnailWidth;
         canvas.height = (thumbnailWidth * img.height) / img.width;
-        canvas
-            .getContext('2d')
-            .drawImage(
-                img,
-                0,
-                0,
-                thumbnailWidth,
-                (thumbnailWidth * img.height) / img.width
-            );
+        canvas.getContext('2d').drawImage(img, 0, 0, thumbnailWidth, (thumbnailWidth * img.height) / img.width);
         if (img.naturalWidth !== 0) {
             thumbnailData = canvas.toDataURL('image/jpeg');
         }
@@ -227,9 +198,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             previews: [
                 {
                     pageNbr: currentPageNbr,
-                    thumbnail: thumbnailData,
-                },
-            ],
+                    thumbnail: thumbnailData
+                }
+            ]
         };
         setCurrentPageNbr(currentPageNbr + 1);
 
@@ -250,11 +221,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         let preRenderedImages = [];
         for (let i = 1; i <= numberOfPages; i++) {
             const pageData = await renderPageAsImage(pdf, i, 1800);
-            const thumbnailData = await renderPageAsImage(
-                pdf,
-                i,
-                thumbnailWidth
-            );
+            const thumbnailData = await renderPageAsImage(pdf, i, thumbnailWidth);
             preRenderedImages.push({ pageNbr: i, pageData });
             pagesPreviews.push({ pageNbr: i, thumbnail: thumbnailData });
         }
@@ -262,7 +229,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         return {
             pagesCount: numberOfPages,
             previews: pagesPreviews,
-            preRenderedImages,
+            preRenderedImages
         };
     }
 };

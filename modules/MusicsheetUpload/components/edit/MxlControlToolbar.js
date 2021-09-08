@@ -11,10 +11,7 @@ const MxlControlToolbar = props => {
     return (
         <div className="mb-10">
             <div className="flex justify-between items-center">
-                <Typography
-                    variant="h6"
-                    className="text-gray-700 font-semibold"
-                >
+                <Typography variant="h6" className="text-gray-700 font-semibold">
                     MXL Vorschau
                 </Typography>
                 <TooltipStyled title="Achtung: Die Anzahl der Seiten ist von der Taktanzahl und Ihren Einstellungen (Skalierung, Notenabstand) abhängig. Fürs Marschieren empfehlen wir die Noten auf eine Seite zu skalieren">
@@ -30,26 +27,15 @@ const MxlControlToolbar = props => {
             </div>
             <div className="mt-20 flex justify-between items-center">
                 <div className="flex items-center">
-                    <MxlCompactModeControl
-                        handleCompactModeChange={props.handleCompactModeChange}
-                    />
-                    <MxlTitleControl
-                        handleShowTitleChange={props.handleShowTitleChange}
-                    />
+                    <MxlCompactModeControl handleCompactModeChange={props.handleCompactModeChange} />
+                    <MxlTitleControl handleShowTitleChange={props.handleShowTitleChange} />
                     <MxlSkyBottomDistanceControl
-                        skyBottomDistance={
-                            props.osmdOptions?.skyBottomDistance ?? 7
-                        }
-                        handleSkyBottomDistanceChange={
-                            props.handleSkyBottomDistanceChange
-                        }
+                        skyBottomDistance={props.osmdOptions?.skyBottomDistance ?? 7}
+                        handleSkyBottomDistanceChange={props.handleSkyBottomDistanceChange}
                     />
                 </div>
                 <div>
-                    <MxlZoomControl
-                        zoomLevel={props?.osmdOptions?.zoom ?? 1}
-                        handleZoom={props.handleZoom}
-                    />
+                    <MxlZoomControl zoomLevel={props?.osmdOptions?.zoom ?? 1} handleZoom={props.handleZoom} />
                 </div>
             </div>
         </div>

@@ -15,9 +15,7 @@ const InitializeFromLocalPayload = props => {
             } catch (error) {
                 console.error(error);
                 setLogMsg(
-                    prev =>
-                        (prev +=
-                            "Seems something's not right with the payload. Check errors in dev console. \n")
+                    prev => (prev += "Seems something's not right with the payload. Check errors in dev console. \n")
                 );
             }
         }
@@ -49,12 +47,7 @@ const InitializeFromLocalPayload = props => {
             <h2 className="mb-10">Initialize Uploader from local payload</h2>
             <div className="flex">
                 <input type="file" ref={inputEl} />
-                <Button
-                    onClick={handleClick}
-                    color="primary"
-                    variant="contained"
-                    className="ml-40"
-                >
+                <Button onClick={handleClick} color="primary" variant="contained" className="ml-40">
                     Initialize
                 </Button>
             </div>

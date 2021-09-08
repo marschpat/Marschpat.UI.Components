@@ -6,10 +6,11 @@ class FileHelper {
      */
     static validateFileExtension(file, acceptedFileExtensions) {
         if (!file.name) return false;
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-        const allowedExtensions = acceptedFileExtensions.map(el =>
-            el.substring(1)
-        );
+        const fileExtension = file.name
+            .split('.')
+            .pop()
+            .toLowerCase();
+        const allowedExtensions = acceptedFileExtensions.map(el => el.substring(1));
 
         if (allowedExtensions.includes(fileExtension)) {
             return true;
@@ -17,9 +18,7 @@ class FileHelper {
 
         // implement file.type validtion. but it seems .mxl and .musicxml
         // files most of the time have not a proper file type setup.
-        console.error(
-            'FileHelper: Invalid file extension provided: ' + fileExtension
-        );
+        console.error('FileHelper: Invalid file extension provided: ' + fileExtension);
         return false;
     }
 
@@ -31,9 +30,12 @@ class FileHelper {
         const typeMap = {
             mxl: ['mxl', 'musicxml'],
             image: ['png', 'jpg', 'jpeg'],
-            pdf: ['pdf'],
+            pdf: ['pdf']
         };
-        const fileExtension = file.name.split('.').pop().toLowerCase();
+        const fileExtension = file.name
+            .split('.')
+            .pop()
+            .toLowerCase();
         let extensionType = null;
         for (const type in typeMap) {
             if (typeMap[type].includes(fileExtension)) {
@@ -44,7 +46,7 @@ class FileHelper {
         return {
             uuid: uuidv4(),
             file,
-            extensionType,
+            extensionType
         };
     }
 
@@ -61,17 +63,11 @@ class FileHelper {
             .toLowerCase();
 
         if (mxlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(
-                /data:(.*);/,
-                'data:application/mxl;'
-            );
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/mxl;');
         }
 
         if (musicXmlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(
-                /data:(.*);/,
-                'data:application/musicxml;'
-            );
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/musicxml;');
         }
 
         return fileObject;
@@ -89,17 +85,11 @@ class FileHelper {
             reader.onload = () => {
                 resolve({
                     ...fileObject,
-                    dataUrlString: reader.result,
+                    dataUrlString: reader.result
                 });
             };
-            reader.onabort = () =>
-                reject(
-                    'Error FileHelper.readFileAsDataUrl(): file reading was aborted'
-                );
-            reader.onerror = () =>
-                reject(
-                    'Error FileHelper.readFileAsDataUrl(): file reading was aborted'
-                );
+            reader.onabort = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
+            reader.onerror = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
         });
     }
 
@@ -116,13 +106,11 @@ class FileHelper {
                 resolve({
                     ...fileObject,
                     dataUrlString: null,
-                    blob: reader.result,
+                    blob: reader.result
                 });
             };
-            reader.onabort = () =>
-                reject('Error FileHelper.readAsBinaryString()');
-            reader.onerror = e =>
-                reject('Error FileHelper.readAsBinaryString()');
+            reader.onabort = () => reject('Error FileHelper.readAsBinaryString()');
+            reader.onerror = e => reject('Error FileHelper.readAsBinaryString()');
         });
     }
 
@@ -135,7 +123,7 @@ class FileHelper {
             extensionType,
             dataUrlString: extensionType === 'mxl' ? null : data,
             blob: extensionType === 'mxl' ? data : null,
-            uuid: uuidv4(),
+            uuid: uuidv4()
         };
     }
 

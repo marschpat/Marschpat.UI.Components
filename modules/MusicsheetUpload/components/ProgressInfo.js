@@ -8,9 +8,7 @@ const ProgressInfo = props => {
 
     return (
         <div>
-            <Typography className="text-24 mb-16 text-center">
-                {props.message}
-            </Typography>
+            <Typography className="text-24 mb-16 text-center">{props.message}</Typography>
             <div className="pt-32 flex justify-center">
                 <LinearProgressWithLabel value={props.progress} />
             </div>

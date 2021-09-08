@@ -15,10 +15,7 @@ const TagSelector = props => {
                 setTagOptions(mapTags(response.data));
             })
             .catch(error => {
-                console.error(
-                    'Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.',
-                    error
-                );
+                console.error('Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.', error);
             });
     }, []);
 
@@ -50,9 +47,9 @@ const TagSelector = props => {
             textFieldProps={{
                 label: 'Kategorie',
                 InputLabelProps: {
-                    shrink: true,
+                    shrink: true
                 },
-                variant: 'outlined',
+                variant: 'outlined'
             }}
             options={tagOptions}
             error={false}
@@ -66,7 +63,7 @@ const TagSelector = props => {
         return tagItems.map(item => ({
             value: item.tagID,
             label: item.name,
-            ...item,
+            ...item
         }));
     }
 };

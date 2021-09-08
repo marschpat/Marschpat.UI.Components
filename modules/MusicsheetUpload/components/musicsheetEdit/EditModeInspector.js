@@ -20,7 +20,7 @@ const EditModeInspector = props => {
         const instrumentSheets = apiAdapter.getInstrumentSheets();
         props.handleInitialEditValues({
             metaData,
-            uploadScope,
+            uploadScope
         });
         props.handleInstrumentSheets(instrumentSheets);
         props.handleSheetId(sheetInEdit);
@@ -52,11 +52,7 @@ const EditModeInspector = props => {
                     handleMusicsheetEditData={initializeEditMode}
                 />
             )}
-            {inDebugMode && (
-                <InitializeFromLocalPayload
-                    handleMusicsheetEditData={initializeEditMode}
-                />
-            )}
+            {inDebugMode && <InitializeFromLocalPayload handleMusicsheetEditData={initializeEditMode} />}
         </>
     );
 

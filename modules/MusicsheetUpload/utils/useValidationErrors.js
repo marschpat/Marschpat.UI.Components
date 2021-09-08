@@ -3,7 +3,7 @@ import { useState } from 'react';
 const useValidationErrors = () => {
     const [errors, setErrors] = useState([
         { attrName: 'title', msg: 'Bitte Titel eingeben' },
-        { attrName: 'cast', msg: 'Bitte Besetzung auswählen!' },
+        { attrName: 'cast', msg: 'Bitte Besetzung auswählen!' }
     ]);
 
     // Validate required field errors
