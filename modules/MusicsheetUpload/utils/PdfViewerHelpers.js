@@ -36,7 +36,7 @@ export const renderPageAsImage = async (pdf, pageNbr, outputWith = 1800) => {
 
     const viewport = page.getViewport({ scale: 1 });
     const scaledViewport = page.getViewport({
-        scale: outputWith / viewport.width,
+        scale: outputWith / viewport.width
     });
 
     // Create and scale canvas
@@ -46,8 +46,7 @@ export const renderPageAsImage = async (pdf, pageNbr, outputWith = 1800) => {
     canvas.width = scaledViewport.width;
 
     // Render the page and convert it to dataUrl
-    await page.render({ canvasContext: context, viewport: scaledViewport })
-        .promise;
+    await page.render({ canvasContext: context, viewport: scaledViewport }).promise;
     const image = canvas.toDataURL();
     // const image = canvas.toDataURL('image/jpeg');        // convert to .jpeg for much smaller fileszize, but shittier quality
 

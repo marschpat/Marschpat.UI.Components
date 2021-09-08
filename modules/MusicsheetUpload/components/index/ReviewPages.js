@@ -4,8 +4,7 @@ const ReviewPages = props => {
     const instrumentSheets = props.instrumentSheets;
     const [sheetIndex, setSheetIndex] = useState(0);
     const [pageIndex, setPageIndex] = useState(0);
-    const type =
-        instrumentSheets[sheetIndex]?.pages[pageIndex]?.type ?? 'image';
+    const type = instrumentSheets[sheetIndex]?.pages[pageIndex]?.type ?? 'image';
 
     return (
         <div className="mb-52">
@@ -36,21 +35,11 @@ const ReviewPages = props => {
             </div>
             <div className="mt-24 border">
                 {type !== 'mxl' ? (
-                    <img
-                        src={
-                            instrumentSheets[sheetIndex]?.pages[pageIndex]
-                                ?.pageData
-                        }
-                    />
+                    <img src={instrumentSheets[sheetIndex]?.pages[pageIndex]?.pageData} />
                 ) : (
                     <div>
                         MXLLLLL
-                        <img
-                            src={
-                                instrumentSheets[sheetIndex]?.pages[0]
-                                    ?.pageData[pageIndex]?.data
-                            }
-                        />
+                        <img src={instrumentSheets[sheetIndex]?.pages[0]?.pageData[pageIndex]?.data} />
                     </div>
                 )}
             </div>

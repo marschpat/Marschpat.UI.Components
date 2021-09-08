@@ -13,8 +13,7 @@ const initialMetaData = require('../../metaData.initial.json');
 const MetaDataForm = props => {
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] =
-        useValidationErrors();
+    const [errors, checkIfError, validateRequiredFields] = useValidationErrors();
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
@@ -56,9 +55,7 @@ const MetaDataForm = props => {
                     label="Titel des Musikstücks"
                     name="title"
                     value={metaData.title}
-                    onChange={event =>
-                        setMetaData({ ...metaData, title: event.target.value })
-                    }
+                    onChange={event => setMetaData({ ...metaData, title: event.target.value })}
                     required={true}
                     autoFocus={true}
                     error={checkIfError('title')}
@@ -67,9 +64,7 @@ const MetaDataForm = props => {
                     castOptions={props.castOptions}
                     initialCast={metaData.castId}
                     handleCastChange={handleCastChange}
-                    handleVoicesAssignementReset={
-                        props.handleVoicesAssignementReset
-                    }
+                    handleVoicesAssignementReset={props.handleVoicesAssignementReset}
                     castWarningRequired={props.castWarningRequired}
                     resetState={props.resetState}
                     error={checkIfError('cast')}
@@ -81,9 +76,7 @@ const MetaDataForm = props => {
                     initialValue={metaData.publisherId}
                     initialCustomOption={metaData.publisher}
                     resetState={props.resetState}
-                    handleSelectedChange={item =>
-                        handleChooseOrCreateChange('publisher', item)
-                    }
+                    handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
                 />
                 <ChooseOrCreateSelector
                     label="Komponist"
@@ -91,9 +84,7 @@ const MetaDataForm = props => {
                     resetState={props.resetState}
                     initialValue={metaData.composerId}
                     initialCustomOption={metaData.composer}
-                    handleSelectedChange={item =>
-                        handleChooseOrCreateChange('composer', item)
-                    }
+                    handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
                 />
                 <ChooseOrCreateSelector
                     label="Arrangeur"
@@ -101,9 +92,7 @@ const MetaDataForm = props => {
                     resetState={props.resetState}
                     initialValue={metaData.arrangerId}
                     initialCustomOption={metaData.arranger}
-                    handleSelectedChange={item =>
-                        handleChooseOrCreateChange('arranger', item)
-                    }
+                    handleSelectedChange={item => handleChooseOrCreateChange('arranger', item)}
                 />
                 <TagSelector
                     initialTags={metaData.tags}
@@ -117,7 +106,7 @@ const MetaDataForm = props => {
                     onChange={event =>
                         setMetaData({
                             ...metaData,
-                            copyright: event.target.value,
+                            copyright: event.target.value
                         })
                     }
                     error={false}
@@ -126,9 +115,7 @@ const MetaDataForm = props => {
                     label="ISWC Nummer"
                     name="iswc"
                     value={metaData.iswc}
-                    onChange={event =>
-                        setMetaData({ ...metaData, iswc: event.target.value })
-                    }
+                    onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
                     error={false}
                 />
                 <TextInput
@@ -138,7 +125,7 @@ const MetaDataForm = props => {
                     onChange={event =>
                         setMetaData({
                             ...metaData,
-                            subtitle: event.target.value,
+                            subtitle: event.target.value
                         })
                     }
                     error={false}
@@ -155,7 +142,7 @@ const MetaDataForm = props => {
         setMetaData({
             ...metaData,
             [attrName]: item?.name,
-            [`${attrName}Id`]: item?.id,
+            [`${attrName}Id`]: item?.id
         });
     }
 
@@ -166,7 +153,7 @@ const MetaDataForm = props => {
         setMetaData({
             ...metaData,
             castId: selectedCast ? selectedCast.id : 0,
-            castName: selectedCast ? selectedCast.name : '',
+            castName: selectedCast ? selectedCast.name : ''
         });
         props.handleCastChange(selectedCast);
     }
@@ -174,10 +161,7 @@ const MetaDataForm = props => {
     function handleTagsChange(tags) {
         setMetaData({
             ...metaData,
-            tags:
-                tags && tags.length > 0
-                    ? tags.map(tag => ({ tagID: tag.tagID }))
-                    : tags,
+            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagID: tag.tagID })) : tags
         });
     }
 
@@ -189,15 +173,12 @@ const MetaDataForm = props => {
                 setPersonOptions(
                     response.data?.map(item => ({
                         value: item.id,
-                        label: item.fullName,
+                        label: item.fullName
                     }))
                 );
             })
             .catch(error => {
-                console.error(
-                    `Fetching options from GET /persons failed with an error.`,
-                    error
-                );
+                console.error(`Fetching options from GET /persons failed with an error.`, error);
             });
     }
 

@@ -14,11 +14,7 @@ const MxlCompactModeControl = props => {
     return (
         <div>
             <TooltipStyled title="Kompaktmodus ein/aus: Mit dem Kompaktmodus werden  die Abstände und Skalierung angepasst, um das Notenblatt möglichst auf eine Seite einzupassen">
-                <ToggleButton
-                    value="system-xml"
-                    selected={compactMode}
-                    onChange={toggleCompactMode}
-                >
+                <ToggleButton value="system-xml" selected={compactMode} onChange={toggleCompactMode}>
                     <ViewCompactIcon />
                 </ToggleButton>
             </TooltipStyled>

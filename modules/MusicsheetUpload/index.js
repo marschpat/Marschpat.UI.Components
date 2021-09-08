@@ -20,12 +20,7 @@ import FusePageSimple from '@fuse/core/FusePageSimple';
  * @param {object} props required props:
  * { user, organisation, implementationMode, dispatchFlashMessage }
  */
-const MusicsheetUpload = ({
-    user,
-    organisation,
-    implementationMode,
-    dispatchFlashMessage,
-}) => {
+const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlashMessage }) => {
     const inDebugMode = useInDebugMode();
     const [errors, setErrors] = useState(null);
     const [sheetId, setSheetId] = useState(null);
@@ -42,7 +37,7 @@ const MusicsheetUpload = ({
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset,
+        handleAvailableVoicesReset
     ] = useAvailableInstrumentVoices(instrumentSheets);
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
@@ -57,7 +52,7 @@ const MusicsheetUpload = ({
                     user,
                     organisation,
                     implementationMode,
-                    dispatchFlashMessage,
+                    dispatchFlashMessage
                 }}
             >
                 <EditModeInspector
@@ -73,55 +68,33 @@ const MusicsheetUpload = ({
                                         castOptions={castOptions}
                                         resetState={resetChildState}
                                         initialMetaData={initialEdit?.metaData}
-                                        castWarningRequired={
-                                            checkIfCastWarningMessageMayBeNeeded
-                                        }
+                                        castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
                                         handleUpdateErrors={setErrors}
                                         handleMetaDataUpdate={setMetaData}
                                         handleCastChange={handleCastChange}
-                                        handleVoicesAssignementReset={
-                                            resetAllVoicesAssignements
-                                        }
+                                        handleVoicesAssignementReset={resetAllVoicesAssignements}
                                     />
                                     <UploadScopeSelector
                                         initialScope={initialEdit?.uploadScope}
-                                        userSubscriptionValidationRequired={
-                                            false
-                                        }
+                                        userSubscriptionValidationRequired={false}
                                         handleUploadScopeUpdate={setUploadScope}
                                     />
                                     <InstrumentSheetsOverview
                                         instrumentSheets={instrumentSheets}
-                                        availableVoices={
-                                            availableInstrumentVoices
-                                        }
+                                        availableVoices={availableInstrumentVoices}
                                         handleCastCheck={castIsSetOrError}
-                                        handleInstrumentSheetsUpdate={
-                                            setInstrumentSheets
-                                        }
-                                        handleRemoveInstrumentSheets={
-                                            removeInstrumentSheets
-                                        }
-                                        handleAssignedVoicesChange={
-                                            handleAvailableVoicesUpdate
-                                        }
-                                        handleOpenInstrumentSheetEdit={
-                                            toggleInstrumentSheetEditDialog
-                                        }
+                                        handleInstrumentSheetsUpdate={setInstrumentSheets}
+                                        handleRemoveInstrumentSheets={removeInstrumentSheets}
+                                        handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                                        handleOpenInstrumentSheetEdit={toggleInstrumentSheetEditDialog}
                                     />
                                     <FileDropzone
                                         resetState={resetChildState}
-                                        handleInstrumentSheetsUpdate={
-                                            addNewInstrumentSheets
-                                        }
+                                        handleInstrumentSheetsUpdate={addNewInstrumentSheets}
                                     />
                                     <LegalConsent
                                         agreed={agreedToLegalConsent}
-                                        handleChange={() =>
-                                            setAgreedToLegalConsent(
-                                                !agreedToLegalConsent
-                                            )
-                                        }
+                                        handleChange={() => setAgreedToLegalConsent(!agreedToLegalConsent)}
                                     />
                                     <SubmitFinalPayload
                                         errors={errors}
@@ -129,16 +102,10 @@ const MusicsheetUpload = ({
                                         metaData={metaData}
                                         uploadScope={uploadScope}
                                         instrumentSheets={instrumentSheets}
-                                        agreedToLegalConsent={
-                                            agreedToLegalConsent
-                                        }
+                                        agreedToLegalConsent={agreedToLegalConsent}
                                         handleReset={resetUploaderState}
                                     />
-                                    {inDebugMode && (
-                                        <ReviewPages
-                                            instrumentSheets={instrumentSheets}
-                                        />
-                                    )}
+                                    {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
                                 </div>
                             </UsagePermissionCheck>
                         }
@@ -151,15 +118,9 @@ const MusicsheetUpload = ({
                             availableVoices={availableInstrumentVoices}
                             handleClose={toggleInstrumentSheetEditDialog}
                             handleInstrumentSheetUpdate={updateInstrumentSheet}
-                            handleAssignedVoicesChange={
-                                handleAvailableVoicesUpdate
-                            }
-                            handleNextInstrumentSheet={
-                                openNextAvailableInstrumentSheet
-                            }
-                            handleOriginalFileManipulation={
-                                manipulateInstrumentSheets
-                            }
+                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                            handleNextInstrumentSheet={openNextAvailableInstrumentSheet}
+                            handleOriginalFileManipulation={manipulateInstrumentSheets}
                         />
                     )}
                 </EditModeInspector>
@@ -193,14 +154,9 @@ const MusicsheetUpload = ({
     function addNewInstrumentSheets(sheets) {
         if (sheets.length < 1) return;
         setInstrumentSheets(prevSheets => {
-            const existingFileNames = prevSheets.flatMap(sheet =>
-                sheet.origFiles.map(orig => orig.name)
-            );
+            const existingFileNames = prevSheets.flatMap(sheet => sheet.origFiles.map(orig => orig.name));
             const newSheets = sheets.filter(
-                sheet =>
-                    !sheet.origFiles.some(
-                        file => existingFileNames.indexOf(file.name) !== -1
-                    )
+                sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1)
             );
 
             return [...prevSheets, ...newSheets];
@@ -216,9 +172,7 @@ const MusicsheetUpload = ({
         if ('dirty' in instrumentSheet) {
             instrumentSheet.dirty = false;
         }
-        const existingIndex = newSheets.findIndex(
-            sheet => sheet.uuid === instrumentSheet.uuid
-        );
+        const existingIndex = newSheets.findIndex(sheet => sheet.uuid === instrumentSheet.uuid);
         if (existingIndex >= 0) {
             newSheets[existingIndex] = instrumentSheet;
         } else {
@@ -236,11 +190,7 @@ const MusicsheetUpload = ({
         setInstrumentSheets(prev => {
             return prev
                 .concat(manipulation.add)
-                .map(sheet =>
-                    sheet.uuid === manipulation.replacement.uuid
-                        ? manipulation.replacement
-                        : sheet
-                );
+                .map(sheet => (sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet));
         });
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
@@ -265,10 +215,7 @@ const MusicsheetUpload = ({
     }
 
     function checkIfCastWarningMessageMayBeNeeded() {
-        if (
-            instrumentSheets.length > 0 &&
-            instrumentSheets.some(sheet => sheet.voices.length > 0)
-        ) {
+        if (instrumentSheets.length > 0 && instrumentSheets.some(sheet => sheet.voices.length > 0)) {
             return true;
         }
 
@@ -276,8 +223,7 @@ const MusicsheetUpload = ({
     }
 
     function castIsSetOrError() {
-        const castError =
-            errors.find(error => error.attrName === 'cast') ?? false;
+        const castError = errors.find(error => error.attrName === 'cast') ?? false;
         if (castError) {
             dispatchFlashMessage(castError.msg, 'error');
             return false;
@@ -291,25 +237,17 @@ const MusicsheetUpload = ({
      */
     function resetAllVoicesAssignements() {
         if (instrumentSheets.length < 1) return;
-        setInstrumentSheets(prevSheets =>
-            prevSheets.map(sheet => ({ ...sheet, voices: [] }))
-        );
+        setInstrumentSheets(prevSheets => prevSheets.map(sheet => ({ ...sheet, voices: [] })));
     }
 
     /**
      * Open the next available instrumentSheet, depending on the direction (next or previous)
      */
     function openNextAvailableInstrumentSheet(direction) {
-        const existingIndex = instrumentSheets.findIndex(
-            sheet => sheet.uuid === instrumentSheetInEdit.uuid
-        );
-        const candidate =
-            direction === 'next' ? existingIndex + 1 : existingIndex - 1;
-        const fallbackIndex =
-            direction === 'next' ? 0 : instrumentSheets.length - 1;
-        const newIndex = instrumentSheets[candidate]
-            ? candidate
-            : fallbackIndex;
+        const existingIndex = instrumentSheets.findIndex(sheet => sheet.uuid === instrumentSheetInEdit.uuid);
+        const candidate = direction === 'next' ? existingIndex + 1 : existingIndex - 1;
+        const fallbackIndex = direction === 'next' ? 0 : instrumentSheets.length - 1;
+        const newIndex = instrumentSheets[candidate] ? candidate : fallbackIndex;
         setInstrumentSheetInEdit(instrumentSheets[newIndex]);
     }
 };

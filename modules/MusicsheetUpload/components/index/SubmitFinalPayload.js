@@ -20,44 +20,29 @@ const SubmitFinalPayload = props => {
     const [hasError, setHasError] = useState(false);
     const { dispatchFlashMessage } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
-    const [uploadProgress, totalUploadSize, handleUploadProgress] =
-        useUploadProgress();
+    const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
     useEffect(() => updateMetaData(props.metaData), [props.metaData]);
     useEffect(() => updateUploadScope(props.uploadScope), [props.uploadScope]);
-    useEffect(
-        () => updateInstrumentSheets(props.instrumentSheets),
-        [props.instrumentSheets]
-    );
+    useEffect(() => updateInstrumentSheets(props.instrumentSheets), [props.instrumentSheets]);
     useEffect(() => updateSheetId(props.sheetId), [props.sheetId]);
 
     // @ToDo: Sry for the mess, needs refactoring when all requirements are clear
     const submit = () => {
         if (props.errors && props.errors.length > 0) {
-            dispatchFlashMessage(
-                'Erforderliche Grunddaten vollständig eingeben!',
-                'error'
-            );
+            dispatchFlashMessage('Erforderliche Grunddaten vollständig eingeben!', 'error');
             return;
         }
-        if (
-            !finalPayload.instrumentSheets ||
-            finalPayload.instrumentSheets.length < 1
-        ) {
+        if (!finalPayload.instrumentSheets || finalPayload.instrumentSheets.length < 1) {
             dispatchFlashMessage('Stimmen zum Upload auswählen!', 'error');
             return;
         }
-        const allSheetsCompleted = finalPayload.instrumentSheets.every(
-            sheet => {
-                const [completed] = getCompletionStatus(sheet);
-                return completed;
-            }
-        );
+        const allSheetsCompleted = finalPayload.instrumentSheets.every(sheet => {
+            const [completed] = getCompletionStatus(sheet);
+            return completed;
+        });
         if (!allSheetsCompleted) {
-            dispatchFlashMessage(
-                'Stimmen bearbeiten und Instrumentenstimmen zuordnen!',
-                'error'
-            );
+            dispatchFlashMessage('Stimmen bearbeiten und Instrumentenstimmen zuordnen!', 'error');
             return;
         }
         if (!props.agreedToLegalConsent) {
@@ -69,15 +54,11 @@ const SubmitFinalPayload = props => {
         const apiAdapter = new MusicsheetUploadApiAdapter(finalPayload);
         const payload = {
             ...finalPayload,
-            instrumentSheets: apiAdapter.getCleanInstrumentSheets(),
+            instrumentSheets: apiAdapter.getCleanInstrumentSheets()
         };
         if (inDebugMode) console.log('submit final payload: ', payload);
         axios
-            .post(
-                '/musicsheet-upload',
-                { ...payload },
-                { onUploadProgress: handleUploadProgress }
-            )
+            .post('/musicsheet-upload', { ...payload }, { onUploadProgress: handleUploadProgress })
             .then(resp => {
                 const response = new MusicsheetUploadResponse(resp);
                 if (response.isSheetMusicPersisted()) {
@@ -91,10 +72,7 @@ const SubmitFinalPayload = props => {
                         'Upload failed with errrors: ',
                         response.data.messages.map(msg => msg)
                     );
-                    dispatchFlashMessage(
-                        `Upload fehlgeschlagen: ${errorMsg}`,
-                        'error'
-                    );
+                    dispatchFlashMessage(`Upload fehlgeschlagen: ${errorMsg}`, 'error');
                     setHasError(errorMsg);
                     return;
                 }
@@ -111,23 +89,14 @@ const SubmitFinalPayload = props => {
         <section className="mt-20 py-24 flex justify-end">
             <div>
                 <div>
-                    <Button
-                        onClick={submit}
-                        variant="contained"
-                        color="secondary"
-                        id="submit-final"
-                    >
+                    <Button onClick={submit} variant="contained" color="secondary" id="submit-final">
                         <div className="flex items-center">
                             <PublishIcon className="text-white" />
-                            <span className="ml-12 text-white text-xl font-bold">
-                                Musikstück Upload
-                            </span>
+                            <span className="ml-12 text-white text-xl font-bold">Musikstück Upload</span>
                         </div>
                     </Button>
                 </div>
-                {inDebugMode && (
-                    <PersistFinalPayloadToFile finalPayload={finalPayload} />
-                )}
+                {inDebugMode && <PersistFinalPayloadToFile finalPayload={finalPayload} />}
             </div>
             <UploadModal
                 open={isUploading}
@@ -166,7 +135,7 @@ const SubmitFinalPayload = props => {
             copyright: metaData?.copyright,
             iswc: metaData?.iswc,
             castId: metaData?.castId,
-            tags: metaData?.tags,
+            tags: metaData?.tags
         }));
     }
 
@@ -174,21 +143,21 @@ const SubmitFinalPayload = props => {
         setFinalPayload(prev => ({
             ...prev,
             ownerId: scopeObject?.ownerId,
-            ownerType: scopeObject?.ownerType,
+            ownerType: scopeObject?.ownerType
         }));
     }
 
     function updateInstrumentSheets(instrumentSheets) {
         setFinalPayload(prev => ({
             ...prev,
-            instrumentSheets,
+            instrumentSheets
         }));
     }
 
     function updateSheetId(sheetId) {
         setFinalPayload(prev => ({
             ...prev,
-            sheetId: sheetId ?? 0,
+            sheetId: sheetId ?? 0
         }));
     }
 };

@@ -10,7 +10,7 @@ const defaultOsmdOptions = {
     drawTitle: false,
     drawSubtitle: false,
     skyBottomDistance: 3,
-    drawingParameters: 'default',
+    drawingParameters: 'default'
 };
 
 const MxlToImageConverter = props => {
@@ -56,9 +56,7 @@ const MxlToImageConverter = props => {
                         id={`renderedOsmdImage${img.pageNbr}`}
                         key={Math.random()}
                     >
-                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">
-                            Seite {img.pageNbr}
-                        </span>
+                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">Seite {img.pageNbr}</span>
                         <img src={img.data} className="border" />
                     </div>
                 ))
@@ -72,7 +70,7 @@ const MxlToImageConverter = props => {
                     height: '1072px',
                     position: 'absolute',
                     visibility: 'hidden',
-                    marginLeft: '-99999px',
+                    marginLeft: '-99999px'
                 }}
             ></div>
 
@@ -95,7 +93,7 @@ const MxlToImageConverter = props => {
             drawMeasureNumbersOnlyAtSystemStart: true,
             drawTitle: osmdOptions.drawTitle,
             drawSubtitle: osmdOptions.drawSubtitle,
-            drawingParameters: osmdOptions.drawingParameters,
+            drawingParameters: osmdOptions.drawingParameters
         };
         // sorry for the hack, try fix an osmd issue.
         osmdEl.current.innerHTML = '';
@@ -121,20 +119,14 @@ const MxlToImageConverter = props => {
         osmd.rules.MinimumDistanceBetweenSystems = 0.2; // set via osmdOption?
 
         // dynamically set from osmdOptions
-        osmd.rules.MinSkyBottomDistBetweenSystems =
-            osmdOptions.skyBottomDistance;
+        osmd.rules.MinSkyBottomDistBetweenSystems = osmdOptions.skyBottomDistance;
 
         osmd.setCustomPageFormat(1448, 1072);
 
         osmd.load(props.data)
             .then(() => renderOsmdImage(osmd))
             .then(() => removeCanvases())
-            .catch(e =>
-                console.error(
-                    'Error occured loading the Osmd in MxlToImageConverter',
-                    e
-                )
-            );
+            .catch(e => console.error('Error occured loading the Osmd in MxlToImageConverter', e));
     }
 
     /**
@@ -168,8 +160,7 @@ const MxlToImageConverter = props => {
                 if (iteration === 1 && pageNbr !== 1) {
                     pageNbr = osmdImageCanvases.length;
                 }
-                const prevPageNbr =
-                    imagesFromOsmd[imagesFromOsmd.length - 1]?.pageNbr ?? 0;
+                const prevPageNbr = imagesFromOsmd[imagesFromOsmd.length - 1]?.pageNbr ?? 0;
                 if (pageNbr === prevPageNbr) {
                     pageNbr = iteration;
                 }
@@ -180,13 +171,11 @@ const MxlToImageConverter = props => {
                     data: canvas.toDataURL(),
                     type: 'mxl',
                     orientation: 'landscape',
-                    origFile: props.origFileId,
+                    origFile: props.origFileId
                 });
                 pagesCount += 1;
             });
-            const sortedPageImages = imagesFromOsmd.sort(
-                (a, b) => a.pageNbr - b.pageNbr
-            );
+            const sortedPageImages = imagesFromOsmd.sort((a, b) => a.pageNbr - b.pageNbr);
             setPageImages(sortedPageImages);
             setPagesCount(pagesCount);
         } catch (e) {
@@ -210,7 +199,7 @@ const MxlToImageConverter = props => {
     function changeCompactMode(value) {
         setOsmdOptions(options => ({
             ...options,
-            drawingParameters: value ? 'compacttight' : 'default', // or `compact` ?
+            drawingParameters: value ? 'compacttight' : 'default' // or `compact` ?
         }));
     }
 
@@ -218,7 +207,7 @@ const MxlToImageConverter = props => {
         setOsmdOptions(options => ({
             ...options,
             drawTitle: value,
-            drawSubtitle: value,
+            drawSubtitle: value
         }));
     }
 

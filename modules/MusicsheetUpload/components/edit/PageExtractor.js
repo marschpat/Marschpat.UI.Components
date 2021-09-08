@@ -2,10 +2,7 @@ import React from 'react';
 import FileHelper from '../../utils/FileHelper';
 import { generateInstrumentSheet } from '../../utils/InstrumentSheetsHelper';
 import { loadPdf } from '../../utils/PdfViewerHelpers';
-import {
-    copyPageIntoNewPdfDocument,
-    removePageFromPdfDocument,
-} from '../../utils/PdfModifierHelpers';
+import { copyPageIntoNewPdfDocument, removePageFromPdfDocument } from '../../utils/PdfModifierHelpers';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import Button from '@material-ui/core/Button';
 import EjectIcon from '@material-ui/icons/Eject';
@@ -18,7 +15,7 @@ const PageExtractor = props => {
         const [newInstrumentSheet, replacement] = await extractPage();
         const manipulationObject = {
             add: [newInstrumentSheet],
-            replacement: replacement,
+            replacement: replacement
         };
         props.handleOriginalFileManipulation(manipulationObject);
     };
@@ -65,23 +62,13 @@ const PageExtractor = props => {
      * @returns array - [newInstrumentSheet, replacement]
      */
     function extractOriginalFileWithSinglePage() {
-        const newInstrumentSheet = generateInstrumentSheetFromOriginalFile(
-            props.originalFile.data
-        );
-        const documentPageNbr = props.pages.find(
-            page => page.pageNbr === props.pageNbr
-        ).documentPageNbr;
+        const newInstrumentSheet = generateInstrumentSheetFromOriginalFile(props.originalFile.data);
+        const documentPageNbr = props.pages.find(page => page.pageNbr === props.pageNbr).documentPageNbr;
         const replacement = props.currentInstrumentSheet;
-        replacement.origFiles = replacement.origFiles.filter(
-            file => file.uuid !== props.originalFile.uuid
-        );
-        replacement.pages = replacement.pages.filter(
-            page => page.pageNbr !== documentPageNbr
-        );
+        replacement.origFiles = replacement.origFiles.filter(file => file.uuid !== props.originalFile.uuid);
+        replacement.pages = replacement.pages.filter(page => page.pageNbr !== documentPageNbr);
         if (replacement.previews) {
-            replacement.previews = replacement.previews.filter(
-                preview => preview.pageNbr !== documentPageNbr
-            );
+            replacement.previews = replacement.previews.filter(preview => preview.pageNbr !== documentPageNbr);
         }
 
         return [newInstrumentSheet, replacement];
@@ -92,26 +79,16 @@ const PageExtractor = props => {
      * @returns
      */
     async function extractPageFromOriginalFileWithMultiPages() {
-        const documentPageNbr = props.pages.find(
-            page => page.pageNbr === props.pageNbr
-        ).documentPageNbr;
+        const documentPageNbr = props.pages.find(page => page.pageNbr === props.pageNbr).documentPageNbr;
 
         const [newDocData, origPdfDocument] = await copyPageIntoNewPdfDocument(
             props.originalFile.data,
             documentPageNbr
         );
-        const newInstrumentSheet =
-            generateInstrumentSheetFromOriginalFile(newDocData);
+        const newInstrumentSheet = generateInstrumentSheetFromOriginalFile(newDocData);
 
-        const newOrigPdfDocData = await removePageFromPdfDocument(
-            origPdfDocument,
-            documentPageNbr
-        );
-        const replacement = getInstrumentSheetReplacement(
-            newOrigPdfDocData,
-            props.pageNbr,
-            props.originalFile.uuid
-        );
+        const newOrigPdfDocData = await removePageFromPdfDocument(origPdfDocument, documentPageNbr);
+        const replacement = getInstrumentSheetReplacement(newOrigPdfDocData, props.pageNbr, props.originalFile.uuid);
 
         return [newInstrumentSheet, replacement];
     }
@@ -123,16 +100,9 @@ const PageExtractor = props => {
      * @returns {object} - instrumentSheet
      */
     function generateInstrumentSheetFromOriginalFile(newDocData) {
-        const data =
-            props.originalFile.type !== 'mxl'
-                ? newDocData
-                : props.originalFile.blob;
+        const data = props.originalFile.type !== 'mxl' ? newDocData : props.originalFile.blob;
         const newFileName = composeExtractedFileName();
-        const fileObj = FileHelper.createFakeFileObject(
-            data,
-            newFileName,
-            fileType
-        );
+        const fileObj = FileHelper.createFakeFileObject(data, newFileName, fileType);
         const newInstrumentSheet = generateInstrumentSheet(fileObj);
         newInstrumentSheet.pages = props.currentInstrumentSheet.pages
             .filter(page => page.pageNbr === props.pageNbr)
@@ -154,11 +124,7 @@ const PageExtractor = props => {
      * @returns {object} - instrumentSheet
      */
     function getInstrumentSheetReplacement(originalFileData, pageNbr, uuid) {
-        const newOrigFileObj = FileHelper.createFakeFileObject(
-            originalFileData,
-            props.originalFile.name,
-            fileType
-        );
+        const newOrigFileObj = FileHelper.createFakeFileObject(originalFileData, props.originalFile.name, fileType);
         newOrigFileObj.uuid = uuid;
         const mock = generateInstrumentSheet(newOrigFileObj);
         const replacement = props.currentInstrumentSheet;

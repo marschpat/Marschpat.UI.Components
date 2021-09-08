@@ -19,11 +19,7 @@ const DeleteInstrumentSheetButton = props => {
     };
 
     return (
-        <IconButton
-            onClick={handleClick}
-            aria-label="remove-instrument-voice"
-            title="Stimme löschen"
-        >
+        <IconButton onClick={handleClick} aria-label="remove-instrument-voice" title="Stimme löschen">
             <DeleteIcon />
         </IconButton>
     );
