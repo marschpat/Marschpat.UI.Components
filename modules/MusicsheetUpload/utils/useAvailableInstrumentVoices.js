@@ -39,7 +39,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset
+        handleAvailableVoicesReset,
     ];
 
     function fetchInstrumentVoicesInCastGroups() {
@@ -76,7 +76,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
                         label: voice.name,
                         group: group.name,
                         instrument: instrument.name,
-                        ...voice
+                        ...voice,
                     };
                 });
             });
@@ -88,7 +88,7 @@ const useAvailableInstrumentVoices = instrumentSheets => {
             value: item.id,
             label: item.name,
             groups: item.groups,
-            ...item
+            ...item,
         }));
     }
 };

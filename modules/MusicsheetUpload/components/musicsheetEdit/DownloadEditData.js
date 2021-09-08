@@ -14,7 +14,7 @@ const DownloadEditData = props => {
                 transformRequest: (data, headers) => {
                     delete headers.common['Authorization'];
                 },
-                onDownloadProgress: handleUploadProgress
+                onDownloadProgress: handleUploadProgress,
             })
             .then(response => {
                 const rawEditData = response.data ?? null;

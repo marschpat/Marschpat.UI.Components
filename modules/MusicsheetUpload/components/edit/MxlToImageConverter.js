@@ -10,7 +10,7 @@ const defaultOsmdOptions = {
     drawTitle: false,
     drawSubtitle: false,
     skyBottomDistance: 3,
-    drawingParameters: 'default'
+    drawingParameters: 'default',
 };
 
 const MxlToImageConverter = props => {
@@ -70,7 +70,7 @@ const MxlToImageConverter = props => {
                     height: '1072px',
                     position: 'absolute',
                     visibility: 'hidden',
-                    marginLeft: '-99999px'
+                    marginLeft: '-99999px',
                 }}
             ></div>
 
@@ -93,7 +93,7 @@ const MxlToImageConverter = props => {
             drawMeasureNumbersOnlyAtSystemStart: true,
             drawTitle: osmdOptions.drawTitle,
             drawSubtitle: osmdOptions.drawSubtitle,
-            drawingParameters: osmdOptions.drawingParameters
+            drawingParameters: osmdOptions.drawingParameters,
         };
         // sorry for the hack, try fix an osmd issue.
         osmdEl.current.innerHTML = '';
@@ -171,7 +171,7 @@ const MxlToImageConverter = props => {
                     data: canvas.toDataURL(),
                     type: 'mxl',
                     orientation: 'landscape',
-                    origFile: props.origFileId
+                    origFile: props.origFileId,
                 });
                 pagesCount += 1;
             });
@@ -199,7 +199,7 @@ const MxlToImageConverter = props => {
     function changeCompactMode(value) {
         setOsmdOptions(options => ({
             ...options,
-            drawingParameters: value ? 'compacttight' : 'default' // or `compact` ?
+            drawingParameters: value ? 'compacttight' : 'default', // or `compact` ?
         }));
     }
 
@@ -207,7 +207,7 @@ const MxlToImageConverter = props => {
         setOsmdOptions(options => ({
             ...options,
             drawTitle: value,
-            drawSubtitle: value
+            drawSubtitle: value,
         }));
     }
 

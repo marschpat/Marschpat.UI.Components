@@ -21,7 +21,7 @@ const EditModeInspector = props => {
         const instrumentSheets = apiAdapter.getInstrumentSheets();
         props.handleInitialEditValues({
             metaData,
-            uploadScope
+            uploadScope,
         });
         props.handleInstrumentSheets(instrumentSheets);
         props.handleSheetId(sheetInEdit);

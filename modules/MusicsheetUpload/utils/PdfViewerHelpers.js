@@ -36,7 +36,7 @@ export const renderPageAsImage = async (pdf, pageNbr, outputWith = 1800) => {
 
     const viewport = page.getViewport({ scale: 1 });
     const scaledViewport = page.getViewport({
-        scale: outputWith / viewport.width
+        scale: outputWith / viewport.width,
     });
 
     // Create and scale canvas

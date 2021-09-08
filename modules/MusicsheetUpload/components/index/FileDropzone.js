@@ -63,7 +63,7 @@ const FileDropzone = props => {
             <div
                 {...getRootProps({
                     className:
-                        'h-192 w-full flex justify-center items-center border-dashed border-4 border-gray-300 rounded-md cursor-pointer'
+                        'h-192 w-full flex justify-center items-center border-dashed border-4 border-gray-300 rounded-md cursor-pointer',
                 })}
                 id="file-dropzone"
             >

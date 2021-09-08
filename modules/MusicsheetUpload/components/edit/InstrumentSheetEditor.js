@@ -154,7 +154,7 @@ const InstrumentSheetEditor = props => {
             ...props.instrumentSheet,
             pages,
             previews,
-            voices: assignedVoices
+            voices: assignedVoices,
         };
         props.handleInstrumentSheetUpdate(editedSheet);
     }

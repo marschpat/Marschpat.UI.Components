@@ -14,7 +14,7 @@ class MusicsheetDownloadApiAdapter {
                 origFiles: origFilesClean,
                 pages: pagesClean,
                 previews: rawSheet.previews,
-                uuid: origFilesClean[0].uuid
+                uuid: origFilesClean[0].uuid,
             };
         });
     }
@@ -32,7 +32,7 @@ class MusicsheetDownloadApiAdapter {
             copyright: this.rawData.copyright || '',
             iswc: this.rawData.iswc || '',
             castId: this.rawData.castId || null,
-            tags: this.rawData.tags || null
+            tags: this.rawData.tags || null,
         };
     }
 
@@ -40,7 +40,7 @@ class MusicsheetDownloadApiAdapter {
         const ownerTypeMap = {
             0: 'public',
             1: 'organisation',
-            2: 'private'
+            2: 'private',
         };
 
         return ownerTypeMap[this.rawData.ownerType] ?? 'private';
@@ -59,7 +59,7 @@ class MusicsheetDownloadApiAdapter {
             return (
                 voiceOption ?? {
                     voiceID: voice.voiceID,
-                    label: 'Stimme noch nicht bearbeitet'
+                    label: 'Stimme noch nicht bearbeitet',
                 }
             );
         });
@@ -85,7 +85,7 @@ class MusicsheetDownloadApiAdapter {
             orientation: page.orientation,
             belongsToOrigFile: page.origFile,
             cropBox: page.options?.cropbox ?? null,
-            osmdOptions: page.options?.osmdOptions ?? null
+            osmdOptions: page.options?.osmdOptions ?? null,
         }));
     }
 }

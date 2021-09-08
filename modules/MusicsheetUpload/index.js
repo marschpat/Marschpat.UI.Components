@@ -37,7 +37,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         availableInstrumentVoices,
         handleCastChange,
         handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset
+        handleAvailableVoicesReset,
     ] = useAvailableInstrumentVoices(instrumentSheets);
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
