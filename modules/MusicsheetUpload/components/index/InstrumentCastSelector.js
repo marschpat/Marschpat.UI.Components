@@ -57,9 +57,9 @@ const InstrumentCastSelector = props => {
                 textFieldProps={{
                     label: 'Besetzung',
                     InputLabelProps: {
-                        shrink: true
+                        shrink: true,
                     },
-                    variant: 'outlined'
+                    variant: 'outlined',
                 }}
                 options={castOptions}
                 required

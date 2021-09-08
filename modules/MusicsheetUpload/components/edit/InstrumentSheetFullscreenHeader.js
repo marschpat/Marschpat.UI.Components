@@ -11,7 +11,7 @@ const InstrumentSheetFullscreenHeader = props => {
     const modeTranslation = {
         mxl: 'MXL Editor',
         pdf: 'PDF Editor',
-        image: 'Bild Editor'
+        image: 'Bild Editor',
     };
 
     useEffect(() => {

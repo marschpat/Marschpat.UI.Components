@@ -9,7 +9,7 @@ const ChooseOrCreateSelector = props => {
         setSelected(newSelected);
         props.handleSelectedChange({
             id: newSelected.value !== newSelected.label ? newSelected.value : 0,
-            name: newSelected.label
+            name: newSelected.label,
         });
     };
 
@@ -21,7 +21,7 @@ const ChooseOrCreateSelector = props => {
                 .then(response => {
                     const fetchOptions = response.data?.map(item => ({
                         value: item.id,
-                        label: item[props.labelAttr]
+                        label: item[props.labelAttr],
                     }));
                     setOptions(fetchOptions);
                 })
@@ -68,7 +68,7 @@ const ChooseOrCreateSelector = props => {
             textFieldProps={{
                 label: props.label,
                 InputLabelProps: { shrink: true },
-                variant: 'outlined'
+                variant: 'outlined',
             }}
             id={props.label ? props.label.toLowerCase() : Math.random()}
         />

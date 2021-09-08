@@ -7,7 +7,7 @@ const PersistPayloadToFile = props => {
         const apiAdapter = new MusicsheetUploadApiAdapter(props.finalPayload, true);
         const payload = {
             ...props.finalPayload,
-            instrumentSheets: apiAdapter.getCleanInstrumentSheets()
+            instrumentSheets: apiAdapter.getCleanInstrumentSheets(),
         };
         const data = 'data:text/json;charset=utf-8,' + JSON.stringify(payload);
         const dl = document.createElement('a');

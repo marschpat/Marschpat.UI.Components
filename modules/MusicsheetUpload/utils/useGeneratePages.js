@@ -47,7 +47,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
     async function getPagesArrayFromInstrumentSheet() {
         const pagesPerOriginalFiles = {
             newPages: [],
-            existingPages: []
+            existingPages: [],
         };
 
         for (const [index, origFile] of originalFiles.entries()) {
@@ -67,7 +67,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             let pagesFromOrigFile = {
                 previews: [],
                 origFileIndex: 1,
-                pagesCount: 1
+                pagesCount: 1,
             };
 
             // Generate the appropiate pages depending on originalFile type
@@ -81,7 +81,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                 pagesFromOrigFile = {
                     previews: [],
                     origFileIndex: 1,
-                    pagesCount: 1
+                    pagesCount: 1,
                 };
             }
 
@@ -89,7 +89,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                 previews: pagesFromOrigFile.previews,
                 preRenderedImages: pagesFromOrigFile.preRenderedImages ?? null,
                 origFileIndex: index,
-                pagesCount: pagesFromOrigFile.pagesCount
+                pagesCount: pagesFromOrigFile.pagesCount,
             });
         }
 
@@ -97,7 +97,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
 
         return {
             pagesArray: finalPagesArray.pagesArray,
-            previews: finalPagesArray.previews
+            previews: finalPagesArray.previews,
         };
     }
 
@@ -129,7 +129,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             if (instrumentSheet.previews) {
                 const previewsCopy = instrumentSheet.previews.map((preview, index) => ({
                     ...preview,
-                    pageNbr: pageNbr + index
+                    pageNbr: pageNbr + index,
                 }));
                 previews.push(...previewsCopy);
             }
@@ -163,7 +163,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                         pageNbr,
                         documentPageNbr,
                         orientation: 'landscape',
-                        belongsToOrigFile: originalFiles[origFileIndex].uuid
+                        belongsToOrigFile: originalFiles[origFileIndex].uuid,
                     });
 
                     const preview = newPageCandidate.previews[i];
@@ -198,9 +198,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
             previews: [
                 {
                     pageNbr: currentPageNbr,
-                    thumbnail: thumbnailData
-                }
-            ]
+                    thumbnail: thumbnailData,
+                },
+            ],
         };
         setCurrentPageNbr(currentPageNbr + 1);
 
@@ -229,7 +229,7 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         return {
             pagesCount: numberOfPages,
             previews: pagesPreviews,
-            preRenderedImages
+            preRenderedImages,
         };
     }
 };

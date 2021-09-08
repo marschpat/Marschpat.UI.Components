@@ -10,7 +10,7 @@ const PagesOverview = ({ previews, pageNbrInEdit = 1, renderPagesPreview, handle
             const currentPreviews = previews.map(preview => ({
                 pageNbr: preview.pageNbr,
                 isActive: preview.pageNbr === pageNbrInEdit,
-                preview: preview.thumbnail
+                preview: preview.thumbnail,
             }));
 
             setPageThumbails(currentPreviews);
