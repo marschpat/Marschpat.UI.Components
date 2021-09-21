@@ -1,0 +1,11 @@
+{
+    "name": "musicsheet-display",
+    "version": "0.0.1",
+    "private": true,
+    "description": "Marschpat Musicsheet Display component",
+    "main": "index.js",
+    "author": "Marschpat - Stefan Stifter",
+    "dependencies": {
+        "react-image-gallery": "1.2"
+    }
+}
