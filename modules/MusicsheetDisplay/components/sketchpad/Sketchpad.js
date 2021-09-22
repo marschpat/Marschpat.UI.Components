@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import axios from 'axios';
 import SketchpadPage from './SketchpadPage';
 import LayerControls from './LayerControls';
 import SketchpadLayerBlank from '../sketchpad/SketchpadLayerBlank';
@@ -9,10 +10,12 @@ const Sketchpad = () => {
     const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const [isCreateActive, setIsCreateActive] = useState(false);
+    const voiceId = instrumentVoice.voiceID;
+    const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(() => {
         // @ToDo Fetch all layers for this sheetId & voiceId
-        console.log('...fetching');
+        fetchSketchpadLayers();
         const layers = require('../../layers.example.js');
         const layersInit = initializeLayers(layers);
         setSketchpadLayers(layersInit);
@@ -20,6 +23,19 @@ const Sketchpad = () => {
 
     function initializeLayers(layers) {
         return layers.map(item => ({ ...item, active: false }));
+    }
+
+    function fetchSketchpadLayers() {
+        console.log('fetching sketchpad layers', { sheetId, voiceId });
+        const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
+        axios
+            .get(url)
+            .then(response => {
+                console.log('fetched sketchpad layers', response);
+            })
+            .catch(error => {
+                console.error(`Fetching sketchpad layers from ${url} failed with an error.`, error);
+            });
     }
 
     return (
@@ -31,7 +47,7 @@ const Sketchpad = () => {
                 setIsCreateActive,
             }}
         >
-            <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
+            <SketchpadLayerBlank sheetId={sheetId} voiceId={voiceId}>
                 <LayerControls />
                 {pages.map((page, index) => (
                     <SketchpadPage page={page} key={index} />
