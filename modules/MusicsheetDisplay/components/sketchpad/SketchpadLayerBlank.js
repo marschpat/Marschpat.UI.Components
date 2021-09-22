@@ -14,7 +14,7 @@ const SktechpadLayerBlank = props => {
         voiceId: props.voiceId,
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
-    const { setIsCreateActive, setSketchpadLayers } = useContext(SketchpadContext);
+    const { setIsCreateActive, setSketchpadLayers, persistSketchpadLayer } = useContext(SketchpadContext);
 
     // on close check if there's a layerInCreation that should be persisted
     useEffect(() => {
@@ -33,17 +33,21 @@ const SktechpadLayerBlank = props => {
     }
 
     function persistLayerInCreation() {
+        const newLayer = {
+            id: layerInCreation.id,
+            name: layerInCreation.name,
+            data: layerInCreation.data,
+            sheetId: layerInCreation.sheetId,
+            voiceId: layerInCreation.voiceId,
+        };
         setSketchpadLayers(prev => [
             ...prev,
             {
-                id: layerInCreation.id,
-                name: layerInCreation.name,
-                data: layerInCreation.data,
-                sheetId: layerInCreation.sheetId,
-                voiceId: layerInCreation.voiceId,
+                ...newLayer,
                 active: true,
             },
         ]);
+        persistSketchpadLayer(newLayer);
     }
 
     function updateLayerInCreationData(layerObject) {

@@ -38,6 +38,18 @@ const Sketchpad = () => {
             });
     }
 
+    function persistSketchpadLayer(layer) {
+        console.log('persisting layer', layer);
+        axios
+            .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
+            .then(response => {
+                console.log('okay! sketchpad layer persisted', response);
+            })
+            .catch(error => {
+                console.error(`Persisting sketchpad layer failed with an error.`, error);
+            });
+    }
+
     return (
         <SketchpadContext.Provider
             value={{
@@ -45,6 +57,7 @@ const Sketchpad = () => {
                 setSketchpadLayers,
                 isCreateActive,
                 setIsCreateActive,
+                persistSketchpadLayer,
             }}
         >
             <SketchpadLayerBlank sheetId={sheetId} voiceId={voiceId}>
