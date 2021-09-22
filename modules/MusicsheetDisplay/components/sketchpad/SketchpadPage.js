@@ -24,6 +24,13 @@ const SketchpadPage = props => {
     return (
         <div className="mt-24 border-b">
             <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
+            {!isCreateActive && (
+                <div className="relative">
+                    <img src={props.page.downloadLink} className="w-full" />
+
+                    <LayerImagesPerPage page={props.page} />
+                </div>
+            )}
             {isCreateActive && layerOptions && pageDimensions && (
                 <CanvasDraw
                     imgSrc={props.page.downloadLink}
