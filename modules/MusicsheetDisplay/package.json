@@ -6,6 +6,7 @@
     "main": "index.js",
     "author": "Marschpat - Stefan Stifter",
     "dependencies": {
-        "react-image-gallery": "1.2"
+        "react-image-gallery": "1.2",
+        "react-canvas-draw": "1.1"
     }
 }
