@@ -11,16 +11,16 @@ const LayersSelect = () => {
         if (sketchpadLayers.length > 0) {
             setOptions(
                 sketchpadLayers.map(layer => {
-                    return { label: layer.name, value: layer.id };
+                    return { label: layer.name, value: layer.uuid };
                 })
             );
-            setValues(sketchpadLayers.filter(l => l.active).map(layer => ({ label: layer.name, value: layer.id })));
+            setValues(sketchpadLayers.filter(l => l.active).map(layer => ({ label: layer.name, value: layer.uuid })));
         }
     }, [sketchpadLayers]);
 
     function handleActiveLayersChange(selected) {
         const updatedLayers = sketchpadLayers.map(layer => {
-            return selected.map(i => i.value).includes(layer.id)
+            return selected.map(i => i.value).includes(layer.uuid)
                 ? { ...layer, active: true }
                 : { ...layer, active: false };
         });

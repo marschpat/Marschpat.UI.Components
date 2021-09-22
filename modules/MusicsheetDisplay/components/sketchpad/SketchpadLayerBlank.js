@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const SktechpadLayerBlank = props => {
     const initialLayer = () => ({
-        id: uuidv4(),
+        uuid: uuidv4(),
         name: null,
         action: null,
         options: null,
@@ -34,7 +34,7 @@ const SktechpadLayerBlank = props => {
 
     function persistLayerInCreation() {
         const newLayer = {
-            id: layerInCreation.id,
+            uuid: layerInCreation.uuid,
             name: layerInCreation.name,
             data: layerInCreation.data,
             sheetId: layerInCreation.sheetId,

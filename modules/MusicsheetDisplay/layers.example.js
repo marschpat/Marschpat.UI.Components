@@ -1,6 +1,6 @@
 module.exports = [
     {
-        id: 'd2eb0ae9-4124-46ad-939c-8111e4370cb2',
+        uuid: 'd2eb0ae9-4124-46ad-939c-8111e4370cb2',
         name: 'My first note',
         sheetId: 20,
         voiceId: 4,
@@ -12,7 +12,7 @@ module.exports = [
         ],
     },
     {
-        id: '75d0c98e-37b9-4e3d-93d8-106f3873e7e7',
+        uuid: '75d0c98e-37b9-4e3d-93d8-106f3873e7e7',
         name: 'Second sketchpad note',
         sheetId: 20,
         voiceId: 4,
