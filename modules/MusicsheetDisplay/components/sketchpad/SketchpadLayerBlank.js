@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 import { SketchpadContext, SketchpadLayerContext } from '../../context/SketchpadContexts';
 import { v4 as uuidv4 } from 'uuid';
-import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 
 const SktechpadLayerBlank = props => {
     const initialLayer = () => ({
