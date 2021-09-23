@@ -5,10 +5,11 @@ import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/Mu
 import LayerImagesPerPage from './sketchpad/LayerImagesPerPage';
 
 const MusicsheetPageImageCarousel = () => {
+    const ImageGalleryEl = useRef();
     const { musicsheetPages } = useContext(MusicsheetLoaderContext);
     const { isCarouselFullscreen, setIsCarouselFullscreen, showPagesPreview } = useContext(MusicsheetDisplayContext);
-    const ImageGalleryEl = useRef();
     const [pageImages, setPageImages] = useState([]);
+    const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
     useEffect(() => {
         const images = musicsheetPages.map(item => ({ original: item.downloadLink, thumbnail: item.downloadLink }));
@@ -28,11 +29,13 @@ const MusicsheetPageImageCarousel = () => {
                 ref={ImageGalleryEl}
                 showIndex={true}
                 thumbnailPosition="left"
-                onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
-                onScreenChange={e => setIsCarouselFullscreen(e)}
                 showThumbnails={showPagesPreview}
+                onScreenChange={e => setIsCarouselFullscreen(e)}
+                onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
+                onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
+                onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
             />
-            <LayerImagesPerPage page={{ pageIndex: 1 }} />
+            <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
         </div>
     );
 };
