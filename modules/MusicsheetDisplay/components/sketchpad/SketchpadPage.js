@@ -25,10 +25,12 @@ const SketchpadPage = props => {
 
     useEffect(() => {
         if (layerInCreation.action === 'create') {
+            // @ToDo: Don't persist layer if canvas is empty
+            // @ToDo: Persist saveData as well, for loading within SketchpadPage afterwards
             const saveData = canvasDrawEl.current.getSaveData();
             const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-            console.log('saveData?', saveData);
-            console.log('data?', data);
+            // console.log('saveData?', saveData);
+            // console.log('data?', data);
             createPageLayerObject(data);
         }
     }, [layerInCreation]);

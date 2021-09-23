@@ -15,13 +15,14 @@ const SktechpadLayerBlank = props => {
         voiceId: props.voiceId,
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
-    const { setSketchpadLayers, persistSketchpadLayer } = useContext(MusicsheetDisplayContext);
+    const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
 
     // on close check if there's a layerInCreation that should be persisted
-    useEffect(() => {
+    useEffect(async () => {
         if (layerInCreation.action === 'create') {
-            persistLayerInCreation();
+            await persistLayerInCreation();
             resetLayerInCreation();
+            toggleViewMode();
         }
     }, [layerInCreation]);
 

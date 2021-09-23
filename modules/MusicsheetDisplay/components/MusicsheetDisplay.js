@@ -51,7 +51,7 @@ const MusicsheetDisplay = props => {
             });
     }
 
-    function persistSketchpadLayer(layer) {
+    async function persistSketchpadLayer(layer) {
         console.log('persisting layer', layer);
         axios
             .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
