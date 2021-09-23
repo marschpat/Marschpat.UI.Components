@@ -2,12 +2,13 @@ import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import SketchpadPage from './SketchpadPage';
 import LayerControls from './LayerControls';
+import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
 import SketchpadLayerBlank from '../sketchpad/SketchpadLayerBlank';
 import { SketchpadContext } from '../../context/SketchpadContexts';
 import { MusicsheetLoaderContext } from '../../context/MusicsheetDisplayContexts';
 
 const Sketchpad = () => {
-    const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
+    const { musicsheetPages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     // const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const [isCreateActive, setIsCreateActive] = useState(true);
     // const voiceId = instrumentVoice.voiceID;
@@ -60,12 +61,14 @@ const Sketchpad = () => {
                 persistSketchpadLayer,
             }}
         >
-            <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
-                <LayerControls />
-                {pages.map((page, index) => (
-                    <SketchpadPage page={page} key={index} />
-                ))}
-            </SketchpadLayerBlank>
+            <MusicsheetPagesLoader>
+                <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
+                    <LayerControls />
+                    {musicsheetPages.map((page, index) => (
+                        <SketchpadPage page={page} key={index} />
+                    ))}
+                </SketchpadLayerBlank>
+            </MusicsheetPagesLoader>
         </SketchpadContext.Provider>
     );
 };

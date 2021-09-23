@@ -3,7 +3,12 @@ import axios from 'axios';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetPagesLoader = props => {
-    const { musicsheetMetaData: musicsheet, instrumentVoice: voice } = useContext(MusicsheetLoaderContext);
+    const {
+        musicsheetMetaData: musicsheet,
+        instrumentVoice: voice,
+        setHasError,
+        handleMusicsheetPagesLoaded,
+    } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
 
     useEffect(async () => {
@@ -13,14 +18,14 @@ const MusicsheetPagesLoader = props => {
                 setDownloadLinks(data);
             }
             if (!success) {
-                props.handleError(data);
+                setHasError(data);
             }
         }
     }, [musicsheet, voice]);
 
     useEffect(() => {
         if (downloadLinks) {
-            props.handleMusicsheetPagesLoaded(downloadLinks);
+            handleMusicsheetPagesLoaded(downloadLinks);
         }
     }, [downloadLinks]);
 

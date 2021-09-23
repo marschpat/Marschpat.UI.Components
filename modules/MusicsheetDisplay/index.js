@@ -12,7 +12,7 @@ import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
  * Handles errors if musicsheet doesn't exist.
  * Finds the default InstrumentVoice (if not passed as url param).
  */
-const MusicsheetLoader = props => {
+const MusicsheetLoader = () => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
@@ -36,9 +36,16 @@ const MusicsheetLoader = props => {
 
     return (
         <MusicsheetLoaderContext.Provider
-            value={{ musicsheetMetaData, musicsheetPages, instrumentVoice, setInstrumentVoice }}
+            value={{
+                musicsheetMetaData,
+                musicsheetPages,
+                instrumentVoice,
+                setInstrumentVoice,
+                handleMusicsheetPagesLoaded,
+                setHasError,
+            }}
         >
-            <MusicsheetPagesLoader handleError={setHasError} handleMusicsheetPagesLoaded={handleMusicsheetPagesLoaded}>
+            <MusicsheetPagesLoader>
                 <MusicsheetDialog />
             </MusicsheetPagesLoader>
 

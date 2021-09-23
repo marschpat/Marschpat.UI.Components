@@ -3,6 +3,7 @@ import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 import LayerImagesPerPage from './sketchpad/LayerImagesPerPage';
+import MusicsheetPagesLoader from './MusicsheetPagesLoader';
 
 const MusicsheetPageImageCarousel = () => {
     const ImageGalleryEl = useRef();
@@ -23,20 +24,22 @@ const MusicsheetPageImageCarousel = () => {
     }, [isCarouselFullscreen]);
 
     return (
-        <div className="relative">
-            <ImageGallery
-                items={pageImages}
-                ref={ImageGalleryEl}
-                showIndex={true}
-                thumbnailPosition="left"
-                showThumbnails={showPagesPreview}
-                onScreenChange={e => setIsCarouselFullscreen(e)}
-                onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
-                onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
-                onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
-            />
-            <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
-        </div>
+        <MusicsheetPagesLoader>
+            <div className="relative">
+                <ImageGallery
+                    items={pageImages}
+                    ref={ImageGalleryEl}
+                    showIndex={true}
+                    thumbnailPosition="left"
+                    showThumbnails={showPagesPreview}
+                    onScreenChange={e => setIsCarouselFullscreen(e)}
+                    onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
+                    onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
+                    onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
+                />
+                <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
+            </div>
+        </MusicsheetPagesLoader>
     );
 };
 
