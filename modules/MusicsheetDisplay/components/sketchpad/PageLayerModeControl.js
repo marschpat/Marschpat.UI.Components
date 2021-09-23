@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import ModeButtons from './ModeButtons';
 import ModeOptions from './ModeOptions';
 
