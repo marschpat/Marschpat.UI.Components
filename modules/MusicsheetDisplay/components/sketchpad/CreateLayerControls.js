@@ -5,8 +5,8 @@ import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContext
 import { Button } from '@material-ui/core';
 
 const CreateLayerControls = () => {
-    const { setCreateSketchpadLayer } = useContext(SketchpadLayerContext);
     const { toggleViewMode } = useContext(MusicsheetDisplayContext);
+    const { setCreateSketchpadLayer } = useContext(SketchpadLayerContext);
 
     return (
         <div className="md:flex md:items-center">
