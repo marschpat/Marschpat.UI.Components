@@ -5,7 +5,7 @@ import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 const InstrumentVoiceInfo = ({ voice }) => {
     const { instrumentVoice } = useContext(MusicsheetLoaderContext);
 
-    return <Typography>Stimme: {instrumentVoice.name}</Typography>;
+    return <Typography className="ml-20">Stimme: {instrumentVoice.name}</Typography>;
 };
 
 export default InstrumentVoiceInfo;

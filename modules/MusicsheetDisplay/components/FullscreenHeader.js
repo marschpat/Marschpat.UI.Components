@@ -1,5 +1,6 @@
 import React from 'react';
 import CarouselFullscreenButton from './CarouselFullscreenButton';
+import LayersSelect from './sketchpad/LayersSelect';
 import DialogCloseButton from './DialogCloseButton';
 import MusicsheetTitleInfo from './MusicsheetTitleInfo';
 import InstrumentVoiceInfo from './InstrumentVoiceInfo';
@@ -17,10 +18,11 @@ const FullscreenHeader = () => {
                     <div className="flex items-center">
                         <DialogCloseButton variant="arrow" />
                         <MusicsheetTitleInfo />
-                    </div>
-                    <div className="flex items-center">
                         <InstrumentVoiceInfo />
+                    </div>
+                    <div className="flex-1 flex items-center justify-center">
                         <ToggleSketchpadButton />
+                        <LayersSelect />
                     </div>
                     <div className="flex items-center">
                         <CarouselFullscreenButton />
