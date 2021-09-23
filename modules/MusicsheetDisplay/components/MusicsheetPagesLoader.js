@@ -24,8 +24,6 @@ const MusicsheetPagesLoader = props => {
         }
     }, [downloadLinks]);
 
-    return downloadLinks && props.children;
-
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
         try {
             const response = await axios.post(`/musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`);
@@ -40,6 +38,8 @@ const MusicsheetPagesLoader = props => {
             return { success: false, data: errorMsg };
         }
     }
+
+    return downloadLinks && props.children;
 };
 
 export default MusicsheetPagesLoader;

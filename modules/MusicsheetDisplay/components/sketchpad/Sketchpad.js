@@ -9,7 +9,7 @@ import { MusicsheetLoaderContext } from '../../context/MusicsheetDisplayContexts
 const Sketchpad = () => {
     const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     // const [sketchpadLayers, setSketchpadLayers] = useState([]);
-    const [isCreateActive, setIsCreateActive] = useState(false);
+    const [isCreateActive, setIsCreateActive] = useState(true);
     // const voiceId = instrumentVoice.voiceID;
     // const sheetId = musicsheetMetaData.sheetID;
 

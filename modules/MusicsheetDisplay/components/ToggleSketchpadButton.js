@@ -17,7 +17,7 @@ const ToggleSketchpadButton = () => {
             ) : (
                 <div>
                     <CommentIcon />
-                    <span className="ml-10">Notizen öffnen</span>
+                    <span className="ml-10">Notizen anlegen</span>
                 </div>
             )}
         </Button>
