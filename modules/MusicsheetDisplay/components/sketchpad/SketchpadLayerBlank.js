@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
-import { SketchpadContext, SketchpadLayerContext } from '../../context/SketchpadContexts';
+import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import { v4 as uuidv4 } from 'uuid';
 
 const SktechpadLayerBlank = props => {
@@ -15,8 +15,7 @@ const SktechpadLayerBlank = props => {
         voiceId: props.voiceId,
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
-    const { persistSketchpadLayer } = useContext(SketchpadContext);
-    const { setSketchpadLayers } = useContext(MusicsheetDisplayContext);
+    const { setSketchpadLayers, persistSketchpadLayer } = useContext(MusicsheetDisplayContext);
 
     // on close check if there's a layerInCreation that should be persisted
     useEffect(() => {

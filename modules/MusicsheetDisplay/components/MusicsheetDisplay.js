@@ -34,6 +34,10 @@ const MusicsheetDisplay = props => {
         return layers.map(item => ({ ...item, active: false }));
     }
 
+    function toggleViewMode() {
+        setViewMode(prev => (prev === 'view' ? 'sketchpad' : 'view'));
+    }
+
     function fetchSketchpadLayers() {
         console.log('fetching sketchpad layers', { sheetId, voiceId });
         const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
@@ -47,8 +51,16 @@ const MusicsheetDisplay = props => {
             });
     }
 
-    function toggleViewMode() {
-        setViewMode(prev => (prev === 'view' ? 'sketchpad' : 'view'));
+    function persistSketchpadLayer(layer) {
+        console.log('persisting layer', layer);
+        axios
+            .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
+            .then(response => {
+                console.log('okay! sketchpad layer persisted', response);
+            })
+            .catch(error => {
+                console.error(`Persisting sketchpad layer failed with an error.`, error);
+            });
     }
 
     return (
@@ -63,6 +75,7 @@ const MusicsheetDisplay = props => {
                 setShowPagesPreview,
                 sketchpadLayers,
                 setSketchpadLayers,
+                persistSketchpadLayer,
             }}
         >
             <FullscreenHeader />

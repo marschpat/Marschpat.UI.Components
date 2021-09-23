@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import axios from 'axios';
 import SketchpadPage from './SketchpadPage';
 import LayerControls from './LayerControls';
 import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
@@ -38,18 +37,6 @@ const Sketchpad = () => {
     //             console.error(`Fetching sketchpad layers from ${url} failed with an error.`, error);
     //         });
     // }
-
-    function persistSketchpadLayer(layer) {
-        console.log('persisting layer', layer);
-        axios
-            .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
-            .then(response => {
-                console.log('okay! sketchpad layer persisted', response);
-            })
-            .catch(error => {
-                console.error(`Persisting sketchpad layer failed with an error.`, error);
-            });
-    }
 
     return (
         <SketchpadContext.Provider
