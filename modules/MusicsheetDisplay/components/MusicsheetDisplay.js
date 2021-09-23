@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import axios from 'axios';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetPageImageCarousel from './MusicsheetPageImageCarousel';
-import { MusicsheetDisplayContext } from '../context/MusicsheetDisplayContexts';
+import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
+
+    const [sketchpadLayers, setSketchpadLayers] = useState([]);
+    const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
+    const voiceId = instrumentVoice.voiceID;
+    const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -15,7 +21,32 @@ const MusicsheetDisplay = props => {
         if (modeParam === 'sketchpad') {
             setViewMode('sketchpad');
         }
+
+        // fetch sketchpad layers
+        fetchSketchpadLayers();
+        const layers = require('../layers.example.js');
+        const layersInit = initializeLayers(layers);
+        setSketchpadLayers(layersInit);
+
+        console.log('my sketchpad layers?', layersInit);
     }, []);
+
+    function initializeLayers(layers) {
+        return layers.map(item => ({ ...item, active: false }));
+    }
+
+    function fetchSketchpadLayers() {
+        console.log('fetching sketchpad layers', { sheetId, voiceId });
+        const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
+        axios
+            .get(url)
+            .then(response => {
+                console.log('fetched sketchpad layers', response);
+            })
+            .catch(error => {
+                console.error(`Fetching sketchpad layers from ${url} failed with an error.`, error);
+            });
+    }
 
     function toggleViewMode() {
         setViewMode(prev => (prev === 'view' ? 'sketchpad' : 'view'));
@@ -31,6 +62,8 @@ const MusicsheetDisplay = props => {
                 setIsCarouselFullscreen,
                 showPagesPreview,
                 setShowPagesPreview,
+                sketchpadLayers,
+                setSketchpadLayers,
             }}
         >
             <FullscreenHeader />

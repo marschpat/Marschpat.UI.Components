@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
-import { SketchpadContext } from '../../context/SketchpadContexts';
+import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
+// import { SketchpadContext } from '../../context/SketchpadContexts';
 
 const LayerImagesPerPage = props => {
-    const { sketchpadLayers } = useContext(SketchpadContext);
+    const { sketchpadLayers } = useContext(MusicsheetDisplayContext);
 
     function getCurrentPageFromLayer(layer) {
         return layer.data.find(i => i.pageIndex === props.page.pageIndex);

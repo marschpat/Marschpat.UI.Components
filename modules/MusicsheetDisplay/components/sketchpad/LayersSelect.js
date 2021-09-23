@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { SketchpadContext } from '../../context/SketchpadContexts';
+// import { SketchpadContext } from '../../context/SketchpadContexts';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 
 const LayersSelect = () => {
-    const { sketchpadLayers, setSketchpadLayers } = useContext(SketchpadContext);
+    const { sketchpadLayers, setSketchpadLayers } = useContext(MusicsheetDisplayContext);
     const [values, setValues] = useState([]);
     const [options, setOptions] = useState([]);
 
