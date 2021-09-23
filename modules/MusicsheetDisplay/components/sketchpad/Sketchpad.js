@@ -3,7 +3,6 @@ import SketchpadPage from './SketchpadPage';
 import LayerControls from './LayerControls';
 import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
 import SketchpadLayerBlank from '../sketchpad/SketchpadLayerBlank';
-import { SketchpadContext } from '../../context/SketchpadContexts';
 import { MusicsheetLoaderContext } from '../../context/MusicsheetDisplayContexts';
 
 const Sketchpad = () => {
@@ -39,24 +38,14 @@ const Sketchpad = () => {
     // }
 
     return (
-        <SketchpadContext.Provider
-            value={{
-                // sketchpadLayers,
-                // setSketchpadLayers,
-                // isCreateActive,
-                // setIsCreateActive,
-                persistSketchpadLayer,
-            }}
-        >
-            <MusicsheetPagesLoader>
-                <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
-                    <LayerControls />
-                    {musicsheetPages.map((page, index) => (
-                        <SketchpadPage page={page} key={index} />
-                    ))}
-                </SketchpadLayerBlank>
-            </MusicsheetPagesLoader>
-        </SketchpadContext.Provider>
+        <MusicsheetPagesLoader>
+            <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
+                <LayerControls />
+                {musicsheetPages.map((page, index) => (
+                    <SketchpadPage page={page} key={index} />
+                ))}
+            </SketchpadLayerBlank>
+        </MusicsheetPagesLoader>
     );
 };
 
