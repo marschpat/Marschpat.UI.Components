@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import PageLayerBlank from './PageLayerBlank';
+import React, { useContext, useEffect, useState } from 'react';
 import LayerImagesPerPage from './LayerImagesPerPage';
 import PageLayerModeControl from './PageLayerModeControl';
 import { SketchpadContext } from '../../context/SketchpadContexts';
@@ -39,7 +38,6 @@ const SketchpadPage = props => {
                     hideGrid={true}
                 />
             )}
-            <p className="text-right">Seite {props.page.pageIndex + 1}</p>
         </div>
     );
 };

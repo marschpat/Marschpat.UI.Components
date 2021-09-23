@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import { SketchpadContext } from '../../context/SketchpadContexts';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 
@@ -32,7 +31,6 @@ const LayersSelect = () => {
     return (
         <div className="ml-24 max-w-640 w-full">
             <FuseChipSelect
-                className="w-full"
                 value={values}
                 onChange={handleActiveLayersChange}
                 placeholder="Bestehende Notizen ein/ausblenden"
