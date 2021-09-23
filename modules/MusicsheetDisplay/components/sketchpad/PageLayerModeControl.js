@@ -1,10 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { SketchpadContext } from '../../context/SketchpadContexts';
 import ModeButtons from './ModeButtons';
 import ModeOptions from './ModeOptions';
 
 const PageLayerModeControl = props => {
-    const { isCreateActive } = useContext(SketchpadContext);
     const availableModes = ['draw', 'marker', 'text', 'line'];
     const [mode, setMode] = useState('draw');
 
@@ -20,12 +18,10 @@ const PageLayerModeControl = props => {
 
     return (
         <div className="mb-4 flex items-center justify-between">
-            {isCreateActive && (
-                <div className="flex-1 flex items-center">
-                    <ModeButtons mode={mode} handleModeChange={handleModeChange} />
-                    <ModeOptions mode={mode} handleModeOptionsChanged={handleModeOptionsChanged} />
-                </div>
-            )}
+            <div className="flex-1 flex items-center">
+                <ModeButtons mode={mode} handleModeChange={handleModeChange} />
+                <ModeOptions mode={mode} handleModeOptionsChanged={handleModeOptionsChanged} />
+            </div>
         </div>
     );
 };

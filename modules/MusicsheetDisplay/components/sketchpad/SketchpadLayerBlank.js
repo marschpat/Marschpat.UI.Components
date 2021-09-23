@@ -14,7 +14,7 @@ const SktechpadLayerBlank = props => {
         voiceId: props.voiceId,
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
-    const { setIsCreateActive, setSketchpadLayers, persistSketchpadLayer } = useContext(SketchpadContext);
+    const { setSketchpadLayers, persistSketchpadLayer } = useContext(SketchpadContext);
 
     // on close check if there's a layerInCreation that should be persisted
     useEffect(() => {
@@ -60,8 +60,6 @@ const SktechpadLayerBlank = props => {
 
             return { ...prev, action: null, data: newData };
         });
-
-        setIsCreateActive(false);
     }
 
     function resetLayerInCreation() {
