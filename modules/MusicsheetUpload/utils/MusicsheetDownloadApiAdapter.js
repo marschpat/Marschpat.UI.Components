@@ -47,19 +47,21 @@ class MusicsheetDownloadApiAdapter {
     }
 
     /**
-     * We could provide voiceOptoins here and set the actual voice item.
+     * We could provide voiceOptions here and set the actual voice item.
      * Right now we're just returning the id and label provided in the edit data download
      */
     mapVoices(voices, voiceOptions = null) {
         return voices.map(voice => {
+            const voiceId = voice.voiceID;
             if (!voiceOptions) {
-                return { value: voice.voiceID, label: voice.label };
+                return { value: voiceId, label: voice.label, voiceID: voiceId };
             }
-            const voiceOption = voiceOptions.find(item => item.voiceID === voice.voiceID);
+            const voiceOption = voiceOptions.find(item => item.voiceID === voiceId);
             return (
                 voiceOption ?? {
-                    value: voice.voiceID,
+                    value: voiceId,
                     label: 'Stimme noch nicht bearbeitet',
+                    voiceID: voiceId,
                 }
             );
         });
