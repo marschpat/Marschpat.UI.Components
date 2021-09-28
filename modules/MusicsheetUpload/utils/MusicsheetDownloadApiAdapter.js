@@ -53,12 +53,12 @@ class MusicsheetDownloadApiAdapter {
     mapVoices(voices, voiceOptions = null) {
         return voices.map(voice => {
             if (!voiceOptions) {
-                return { voiceID: voice.voiceID, label: voice.label };
+                return { value: voice.voiceID, label: voice.label };
             }
             const voiceOption = voiceOptions.find(item => item.voiceID === voice.voiceID);
             return (
                 voiceOption ?? {
-                    voiceID: voice.voiceID,
+                    value: voice.voiceID,
                     label: 'Stimme noch nicht bearbeitet',
                 }
             );
