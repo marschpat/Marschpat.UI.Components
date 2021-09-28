@@ -9,7 +9,6 @@ const InitializeFromLocalPayload = props => {
     useEffect(() => {
         if (rawInitialData) {
             setLogMsg(prev => (prev += 'Try to initialize payload \n'));
-            console.log('paylaod', rawInitialData);
             try {
                 props.handleMusicsheetEditData(rawInitialData);
             } catch (error) {

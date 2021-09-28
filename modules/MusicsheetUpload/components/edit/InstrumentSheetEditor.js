@@ -25,7 +25,7 @@ const InstrumentSheetEditor = props => {
         (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const { dispatchFlashMessage } = useContext(UploaderContext);
+    const { dispatchFlashMessage, handleAvailableVoicesUpdate } = useContext(UploaderContext);
 
     return pageInEdit ? (
         <div className="flex">
@@ -97,7 +97,6 @@ const InstrumentSheetEditor = props => {
                             </div>
                             <VoicesAssignmentSelection
                                 assignedVoices={assignedVoices}
-                                availableVoices={props.availableVoices}
                                 handleVoicesAssignemnt={setAssignedVoices}
                             />
                         </div>
@@ -144,7 +143,7 @@ const InstrumentSheetEditor = props => {
      */
     function storeAndUpdateVoices() {
         persistCurrentInstrumentSheet();
-        props.handleAssignedVoicesChange();
+        handleAvailableVoicesUpdate();
         dispatchFlashMessage('Instrumentenstimme gespeichert', 'success');
     }
 

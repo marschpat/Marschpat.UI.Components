@@ -52,7 +52,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                     user,
                     organisation,
                     implementationMode,
-                    dispatchFlashMessage
+                    dispatchFlashMessage,
+                    availableInstrumentVoices,
+                    handleAvailableVoicesUpdate,
                 }}
             >
                 <EditModeInspector
@@ -115,10 +117,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                             open={openEdit}
                             castName={metaData?.castName}
                             instrumentSheet={instrumentSheetInEdit}
-                            availableVoices={availableInstrumentVoices}
                             handleClose={toggleInstrumentSheetEditDialog}
                             handleInstrumentSheetUpdate={updateInstrumentSheet}
-                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
                             handleNextInstrumentSheet={openNextAvailableInstrumentSheet}
                             handleOriginalFileManipulation={manipulateInstrumentSheets}
                         />

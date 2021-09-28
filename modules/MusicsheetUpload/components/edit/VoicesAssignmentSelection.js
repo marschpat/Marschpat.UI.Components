@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { UploaderContext } from '../../context/UploaderContext';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import Typography from '@material-ui/core/Typography';
 
 const VoicesAssignmentSelection = props => {
     const [availableVoices, setAvailableVoices] = useState(null);
     const [showWarning, setShowWarning] = useState(null);
+    const { availableInstrumentVoices } = useContext(UploaderContext);
 
     const handleChange = (values, detail) => {
         // if removed value isn't included in availableVoices yet, reinclude it
@@ -27,13 +29,13 @@ const VoicesAssignmentSelection = props => {
     };
 
     useEffect(() => {
-        if (!props.availableVoices) {
+        if (!availableInstrumentVoices) {
             setShowWarning(true);
         }
-        if (props.availableVoices) {
-            setAvailableVoices(props.availableVoices);
+        if (availableInstrumentVoices) {
+            setAvailableVoices(availableInstrumentVoices);
         }
-    }, [props.availableVoices]);
+    }, [availableInstrumentVoices]);
 
     return (
         <div className="w-full">
