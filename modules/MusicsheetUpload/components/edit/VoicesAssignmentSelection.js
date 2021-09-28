@@ -9,7 +9,6 @@ const VoicesAssignmentSelection = props => {
     const { availableInstrumentVoices } = useContext(UploaderContext);
 
     const handleChange = (values, detail) => {
-        console.log('somethings happening', { values, detail });
         // if removed value isn't included in availableVoices yet, reinclude it
         if (detail.action === 'remove-value') {
             setAvailableVoices(prev => {
