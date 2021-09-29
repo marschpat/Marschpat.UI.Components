@@ -5,13 +5,11 @@ import TableRow from '@material-ui/core/TableRow';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 
 function MusicsheetInfoPopover(props) {
-    const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
-    const id = open ? 'music-information' : null;
+    const showInfoAttributes = {};
 
     useEffect(() => {
         if (props.target) {
@@ -31,7 +29,7 @@ function MusicsheetInfoPopover(props) {
     return (
         props.musicsheet && (
             <Popover
-                id={id}
+                id="music-information"
                 open={open}
                 anchorEl={anchorEl}
                 onClose={handleClose}
@@ -44,70 +42,60 @@ function MusicsheetInfoPopover(props) {
                     horizontal: 'center',
                 }}
             >
-                <div className={classes.mainContent}>
+                <div>
                     <Table className="w-full min-w-full">
                         <TableBody>
                             <TableRow key={'title'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Titel'}</Typography>
+                                    <Typography>{'Titel'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>{props.musicsheet.name}</Typography>
+                                    <Typography>{props.musicsheet.name}</Typography>
                                 </TableCell>
                             </TableRow>
 
                             <TableRow key={'componist'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Komponist'}</Typography>
+                                    <Typography>{'Komponist'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>
-                                        {props.musicsheet.composerName}
-                                    </Typography>
+                                    <Typography>{props.musicsheet.composerName}</Typography>
                                 </TableCell>
                             </TableRow>
 
                             <TableRow key={'publisher'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Verlag'}</Typography>
+                                    <Typography>{'Verlag'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>
-                                        {props.musicsheet.publisher}
-                                    </Typography>
+                                    <Typography>{props.musicsheet.publisher}</Typography>
                                 </TableCell>
                             </TableRow>
 
                             <TableRow key={'arrangeur'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Arrangeur'}</Typography>
+                                    <Typography>{'Arrangeur'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>
-                                        {props.musicsheet.arrangeurName}
-                                    </Typography>
+                                    <Typography>{props.musicsheet.arrangeurName}</Typography>
                                 </TableCell>
                             </TableRow>
 
                             <TableRow key={'cast'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Besetzung'}</Typography>
+                                    <Typography>{'Besetzung'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>
-                                        {props.musicsheet.castName}
-                                    </Typography>
+                                    <Typography>{props.musicsheet.castName}</Typography>
                                 </TableCell>
                             </TableRow>
 
                             <TableRow key={'copyright'}>
                                 <TableCell key={'desc'} component="th" scope="row">
-                                    <Typography className={classes.typographyDesc}>{'Copyright'}</Typography>
+                                    <Typography>{'Copyright'}</Typography>
                                 </TableCell>
                                 <TableCell key={'value'} component="th" scope="row">
-                                    <Typography className={classes.typographyValue}>
-                                        {props.musicsheet.copyright}
-                                    </Typography>
+                                    <Typography>{props.musicsheet.copyright}</Typography>
                                 </TableCell>
                             </TableRow>
                         </TableBody>
@@ -118,17 +106,17 @@ function MusicsheetInfoPopover(props) {
     );
 }
 
-const useStyles = makeStyles(theme => ({
-    mainContent: {
-        padding: theme.spacing(2),
-    },
-    typographyDesc: {
-        fontSize: 14,
-        fontWeight: 700,
-    },
-    typographyValue: {
-        fontSize: 12,
-    },
-}));
+// const useStyles = makeStyles(theme => ({
+//     mainContent: {
+//         padding: theme.spacing(2),
+//     },
+//     typographyDesc: {
+//         fontSize: 14,
+//         fontWeight: 700,
+//     },
+//     typographyValue: {
+//         fontSize: 12,
+//     },
+// }));
 
 export default MusicsheetInfoPopover;
