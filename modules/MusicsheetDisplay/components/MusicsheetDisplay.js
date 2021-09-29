@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
-import MusicsheetPageImageCarousel from './MusicsheetPageImageCarousel';
+import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
 import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetDisplay = props => {
@@ -82,7 +82,7 @@ const MusicsheetDisplay = props => {
 
             <div className="mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
-                {viewMode === 'view' && <MusicsheetPageImageCarousel />}
+                {viewMode === 'view' && <MusicsheetGalleryWithSketchpadLayers />}
 
                 {/* render SKETCHPAD view mode */}
                 {viewMode === 'sketchpad' && <Sketchpad />}

@@ -4,7 +4,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import MusicsheetPagesLoader from './MusicsheetPagesLoader';
 import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
-const MusicsheetPageImageCarousel = () => {
+const MusicsheetGalleryWithSketchpadLayers = () => {
     const imageGalleryEl = useRef();
     const [pageImages, setPageImages] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -104,4 +104,4 @@ const MusicsheetPageImageCarousel = () => {
     );
 };
 
-export default MusicsheetPageImageCarousel;
+export default MusicsheetGalleryWithSketchpadLayers;
