@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
-import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
-import LayerImagesPerPage from './sketchpad/LayerImagesPerPage';
 import MusicsheetPagesLoader from './MusicsheetPagesLoader';
+import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetPageImageCarousel = () => {
     const imageGalleryEl = useRef();
@@ -13,7 +12,7 @@ const MusicsheetPageImageCarousel = () => {
     const { isCarouselFullscreen, setIsCarouselFullscreen, showPagesPreview, sketchpadLayers } =
         useContext(MusicsheetDisplayContext);
 
-    let imagesLoadedCount = 0;
+    const [imagesLoadedCount, setImagesLoadedCount] = useState(0);
 
     useEffect(() => {
         const images = musicsheetPages.map(item => ({ original: item.downloadLink, thumbnail: item.downloadLink }));
@@ -26,20 +25,23 @@ const MusicsheetPageImageCarousel = () => {
         }
     }, [isCarouselFullscreen]);
 
-    function initializeSketchpadLayers(event) {
-        imagesLoadedCount += 1;
-        console.log('images loaded', imagesLoadedCount);
+    useEffect(() => {
+        initializeSketchpadLayers();
+    }, [sketchpadLayers, imagesLoadedCount]);
+
+    function allImagesInitialized(event) {
+        setImagesLoadedCount(prev => (prev += 1));
+    }
+
+    function initializeSketchpadLayers() {
         if (allImagesLoaded()) {
-            console.log('everything loaded, initialize Sketchpad Layers');
             const slideWrapper = imageGalleryEl.current && imageGalleryEl.current.imageGallerySlideWrapper.current;
             if (slideWrapper && sketchpadLayers.length > 0) {
                 const container = document.createElement('div');
                 const layerWrapper = document.createElement('div');
-
                 container.className = 'absolute inset-0';
-
                 const layers = sketchpadLayers
-                    // .filter(layer => layer.active && getCurrentPageFromLayer(layer))
+                    .filter(layer => layer.active && getCurrentPageFromLayer(layer))
                     .map(layer => {
                         const img = document.createElement('img');
                         img.src = getCurrentPageFromLayer(layer).data;
@@ -77,15 +79,8 @@ const MusicsheetPageImageCarousel = () => {
                     onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
                     onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
                     onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
-                    onImageLoad={initializeSketchpadLayers}
+                    onImageLoad={allImagesInitialized}
                 />
-                {/* {container && <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} container={container} />} */}
-                {/* <div
-                    className="mx-auto absolute top-0 flex justify-center"
-                    style={{ width: 'calc(100% - 110px)', marginLeft: '91px' }}
-                >
-                    <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
-                </div> */}
             </div>
         </MusicsheetPagesLoader>
     );
