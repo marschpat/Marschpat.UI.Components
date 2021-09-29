@@ -42,8 +42,8 @@ const MusicsheetPageImageCarousel = () => {
             if (slideWrapper && sketchpadLayers.length > 0) {
                 const container = document.createElement('div');
                 const layerWrapper = document.createElement('div');
-                container.className = 'absolute inset-0 sketchpad-layer';
-
+                container.className = 'absolute inset-0 js-sketchpad-layer';
+                layerWrapper.className = 'relative';
                 const layers = generateActiveSketchpadLayerImages();
 
                 layers.forEach(layer => {
@@ -61,7 +61,7 @@ const MusicsheetPageImageCarousel = () => {
             .map(layer => {
                 const img = document.createElement('img');
                 img.src = getCurrentPageFromLayer(layer).data;
-                img.className = 'absolute top-0';
+                img.className = 'absolute inset-0 mx-auto max-h-screen';
                 return img;
             });
     }
@@ -71,7 +71,7 @@ const MusicsheetPageImageCarousel = () => {
     }
 
     function cleanUpPreviousLayerImages() {
-        const existingLayers = document.querySelectorAll('.sketchpad-layer');
+        const existingLayers = document.querySelectorAll('.js-sketchpad-layer');
         if (existingLayers.length > 0) {
             existingLayers.forEach(existingLayer => existingLayer.remove());
         }
