@@ -5,6 +5,15 @@ import Typography from '@material-ui/core/Typography';
 function MusicsheetInfoPopover(props) {
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
+    const infoRows = [
+        { name: 'Titel', value: props.musicsheet?.name ?? null },
+        { name: 'Komponist', value: props.musicsheet?.composerName ?? null },
+        { name: 'Verlag', value: props.musicsheet?.publisher ?? null },
+        { name: 'Arrangeur', value: props.musicsheet?.arrangeurName ?? null },
+        { name: 'Besetzung', value: props.musicsheet?.castName ?? null },
+        { name: 'Copyright', value: props.musicsheet?.copyright ?? null },
+        { name: 'Untertitel', value: props.musicsheet?.subTitle ?? null },
+    ];
 
     useEffect(() => {
         if (props.target) {
@@ -35,13 +44,7 @@ function MusicsheetInfoPopover(props) {
             }}
         >
             <div className="p-20">
-                <InfoRow name="Titel" value={props.musicsheet.name} />
-                <InfoRow name="Komponist" value={props.musicsheet.composerName} />
-                <InfoRow name="Verlag" value={props.musicsheet.publisher} />
-                <InfoRow name="Arrangeur" value={props.musicsheet.arrangeurName} />
-                <InfoRow name="Besetzung" value={props.musicsheet.castName} />
-                <InfoRow name="Copyright" value={props.musicsheet.copyright} />
-                <InfoRow name="Untertitel" value={props.musicsheet.subTitle} />
+                {infoRows.map((row, index) => row.value && <InfoRow name={row.name} value={row.value} key={index} />)}
             </div>
         </Popover>
     ) : (
@@ -50,7 +53,7 @@ function MusicsheetInfoPopover(props) {
 
     function InfoRow({ name, value }) {
         return (
-            <div className="grid grid-cols-2 gap-4 border-b" key={name + Math.random()}>
+            <div className="grid grid-cols-2 gap-4 border-b">
                 <div>
                     <Typography className="text-lg font-semibold">{name}</Typography>
                 </div>
