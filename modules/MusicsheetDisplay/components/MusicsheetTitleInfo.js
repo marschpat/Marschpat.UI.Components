@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import MusicsheetInfoPopover from '@marschpat/Marschpat.UI.Components/components/MusicsheetInfoPopover';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 import Typography from '@material-ui/core/Typography';
