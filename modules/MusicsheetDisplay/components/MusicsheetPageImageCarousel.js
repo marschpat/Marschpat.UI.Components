@@ -18,9 +18,14 @@ const MusicsheetPageImageCarousel = () => {
 
         // const slideWrapper = ImageGalleryEl.current && ImageGalleryEl.current.imageGallerySlideWrapper.current;
         // if (slideWrapper) {
-        //     const newContents = <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />;
-        //     console.log('new contenets', newContents);
-        //     // slideWrapper.insertBefore(newContents, null);
+        //     console.log('slidewrapper', slideWrapper);
+        //     slideWrapper.className = 'relative';
+
+        //     const container = document.createElement('div');
+        //     container.className = 'absolute inset-0';
+        //     container.style.backgroundColor = '#3f3f3f';
+
+        //     slideWrapper.insertBefore(container, null);
         // }
     }, [musicsheetPages]);
 
@@ -29,13 +34,6 @@ const MusicsheetPageImageCarousel = () => {
             ImageGalleryEl.current.fullScreen();
         }
     }, [isCarouselFullscreen]);
-
-    // function loadLayerImages(event) {
-    //     console.log('okay loaded', event);
-    //     const newNode = <div>foo</div>;
-    //     const galleryImg = event.target;
-    //     galleryImg.insertBefore(newNode, null);
-    // }
 
     return (
         <MusicsheetPagesLoader>
@@ -50,7 +48,6 @@ const MusicsheetPageImageCarousel = () => {
                     onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
                     onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
                     onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
-                    // onImageLoad={loadLayerImages}
                 />
                 <div
                     className="mx-auto absolute top-0 flex justify-center"
