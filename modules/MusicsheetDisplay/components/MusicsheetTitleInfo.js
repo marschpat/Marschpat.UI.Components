@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import MusicsheetPopoverInfo from './MusicsheetPopoverInfo';
+import MusicsheetInfoPopover from '@marschpat/Marschpat.UI.Components/components/MusicsheetInfoPopover';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 import Icon from '@material-ui/core/Icon';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -28,7 +28,7 @@ const MusicsheetTitleInfo = () => {
                 </IconButton>
             </Tooltip>
 
-            <MusicsheetPopoverInfo
+            <MusicsheetInfoPopover
                 musicsheet={musicsheetMetaData}
                 target={showPopover}
                 handlePopoverReset={() => setShowPopover(false)}

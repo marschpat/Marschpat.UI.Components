@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-function MusicsheetPopoverInfo(props) {
+function MusicsheetInfoPopover(props) {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -25,7 +25,9 @@ function MusicsheetPopoverInfo(props) {
         setAnchorEl(null);
         props.handlePopoverReset();
     };
-
+    if (props.musicsheet === undefined) {
+        return <></>;
+    }
     return (
         props.musicsheet && (
             <Popover
@@ -129,4 +131,4 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default MusicsheetPopoverInfo;
+export default MusicsheetInfoPopover;
