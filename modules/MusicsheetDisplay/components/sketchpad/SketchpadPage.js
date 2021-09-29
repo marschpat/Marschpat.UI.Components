@@ -68,14 +68,17 @@ const SketchpadPage = props => {
         <div className="mt-24 border-b">
             <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
             {layerOptions && pageDimensions && (
-                <CanvasDraw
-                    ref={canvasDrawEl}
-                    imgSrc={props.page.downloadLink}
-                    canvasWidth={pageDimensions.width}
-                    canvasHeight={pageDimensions.height}
-                    hideGrid={true}
-                />
+                <div className="py-24 w-full flex justify-center">
+                    <CanvasDraw
+                        ref={canvasDrawEl}
+                        imgSrc={props.page.downloadLink}
+                        canvasWidth={pageDimensions.width}
+                        canvasHeight={pageDimensions.height}
+                        hideGrid={true}
+                    />
+                </div>
             )}
+            <div className="mb-12 text-right text-gray-700">Seite {props.page.pageIndex + 1}</div>
         </div>
     );
 };
