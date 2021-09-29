@@ -10,7 +10,13 @@ const LayerImagesPerPage = props => {
 
     return sketchpadLayers
         .filter(layer => layer.active && getCurrentPageFromLayer(layer))
-        .map(layer => <img src={getCurrentPageFromLayer(layer).data} className="absolute inset-0" key={layer.uuid} />);
+        .map(layer => (
+            <img
+                src={getCurrentPageFromLayer(layer).data}
+                key={layer.uuid}
+                style={{ maxHeight: 'calc(100vh - 80px)' }}
+            />
+        ));
 };
 
 export default LayerImagesPerPage;

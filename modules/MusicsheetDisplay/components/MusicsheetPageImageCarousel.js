@@ -15,6 +15,13 @@ const MusicsheetPageImageCarousel = () => {
     useEffect(() => {
         const images = musicsheetPages.map(item => ({ original: item.downloadLink, thumbnail: item.downloadLink }));
         setPageImages(images);
+
+        // const slideWrapper = ImageGalleryEl.current && ImageGalleryEl.current.imageGallerySlideWrapper.current;
+        // if (slideWrapper) {
+        //     const newContents = <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />;
+        //     console.log('new contenets', newContents);
+        //     // slideWrapper.insertBefore(newContents, null);
+        // }
     }, [musicsheetPages]);
 
     useEffect(() => {
@@ -22,6 +29,13 @@ const MusicsheetPageImageCarousel = () => {
             ImageGalleryEl.current.fullScreen();
         }
     }, [isCarouselFullscreen]);
+
+    // function loadLayerImages(event) {
+    //     console.log('okay loaded', event);
+    //     const newNode = <div>foo</div>;
+    //     const galleryImg = event.target;
+    //     galleryImg.insertBefore(newNode, null);
+    // }
 
     return (
         <MusicsheetPagesLoader>
@@ -36,8 +50,11 @@ const MusicsheetPageImageCarousel = () => {
                     onBeforeSlide={nextIndex => setCurrentPageIndex(null)}
                     onSlide={currentIndex => setCurrentPageIndex(currentIndex)}
                     onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
+                    // onImageLoad={loadLayerImages}
                 />
-                <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
+                <div className="mx-auto absolute inset-0 flex justify-center" style={{ width: 'calc(100% - 110px)' }}>
+                    <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
+                </div>
             </div>
         </MusicsheetPagesLoader>
     );
