@@ -52,7 +52,10 @@ const MusicsheetPageImageCarousel = () => {
                     onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
                     // onImageLoad={loadLayerImages}
                 />
-                <div className="mx-auto absolute inset-0 flex justify-center" style={{ width: 'calc(100% - 110px)' }}>
+                <div
+                    className="mx-auto absolute top-0 flex justify-center"
+                    style={{ width: 'calc(100% - 110px)', marginLeft: '91px' }}
+                >
                     <LayerImagesPerPage page={{ pageIndex: currentPageIndex }} />
                 </div>
             </div>
