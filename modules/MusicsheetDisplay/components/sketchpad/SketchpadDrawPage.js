@@ -8,7 +8,7 @@ const SketchpadDrawPage = props => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
-    const { updateLayerInCreationData, layerInCreation } = useContext(SketchpadLayerContext);
+    const { updateLayerInCreationData } = useContext(SketchpadLayerContext);
     const inDebug = useInDebugMode();
 
     useEffect(() => {
@@ -23,17 +23,10 @@ const SketchpadDrawPage = props => {
             });
     }, []);
 
-    useEffect(() => {
-        if (layerInCreation.action === 'create') {
-            // @ToDo: Don't persist layer if canvas is empty
-            // @ToDo: Persist saveData as well, for loading within SketchpadDrawPage afterwards
-            const saveData = canvasDrawEl.current.getSaveData();
-            const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-            // console.log('saveData?', saveData);
-            // console.log('data?', data);
-            createPageLayerObject(data);
-        }
-    }, [layerInCreation]);
+    function handleCanvasDrawChange(e) {
+        const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
+        createPageLayerObject(data);
+    }
 
     function createPageLayerObject(data) {
         const layer = {
@@ -62,6 +55,7 @@ const SketchpadDrawPage = props => {
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
+                        onChange={handleCanvasDrawChange}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
                         brushColor={layerOptions.color}
