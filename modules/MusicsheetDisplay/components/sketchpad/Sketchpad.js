@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import SketchpadPage from './SketchpadPage';
+import SketchpadDrawPage from './SketchpadDrawPage';
 import LayerControls from './LayerControls';
 import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
 import SketchpadLayerBlank from '../sketchpad/SketchpadLayerBlank';
@@ -13,7 +13,7 @@ const Sketchpad = () => {
             <SketchpadLayerBlank sheetId={musicsheetMetaData.sheetID} voiceId={instrumentVoice.voiceID}>
                 <LayerControls />
                 {musicsheetPages.map((page, index) => (
-                    <SketchpadPage page={page} key={index} />
+                    <SketchpadDrawPage page={page} key={index} />
                 ))}
             </SketchpadLayerBlank>
         </MusicsheetPagesLoader>

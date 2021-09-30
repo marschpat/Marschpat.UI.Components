@@ -4,7 +4,7 @@ import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import CanvasDraw from 'react-canvas-draw';
 
-const SketchpadPage = props => {
+const SketchpadDrawPage = props => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
@@ -26,7 +26,7 @@ const SketchpadPage = props => {
     useEffect(() => {
         if (layerInCreation.action === 'create') {
             // @ToDo: Don't persist layer if canvas is empty
-            // @ToDo: Persist saveData as well, for loading within SketchpadPage afterwards
+            // @ToDo: Persist saveData as well, for loading within SketchpadDrawPage afterwards
             const saveData = canvasDrawEl.current.getSaveData();
             const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
             // console.log('saveData?', saveData);
@@ -85,4 +85,4 @@ const SketchpadPage = props => {
     );
 };
 
-export default SketchpadPage;
+export default SketchpadDrawPage;
