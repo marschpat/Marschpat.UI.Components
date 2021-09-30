@@ -74,6 +74,8 @@ const SketchpadPage = props => {
                         imgSrc={props.page.downloadLink}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
+                        brushColor={layerOptions.color}
+                        brushRadius={layerOptions.size}
                         hideGrid={true}
                     />
                 </div>
