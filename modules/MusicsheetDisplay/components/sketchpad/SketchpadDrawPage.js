@@ -36,8 +36,6 @@ const SketchpadDrawPage = props => {
     }, [layerInCreation]);
 
     function createPageLayerObject(data) {
-        if (isCanvasBlank()) return false;
-
         const layer = {
             data: data,
             sheetId: props.page.musicSheetId,
@@ -54,14 +52,6 @@ const SketchpadDrawPage = props => {
         link.href = data;
         link.click();
         link.delete;
-    }
-
-    function isCanvasBlank() {
-        const canvas = canvasDrawEl.current.canvasContainer.children[1];
-        return !canvas
-            .getContext('2d')
-            .getImageData(0, 0, canvas.width, canvas.height)
-            .data.some(channel => channel !== 0);
     }
 
     return (
