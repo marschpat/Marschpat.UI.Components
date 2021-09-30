@@ -67,7 +67,7 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     }
 
     function getCurrentPageFromLayer(layer) {
-        return layer.data.find(i => i.pageIndex === currentPageIndex);
+        return layer.pages.find(i => i.pageIndex === currentPageIndex);
     }
 
     function cleanUpPreviousLayerImages() {

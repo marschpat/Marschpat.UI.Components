@@ -1,7 +1,7 @@
 [
     {
         "id": "61124ffe-6584-4326-8049-b97c36b2e300",
-        "data": [
+        "pages": [
             { "pageIndex": 1, "data": "data:image/png;base64,iVBORw0KGgo..." },
             { "pageIndex": 2, "data": "data:image/png;base64,asdf31rkjfv..." },
             { "pageIndex": 4, "data": "data:image/png;base64,skfj1f1afgg..." }
@@ -12,7 +12,7 @@
     },
     {
         "id": "55524ffe-6584-4326-8049-b97c36b2fe24",
-        "data": [{ "pageIndex": 1, "data": "data:image/png;base64,iofj1f1afwgf..." }],
+        "pages": [{ "pageIndex": 1, "data": "data:image/png;base64,iofj1f1afwgf..." }],
         "name": "Markus Notizen",
         "sheetId": 21,
         "voiceId": 4

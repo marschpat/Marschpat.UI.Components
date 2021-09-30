@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import PageLayerModeControl from './PageLayerModeControl';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
-import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import CanvasDraw from 'react-canvas-draw';
 
 const SketchpadDrawPage = props => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
-    const { updateLayerInCreationData, layerInCreation } = useContext(SketchpadLayerContext);
-    const inDebug = useInDebugMode();
+    const { updateLayerInCreationData } = useContext(SketchpadLayerContext);
 
     useEffect(() => {
         // determine page images original size
@@ -23,45 +21,19 @@ const SketchpadDrawPage = props => {
             });
     }, []);
 
-    useEffect(() => {
-        if (layerInCreation.action === 'create') {
-            // @ToDo: Don't persist layer if canvas is empty
-            // @ToDo: Persist saveData as well, for loading within SketchpadDrawPage afterwards
-            const saveData = canvasDrawEl.current.getSaveData();
-            const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-            // console.log('saveData?', saveData);
-            // console.log('data?', data);
-            createPageLayerObject(data);
-        }
-    }, [layerInCreation]);
+    function handleCanvasDrawChange(e) {
+        const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
+        createPageLayerObject(data);
+    }
 
     function createPageLayerObject(data) {
-        if (isCanvasBlank()) return false;
-
-        const layer = {
+        const layerPage = {
             data: data,
             sheetId: props.page.musicSheetId,
             voiceId: props.page.voiceId,
             pageIndex: props.page.pageIndex,
         };
-        updateLayerInCreationData(layer);
-        if (inDebug) downloadLayer(data);
-    }
-
-    function downloadLayer(data) {
-        const link = document.createElement('a');
-        link.download = `sketchpad-layer-${props.page.musicSheetId}-${props.page.voiceId}-pageIndex${props.page.pageIndex}.png`;
-        link.href = data;
-        link.click();
-        link.delete;
-    }
-
-    function isCanvasBlank() {
-        const canvas = canvasDrawEl.current.canvasContainer.children[1];
-        return !canvas
-            .getContext('2d')
-            .getImageData(0, 0, canvas.width, canvas.height)
-            .data.some(channel => channel !== 0);
+        updateLayerInCreationData(layerPage);
     }
 
     return (
@@ -72,6 +44,7 @@ const SketchpadDrawPage = props => {
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
+                        onChange={handleCanvasDrawChange}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
                         brushColor={layerOptions.color}
