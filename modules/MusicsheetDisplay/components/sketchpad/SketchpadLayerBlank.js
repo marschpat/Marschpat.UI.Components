@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,7 +7,6 @@ const SktechpadLayerBlank = props => {
     const initialLayer = () => ({
         uuid: uuidv4(),
         name: null,
-        action: null,
         options: null,
         active: false,
         data: [],
@@ -17,21 +16,18 @@ const SktechpadLayerBlank = props => {
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
     const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
 
-    // on close check if there's a layerInCreation that should be persisted
-    useEffect(async () => {
-        if (layerInCreation.action === 'create') {
-            await persistLayerInCreation();
-            resetLayerInCreation();
-            toggleViewMode();
-        }
-    }, [layerInCreation]);
-
     function setLayerInCreationName(name) {
         setLayerInCreation(prev => ({ ...prev, name }));
     }
 
-    function setCreateSketchpadLayer() {
-        setLayerInCreation(prev => ({ ...prev, action: 'create' }));
+    async function handlePersistLayer() {
+        if (layerInCreation.data.length < 1) {
+            alert('Notiz ist leer');
+            return false;
+        }
+        await persistLayerInCreation();
+        resetLayerInCreation();
+        toggleViewMode();
     }
 
     function persistLayerInCreation() {
@@ -60,7 +56,7 @@ const SktechpadLayerBlank = props => {
                 data: layerObject.data,
             });
 
-            return { ...prev, action: null, data: newData };
+            return { ...prev, data: newData };
         });
     }
 
@@ -74,7 +70,7 @@ const SktechpadLayerBlank = props => {
                 layerInCreation,
                 updateLayerInCreationData,
                 setLayerInCreationName,
-                setCreateSketchpadLayer,
+                handlePersistLayer,
             }}
         >
             {props.children}
