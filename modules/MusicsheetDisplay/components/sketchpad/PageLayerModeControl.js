@@ -3,7 +3,7 @@ import ModeButtons from './ModeButtons';
 import ModeOptions from './ModeOptions';
 
 const PageLayerModeControl = props => {
-    const availableModes = ['draw', 'marker', 'text', 'line'];
+    const availableModes = ['draw', 'marker', 'text'];
     const [mode, setMode] = useState('draw');
 
     function handleModeChange(e, value) {
