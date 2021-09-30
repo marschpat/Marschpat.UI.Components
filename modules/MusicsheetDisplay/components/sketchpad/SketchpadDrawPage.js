@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import PageLayerModeControl from './PageLayerModeControl';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
-import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import CanvasDraw from 'react-canvas-draw';
 
 const SketchpadDrawPage = props => {
@@ -9,7 +8,6 @@ const SketchpadDrawPage = props => {
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
     const { updateLayerInCreationData } = useContext(SketchpadLayerContext);
-    const inDebug = useInDebugMode();
 
     useEffect(() => {
         // determine page images original size
@@ -36,15 +34,6 @@ const SketchpadDrawPage = props => {
             pageIndex: props.page.pageIndex,
         };
         updateLayerInCreationData(layer);
-        if (inDebug) downloadLayer(data);
-    }
-
-    function downloadLayer(data) {
-        const link = document.createElement('a');
-        link.download = `sketchpad-layer-${props.page.musicSheetId}-${props.page.voiceId}-pageIndex${props.page.pageIndex}.png`;
-        link.href = data;
-        link.click();
-        link.delete;
     }
 
     return (

@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
+import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
+import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import { v4 as uuidv4 } from 'uuid';
 
 const SktechpadLayerBlank = props => {
@@ -15,6 +16,7 @@ const SktechpadLayerBlank = props => {
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
     const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
+    const inDebug = useInDebugMode();
 
     function setLayerInCreationName(name) {
         setLayerInCreation(prev => ({ ...prev, name }));
@@ -28,6 +30,7 @@ const SktechpadLayerBlank = props => {
         await persistLayerInCreation();
         resetLayerInCreation();
         toggleViewMode();
+        if (inDebug) downloadLayerImages();
     }
 
     function persistLayerInCreation() {
@@ -62,6 +65,16 @@ const SktechpadLayerBlank = props => {
 
     function resetLayerInCreation() {
         setLayerInCreation(initialLayer);
+    }
+
+    function downloadLayerImages() {
+        layerInCreation.data.forEach(layerImageData => {
+            const link = document.createElement('a');
+            link.download = `sketchpad-layer-${props.sheetId}-${props.voiceId}-pageIndex${layerImageData.pageIndex}.png`;
+            link.href = layerImageData.data;
+            link.click();
+            link.delete;
+        });
     }
 
     return (
