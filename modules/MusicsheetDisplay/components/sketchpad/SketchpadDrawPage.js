@@ -27,13 +27,13 @@ const SketchpadDrawPage = props => {
     }
 
     function createPageLayerObject(data) {
-        const layer = {
+        const layerPage = {
             data: data,
             sheetId: props.page.musicSheetId,
             voiceId: props.page.voiceId,
             pageIndex: props.page.pageIndex,
         };
-        updateLayerInCreationData(layer);
+        updateLayerInCreationData(layerPage);
     }
 
     return (

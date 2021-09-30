@@ -10,7 +10,7 @@ const SktechpadLayerBlank = props => {
         name: null,
         options: null,
         active: false,
-        data: [],
+        pages: [],
         sheetId: props.sheetId,
         voiceId: props.voiceId,
     });
@@ -23,7 +23,7 @@ const SktechpadLayerBlank = props => {
     }
 
     async function handlePersistLayer() {
-        if (layerInCreation.data.length < 1) {
+        if (layerInCreation.pages.length < 1) {
             alert('Notiz ist leer');
             return false;
         }
@@ -37,7 +37,7 @@ const SktechpadLayerBlank = props => {
         const newLayer = {
             uuid: layerInCreation.uuid,
             name: layerInCreation.name,
-            data: layerInCreation.data,
+            pages: layerInCreation.pages,
             sheetId: layerInCreation.sheetId,
             voiceId: layerInCreation.voiceId,
         };
@@ -51,15 +51,15 @@ const SktechpadLayerBlank = props => {
         persistSketchpadLayer(newLayer);
     }
 
-    function updateLayerInCreationData(layerObject) {
+    function updateLayerInCreationData(layerPage) {
         setLayerInCreation(prev => {
-            let newData = prev.data;
-            newData.push({
-                pageIndex: layerObject.pageIndex,
-                data: layerObject.data,
+            let newPages = prev.pages;
+            newPages.push({
+                pageIndex: layerPage.pageIndex,
+                data: layerPage.data,
             });
 
-            return { ...prev, data: newData };
+            return { ...prev, pages: newPages };
         });
     }
 
@@ -68,10 +68,10 @@ const SktechpadLayerBlank = props => {
     }
 
     function downloadLayerImages() {
-        layerInCreation.data.forEach(layerImageData => {
+        layerInCreation.pages.forEach(layerPage => {
             const link = document.createElement('a');
-            link.download = `sketchpad-layer-${props.sheetId}-${props.voiceId}-pageIndex${layerImageData.pageIndex}.png`;
-            link.href = layerImageData.data;
+            link.download = `sketchpad-layer-${props.sheetId}-${props.voiceId}-pageIndex${layerPage.pageIndex}.png`;
+            link.href = layerPage.data;
             link.click();
             link.delete;
         });
