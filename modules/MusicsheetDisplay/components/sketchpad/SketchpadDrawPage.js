@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PageLayerModeControl from './PageLayerModeControl';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import CanvasDraw from 'react-canvas-draw';
 
-const SketchpadDrawPage = props => {
+const SketchpadDrawPage = forwardRef((props, ref) => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
@@ -21,7 +21,14 @@ const SketchpadDrawPage = props => {
             });
     }, []);
 
-    function handleCanvasDrawChange(e) {
+    // expose function
+    useImperativeHandle(ref, () => ({
+        getAlert() {
+            alert('getAlert from Child');
+        },
+    }));
+
+    function getCanvasDrawData(e) {
         const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
         createPageLayerObject(data);
     }
@@ -37,7 +44,7 @@ const SketchpadDrawPage = props => {
     }
 
     function persistLayer() {
-        handleCanvasDrawChange();
+        getCanvasDrawData();
         handlePersistLayer();
     }
 
@@ -46,11 +53,11 @@ const SketchpadDrawPage = props => {
             <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
             {layerOptions && pageDimensions && (
                 <div className="py-24 w-full flex justify-center">
-                    <button onClick={persistLayer}>per</button>
+                    {/* <button onClick={persistLayer}>per</button> */}
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
-                        onChange={handleCanvasDrawChange}
+                        // onChange={getCanvasDrawData}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
                         brushColor={layerOptions.color}
@@ -62,6 +69,6 @@ const SketchpadDrawPage = props => {
             <div className="mb-12 text-right text-gray-700">Seite {props.page.pageIndex + 1}</div>
         </div>
     );
-};
+});
 
 export default SketchpadDrawPage;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import LayerControls from './LayerControls';
 import SketchpadDrawPage from './SketchpadDrawPage';
 import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
@@ -23,6 +23,8 @@ const Sketchpad = () => {
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
     const inDebug = useInDebugMode();
+
+    const drawPagesRefs = useRef([]);
 
     function setLayerInCreationName(name) {
         setLayerInCreation(prev => ({ ...prev, name }));
@@ -93,9 +95,9 @@ const Sketchpad = () => {
                     handlePersistLayer,
                 }}
             >
-                <LayerControls />
+                <LayerControls ref={fooRef} />
                 {musicsheetPages.map((page, index) => (
-                    <SketchpadDrawPage page={page} key={index} />
+                    <SketchpadDrawPage ref={el => (drawPagesRefs.current[index] = el)} page={page} key={index} />
                 ))}
             </SketchpadLayerContext.Provider>
         </MusicsheetPagesLoader>
