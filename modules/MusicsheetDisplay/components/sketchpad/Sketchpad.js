@@ -2,7 +2,6 @@ import React, { useContext, useRef, useState } from 'react';
 import LayerControls from './LayerControls';
 import SketchpadDrawPage from './SketchpadDrawPage';
 import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
-import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import { MusicsheetLoaderContext, MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,7 +24,7 @@ const Sketchpad = () => {
     const inDebug = useInDebugMode();
     const drawPagesRefs = useRef([]);
 
-    function setLayerInCreationName(name) {
+    function handleLayerNameChange(name) {
         setLayerInCreation(prev => ({ ...prev, name }));
     }
 
@@ -74,17 +73,10 @@ const Sketchpad = () => {
 
     return (
         <MusicsheetPagesLoader>
-            <SketchpadLayerContext.Provider
-                value={{
-                    setLayerInCreationName,
-                    handlePersistLayer,
-                }}
-            >
-                <LayerControls />
-                {musicsheetPages.map((page, index) => (
-                    <SketchpadDrawPage ref={el => (drawPagesRefs.current[index] = el)} page={page} key={index} />
-                ))}
-            </SketchpadLayerContext.Provider>
+            <LayerControls handleLayerNameChange={handleLayerNameChange} handlePersistLayer={handlePersistLayer} />
+            {musicsheetPages.map((page, index) => (
+                <SketchpadDrawPage ref={el => (drawPagesRefs.current[index] = el)} page={page} key={index} />
+            ))}
         </MusicsheetPagesLoader>
     );
 };
