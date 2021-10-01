@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { SketchpadLayerContext } from '../../context/SketchpadContexts';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-const LayerNameInput = () => {
-    const { setLayerInCreationName } = useContext(SketchpadLayerContext);
+const LayerNameInput = ({ handleLayerNameChange }) => {
     const [name, setName] = useState('Neue Notiz');
 
     useEffect(() => {
-        setLayerInCreationName(name);
+        handleLayerNameChange(name);
     }, [name]);
 
     return (

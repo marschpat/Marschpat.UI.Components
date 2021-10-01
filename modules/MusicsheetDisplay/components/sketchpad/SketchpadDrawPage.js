@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PageLayerModeControl from './PageLayerModeControl';
-import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import CanvasDraw from 'react-canvas-draw';
 
-const SketchpadDrawPage = props => {
+const SketchpadDrawPage = forwardRef((props, ref) => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
-    const { updateLayerInCreationData } = useContext(SketchpadLayerContext);
 
     useEffect(() => {
         // determine page images original size
@@ -21,19 +19,26 @@ const SketchpadDrawPage = props => {
             });
     }, []);
 
-    function handleCanvasDrawChange(e) {
-        const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-        createPageLayerObject(data);
-    }
+    // expose function to ref
+    useImperativeHandle(ref, () => ({
+        getCanvasDrawPageLayerObject() {
+            if (isCanvasBlank()) return null;
+            const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
+            return {
+                data: data,
+                sheetId: props.page.musicSheetId,
+                voiceId: props.page.voiceId,
+                pageIndex: props.page.pageIndex,
+            };
+        },
+    }));
 
-    function createPageLayerObject(data) {
-        const layerPage = {
-            data: data,
-            sheetId: props.page.musicSheetId,
-            voiceId: props.page.voiceId,
-            pageIndex: props.page.pageIndex,
-        };
-        updateLayerInCreationData(layerPage);
+    function isCanvasBlank() {
+        const canvas = canvasDrawEl.current.canvasContainer.children[1];
+        return !canvas
+            .getContext('2d')
+            .getImageData(0, 0, canvas.width, canvas.height)
+            .data.some(channel => channel !== 0);
     }
 
     return (
@@ -44,7 +49,6 @@ const SketchpadDrawPage = props => {
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
-                        onChange={handleCanvasDrawChange}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
                         brushColor={layerOptions.color}
@@ -56,6 +60,6 @@ const SketchpadDrawPage = props => {
             <div className="mb-12 text-right text-gray-700">Seite {props.page.pageIndex + 1}</div>
         </div>
     );
-};
+});
 
 export default SketchpadDrawPage;
