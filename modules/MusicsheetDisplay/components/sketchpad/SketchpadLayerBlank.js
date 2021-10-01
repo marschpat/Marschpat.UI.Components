@@ -1,21 +1,27 @@
 import React, { useContext, useState } from 'react';
+import LayerControls from './LayerControls';
+import SketchpadDrawPage from './SketchpadDrawPage';
+import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
 import { SketchpadLayerContext } from '../../context/SketchpadContexts';
-import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
+import { MusicsheetLoaderContext, MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import { v4 as uuidv4 } from 'uuid';
 
-const SktechpadLayerBlank = props => {
+const SktechpadLayerBlank = () => {
+    const { musicsheetPages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
+    const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
+    const voiceId = instrumentVoice.voiceID;
+    const sheetId = musicsheetMetaData.sheetID;
     const initialLayer = () => ({
         uuid: uuidv4(),
         name: null,
         options: null,
         active: false,
         pages: [],
-        sheetId: props.sheetId,
-        voiceId: props.voiceId,
+        sheetId,
+        voiceId,
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
-    const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
     const inDebug = useInDebugMode();
 
     function setLayerInCreationName(name) {
@@ -70,7 +76,7 @@ const SktechpadLayerBlank = props => {
     function downloadLayerImages() {
         layerInCreation.pages.forEach(layerPage => {
             const link = document.createElement('a');
-            link.download = `sketchpad-layer-${props.sheetId}-${props.voiceId}-pageIndex${layerPage.pageIndex}.png`;
+            link.download = `sketchpad-layer-${sheetId}-${voiceId}-pageIndex${layerPage.pageIndex}.png`;
             link.href = layerPage.data;
             link.click();
             link.delete;
@@ -78,16 +84,21 @@ const SktechpadLayerBlank = props => {
     }
 
     return (
-        <SketchpadLayerContext.Provider
-            value={{
-                layerInCreation,
-                updateLayerInCreationData,
-                setLayerInCreationName,
-                handlePersistLayer,
-            }}
-        >
-            {props.children}
-        </SketchpadLayerContext.Provider>
+        <MusicsheetPagesLoader>
+            <SketchpadLayerContext.Provider
+                value={{
+                    layerInCreation,
+                    updateLayerInCreationData,
+                    setLayerInCreationName,
+                    handlePersistLayer,
+                }}
+            >
+                <LayerControls />
+                {musicsheetPages.map((page, index) => (
+                    <SketchpadDrawPage page={page} key={index} />
+                ))}
+            </SketchpadLayerContext.Provider>
+        </MusicsheetPagesLoader>
     );
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import Sketchpad from './sketchpad/Sketchpad';
+import SketchpadLayerBlank from './sketchpad/SketchpadLayerBlank';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
 import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
@@ -85,7 +85,7 @@ const MusicsheetDisplay = props => {
                 {viewMode === 'view' && <MusicsheetGalleryWithSketchpadLayers />}
 
                 {/* render SKETCHPAD view mode */}
-                {viewMode === 'sketchpad' && <Sketchpad />}
+                {viewMode === 'sketchpad' && <SketchpadLayerBlank />}
             </div>
         </MusicsheetDisplayContext.Provider>
     );
