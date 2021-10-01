@@ -31,23 +31,26 @@ const Sketchpad = () => {
     }
 
     async function handlePersistLayer() {
-        if (layerInCreation.pages.length < 1) {
+        const layerPages = drawPagesRefs.current
+            .map(drawPage => drawPage.getCanvasDrawPageLayerObject())
+            .filter(el => el);
+
+        if (layerPages.length < 1) {
             alert('Notiz ist leer');
             return false;
         }
-        await persistLayerInCreation();
+
+        await persistLayerInCreation(layerPages);
+
         resetLayerInCreation();
         toggleViewMode();
         if (inDebug) downloadLayerImages();
     }
 
-    function persistLayerInCreation() {
+    async function persistLayerInCreation(layerPages) {
         const newLayer = {
-            uuid: layerInCreation.uuid,
-            name: layerInCreation.name,
-            pages: layerInCreation.pages,
-            sheetId: layerInCreation.sheetId,
-            voiceId: layerInCreation.voiceId,
+            ...layerInCreation,
+            pages: layerPages,
         };
         setSketchpadLayers(prev => [
             ...prev,
@@ -95,7 +98,7 @@ const Sketchpad = () => {
                     handlePersistLayer,
                 }}
             >
-                <LayerControls ref={fooRef} />
+                <LayerControls />
                 {musicsheetPages.map((page, index) => (
                     <SketchpadDrawPage ref={el => (drawPagesRefs.current[index] = el)} page={page} key={index} />
                 ))}
