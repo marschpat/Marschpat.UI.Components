@@ -7,7 +7,7 @@ import { MusicsheetLoaderContext, MusicsheetDisplayContext } from '../../context
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import { v4 as uuidv4 } from 'uuid';
 
-const SktechpadLayerBlank = () => {
+const Sketchpad = () => {
     const { musicsheetPages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
     const voiceId = instrumentVoice.voiceID;
@@ -102,4 +102,4 @@ const SktechpadLayerBlank = () => {
     );
 };
 
-export default SktechpadLayerBlank;
+export default Sketchpad;
