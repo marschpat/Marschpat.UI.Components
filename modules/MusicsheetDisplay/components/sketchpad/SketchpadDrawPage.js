@@ -7,7 +7,7 @@ const SketchpadDrawPage = props => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
-    const { updateLayerInCreationData } = useContext(SketchpadLayerContext);
+    const { updateLayerInCreationData, handlePersistLayer } = useContext(SketchpadLayerContext);
 
     useEffect(() => {
         // determine page images original size
@@ -36,11 +36,17 @@ const SketchpadDrawPage = props => {
         updateLayerInCreationData(layerPage);
     }
 
+    function persistLayer() {
+        handleCanvasDrawChange();
+        handlePersistLayer();
+    }
+
     return (
         <div className="mt-24 border-b">
             <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
             {layerOptions && pageDimensions && (
                 <div className="py-24 w-full flex justify-center">
+                    <button onClick={persistLayer}>per</button>
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
