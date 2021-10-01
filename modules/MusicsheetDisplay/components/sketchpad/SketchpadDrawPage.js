@@ -1,13 +1,11 @@
-import React, { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 import PageLayerModeControl from './PageLayerModeControl';
-import { SketchpadLayerContext } from '../../context/SketchpadContexts';
 import CanvasDraw from 'react-canvas-draw';
 
 const SketchpadDrawPage = forwardRef((props, ref) => {
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
-    const { updateLayerInCreationData, handlePersistLayer } = useContext(SketchpadLayerContext);
 
     useEffect(() => {
         // determine page images original size
@@ -23,41 +21,54 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
 
     // expose function
     useImperativeHandle(ref, () => ({
-        getAlert() {
-            alert('getAlert from Child');
+        getCanvasDrawPageLayerObject() {
+            if (isCanvasBlank()) return null;
+            const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
+            return {
+                data: data,
+                sheetId: props.page.musicSheetId,
+                voiceId: props.page.voiceId,
+                pageIndex: props.page.pageIndex,
+            };
         },
     }));
 
-    function getCanvasDrawData(e) {
-        const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-        createPageLayerObject(data);
+    function isCanvasBlank() {
+        const canvas = canvasDrawEl.current.canvasContainer.children[1];
+        return !canvas
+            .getContext('2d')
+            .getImageData(0, 0, canvas.width, canvas.height)
+            .data.some(channel => channel !== 0);
     }
 
-    function createPageLayerObject(data) {
-        const layerPage = {
-            data: data,
-            sheetId: props.page.musicSheetId,
-            voiceId: props.page.voiceId,
-            pageIndex: props.page.pageIndex,
-        };
-        updateLayerInCreationData(layerPage);
-    }
+    // function getCanvasDrawData(e) {
+    //     const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
+    //     createPageLayerObject(data);
+    // }
 
-    function persistLayer() {
-        getCanvasDrawData();
-        handlePersistLayer();
-    }
+    // function createPageLayerObject(data) {
+    //     const layerPage = {
+    //         data: data,
+    //         sheetId: props.page.musicSheetId,
+    //         voiceId: props.page.voiceId,
+    //         pageIndex: props.page.pageIndex,
+    //     };
+    //     updateLayerInCreationData(layerPage);
+    // }
+
+    // function persistLayer() {
+    //     getCanvasDrawData();
+    //     handlePersistLayer();
+    // }
 
     return (
         <div className="mt-24 border-b">
             <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
             {layerOptions && pageDimensions && (
                 <div className="py-24 w-full flex justify-center">
-                    {/* <button onClick={persistLayer}>per</button> */}
                     <CanvasDraw
                         ref={canvasDrawEl}
                         imgSrc={props.page.downloadLink}
-                        // onChange={getCanvasDrawData}
                         canvasWidth={pageDimensions.width}
                         canvasHeight={pageDimensions.height}
                         brushColor={layerOptions.color}
