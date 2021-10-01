@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const Sketchpad = () => {
     const { musicsheetPages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
-    const { setSketchpadLayers, persistSketchpadLayer, toggleViewMode } = useContext(MusicsheetDisplayContext);
+    const { setSketchpadLayers, persistSketchpadLayerInDb, toggleViewMode } = useContext(MusicsheetDisplayContext);
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
     const initialLayer = () => ({
@@ -23,7 +23,6 @@ const Sketchpad = () => {
     });
     const [layerInCreation, setLayerInCreation] = useState(initialLayer);
     const inDebug = useInDebugMode();
-
     const drawPagesRefs = useRef([]);
 
     function setLayerInCreationName(name) {
@@ -34,14 +33,11 @@ const Sketchpad = () => {
         const layerPages = drawPagesRefs.current
             .map(drawPage => drawPage.getCanvasDrawPageLayerObject())
             .filter(el => el);
-
         if (layerPages.length < 1) {
             alert('Notiz ist leer');
             return false;
         }
-
         await persistLayerInCreation(layerPages);
-
         resetLayerInCreation();
         toggleViewMode();
         if (inDebug) downloadLayerImages();
@@ -59,19 +55,7 @@ const Sketchpad = () => {
                 active: true,
             },
         ]);
-        persistSketchpadLayer(newLayer);
-    }
-
-    function updateLayerInCreationData(layerPage) {
-        setLayerInCreation(prev => {
-            let newPages = prev.pages;
-            newPages.push({
-                pageIndex: layerPage.pageIndex,
-                data: layerPage.data,
-            });
-
-            return { ...prev, pages: newPages };
-        });
+        await persistSketchpadLayerInDb(newLayer);
     }
 
     function resetLayerInCreation() {
@@ -92,8 +76,6 @@ const Sketchpad = () => {
         <MusicsheetPagesLoader>
             <SketchpadLayerContext.Provider
                 value={{
-                    layerInCreation,
-                    updateLayerInCreationData,
                     setLayerInCreationName,
                     handlePersistLayer,
                 }}

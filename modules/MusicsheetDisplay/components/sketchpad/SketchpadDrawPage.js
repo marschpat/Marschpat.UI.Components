@@ -19,7 +19,7 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
             });
     }, []);
 
-    // expose function
+    // expose function to ref
     useImperativeHandle(ref, () => ({
         getCanvasDrawPageLayerObject() {
             if (isCanvasBlank()) return null;
@@ -40,26 +40,6 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
             .getImageData(0, 0, canvas.width, canvas.height)
             .data.some(channel => channel !== 0);
     }
-
-    // function getCanvasDrawData(e) {
-    //     const data = canvasDrawEl.current.canvasContainer.children[1].toDataURL();
-    //     createPageLayerObject(data);
-    // }
-
-    // function createPageLayerObject(data) {
-    //     const layerPage = {
-    //         data: data,
-    //         sheetId: props.page.musicSheetId,
-    //         voiceId: props.page.voiceId,
-    //         pageIndex: props.page.pageIndex,
-    //     };
-    //     updateLayerInCreationData(layerPage);
-    // }
-
-    // function persistLayer() {
-    //     getCanvasDrawData();
-    //     handlePersistLayer();
-    // }
 
     return (
         <div className="mt-24 border-b">

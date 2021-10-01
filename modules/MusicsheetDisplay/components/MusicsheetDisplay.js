@@ -51,9 +51,9 @@ const MusicsheetDisplay = props => {
             });
     }
 
-    async function persistSketchpadLayer(layer) {
+    async function persistSketchpadLayerInDb(layer) {
         console.log('persisting layer', layer);
-        axios
+        await axios
             .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
             .then(response => {
                 console.log('okay! sketchpad layer persisted', response);
@@ -75,7 +75,7 @@ const MusicsheetDisplay = props => {
                 setShowPagesPreview,
                 sketchpadLayers,
                 setSketchpadLayers,
-                persistSketchpadLayer,
+                persistSketchpadLayerInDb,
             }}
         >
             <FullscreenHeader />
