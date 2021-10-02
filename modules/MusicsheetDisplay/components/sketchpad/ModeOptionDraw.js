@@ -1,4 +1,6 @@
 import React from 'react';
+import UndoIcon from '@material-ui/icons/Undo';
+import IconButton from '@material-ui/core/IconButton';
 
 const ModeOptionDraw = props => {
     return (
@@ -17,6 +19,9 @@ const ModeOptionDraw = props => {
                 max="66"
                 className="ml-24 w-64 block border shadow-sm rounded-md"
             />
+            <IconButton className="ml-24" aria-label="undo" size="large">
+                <UndoIcon fontSize="inherit" />
+            </IconButton>
         </div>
     );
 };

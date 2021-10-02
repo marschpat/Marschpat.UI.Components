@@ -21,7 +21,6 @@ const PageLayerModeControl = props => {
             <div className="flex-1 flex items-center">
                 <ModeButtons mode={mode} handleModeChange={handleModeChange} />
                 <ModeOptions mode={mode} handleModeOptionsChanged={handleModeOptionsChanged} />
-                <div className="ml-48">FOo</div>
             </div>
         </div>
     );
