@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ModeOptionDraw from './ModeOptionDraw';
+import Typography from '@material-ui/core/Typography';
 
 const ModeOptions = props => {
     const [modeOptions, setModeOptions] = useState({
         draw: { name: 'draw', size: 5, color: '#3f3f3f' },
         marker: { name: 'marker', size: 32, color: 'rgba(234, 255, 0, 0.43)' },
-        // marker: { name: 'marker', size: 24, color: 'rgba(234, 255, 0, 0.43)', opacity: 0.1 },
         text: { name: 'text' },
         line: { name: 'line' },
     });
@@ -37,8 +37,8 @@ const ModeOptions = props => {
                     handleDrawColorChange={handleDrawColorChange}
                 />
             )}
-            {props.mode === 'marker' && <p>Textmarker / Highlighter</p>}
-            {props.mode === 'text' && <p>Text als Notiz</p>}
+            {props.mode === 'marker' && <Typography className="text-gray-700">Textmarker / Highlighter</Typography>}
+            {props.mode === 'text' && <Typography className="text-gray-700">Text als Notiz</Typography>}
         </div>
     );
 };

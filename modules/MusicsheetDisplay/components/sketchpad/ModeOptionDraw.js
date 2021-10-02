@@ -1,5 +1,4 @@
 import React from 'react';
-import UndoDraw from './UndoDraw';
 
 const ModeOptionDraw = props => {
     return (
@@ -18,7 +17,6 @@ const ModeOptionDraw = props => {
                 max="66"
                 className="ml-24 w-64 block border shadow-sm rounded-md"
             />
-            <UndoDraw />
         </div>
     );
 };
