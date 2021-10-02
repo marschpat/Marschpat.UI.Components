@@ -4,7 +4,8 @@ import ModeOptionDraw from './ModeOptionDraw';
 const ModeOptions = props => {
     const [modeOptions, setModeOptions] = useState({
         draw: { name: 'draw', size: 5, color: '#3f3f3f' },
-        marker: { name: 'marker', size: 24, color: '#dcff00', opacity: 0.1 },
+        marker: { name: 'marker', size: 32, color: 'rgba(234, 255, 0, 0.43)' },
+        // marker: { name: 'marker', size: 24, color: 'rgba(234, 255, 0, 0.43)', opacity: 0.1 },
         text: { name: 'text' },
         line: { name: 'line' },
     });

@@ -17,7 +17,7 @@ const ModeButtons = props => {
                 <ToggleButton value="draw" aria-label="frei zeichnen" title="zeichnen">
                     <GestureIcon />
                 </ToggleButton>
-                <ToggleButton value="marker" aria-label="highlight something" title="Textmarker" disabled>
+                <ToggleButton value="marker" aria-label="highlight something" title="Textmarker">
                     <BorderColorIcon />
                 </ToggleButton>
                 <ToggleButton value="text" aria-label="text" title="text" disabled>

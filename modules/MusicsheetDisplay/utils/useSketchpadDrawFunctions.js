@@ -18,7 +18,6 @@ const useSketchpadDrawFunctions = mode => {
         const color = mode.color ?? '#000';
         const size = mode.size ?? 5;
         ctx.fillStyle = color;
-        ctx.globalAlpha = mode.opacity ?? 1;
         updatePosition(e);
         if (isDrawing) drawDot(size);
     }
