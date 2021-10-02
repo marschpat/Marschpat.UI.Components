@@ -4,7 +4,7 @@ import CreateLayerControls from './CreateLayerControls';
 
 const LayerControls = props => {
     return (
-        <div className="flex justify-between items-center">
+        <div className="md:flex md:justify-between md:items-center">
             <CreateLayerControls {...props} />
             <LayersSelect />
         </div>

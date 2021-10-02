@@ -80,7 +80,7 @@ const MusicsheetDisplay = props => {
         >
             <FullscreenHeader />
 
-            <div className="mt-48 w-full">
+            <div className="mt-68 lg:mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
                 {viewMode === 'view' && <MusicsheetGalleryWithSketchpadLayers />}
 
