@@ -22,7 +22,7 @@ const PageLayerModeControl = props => {
             <div className="flex-1 flex items-center">
                 <ModeButtons mode={mode} handleModeChange={handleModeChange} />
                 <ModeOptions mode={mode} handleModeOptionsChanged={handleModeOptionsChanged} />
-                <UndoDraw />
+                <UndoDraw handleUndoDraw={props.handleUndoDraw} />
             </div>
         </div>
     );

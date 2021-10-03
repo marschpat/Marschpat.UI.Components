@@ -47,8 +47,10 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
 
     return (
         <div className="mt-24 border-b">
-            <PageLayerModeControl handleLayerOptionsChange={option => setLayerOptions(option)} />
-            <button onClick={undoDraw}>Click me</button>
+            <PageLayerModeControl
+                handleLayerOptionsChange={option => setLayerOptions(option)}
+                handleUndoDraw={undoDraw}
+            />
             {layerOptions && pageDimensions && (
                 <div className="py-24 w-full flex justify-center">
                     <CanvasDraw
