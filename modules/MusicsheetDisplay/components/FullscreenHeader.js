@@ -14,17 +14,17 @@ const FullscreenHeader = () => {
     return (
         <AppBar>
             <Toolbar>
-                <div className="w-full flex justify-between items-center">
+                <div className="w-full md:flex md:justify-between md:items-center">
                     <div className="flex items-center">
                         <DialogCloseButton variant="arrow" />
                         <MusicsheetTitleInfo />
                         <InstrumentVoiceInfo />
                     </div>
-                    <div className="flex-1 flex items-center justify-center">
+                    <div className="flex-1 flex items-center md:justify-center">
                         <ToggleSketchpadButton />
                         <LayersSelect />
                     </div>
-                    <div className="flex items-center">
+                    <div className="flex items-center justify-end">
                         <CarouselFullscreenButton />
                         <TogglePagesPreviewButton />
                         <InstrumentVoiceSelector />

@@ -8,7 +8,7 @@ const ToggleSketchpadButton = () => {
     const { viewMode, toggleViewMode } = useContext(MusicsheetDisplayContext);
 
     return (
-        <Button onClick={toggleViewMode} variant="contained" className="ml-20">
+        <Button onClick={toggleViewMode} variant="contained" className="md:ml-20 my-4">
             {viewMode === 'sketchpad' ? (
                 <div>
                     <CloseIcon />

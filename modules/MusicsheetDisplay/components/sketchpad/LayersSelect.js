@@ -29,7 +29,7 @@ const LayersSelect = () => {
     }
 
     return (
-        <div className="mt-12 md:mt-0 md:ml-24 max-w-512 w-full">
+        <div className="ml-24 max-w-512 w-full">
             <FuseChipSelect
                 value={values}
                 onChange={handleActiveLayersChange}
