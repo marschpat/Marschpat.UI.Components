@@ -1,10 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 
 const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
+    const [navLinks, setNavLinks] = useState({ prev: '', next: '' });
+    useEffect(() => {
+        console.log('inplaylist', inPlaylist);
+        const [nextId, prevId] = getMusicsheetNavigation();
+
+        setNavLinks({
+            prev: `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistID}`,
+            next: `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistID}`,
+        });
+    }, [musicsheetId, inPlaylist]);
+
+    function getMusicsheetNavigation() {
+        const current = inPlaylist.musicSheets.find(el => el.sheetID === 233)?.index;
+
+        const next = inPlaylist.musicSheets.find(el => el.index === current + 1)?.index ?? '';
+        const prev = inPlaylist.musicSheets.find(el => el.index === current - 1)?.index ?? '';
+
+        return [next, prev];
+    }
+
     return (
         <div className="mr-20">
             <Tooltip title={`Zum vorherigen Stück in Playlist ${inPlaylist.name}`}>
