@@ -12,7 +12,6 @@ const CarouselFullscreenButton = () => {
         <Tooltip title="Notenblatt Vollbild">
             <IconButton
                 onClick={() => setIsCarouselFullscreen(prev => !prev)}
-                edge="start"
                 color="inherit"
                 aria-label="Musicsheet Fullscreen"
             >

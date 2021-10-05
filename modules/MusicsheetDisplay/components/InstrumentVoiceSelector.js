@@ -44,7 +44,7 @@ const InstrumentVoiceSelector = () => {
 
     return (
         musicsheetMetaData.voices.length > 0 && (
-            <div className="mr-20">
+            <div className="mx-20">
                 <Tooltip title="Stimme auswählen">
                     <IconButton aria-label="Besetzung" color="inherit" onClick={handleOpen}>
                         <Badge badgeContent={musicsheetMetaData.voices.length} color="secondary">

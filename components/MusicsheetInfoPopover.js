@@ -27,7 +27,6 @@ function MusicsheetInfoPopover(props) {
         <div className={props.className ?? ''}>
             <Tooltip title="Infos zu dem Stück">
                 <IconButton
-                    edge="start"
                     color={props.btnColor ?? 'default'}
                     aria-label="information"
                     aria-describedby={'music-information'}
