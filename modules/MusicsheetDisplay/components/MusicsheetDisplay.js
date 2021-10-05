@@ -64,7 +64,6 @@ const MusicsheetDisplay = props => {
             .then(response => {
                 if (!response.data) return false;
                 setInPlaylist(response.data);
-                console.log('playlists fetched');
             })
             .catch(error => {
                 console.error(`Fetching playlist ${playlistId} falied with an error.`, error);
@@ -86,7 +85,7 @@ const MusicsheetDisplay = props => {
                 persistSketchpadLayerInDb,
             }}
         >
-            <FullscreenHeader />
+            <FullscreenHeader inPlaylist={inPlaylist} />
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
