@@ -3,25 +3,28 @@ import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
+import { Link } from 'react-router-dom';
 
 const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
     const [currentIndex, setCurrentIndex] = useState('');
     const [navLinks, setNavLinks] = useState({ prev: '', next: '' });
 
     useEffect(() => {
-        const [current, nextId, prevId] = getMusicsheetNavigation();
+        const [current, nextSheetId, prevSheetId] = getMusicsheetNavigation();
         setCurrentIndex(current);
         setNavLinks({
-            prev: `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistID}`,
-            next: `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistID}`,
+            prev: `/musicsheet/show/${nextSheetId}?pl=${inPlaylist.playlistID}`,
+            next: `/musicsheet/show/${prevSheetId}?pl=${inPlaylist.playlistID}`,
         });
     }, [musicsheetId, inPlaylist]);
+
+    console.log('my nav links', navLinks);
 
     function getMusicsheetNavigation() {
         const current = inPlaylist.musicSheets.find(el => el.sheetID === musicsheetId)?.index;
 
-        const next = inPlaylist.musicSheets.find(el => el.index === current + 1)?.index ?? '';
-        const prev = inPlaylist.musicSheets.find(el => el.index === current - 1)?.index ?? '';
+        const next = inPlaylist.musicSheets.find(el => el.index === current + 1)?.sheetID ?? '';
+        const prev = inPlaylist.musicSheets.find(el => el.index === current - 1)?.sheetID ?? '';
 
         return [current, next, prev];
     }
@@ -30,9 +33,8 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
         <div className="mr-20 flex items-cener">
             <Tooltip title={`Zum vorherigen Stück in Playlist: ${inPlaylist.name}`}>
                 <IconButton
-                    onClick={() => {
-                        console.log('in playlist', inPlaylist);
-                    }}
+                    component={Link}
+                    to={navLinks.prev}
                     color="inherit"
                     aria-label="previous musicsheet in playlist"
                 >
@@ -46,13 +48,16 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
                 <div className="flex items-center">
                     <div className="text-xs text-center">
                         <div>Stück</div>
-                        <div>1 / 3</div>
+                        <div>
+                            {currentIndex} / {inPlaylist.count}
+                        </div>
                     </div>
                 </div>
             </Tooltip>
             <Tooltip title={`Zum nächsten Stück in Playlist: ${inPlaylist.name}`}>
                 <IconButton
-                    // onClick={() => setIsCarouselFullscreen(prev => !prev)}
+                    component={Link}
+                    to={navLinks.next}
                     color="inherit"
                     aria-label="next musicsheet in playlist"
                 >
