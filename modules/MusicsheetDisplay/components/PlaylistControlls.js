@@ -4,7 +4,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 
-const PlaylistControls = ({ inPlaylist }) => {
+const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
     return (
         <div className="mr-20">
             <Tooltip title={`Zum vorherigen Stück in Playlist ${inPlaylist.name}`}>

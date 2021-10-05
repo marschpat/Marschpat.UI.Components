@@ -85,7 +85,7 @@ const MusicsheetDisplay = props => {
                 persistSketchpadLayerInDb,
             }}
         >
-            <FullscreenHeader inPlaylist={inPlaylist} />
+            <FullscreenHeader musicsheetId={sheetId} inPlaylist={inPlaylist} />
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
