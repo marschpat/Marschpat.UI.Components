@@ -32,7 +32,7 @@ const MusicsheetLoader = () => {
             setInstrumentVoice(voice);
         }
         if (!success) handleLoadingError(data);
-    }, []);
+    }, [sheetId]);
 
     return (
         <MusicsheetLoaderContext.Provider
