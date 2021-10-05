@@ -16,7 +16,7 @@ const MusicsheetDisplay = props => {
     const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(async () => {
-        // await initializeFromQueryParams();
+        await initializeFromQueryParams();
         await fetchSketchpadLayers();
 
         const layers = require('../layers.example.js');
@@ -58,7 +58,18 @@ const MusicsheetDisplay = props => {
             });
     }
 
-    async function fetchPlaylist(playlistId) {}
+    async function fetchPlaylist(playlistId) {
+        await axios
+            .get(`/playlist/${playlistId}`)
+            .then(response => {
+                if (!response.data) return false;
+                setInPlaylist(response.data);
+                console.log('playlists fetched');
+            })
+            .catch(error => {
+                console.error(`Fetching playlist ${playlistId} falied with an error.`, error);
+            });
+    }
 
     return (
         <MusicsheetDisplayContext.Provider
@@ -100,9 +111,10 @@ const MusicsheetDisplay = props => {
     }
 
     function initializeWithPlaylist(id) {
-        // check if valid id
+        const couldBeValidId = /^\d*$/.test(id);
+        if (!couldBeValidId) return false;
 
-        fetchPlaylist(playlistId);
+        fetchPlaylist(id);
     }
 };
 
