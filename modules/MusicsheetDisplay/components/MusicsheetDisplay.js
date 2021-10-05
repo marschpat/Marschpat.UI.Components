@@ -7,6 +7,7 @@ import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/Mu
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
+    const [inPlaylist, setInPlaylist] = useState(null);
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
@@ -15,11 +16,7 @@ const MusicsheetDisplay = props => {
     const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const modeParam = urlParams.get('mode');
-        if (modeParam === 'sketchpad') {
-            setViewMode('sketchpad');
-        }
+        initializeFromQueryParams();
 
         // fetch sketchpad layers
         fetchSketchpadLayers();
@@ -63,6 +60,8 @@ const MusicsheetDisplay = props => {
             });
     }
 
+    async function fetchPlaylist(playlistId) {}
+
     return (
         <MusicsheetDisplayContext.Provider
             value={{
@@ -89,6 +88,24 @@ const MusicsheetDisplay = props => {
             </div>
         </MusicsheetDisplayContext.Provider>
     );
+
+    function initializeFromQueryParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode');
+        const playlistId = urlParams.get('pl');
+        if (mode === 'sketchpad') {
+            setViewMode('sketchpad');
+        }
+        if (playlistId) {
+            initializeWithPlaylist(playlistId);
+        }
+    }
+
+    function initializeWithPlaylist(id) {
+        // check if valid id
+
+        fetchPlaylist(playlistId);
+    }
 };
 
 export default MusicsheetDisplay;
