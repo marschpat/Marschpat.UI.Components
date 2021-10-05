@@ -15,16 +15,14 @@ const MusicsheetDisplay = props => {
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
 
-    useEffect(() => {
-        initializeFromQueryParams();
+    useEffect(async () => {
+        // await initializeFromQueryParams();
+        await fetchSketchpadLayers();
 
-        // fetch sketchpad layers
-        fetchSketchpadLayers();
         const layers = require('../layers.example.js');
         const layersInit = initializeLayers(layers);
-        setSketchpadLayers(layersInit);
 
-        console.log('my sketchpad layers?', layersInit);
+        setSketchpadLayers(layersInit);
     }, []);
 
     function initializeLayers(layers) {
@@ -35,10 +33,10 @@ const MusicsheetDisplay = props => {
         setViewMode(prev => (prev === 'view' ? 'sketchpad' : 'view'));
     }
 
-    function fetchSketchpadLayers() {
+    async function fetchSketchpadLayers() {
         console.log('fetching sketchpad layers', { sheetId, voiceId });
         const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
-        axios
+        await axios
             .get(url)
             .then(response => {
                 console.log('fetched sketchpad layers', response);
