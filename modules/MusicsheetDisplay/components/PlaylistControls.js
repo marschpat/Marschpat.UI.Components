@@ -7,26 +7,35 @@ import { Link } from 'react-router-dom';
 
 const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
     const [currentIndex, setCurrentIndex] = useState('');
-    const [navLinks, setNavLinks] = useState({ prev: '', next: '' });
+    const [navLinks, setNavLinks] = useState({
+        next: { available: false, path: '' },
+        prev: { available: false, path: '' },
+    });
 
     useEffect(() => {
-        const [current, nextSheetId, prevSheetId] = getMusicsheetNavigation();
+        const [current, navLinks] = getMusicsheetNavigation();
         setCurrentIndex(current);
-        setNavLinks({
-            prev: `/musicsheet/show/${nextSheetId}?pl=${inPlaylist.playlistID}`,
-            next: `/musicsheet/show/${prevSheetId}?pl=${inPlaylist.playlistID}`,
-        });
+        setNavLinks(navLinks);
     }, [musicsheetId, inPlaylist]);
-
-    console.log('my nav links', navLinks);
 
     function getMusicsheetNavigation() {
         const current = inPlaylist.musicSheets.find(el => el.sheetID === musicsheetId)?.index;
 
-        const next = inPlaylist.musicSheets.find(el => el.index === current + 1)?.sheetID ?? '';
-        const prev = inPlaylist.musicSheets.find(el => el.index === current - 1)?.sheetID ?? '';
+        const nextId = inPlaylist.musicSheets.find(el => el.index === current + 1)?.sheetID ?? false;
+        const prevId = inPlaylist.musicSheets.find(el => el.index === current - 1)?.sheetID ?? false;
 
-        return [current, next, prev];
+        const navLinks = {
+            next: {
+                available: !!nextId,
+                path: nextId ? `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistID}` : '',
+            },
+            prev: {
+                available: !!prevId,
+                path: prevId ? `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistID}` : '',
+            },
+        };
+
+        return [current, navLinks];
     }
 
     return (
@@ -34,9 +43,10 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
             <Tooltip title={`Zum vorherigen Stück in Playlist: ${inPlaylist.name}`}>
                 <IconButton
                     component={Link}
-                    to={navLinks.prev}
+                    to={navLinks.prev.path}
                     color="inherit"
                     aria-label="previous musicsheet in playlist"
+                    disabled={!navLinks.prev.available}
                 >
                     <SkipPreviousIcon />
                 </IconButton>
@@ -57,9 +67,10 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
             <Tooltip title={`Zum nächsten Stück in Playlist: ${inPlaylist.name}`}>
                 <IconButton
                     component={Link}
-                    to={navLinks.next}
+                    to={navLinks.next.path}
                     color="inherit"
                     aria-label="next musicsheet in playlist"
+                    disabled={!navLinks.next.available}
                 >
                     <SkipNextIcon />
                 </IconButton>
