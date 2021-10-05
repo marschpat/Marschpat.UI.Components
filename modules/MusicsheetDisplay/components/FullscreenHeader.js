@@ -1,16 +1,16 @@
 import React from 'react';
-import CarouselFullscreenButton from './CarouselFullscreenButton';
+import PlaylistControls from './PlaylistControlls';
 import LayersSelect from './sketchpad/LayersSelect';
 import DialogCloseButton from './DialogCloseButton';
 import MusicsheetTitleInfo from './MusicsheetTitleInfo';
 import InstrumentVoiceInfo from './InstrumentVoiceInfo';
 import ToggleSketchpadButton from './ToggleSketchpadButton';
 import InstrumentVoiceSelector from './InstrumentVoiceSelector';
+import CarouselFullscreenButton from './CarouselFullscreenButton';
 import TogglePagesPreviewButton from './TogglePagesPreviewButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-
-const FullscreenHeader = () => {
+const FullscreenHeader = ({ inPlaylist }) => {
     return (
         <AppBar>
             <Toolbar>
@@ -25,6 +25,7 @@ const FullscreenHeader = () => {
                         <LayersSelect />
                     </div>
                     <div className="flex items-center justify-end">
+                        {inPlaylist && <PlaylistControls inPlaylist={inPlaylist} />}
                         <CarouselFullscreenButton />
                         <TogglePagesPreviewButton />
                         <InstrumentVoiceSelector />
