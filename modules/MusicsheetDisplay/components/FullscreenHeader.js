@@ -1,5 +1,5 @@
 import React from 'react';
-import PlaylistControls from './PlaylistControlls';
+import PlaylistControls from './PlaylistControls';
 import LayersSelect from './sketchpad/LayersSelect';
 import DialogCloseButton from './DialogCloseButton';
 import MusicsheetTitleInfo from './MusicsheetTitleInfo';
