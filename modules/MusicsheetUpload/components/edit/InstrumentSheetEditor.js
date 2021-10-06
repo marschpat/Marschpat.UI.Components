@@ -11,6 +11,7 @@ import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import Typography from '@material-ui/core/Typography';
+import { MP_EDU, MP_WEB } from '../../utils/ImplementationModesLookup';
 
 const supportedTypes = ['image', 'pdf', 'mxl'];
 
@@ -25,7 +26,7 @@ const InstrumentSheetEditor = props => {
         (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const { dispatchFlashMessage, handleAvailableVoicesUpdate } = useContext(UploaderContext);
+    const { dispatchFlashMessage, handleAvailableVoicesUpdate, implementationMode } = useContext(UploaderContext);
 
     return pageInEdit ? (
         <div className="flex">
@@ -89,12 +90,14 @@ const InstrumentSheetEditor = props => {
                     </div>
                     <div className="max-w-400 w-full flex justify-end">
                         <div className="w-full ml-36">
-                            <div className="mb-24 flex flex-grow-0">
-                                <Typography variant="h6">Besetzung:</Typography>
-                                <Typography variant="h6" className="ml-12">
-                                    {props.castName}
-                                </Typography>
-                            </div>
+                            {implementationMode !== MP_EDU && (
+                                <div className="mb-24 flex flex-grow-0">
+                                    <Typography variant="h6">Besetzung:</Typography>
+                                    <Typography variant="h6" className="ml-12">
+                                        {props.castName}
+                                    </Typography>
+                                </div>
+                            )}
                             <VoicesAssignmentSelection
                                 assignedVoices={assignedVoices}
                                 handleVoicesAssignemnt={setAssignedVoices}

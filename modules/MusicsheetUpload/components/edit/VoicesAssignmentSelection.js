@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { UploaderContext } from '../../context/UploaderContext';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import Typography from '@material-ui/core/Typography';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
 
 const VoicesAssignmentSelection = props => {
     const [availableVoices, setAvailableVoices] = useState(null);
     const [showWarning, setShowWarning] = useState(null);
-    const { availableInstrumentVoices } = useContext(UploaderContext);
+    const { availableInstrumentVoices, implementationMode } = useContext(UploaderContext);
 
     const handleChange = (values, detail) => {
         // if removed value isn't included in availableVoices yet, reinclude it
@@ -39,7 +40,9 @@ const VoicesAssignmentSelection = props => {
 
     return (
         <div className="w-full">
-            <Typography variant="h5">Stimme auswählen</Typography>
+            <Typography variant="h5">
+                {implementationMode === MP_EDU ? 'Stimme festlegen' : 'Stimme auswählen'}
+            </Typography>
             <FuseChipSelect
                 className="mt-8"
                 value={props.assignedVoices}
