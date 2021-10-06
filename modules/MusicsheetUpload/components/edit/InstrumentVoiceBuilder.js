@@ -25,7 +25,7 @@ const InstrumentVoiceBuilder = props => {
             {/* VARIANT */}
             <ChooseOrCreateSelector
                 isFixed={true}
-                label="Stimmung"
+                label="Variante"
                 labelAttr="name"
                 fetchOptionsUrl="/instrument-voice"
                 handleSelectedChange={e => console.log('changed', e)}
