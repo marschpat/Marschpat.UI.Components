@@ -7,7 +7,7 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import { MP_EDU, MP_WEB } from '../../utils/ImplementationModesLookup';
+import { MP_WEB } from '../../utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 
 const initialMetaData = require('../../metaData.initial.json');
@@ -16,7 +16,7 @@ const MetaDataForm = props => {
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors();
+    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(implementationMode);
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
