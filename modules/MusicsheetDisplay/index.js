@@ -92,7 +92,7 @@ const MusicsheetLoader = () => {
                 defaultVoice = voice;
                 break;
             }
-            if (detectRenderType(voice) === 'mxl' && isAllowedAsDefaultVoice(voice.voiceID)) {
+            if (detectRenderType(voice) === 'mxl' && isAllowedAsDefaultVoice(voice.voiceId)) {
                 defaultVoice = voice;
                 break;
             }
@@ -145,7 +145,7 @@ const MusicsheetLoader = () => {
      * @returns object
      */
     function voiceFromId(musicsheet, voiceId) {
-        const voice = musicsheet.voices.find(voice => voice.voiceID === parseInt(voiceId));
+        const voice = musicsheet.voices.find(voice => voice.voiceId === parseInt(voiceId));
         if (!voice) {
             return findDefaultVoice(musicsheet);
         }
