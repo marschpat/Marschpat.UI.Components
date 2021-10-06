@@ -1,9 +1,4 @@
 import React from 'react';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
-import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 
 const InstrumentVoiceBuilder = props => {
@@ -11,25 +6,28 @@ const InstrumentVoiceBuilder = props => {
         <div className="mt-20">
             {/* CLEF */}
             <ChooseOrCreateSelector
+                isFixed={true}
                 label="Stimmung"
-                fetchOptionsUrl="/clef"
                 labelAttr="name"
+                fetchOptionsUrl="/clef"
                 handleSelectedChange={e => console.log('changed', e)}
             />
 
             {/* INSTRUMENT */}
             <ChooseOrCreateSelector
+                isFixed={true}
                 label="Instrument"
-                fetchOptionsUrl="/instrument-new"
                 labelAttr="name"
+                fetchOptionsUrl="/instrument-new"
                 handleSelectedChange={e => console.log('changed', e)}
             />
 
             {/* VARIANT */}
             <ChooseOrCreateSelector
+                isFixed={true}
                 label="Stimmung"
-                fetchOptionsUrl="/instrument-voice"
                 labelAttr="name"
+                fetchOptionsUrl="/instrument-voice"
                 handleSelectedChange={e => console.log('changed', e)}
             />
         </div>
