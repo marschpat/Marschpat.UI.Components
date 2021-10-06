@@ -13,7 +13,7 @@ const MusicsheetDisplay = props => {
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     const voiceId = instrumentVoice.voiceId;
-    const sheetId = musicsheetMetaData.sheetID;
+    const sheetId = musicsheetMetaData.sheetId;
 
     useEffect(async () => {
         await initializeFromQueryParams();
