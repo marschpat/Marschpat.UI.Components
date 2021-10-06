@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TagSelector from './TagSelector';
 import InstrumentCastSelector from './InstrumentCastSelector';
 import useValidationErrors from '../../utils/useValidationErrors';
@@ -7,10 +7,13 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+import { MP_EDU, MP_WEB } from '../../utils/ImplementationModesLookup';
+import { UploaderContext } from '../../context/UploaderContext';
 
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
     const [errors, checkIfError, validateRequiredFields] = useValidationErrors();
@@ -60,15 +63,20 @@ const MetaDataForm = props => {
                     autoFocus={true}
                     error={checkIfError('title')}
                 />
-                <InstrumentCastSelector
-                    castOptions={props.castOptions}
-                    initialCast={metaData.castId}
-                    handleCastChange={handleCastChange}
-                    handleVoicesAssignementReset={props.handleVoicesAssignementReset}
-                    castWarningRequired={props.castWarningRequired}
-                    resetState={props.resetState}
-                    error={checkIfError('cast')}
-                />
+
+                {/* CastSelector only in Marschpat Marching WebApp available */}
+                {implementationMode === MP_WEB && (
+                    <InstrumentCastSelector
+                        castOptions={props.castOptions}
+                        initialCast={metaData.castId}
+                        handleCastChange={handleCastChange}
+                        handleVoicesAssignementReset={props.handleVoicesAssignementReset}
+                        castWarningRequired={props.castWarningRequired}
+                        resetState={props.resetState}
+                        error={checkIfError('cast')}
+                    />
+                )}
+
                 <ChooseOrCreateSelector
                     label="Verlag"
                     labelAttr="name"
