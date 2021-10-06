@@ -11,18 +11,17 @@ const MusicsheetDialog = () => {
     const [isOpen, setIsOpen] = useState(!!musicsheetMetaData);
 
     return (
-        <Dialog fullScreen open={isOpen} onClose={toggleDialog} TransitionComponent={Transition}>
+        <Dialog fullScreen open={isOpen} onClose={closeDialog} TransitionComponent={Transition}>
             <div className="p-20">
-                <MusicsheetDisplay handleClose={toggleDialog} />
+                <MusicsheetDisplay handleClose={closeDialog} />
             </div>
         </Dialog>
     );
 
-    function toggleDialog() {
+    function closeDialog() {
         const urlParams = new URLSearchParams(window.location.search);
         const fromPlaylist = urlParams.get('pl');
         const goBackPath = fromPlaylist ? `/playlist/${fromPlaylist}` : '/musiclibrary';
-        setIsOpen(prev => !prev);
         history.push(goBackPath);
     }
 };
