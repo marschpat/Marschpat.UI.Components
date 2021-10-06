@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import UploadModal from './UploadModal';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import PersistFinalPayloadToFile from './PersistPayloadToFile';
 import { UploaderContext } from '../../context/UploaderContext';
 import useUploadProgress from '../../utils/useUploadProgress';
@@ -18,7 +19,7 @@ const SubmitFinalPayload = props => {
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
     const [hasError, setHasError] = useState(false);
-    const { dispatchFlashMessage } = useContext(UploaderContext);
+    const { dispatchFlashMessage, implementationMode } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
     const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
@@ -51,9 +52,10 @@ const SubmitFinalPayload = props => {
         }
 
         setIsUploading(true);
-        const apiAdapter = new MusicsheetUploadApiAdapter(finalPayload);
+        const reqData = prepareImplementationSpecificPayload(finalPayload);
+        const apiAdapter = new MusicsheetUploadApiAdapter();
         const payload = {
-            ...finalPayload,
+            ...reqData,
             instrumentSheets: apiAdapter.getCleanInstrumentSheets(),
         };
         if (inDebugMode) console.log('submit final payload: ', payload);
@@ -159,6 +161,15 @@ const SubmitFinalPayload = props => {
             ...prev,
             sheetId: sheetId ?? 0,
         }));
+    }
+
+    function prepareImplementationSpecificPayload(payload) {
+        if (implementationMode === MP_EDU) {
+            delete payload.castId;
+            return payload;
+        }
+
+        return payload;
     }
 };
 

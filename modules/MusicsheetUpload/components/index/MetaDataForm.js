@@ -7,7 +7,7 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-import { MP_WEB } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 
 const initialMetaData = require('../../metaData.initial.json');
@@ -64,8 +64,8 @@ const MetaDataForm = props => {
                     error={checkIfError('title')}
                 />
 
-                {/* CastSelector only in Marschpat Marching WebApp available */}
-                {implementationMode === MP_WEB && (
+                {/* NO CastSelector option only in Marschpat Edu WebApp available */}
+                {implementationMode !== MP_EDU && (
                     <InstrumentCastSelector
                         castOptions={props.castOptions}
                         initialCast={metaData.castId}
