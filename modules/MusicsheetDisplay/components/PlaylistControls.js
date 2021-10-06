@@ -27,11 +27,11 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
         const navLinks = {
             next: {
                 available: !!nextId,
-                path: nextId ? `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistID}` : '',
+                path: nextId ? `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistId}` : '',
             },
             prev: {
                 available: !!prevId,
-                path: prevId ? `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistID}` : '',
+                path: prevId ? `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistId}` : '',
             },
         };
 
