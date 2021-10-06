@@ -19,8 +19,11 @@ const MusicsheetDialog = () => {
     );
 
     function toggleDialog() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const fromPlaylist = urlParams.get('pl');
+        const goBackPath = fromPlaylist ? `/playlist/${fromPlaylist}` : '/musiclibrary';
         setIsOpen(prev => !prev);
-        history.goBack();
+        history.push(goBackPath);
     }
 };
 
