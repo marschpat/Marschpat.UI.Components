@@ -70,6 +70,7 @@ const ChooseOrCreateSelector = props => {
                 InputLabelProps: { shrink: true },
                 variant: 'outlined',
             }}
+            variant={props.isFixed ? 'fixed' : ''}
             id={props.label ? props.label.toLowerCase() : Math.random()}
         />
     );
