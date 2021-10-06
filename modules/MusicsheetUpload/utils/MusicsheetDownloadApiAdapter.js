@@ -52,16 +52,16 @@ class MusicsheetDownloadApiAdapter {
      */
     mapVoices(voices, voiceOptions = null) {
         return voices.map(voice => {
-            const voiceId = voice.voiceID;
+            const voiceId = voice.voiceId;
             if (!voiceOptions) {
-                return { value: voiceId, label: voice.label, voiceID: voiceId };
+                return { value: voiceId, label: voice.label, voiceId: voiceId };
             }
-            const voiceOption = voiceOptions.find(item => item.voiceID === voiceId);
+            const voiceOption = voiceOptions.find(item => item.voiceId === voiceId);
             return (
                 voiceOption ?? {
                     value: voiceId,
                     label: 'Stimme noch nicht bearbeitet',
-                    voiceID: voiceId,
+                    voiceId: voiceId,
                 }
             );
         });

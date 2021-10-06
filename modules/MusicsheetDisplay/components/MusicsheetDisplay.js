@@ -12,7 +12,7 @@ const MusicsheetDisplay = props => {
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
-    const voiceId = instrumentVoice.voiceID;
+    const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(async () => {

@@ -13,7 +13,7 @@ const MusicsheetPagesLoader = props => {
 
     useEffect(async () => {
         if (musicsheet && voice) {
-            const { success, data } = await fetchAllMusicsheetVoicePages(musicsheet.sheetID, voice.voiceID);
+            const { success, data } = await fetchAllMusicsheetVoicePages(musicsheet.sheetID, voice.voiceId);
             if (success) {
                 setDownloadLinks(data);
             }

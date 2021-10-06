@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Sketchpad = () => {
     const { musicsheetPages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     const { setSketchpadLayers, persistSketchpadLayerInDb, toggleViewMode } = useContext(MusicsheetDisplayContext);
-    const voiceId = instrumentVoice.voiceID;
+    const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetID;
     const initialLayer = () => ({
         uuid: uuidv4(),

@@ -67,7 +67,7 @@ class MusicsheetUploadApiAdapter {
 
     cleanUpVoices(voices) {
         return voices.map(voice => ({
-            voiceID: voice.voiceID,
+            voiceId: voice.voiceId,
             label: voice.label,
         }));
     }
