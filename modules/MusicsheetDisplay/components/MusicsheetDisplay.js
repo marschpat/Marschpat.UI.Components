@@ -23,7 +23,7 @@ const MusicsheetDisplay = props => {
         const layersInit = initializeLayers(layers);
 
         setSketchpadLayers(layersInit);
-    }, []);
+    }, [sheetId]);
 
     function initializeLayers(layers) {
         return layers.map(item => ({ ...item, active: false }));
