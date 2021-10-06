@@ -4,7 +4,7 @@ import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
 import OriginalFileManipulator from './OriginalFileManipulator';
-import VoicesAssignmentSelection from './VoicesAssignmentSelection';
+import InstrumentVoicesAssignement from './InstrumentVoicesAssignement';
 import { UploaderContext } from '../../context/UploaderContext';
 import useGeneratePages from '../../utils/useGeneratePages';
 import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
@@ -98,7 +98,7 @@ const InstrumentSheetEditor = props => {
                                     </Typography>
                                 </div>
                             )}
-                            <VoicesAssignmentSelection
+                            <InstrumentVoicesAssignement
                                 assignedVoices={assignedVoices}
                                 handleVoicesAssignemnt={setAssignedVoices}
                             />

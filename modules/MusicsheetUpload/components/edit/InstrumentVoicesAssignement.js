@@ -4,7 +4,7 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import Typography from '@material-ui/core/Typography';
 import { MP_EDU } from '../../utils/ImplementationModesLookup';
 
-const VoicesAssignmentSelection = props => {
+const InstrumentVoicesAssignement = props => {
     const [availableVoices, setAvailableVoices] = useState(null);
     const [showWarning, setShowWarning] = useState(null);
     const { availableInstrumentVoices, implementationMode } = useContext(UploaderContext);
@@ -69,4 +69,4 @@ function compareByVoiceId(itemA, itemB) {
     return 0;
 }
 
-export default VoicesAssignmentSelection;
+export default InstrumentVoicesAssignement;
