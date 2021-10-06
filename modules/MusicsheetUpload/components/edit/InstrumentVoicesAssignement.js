@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { UploaderContext } from '../../context/UploaderContext';
 import InstrumentVoicesSelector from './InstrumentVoicesSelector';
-import InstrumentVoiceConstructor from './InstrumentVoiceConstructor';
+import InstrumentVoiceBuilder from './InstrumentVoiceBuilder';
 import { MP_EDU, MP_WEB } from '../../utils/ImplementationModesLookup';
 import Typography from '@material-ui/core/Typography';
 
@@ -21,7 +21,7 @@ const InstrumentVoicesAssignement = props => {
                 />
             )}
 
-            {implementationMode === MP_EDU && <InstrumentVoiceConstructor />}
+            {implementationMode === MP_EDU && <InstrumentVoiceBuilder />}
         </div>
     );
 };
