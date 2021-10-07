@@ -21,7 +21,7 @@ const InstrumentVoiceBuilder = props => {
             {/* CLEF */}
             <ChooseOrCreateSelector
                 isFixed={true}
-                label="Stimmung"
+                label="Schlüssel"
                 labelAttr="name"
                 fetchOptionsUrl="/clef"
                 handleSelectedChange={e => {
@@ -53,7 +53,7 @@ const InstrumentVoiceBuilder = props => {
 
             {showWarning && (
                 <div className="mt-24 p-4 flex justify-center text-base rounded-md bg-orange-700">
-                    <div>Stimmung, Instrument und Variante auswählen!</div>
+                    <div>Schlüssel, Instrument und Variante auswählen!</div>
                 </div>
             )}
         </div>
