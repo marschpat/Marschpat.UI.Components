@@ -1,6 +1,9 @@
+import { MP_EDU, MP_WEB } from './ImplementationModesLookup';
+
 class MusicsheetDownloadApiAdapter {
-    constructor(rawApiData) {
+    constructor(rawApiData, implementationMode = MP_WEB) {
         this.rawData = rawApiData;
+        this.implementationMode = implementationMode;
     }
 
     getInstrumentSheets() {
@@ -51,6 +54,10 @@ class MusicsheetDownloadApiAdapter {
      * Right now we're just returning the id and label provided in the edit data download
      */
     mapVoices(voices, voiceOptions = null) {
+        if (this.implementationMode === MP_EDU) {
+            return voices;
+        }
+
         return voices.map(voice => {
             const voiceId = voice.voiceId;
             if (!voiceOptions) {

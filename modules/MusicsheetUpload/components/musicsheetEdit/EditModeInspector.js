@@ -8,14 +8,14 @@ import history from '@history';
 
 const EditModeInspector = props => {
     const [sheetInEdit, setSheetInEdit] = useState(null);
-    const { dispatchFlashMessage } = useContext(UploaderContext);
+    const { dispatchFlashMessage, implementationMode } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
 
     const initializeEditMode = rawData => {
         if (inDebugMode) {
             console.log('InitializeEditMode, rawData:', rawData);
         }
-        const apiAdapter = new MusicsheetDownloadApiAdapter(rawData);
+        const apiAdapter = new MusicsheetDownloadApiAdapter(rawData, implementationMode);
         const metaData = apiAdapter.getMetaData();
         const uploadScope = apiAdapter.getUploadScope();
         const instrumentSheets = apiAdapter.getInstrumentSheets();
