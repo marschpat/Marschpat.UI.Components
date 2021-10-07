@@ -7,14 +7,20 @@ const InstrumentVoiceBuilder = props => {
         clef: null,
         instrumentNew: null,
         instrumentVoice: null,
+        label: null,
     });
 
     useEffect(() => {
         if (builtVoice.clef && builtVoice.instrumentNew && builtVoice.instrumentVoice) {
             setShowWarning(false);
-            props.handleVoicesAssignemnt([builtVoice]);
+            const labelText = getLabelText();
+            props.handleVoicesAssignemnt([{ ...builtVoice, label: labelText }]);
         }
     }, [builtVoice]);
+
+    function getLabelText() {
+        return `${builtVoice.clef.name} - ${builtVoice.instrumentNew.name} - ${builtVoice.instrumentVoice.name}`;
+    }
 
     return (
         <div className="mt-20">
