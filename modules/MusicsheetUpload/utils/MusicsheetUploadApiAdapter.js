@@ -1,7 +1,10 @@
+import { MP_EDU, MP_WEB } from './ImplementationModesLookup';
+
 class MusicsheetUploadApiAdapter {
-    constructor(rawPayload, humanReadable = false) {
+    constructor(rawPayload, humanReadable = false, implementationMode = MP_WEB) {
         this.rawPayload = rawPayload;
         this.humanReadable = humanReadable;
+        this.implementationMode = implementationMode;
     }
 
     /**
@@ -66,6 +69,10 @@ class MusicsheetUploadApiAdapter {
     }
 
     cleanUpVoices(voices) {
+        if (this.implementationMode === MP_EDU) {
+            return voices;
+        }
+
         return voices.map(voice => ({
             voiceId: voice.voiceId,
             label: voice.label,
