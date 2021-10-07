@@ -12,7 +12,7 @@ const InstrumentVoiceBuilder = props => {
     useEffect(() => {
         if (builtVoice.clef && builtVoice.instrumentNew && builtVoice.instrumentVoice) {
             setShowWarning(false);
-            props.handleVoicesAssignemnt(builtVoice);
+            props.handleVoicesAssignemnt([builtVoice]);
         }
     }, [builtVoice]);
 
