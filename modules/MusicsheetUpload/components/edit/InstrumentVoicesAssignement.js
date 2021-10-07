@@ -21,7 +21,12 @@ const InstrumentVoicesAssignement = props => {
                 />
             )}
 
-            {implementationMode === MP_EDU && <InstrumentVoiceBuilder />}
+            {implementationMode === MP_EDU && (
+                <InstrumentVoiceBuilder
+                    assignedVoices={props.assignedVoices}
+                    handleVoicesAssignemnt={props.handleVoicesAssignemnt}
+                />
+            )}
         </div>
     );
 };
