@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { MP_EDU } from './ImplementationModesLookup';
 
-const useAvailableInstrumentVoices = instrumentSheets => {
+const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
+    // In Marschpat EDU there are no casts, neither a concept for "available voices". So we can bypass everything related to
+    // castOptions, availableInstrumentVoices, handleCastChange, handleAvailableVoicesUpdate, handleAvailableVoicesReset
+    if (implementationMode === MP_EDU) return [false, false, () => false, () => false, () => false];
+
     const [castOptions, setCastOptions] = useState(null);
     const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null);
     const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
