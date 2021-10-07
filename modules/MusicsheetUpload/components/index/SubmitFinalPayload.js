@@ -53,7 +53,7 @@ const SubmitFinalPayload = props => {
 
         setIsUploading(true);
         const reqData = prepareImplementationSpecificPayload(finalPayload);
-        const apiAdapter = new MusicsheetUploadApiAdapter(reqData, false, implementationMode);
+        const apiAdapter = new MusicsheetUploadApiAdapter(reqData, implementationMode);
         const payload = {
             ...reqData,
             instrumentSheets: apiAdapter.getCleanInstrumentSheets(),

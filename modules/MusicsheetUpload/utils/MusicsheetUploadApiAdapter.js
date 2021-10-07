@@ -1,7 +1,7 @@
 import { MP_EDU, MP_WEB } from './ImplementationModesLookup';
 
 class MusicsheetUploadApiAdapter {
-    constructor(rawPayload, humanReadable = false, implementationMode = MP_WEB) {
+    constructor(rawPayload, implementationMode = MP_WEB, humanReadable = false) {
         this.rawPayload = rawPayload;
         this.humanReadable = humanReadable;
         this.implementationMode = implementationMode;
