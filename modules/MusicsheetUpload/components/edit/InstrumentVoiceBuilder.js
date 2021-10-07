@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 
 const InstrumentVoiceBuilder = props => {
+    const defaultVoice =
+        props.assignedVoices.length > 0
+            ? props.assignedVoices[0]
+            : {
+                  clef: null,
+                  instrumentNew: null,
+                  instrumentVoice: null,
+                  label: null,
+              };
     const [showWarning, setShowWarning] = useState(true);
-    const [builtVoice, setBuiltVoice] = useState({
-        clef: null,
-        instrumentNew: null,
-        instrumentVoice: null,
-        label: null,
-    });
+    const [builtVoice, setBuiltVoice] = useState(defaultVoice);
 
     useEffect(() => {
         if (builtVoice.clef && builtVoice.instrumentNew && builtVoice.instrumentVoice) {
@@ -30,6 +34,7 @@ const InstrumentVoiceBuilder = props => {
                 label="Schlüssel"
                 labelAttr="name"
                 fetchOptionsUrl="/clef"
+                initialValue={builtVoice.clef?.id ?? null}
                 handleSelectedChange={e => {
                     setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
                 }}
@@ -41,6 +46,7 @@ const InstrumentVoiceBuilder = props => {
                 label="Instrument"
                 labelAttr="name"
                 fetchOptionsUrl="/instrument-new"
+                initialValue={builtVoice.instrumentNew?.id ?? null}
                 handleSelectedChange={e => {
                     setBuiltVoice(prev => ({ ...prev, instrumentNew: { id: e.id, name: e.name } }));
                 }}
@@ -52,6 +58,7 @@ const InstrumentVoiceBuilder = props => {
                 label="Variante"
                 labelAttr="name"
                 fetchOptionsUrl="/instrument-voice"
+                initialValue={builtVoice.instrumentVoice?.id ?? null}
                 handleSelectedChange={e => {
                     setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
                 }}
