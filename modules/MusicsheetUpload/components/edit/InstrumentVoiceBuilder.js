@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 
 const InstrumentVoiceBuilder = props => {
+    const [showWarning, setShowWarning] = useState(true);
     const [builtVoice, setBuiltVoice] = useState({
-        clef: { id: 2, name: 'Bassschlüssel' },
-        instrumentNew: { id: 3, name: 'A-Stimme/Instrument' },
-        instrumentVoice: { id: 2, name: '1' },
+        clef: null,
+        instrumentNew: null,
+        instrumentVoice: null,
     });
+
+    useEffect(() => {
+        if (builtVoice.clef && builtVoice.instrumentNew && builtVoice.instrumentVoice) {
+            setShowWarning(false);
+            props.handleVoicesAssignemnt(builtVoice);
+        }
+    }, [builtVoice]);
 
     return (
         <div className="mt-20">
@@ -16,7 +24,9 @@ const InstrumentVoiceBuilder = props => {
                 label="Stimmung"
                 labelAttr="name"
                 fetchOptionsUrl="/clef"
-                handleSelectedChange={e => console.log('changed', e)}
+                handleSelectedChange={e => {
+                    setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
+                }}
             />
 
             {/* INSTRUMENT */}
@@ -25,7 +35,9 @@ const InstrumentVoiceBuilder = props => {
                 label="Instrument"
                 labelAttr="name"
                 fetchOptionsUrl="/instrument-new"
-                handleSelectedChange={e => console.log('changed', e)}
+                handleSelectedChange={e => {
+                    setBuiltVoice(prev => ({ ...prev, instrumentNew: { id: e.id, name: e.name } }));
+                }}
             />
 
             {/* VARIANT */}
@@ -34,8 +46,16 @@ const InstrumentVoiceBuilder = props => {
                 label="Variante"
                 labelAttr="name"
                 fetchOptionsUrl="/instrument-voice"
-                handleSelectedChange={e => console.log('changed', e)}
+                handleSelectedChange={e => {
+                    setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
+                }}
             />
+
+            {showWarning && (
+                <div className="mt-24 p-4 flex justify-center text-base rounded-md bg-orange-700">
+                    <div>Stimmung, Instrument und Variante auswählen!</div>
+                </div>
+            )}
         </div>
     );
 };
