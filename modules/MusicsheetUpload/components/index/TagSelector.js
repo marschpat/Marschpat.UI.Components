@@ -24,7 +24,7 @@ const TagSelector = props => {
     useEffect(() => {
         if (tagOptions && props.initialTags && !selectedTags) {
             const initialItems = props.initialTags.map(initTag =>
-                tagOptions.find(item => item.value === initTag.tagID)
+                tagOptions.find(item => item.value === initTag.tagId)
             );
             setSelectedTags(initialItems);
         }
@@ -63,7 +63,7 @@ const TagSelector = props => {
 
     function mapTags(tagItems) {
         return tagItems.map(item => ({
-            value: item.tagID,
+            value: item.tagId,
             label: item.name,
             ...item,
         }));

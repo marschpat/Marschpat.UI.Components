@@ -169,7 +169,7 @@ const MetaDataForm = props => {
     function handleTagsChange(tags) {
         setMetaData({
             ...metaData,
-            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagID: tag.tagID })) : tags,
+            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagId: tag.tagId })) : tags,
         });
     }
 
