@@ -23,6 +23,7 @@ const ImageCropper = props => {
     const [image, setImage] = useState(null);
     const [cropBox, setCropBox] = useState(null);
     const [orientation, setOrientation] = useState(null);
+    const [aspectRatioLock, setAspectRatioLock] = useState(true);
     const [renderCropper, setRenderCropper] = useState(false);
     const { implementationMode: imp } = useContext(UploaderContext);
 
@@ -80,7 +81,7 @@ const ImageCropper = props => {
                         src={src}
                         crop={onCrop}
                         ready={setInitialCropBox}
-                        aspectRatio={dimensions[orientation].aspectRatio}
+                        aspectRatio={aspectRatioLock ? dimensions[orientation].aspectRatio : 0}
                         autoCropArea={1}
                         guides={true}
                         style={{ height: 500, width: '100%' }}
@@ -94,8 +95,9 @@ const ImageCropper = props => {
             <ImageCropperToolbar
                 cropper={cropper?.current?.cropper}
                 orientation={orientation}
-                handleOrientationChange={changeOrientation}
                 handleCopyCropbox={copyCropbox}
+                handleOrientationChange={changeOrientation}
+                handleAspectRatioLockChange={setAspectRatioLock}
             />
         </div>
     );

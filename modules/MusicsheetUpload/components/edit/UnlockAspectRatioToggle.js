@@ -5,11 +5,16 @@ import AspectRatioIcon from '@material-ui/icons/AspectRatio';
 
 const UnlockAspectRatioToggle = props => {
     const [checked, setChecked] = useState(true);
+
+    function handleChange() {
+        setChecked(!checked);
+        props.handleAspectRatioLockChange(!checked);
+    }
     return (
         <TooltipStyled title={checked ? 'Seitenverhältnis entsperren' : 'Seitenverhältnis sperren'}>
             <Checkbox
                 checked={checked}
-                onChange={() => setChecked(prev => !prev)}
+                onChange={handleChange}
                 icon={<AspectRatioIcon />}
                 checkedIcon={<AspectRatioIcon />}
             />

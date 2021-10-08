@@ -54,7 +54,7 @@ const ImageCropperToolbar = props => {
                     </Button>
                 </TooltipStyled>
 
-                <UnlockAspectRatioToggle />
+                <UnlockAspectRatioToggle handleAspectRatioLockChange={props.handleAspectRatioLockChange} />
 
                 <OrientationToggle
                     orientation={props.orientation}
