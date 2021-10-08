@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import InstrumentSheetListItem from './InstrumentSheetListItem';
 import { UploaderContext } from '../../context/UploaderContext';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
@@ -11,8 +12,7 @@ const InstrumentSheetsManipulationList = props => {
     const [inMergeMode, setInMergeMode] = useState(false);
     const [mergeChildren, setMergeChildren] = useState([]);
     const dispatchConfirm = useDispatchConfirmDialog();
-    const { dispatchFlashMessage } = useContext(UploaderContext);
-
+    const { dispatchFlashMessage, implementationMode } = useContext(UploaderContext);
     const activateMergeMode = uuid => {
         setMergeParent(uuid);
         setInMergeMode(true);
@@ -49,7 +49,12 @@ const InstrumentSheetsManipulationList = props => {
         childs.forEach(child => {
             newInstrumentSheet.origFiles = newInstrumentSheet.origFiles.concat(child.origFiles);
             newInstrumentSheet.pages = newInstrumentSheet.pages.concat(child.pages);
-            newInstrumentSheet.voices = newInstrumentSheet.voices.concat(child.voices);
+
+            // don't merge voices for implementationMode EDU. in EDU we just keep the one voice from merge parent.
+            if (implementationMode !== MP_EDU) {
+                newInstrumentSheet.voices = newInstrumentSheet.voices.concat(child.voices);
+            }
+
             if (child.previews) {
                 newInstrumentSheet.previews = newInstrumentSheet.previews.concat(child.previews);
             }
