@@ -1,4 +1,5 @@
 import React from 'react';
+import UnlockAspectRatioToggle from './UnlockAspectRatioToggle';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import Button from '@material-ui/core/Button';
 import CropIcon from '@material-ui/icons/Crop';
@@ -52,6 +53,8 @@ const ImageCropperToolbar = props => {
                         <span className="ml-10">Alle Seiten</span>
                     </Button>
                 </TooltipStyled>
+
+                <UnlockAspectRatioToggle />
 
                 <OrientationToggle
                     orientation={props.orientation}
