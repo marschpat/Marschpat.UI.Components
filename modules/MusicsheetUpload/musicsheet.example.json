@@ -12,7 +12,7 @@
     "ownerType": 2,
     "ownerId": null,
     "sheetId:": 0,
-    "tags": [{ "tagID": 1 }, { "tagID": 2 }, { "tagID": 10 }],
+    "tags": [{ "tagId": 1 }, { "tagId": 2 }, { "tagId": 10 }],
     "instrumentSheets": [
         {
             "voices": [{ "voiceId": 3 }, { "voiceId": 4 }, { "voiceId": 8 }],
