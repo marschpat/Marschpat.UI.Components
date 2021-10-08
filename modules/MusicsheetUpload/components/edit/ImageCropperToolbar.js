@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import UnlockAspectRatioToggle from './UnlockAspectRatioToggle';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { UploaderContext } from '../../context/UploaderContext';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import Button from '@material-ui/core/Button';
 import CropIcon from '@material-ui/icons/Crop';
@@ -12,6 +14,7 @@ import RotateRightIcon from '@material-ui/icons/RotateRight';
 import Rotate90DegreesCcwIcon from '@material-ui/icons/Rotate90DegreesCcw';
 
 const ImageCropperToolbar = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const cropper = props.cropper;
 
     return (
@@ -54,7 +57,9 @@ const ImageCropperToolbar = props => {
                     </Button>
                 </TooltipStyled>
 
-                <UnlockAspectRatioToggle handleAspectRatioLockChange={props.handleAspectRatioLockChange} />
+                {implementationMode === MP_EDU && (
+                    <UnlockAspectRatioToggle handleAspectRatioLockChange={props.handleAspectRatioLockChange} />
+                )}
 
                 <OrientationToggle
                     orientation={props.orientation}
