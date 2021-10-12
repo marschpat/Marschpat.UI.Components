@@ -28,18 +28,6 @@ const InstrumentVoiceBuilder = props => {
 
     return (
         <div className="mt-20">
-            {/* CLEF */}
-            <ChooseOrCreateSelector
-                isFixed={true}
-                label="Schlüssel"
-                labelAttr="name"
-                fetchOptionsUrl="/clef"
-                initialValue={builtVoice.clef?.id ?? null}
-                handleSelectedChange={e => {
-                    setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
-                }}
-            />
-
             {/* INSTRUMENT */}
             <ChooseOrCreateSelector
                 isFixed={true}
@@ -61,6 +49,18 @@ const InstrumentVoiceBuilder = props => {
                 initialValue={builtVoice.instrumentVoice?.id ?? null}
                 handleSelectedChange={e => {
                     setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
+                }}
+            />
+
+            {/* CLEF */}
+            <ChooseOrCreateSelector
+                isFixed={true}
+                label="Schlüssel"
+                labelAttr="name"
+                fetchOptionsUrl="/clef"
+                initialValue={builtVoice.clef?.id ?? null}
+                handleSelectedChange={e => {
+                    setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
                 }}
             />
 
