@@ -6,7 +6,7 @@ const InstrumentVoiceBuilder = props => {
         props.assignedVoices.length > 0
             ? props.assignedVoices[0]
             : {
-                  clef: null,
+                  clef: { id: 0 },
                   instrumentNew: null,
                   instrumentVoice: null,
                   label: null,
@@ -15,7 +15,7 @@ const InstrumentVoiceBuilder = props => {
     const [builtVoice, setBuiltVoice] = useState(defaultVoice);
 
     useEffect(() => {
-        if (builtVoice.clef && builtVoice.instrumentNew && builtVoice.instrumentVoice) {
+        if (builtVoice.instrumentNew && builtVoice.instrumentVoice) {
             setShowWarning(false);
             const labelText = getLabelText();
             props.handleVoicesAssignemnt([{ ...builtVoice, label: labelText }]);
@@ -23,7 +23,7 @@ const InstrumentVoiceBuilder = props => {
     }, [builtVoice]);
 
     function getLabelText() {
-        return `${builtVoice.instrumentNew.name} - ${builtVoice.instrumentVoice.name} - (${builtVoice.clef.name})`;
+        return `${builtVoice.instrumentNew.name} - ${builtVoice.instrumentVoice.name}`;
     }
 
     return (
@@ -53,7 +53,7 @@ const InstrumentVoiceBuilder = props => {
                     }}
                 />
                 {/* CLEF */}
-                <ChooseOrCreateSelector
+                {/* <ChooseOrCreateSelector
                     isFixed={true}
                     label="Schlüssel"
                     labelAttr="name"
@@ -62,12 +62,10 @@ const InstrumentVoiceBuilder = props => {
                     handleSelectedChange={e => {
                         setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
                     }}
-                />
+                /> */}
                 {showWarning && (
                     <div className="mt-68 px-10 py-5 flex justify-center rounded-md bg-red-200">
-                        <p className="text-base text-gray-800 text-center">
-                            Instrument, Variante und Schlüssel auswählen!
-                        </p>
+                        <p className="text-base text-gray-800 text-center">Instrument und Variante auswählen!</p>
                     </div>
                 )}
             </div>

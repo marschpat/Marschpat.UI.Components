@@ -17,7 +17,6 @@
         {
             "voices": [{
                 "voiceId": "2-3-2",
-                "clef": { "id": "2, name: 'Bassschlüssel'" },
                 "instrumentNew": { "id": "3, name: 'A-Stimme/Instrument'" },
                 "instrumentVoice": { "id": "2, name: '1'" }
             }],
