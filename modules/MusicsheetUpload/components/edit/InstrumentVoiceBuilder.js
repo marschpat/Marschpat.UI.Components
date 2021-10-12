@@ -23,7 +23,7 @@ const InstrumentVoiceBuilder = props => {
     }, [builtVoice]);
 
     function getLabelText() {
-        return `${builtVoice.clef.name} - ${builtVoice.instrumentNew.name} - ${builtVoice.instrumentVoice.name}`;
+        return `${builtVoice.instrumentNew.name} - ${builtVoice.instrumentVoice.name} - (${builtVoice.clef.name})`;
     }
 
     return (
