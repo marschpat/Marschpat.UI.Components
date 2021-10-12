@@ -27,48 +27,50 @@ const InstrumentVoiceBuilder = props => {
     }
 
     return (
-        <div className="mt-20">
-            {/* INSTRUMENT */}
-            <ChooseOrCreateSelector
-                isFixed={true}
-                label="Instrument"
-                labelAttr="name"
-                fetchOptionsUrl="/instrument-new"
-                initialValue={builtVoice.instrumentNew?.id ?? null}
-                handleSelectedChange={e => {
-                    setBuiltVoice(prev => ({ ...prev, instrumentNew: { id: e.id, name: e.name } }));
-                }}
-            />
-
-            {/* VARIANT */}
-            <ChooseOrCreateSelector
-                isFixed={true}
-                label="Variante"
-                labelAttr="name"
-                fetchOptionsUrl="/instrument-voice"
-                initialValue={builtVoice.instrumentVoice?.id ?? null}
-                handleSelectedChange={e => {
-                    setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
-                }}
-            />
-
-            {/* CLEF */}
-            <ChooseOrCreateSelector
-                isFixed={true}
-                label="Schlüssel"
-                labelAttr="name"
-                fetchOptionsUrl="/clef"
-                initialValue={builtVoice.clef?.id ?? null}
-                handleSelectedChange={e => {
-                    setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
-                }}
-            />
-
-            {showWarning && (
-                <div className="mt-24 p-4 flex justify-center text-base rounded-md bg-orange-700">
-                    <div>Schlüssel, Instrument und Variante auswählen!</div>
-                </div>
-            )}
+        <div>
+            <p className="text-gray-700">Lege die Instrumentenstimme für dieses Notenblatt fest.</p>
+            <div className="mt-24">
+                {/* INSTRUMENT */}
+                <ChooseOrCreateSelector
+                    isFixed={true}
+                    label="Instrument"
+                    labelAttr="name"
+                    fetchOptionsUrl="/instrument-new"
+                    initialValue={builtVoice.instrumentNew?.id ?? null}
+                    handleSelectedChange={e => {
+                        setBuiltVoice(prev => ({ ...prev, instrumentNew: { id: e.id, name: e.name } }));
+                    }}
+                />
+                {/* VARIANT */}
+                <ChooseOrCreateSelector
+                    isFixed={true}
+                    label="Variante"
+                    labelAttr="name"
+                    fetchOptionsUrl="/instrument-voice"
+                    initialValue={builtVoice.instrumentVoice?.id ?? null}
+                    handleSelectedChange={e => {
+                        setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
+                    }}
+                />
+                {/* CLEF */}
+                <ChooseOrCreateSelector
+                    isFixed={true}
+                    label="Schlüssel"
+                    labelAttr="name"
+                    fetchOptionsUrl="/clef"
+                    initialValue={builtVoice.clef?.id ?? null}
+                    handleSelectedChange={e => {
+                        setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
+                    }}
+                />
+                {showWarning && (
+                    <div className="mt-68 px-10 py-5 flex justify-center rounded-md bg-red-200">
+                        <p className="text-base text-gray-800 text-center">
+                            Instrument, Variante und Schlüssel auswählen!
+                        </p>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
