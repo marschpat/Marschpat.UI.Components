@@ -83,7 +83,9 @@ const InstrumentSheetsManipulationList = props => {
                     <InstrumentSheetListItem
                         inMergeMode={inMergeMode}
                         mergeParent={mergeParent === instrumentSheet.uuid ? mergeParent : null}
-                        mergeChildren={mergeChildren.includes(instrumentSheet.uuid) ? mergeChildren : null}
+                        mergeChildren={
+                            mergeChildren.includes(instrumentSheet.uuid) ? mergeChildren : null
+                        }
                         instrumentSheet={instrumentSheet}
                         renderMergeButton={renderMergeButton}
                         handleRemoveInstrumentSheets={props.handleRemoveInstrumentSheets}

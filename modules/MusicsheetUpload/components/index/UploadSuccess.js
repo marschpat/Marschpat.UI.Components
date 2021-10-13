@@ -17,7 +17,10 @@ const UploadSuccess = props => {
             </Typography>
             {!props.hasError ? (
                 <>
-                    <CheckCircleOutlineIcon fontSize="large" className="w-128 h-128 my-32 text-mp-gold" />
+                    <CheckCircleOutlineIcon
+                        fontSize="large"
+                        className="w-128 h-128 my-32 text-mp-gold"
+                    />
                     <Typography className="text-20 mb-16 text-center">
                         Das Musikstück steht in unserem Notenpool zur Verfügung.
                     </Typography>
@@ -30,16 +33,24 @@ const UploadSuccess = props => {
                         >
                             Zum Notenpool
                         </Button>
-                        <Button onClick={props.handleUploaderReset} variant="contained" color="secondary">
+                        <Button
+                            onClick={props.handleUploaderReset}
+                            variant="contained"
+                            color="secondary"
+                        >
                             Weiter uploaden
                         </Button>
                     </div>
                 </>
             ) : (
                 <>
-                    <CancelOutlinedIcon fontSize="large" className="w-128 h-128 my-32 text-red-500" />
+                    <CancelOutlinedIcon
+                        fontSize="large"
+                        className="w-128 h-128 my-32 text-red-500"
+                    />
                     <Typography className="text-20 mb-16 text-center">
-                        Beim Upload ist ein Fehler aufgetreten: <span class="text-red-500">{props.hasError}</span>
+                        Beim Upload ist ein Fehler aufgetreten:{' '}
+                        <span class="text-red-500">{props.hasError}</span>
                     </Typography>
                     <Button onClick={props.handleSubmitPayloadReset} variant="contained">
                         Zurück

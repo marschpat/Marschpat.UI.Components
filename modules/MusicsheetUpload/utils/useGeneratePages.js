@@ -106,7 +106,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
     }
 
     function originalFileHasPreviews(originalFileUuid) {
-        const pages = instrumentSheet.pages.filter(page => page.belongsToOrigFile === originalFileUuid);
+        const pages = instrumentSheet.pages.filter(
+            page => page.belongsToOrigFile === originalFileUuid
+        );
         const previewExistPerPage = pages.map(page => {
             if (page.type === 'mxl') return true;
             return instrumentSheet.previews.some(preview => preview.pageNbr === page.pageNbr);
@@ -157,7 +159,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
                         : false;
 
                     pagesArray.push({
-                        pageData: preRendered ? preRendered.pageData : originalFiles[origFileIndex].data,
+                        pageData: preRendered
+                            ? preRendered.pageData
+                            : originalFiles[origFileIndex].data,
                         type: originalFiles[origFileIndex].type,
                         cropBox: null,
                         pageNbr,
@@ -189,7 +193,9 @@ const useGeneratePages = (instrumentSheet, supportedTypes) => {
         img.src = originalFile.data;
         canvas.width = thumbnailWidth;
         canvas.height = (thumbnailWidth * img.height) / img.width;
-        canvas.getContext('2d').drawImage(img, 0, 0, thumbnailWidth, (thumbnailWidth * img.height) / img.width);
+        canvas
+            .getContext('2d')
+            .drawImage(img, 0, 0, thumbnailWidth, (thumbnailWidth * img.height) / img.width);
         if (img.naturalWidth !== 0) {
             thumbnailData = canvas.toDataURL('image/jpeg');
         }

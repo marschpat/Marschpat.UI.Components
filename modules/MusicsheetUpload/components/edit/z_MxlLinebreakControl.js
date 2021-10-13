@@ -14,7 +14,12 @@ const MxlLinebreakControl = props => {
     return (
         <div className="cursor-not-allowed">
             {/* <TooltipStyled title="Voreingestellte Zeilenumbrüche aus MXL-File übernehmen"> */}
-            <ToggleButton value="linebreak" selected={linebreaks} onChange={toggleLinebreaks} disabled>
+            <ToggleButton
+                value="linebreak"
+                selected={linebreaks}
+                onChange={toggleLinebreaks}
+                disabled
+            >
                 <ClearAllIcon />
             </ToggleButton>
             {/* </TooltipStyled> */}

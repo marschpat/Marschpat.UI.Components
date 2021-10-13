@@ -26,7 +26,10 @@ const FullscreenHeader = props => {
                     </div>
                     <div className="flex items-center justify-end">
                         {props.inPlaylist && (
-                            <PlaylistControls musicsheetId={props.musicsheetId} inPlaylist={props.inPlaylist} />
+                            <PlaylistControls
+                                musicsheetId={props.musicsheetId}
+                                inPlaylist={props.inPlaylist}
+                            />
                         )}
                         <CarouselFullscreenButton />
                         <TogglePagesPreviewButton />

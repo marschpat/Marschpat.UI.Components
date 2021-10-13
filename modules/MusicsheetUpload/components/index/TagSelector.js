@@ -17,7 +17,10 @@ const TagSelector = props => {
                 setTagOptions(mapTags(response.data));
             })
             .catch(error => {
-                console.error('Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.', error);
+                console.error(
+                    'Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.',
+                    error
+                );
             });
     }, []);
 

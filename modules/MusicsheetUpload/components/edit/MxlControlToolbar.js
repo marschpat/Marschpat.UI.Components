@@ -27,7 +27,9 @@ const MxlControlToolbar = props => {
             </div>
             <div className="mt-20 flex justify-between items-center">
                 <div className="flex items-center">
-                    <MxlCompactModeControl handleCompactModeChange={props.handleCompactModeChange} />
+                    <MxlCompactModeControl
+                        handleCompactModeChange={props.handleCompactModeChange}
+                    />
                     <MxlTitleControl handleShowTitleChange={props.handleShowTitleChange} />
                     <MxlSkyBottomDistanceControl
                         skyBottomDistance={props.osmdOptions?.skyBottomDistance ?? 7}
@@ -35,7 +37,10 @@ const MxlControlToolbar = props => {
                     />
                 </div>
                 <div>
-                    <MxlZoomControl zoomLevel={props?.osmdOptions?.zoom ?? 1} handleZoom={props.handleZoom} />
+                    <MxlZoomControl
+                        zoomLevel={props?.osmdOptions?.zoom ?? 1}
+                        handleZoom={props.handleZoom}
+                    />
                 </div>
             </div>
         </div>

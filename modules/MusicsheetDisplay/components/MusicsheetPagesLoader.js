@@ -13,7 +13,10 @@ const MusicsheetPagesLoader = props => {
 
     useEffect(async () => {
         if (musicsheet && voice) {
-            const { success, data } = await fetchAllMusicsheetVoicePages(musicsheet.sheetId, voice.voiceId);
+            const { success, data } = await fetchAllMusicsheetVoicePages(
+                musicsheet.sheetId,
+                voice.voiceId
+            );
             if (success) {
                 setDownloadLinks(data);
             }
@@ -31,7 +34,9 @@ const MusicsheetPagesLoader = props => {
 
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
         try {
-            const response = await axios.post(`/musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`);
+            const response = await axios.post(
+                `/musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
+            );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
 

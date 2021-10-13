@@ -91,10 +91,17 @@ const SubmitFinalPayload = props => {
         <section className="mt-20 py-24 flex justify-end">
             <div>
                 <div>
-                    <Button onClick={submit} variant="contained" color="secondary" id="submit-final">
+                    <Button
+                        onClick={submit}
+                        variant="contained"
+                        color="secondary"
+                        id="submit-final"
+                    >
                         <div className="flex items-center">
                             <PublishIcon className="text-white" />
-                            <span className="ml-12 text-white text-xl font-bold">Musikstück Upload</span>
+                            <span className="ml-12 text-white text-xl font-bold">
+                                Musikstück Upload
+                            </span>
                         </div>
                     </Button>
                 </div>

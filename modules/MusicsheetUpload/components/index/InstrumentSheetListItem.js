@@ -45,7 +45,9 @@ const InstrumentSheetListItem = props => {
                     <MergeControls
                         inMergeMode={props.inMergeMode}
                         isParent={props.instrumentSheet.uuid === props.mergeParent}
-                        isMergeChild={props.mergeChildren?.includes(props.instrumentSheet.uuid) ?? false}
+                        isMergeChild={
+                            props.mergeChildren?.includes(props.instrumentSheet.uuid) ?? false
+                        }
                         wasMerged={props.instrumentSheet.origFiles.length > 1}
                         renderMergeButton={props.renderMergeButton}
                         instrumentSheetId={props.instrumentSheet.uuid}
@@ -77,7 +79,9 @@ function FileTypeIcon({ type }) {
 
 function CompletionStatus({ instrumentSheet }) {
     const [completed, voicesReady, pagesReady] = getCompletionStatus(instrumentSheet);
-    const voicesNames = voicesReady() ? instrumentSheet.voices.map(voice => voice.label).join(', ') : null;
+    const voicesNames = voicesReady()
+        ? instrumentSheet.voices.map(voice => voice.label).join(', ')
+        : null;
     const labelText = () => {
         if (completed) return voicesNames;
         if (voicesReady() && !pagesReady()) return voicesNames + ' --- Stimme noch bearbeiten! ';
@@ -89,7 +93,9 @@ function CompletionStatus({ instrumentSheet }) {
             icon={completed ? <CheckCircleIcon /> : <WarningIcon />}
             label={labelText()}
             className={
-                completed ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300' : 'px-6 cursor-pointer bg-grey-300'
+                completed
+                    ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300'
+                    : 'px-6 cursor-pointer bg-grey-300'
             }
             title={`Zugewiesene Stimmen: ${voicesNames}`}
             id="completion-status"

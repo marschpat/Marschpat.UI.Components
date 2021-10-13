@@ -3,7 +3,10 @@ import axios from 'axios';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
-import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
+import {
+    MusicsheetDisplayContext,
+    MusicsheetLoaderContext,
+} from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
@@ -11,7 +14,11 @@ const MusicsheetDisplay = props => {
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
-    const { musicsheetPages: pages, musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
+    const {
+        musicsheetPages: pages,
+        musicsheetMetaData,
+        instrumentVoice,
+    } = useContext(MusicsheetLoaderContext);
     const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetId;
 

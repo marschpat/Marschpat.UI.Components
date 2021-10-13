@@ -14,7 +14,11 @@ const LayersSelect = () => {
                     return { label: layer.name, value: layer.uuid };
                 })
             );
-            setValues(sketchpadLayers.filter(l => l.active).map(layer => ({ label: layer.name, value: layer.uuid })));
+            setValues(
+                sketchpadLayers
+                    .filter(l => l.active)
+                    .map(layer => ({ label: layer.name, value: layer.uuid }))
+            );
         }
     }, [sketchpadLayers]);
 

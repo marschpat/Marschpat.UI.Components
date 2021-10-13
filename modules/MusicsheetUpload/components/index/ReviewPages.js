@@ -39,7 +39,9 @@ const ReviewPages = props => {
                 ) : (
                     <div>
                         MXLLLLL
-                        <img src={instrumentSheets[sheetIndex]?.pages[0]?.pageData[pageIndex]?.data} />
+                        <img
+                            src={instrumentSheets[sheetIndex]?.pages[0]?.pageData[pageIndex]?.data}
+                        />
                     </div>
                 )}
             </div>

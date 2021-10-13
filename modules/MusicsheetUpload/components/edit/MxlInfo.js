@@ -13,9 +13,10 @@ const MxlInfo = props => {
                     <p className="text-gray-600 text-base">
                         Das Verarbeiten von .mxl Dateien kann einige Zeit in Anspruch nehmen.
                         <br />
-                        Wir emfpehlen die Aufbereitung Notenblättern im MXL Format von einem möglichst leistungsstarken
-                        Computer aus durchzuführen, oder das MXL zuvor als Bild oder PDF Datei abzuspeichern und diese
-                        Dateien zum Upload zu verwenden.
+                        Wir emfpehlen die Aufbereitung Notenblättern im MXL Format von einem
+                        möglichst leistungsstarken Computer aus durchzuführen, oder das MXL zuvor
+                        als Bild oder PDF Datei abzuspeichern und diese Dateien zum Upload zu
+                        verwenden.
                     </p>
                 </div>
             </div>

@@ -45,7 +45,11 @@ const PageEditor = props => {
         return <div className="text-gray-600 text-center italic">...not yet supported...</div>;
     };
 
-    return <div className="p-32 bg-gray-100 border border-gray-300 rounded-md shadow-md">{getAppropriateEditor()}</div>;
+    return (
+        <div className="p-32 bg-gray-100 border border-gray-300 rounded-md shadow-md">
+            {getAppropriateEditor()}
+        </div>
+    );
 
     function handlePageEdit(editedPageDataUrl, cropBox = null, osmdOptions = null) {
         props.handlePageUpdate({

@@ -53,7 +53,9 @@ const EditModeInspector = props => {
                     handleMusicsheetEditData={initializeEditMode}
                 />
             )}
-            {inDebugMode && <InitializeFromLocalPayload handleMusicsheetEditData={initializeEditMode} />}
+            {inDebugMode && (
+                <InitializeFromLocalPayload handleMusicsheetEditData={initializeEditMode} />
+            )}
         </>
     );
 

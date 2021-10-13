@@ -16,7 +16,8 @@ export const generateInstrumentSheet = originalFile => {
 };
 
 export const findOrigFileForPage = (page, originalFiles) => {
-    if (!page || !page?.belongsToOrigFile || !originalFiles || originalFiles.length < 1) return false;
+    if (!page || !page?.belongsToOrigFile || !originalFiles || originalFiles.length < 1)
+        return false;
 
     return originalFiles.find(orig => page.belongsToOrigFile === orig.uuid);
 };
@@ -33,6 +34,8 @@ export const getCompletionStatus = instrumentSheet => {
     return [completed, voicesReady, pagesReady];
 
     function eachOrigFileHasPages() {
-        return instrumentSheet.origFiles.every(f => instrumentSheet.pages.some(p => p.belongsToOrigFile === f.uuid));
+        return instrumentSheet.origFiles.every(f =>
+            instrumentSheet.pages.some(p => p.belongsToOrigFile === f.uuid)
+        );
     }
 };

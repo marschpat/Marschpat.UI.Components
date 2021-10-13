@@ -24,9 +24,10 @@ const LegalConsent = ({ agreed, handleChange }) => {
                     label={
                         <div className="max-w-2xl ml-12 text-base">
                             <span className={!agreed ? 'text-red-500' : ''}>
-                                Hiermit bestätige ich explizit, dass ich die notwendigen Rechte der Musikstücke bzw.
-                                Einzelstimmen besitze und somit die Rechte Dritter nicht verletzt werden. MARSCHPAT
-                                weißt darauf hin, dass das Vervielfältigen und die Weitergabe von Musiknoten an Dritte
+                                Hiermit bestätige ich explizit, dass ich die notwendigen Rechte der
+                                Musikstücke bzw. Einzelstimmen besitze und somit die Rechte Dritter
+                                nicht verletzt werden. MARSCHPAT weißt darauf hin, dass das
+                                Vervielfältigen und die Weitergabe von Musiknoten an Dritte
                                 urheberrechtlich verboten ist.
                             </span>
                         </div>

@@ -22,7 +22,10 @@ const labelTexts = {
 const UploadScopeSelector = props => {
     const { implementationMode, user, organisation } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
-    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(user, organisation);
+    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(
+        user,
+        organisation
+    );
     const initialState = () => (hasUserSubscribedRole() ? 'private' : 'organisation');
     const allowAdminActions = () => {
         if (implementationMode === MP_EDU) {
@@ -73,7 +76,9 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[implementationMode].private}</Typography>}
+                            label={
+                                <Typography>{labelTexts[implementationMode].private}</Typography>
+                            }
                             className="-mb-12"
                         />
                     )}
@@ -81,7 +86,11 @@ const UploadScopeSelector = props => {
                         <FormControlLabel
                             value="organisation"
                             control={<Radio />}
-                            label={<Typography>{labelTexts[implementationMode].org + organisation?.name}</Typography>}
+                            label={
+                                <Typography>
+                                    {labelTexts[implementationMode].org + organisation?.name}
+                                </Typography>
+                            }
                         />
                     )}
                 </RadioGroup>
