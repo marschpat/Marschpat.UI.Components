@@ -44,7 +44,7 @@ const InstrumentVoiceBuilder = props => {
                 {/* VARIANT */}
                 <ChooseOrCreateSelector
                     isFixed={true}
-                    label="Variante"
+                    label="Stimme"
                     labelAttr="name"
                     fetchOptionsUrl="/instrument-voice"
                     initialValue={builtVoice.instrumentVoice?.id ?? null}
@@ -52,20 +52,9 @@ const InstrumentVoiceBuilder = props => {
                         setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
                     }}
                 />
-                {/* CLEF */}
-                {/* <ChooseOrCreateSelector
-                    isFixed={true}
-                    label="Schlüssel"
-                    labelAttr="name"
-                    fetchOptionsUrl="/clef"
-                    initialValue={builtVoice.clef?.id ?? null}
-                    handleSelectedChange={e => {
-                        setBuiltVoice(prev => ({ ...prev, clef: { id: e.id, name: e.name } }));
-                    }}
-                /> */}
                 {showWarning && (
                     <div className="mt-68 px-10 py-5 flex justify-center rounded-md bg-red-200">
-                        <p className="text-base text-gray-800 text-center">Instrument und Variante auswählen!</p>
+                        <p className="text-base text-gray-800 text-center">Instrument und Stimme auswählen!</p>
                     </div>
                 )}
             </div>
