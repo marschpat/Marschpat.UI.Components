@@ -15,11 +15,13 @@
     "tags": [{ "tagId": 1 }, { "tagId": 2 }, { "tagId": 10 }],
     "instrumentSheets": [
         {
-            "voices": [{
-                "voiceId": "2-3-2",
-                "instrumentNew": { "id": "3, name: 'A-Stimme/Instrument'" },
-                "instrumentVoice": { "id": "2, name: '1'" }
-            }],
+            "voices": [
+                {
+                    "voiceId": "2-3-2",
+                    "instrumentNew": { "id": "3, name: 'A-Stimme/Instrument'" },
+                    "instrumentVoice": { "id": "2, name: '1'" }
+                }
+            ],
             "origFiles": [
                 {
                     "name": "47erRegimentsmarsch,MP - Klarinette in B 1.pdf",

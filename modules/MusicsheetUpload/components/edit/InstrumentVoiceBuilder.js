@@ -38,7 +38,10 @@ const InstrumentVoiceBuilder = props => {
                     fetchOptionsUrl="/instrument-new"
                     initialValue={builtVoice.instrumentNew?.id ?? null}
                     handleSelectedChange={e => {
-                        setBuiltVoice(prev => ({ ...prev, instrumentNew: { id: e.id, name: e.name } }));
+                        setBuiltVoice(prev => ({
+                            ...prev,
+                            instrumentNew: { id: e.id, name: e.name },
+                        }));
                     }}
                 />
                 {/* VARIANT */}
@@ -49,12 +52,17 @@ const InstrumentVoiceBuilder = props => {
                     fetchOptionsUrl="/instrument-voice"
                     initialValue={builtVoice.instrumentVoice?.id ?? null}
                     handleSelectedChange={e => {
-                        setBuiltVoice(prev => ({ ...prev, instrumentVoice: { id: e.id, name: e.name } }));
+                        setBuiltVoice(prev => ({
+                            ...prev,
+                            instrumentVoice: { id: e.id, name: e.name },
+                        }));
                     }}
                 />
                 {showWarning && (
                     <div className="mt-68 px-10 py-5 flex justify-center rounded-md bg-red-200">
-                        <p className="text-base text-gray-800 text-center">Instrument und Stimme auswählen!</p>
+                        <p className="text-base text-gray-800 text-center">
+                            Instrument und Stimme auswählen!
+                        </p>
                     </div>
                 )}
             </div>

@@ -6,7 +6,11 @@ import Button from '@material-ui/core/Button';
 const PersistPayloadToFile = props => {
     const { implementationMode } = useContext(UploaderContext);
     const downloadJsonPayload = () => {
-        const apiAdapter = new MusicsheetUploadApiAdapter(props.finalPayload, implementationMode, true);
+        const apiAdapter = new MusicsheetUploadApiAdapter(
+            props.finalPayload,
+            implementationMode,
+            true
+        );
         const payload = {
             ...props.finalPayload,
             instrumentSheets: apiAdapter.getCleanInstrumentSheets(),

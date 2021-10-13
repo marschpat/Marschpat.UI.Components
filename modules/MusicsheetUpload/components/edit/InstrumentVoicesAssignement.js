@@ -11,7 +11,9 @@ const InstrumentVoicesAssignement = props => {
     return (
         <div className="w-full">
             <Typography variant="h5">
-                {implementationMode === MP_EDU ? 'Stimme & Instrument festlegen' : 'Stimme auswählen'}
+                {implementationMode === MP_EDU
+                    ? 'Stimme & Instrument festlegen'
+                    : 'Stimme auswählen'}
             </Typography>
 
             {implementationMode === MP_WEB && (

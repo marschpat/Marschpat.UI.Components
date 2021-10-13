@@ -58,7 +58,9 @@ const ImageCropperToolbar = props => {
                 </TooltipStyled>
 
                 {implementationMode === MP_EDU && (
-                    <UnlockAspectRatioToggle handleAspectRatioLockChange={props.handleAspectRatioLockChange} />
+                    <UnlockAspectRatioToggle
+                        handleAspectRatioLockChange={props.handleAspectRatioLockChange}
+                    />
                 )}
 
                 <OrientationToggle

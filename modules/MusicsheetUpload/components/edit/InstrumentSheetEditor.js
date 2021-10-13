@@ -24,7 +24,8 @@ const InstrumentSheetEditor = props => {
             props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const { dispatchFlashMessage, handleAvailableVoicesUpdate, implementationMode } = useContext(UploaderContext);
+    const { dispatchFlashMessage, handleAvailableVoicesUpdate, implementationMode } =
+        useContext(UploaderContext);
 
     return pageInEdit ? (
         <div className="flex">
