@@ -88,7 +88,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         handleInstrumentSheetsUpdate={setInstrumentSheets}
                                         handleRemoveInstrumentSheets={removeInstrumentSheets}
                                         handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                                        handleOpenInstrumentSheetEdit={toggleInstrumentSheetEditDialog}
+                                        handleOpenInstrumentSheetEdit={
+                                            toggleInstrumentSheetEditDialog
+                                        }
                                     />
                                     <FileDropzone
                                         resetState={resetChildState}
@@ -96,7 +98,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                     />
                                     <LegalConsent
                                         agreed={agreedToLegalConsent}
-                                        handleChange={() => setAgreedToLegalConsent(!agreedToLegalConsent)}
+                                        handleChange={() =>
+                                            setAgreedToLegalConsent(!agreedToLegalConsent)
+                                        }
                                     />
                                     <SubmitFinalPayload
                                         errors={errors}
@@ -107,7 +111,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         agreedToLegalConsent={agreedToLegalConsent}
                                         handleReset={resetUploaderState}
                                     />
-                                    {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
+                                    {inDebugMode && (
+                                        <ReviewPages instrumentSheets={instrumentSheets} />
+                                    )}
                                 </div>
                             </UsagePermissionCheck>
                         }
@@ -154,7 +160,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     function addNewInstrumentSheets(sheets) {
         if (sheets.length < 1) return;
         setInstrumentSheets(prevSheets => {
-            const existingFileNames = prevSheets.flatMap(sheet => sheet.origFiles.map(orig => orig.name));
+            const existingFileNames = prevSheets.flatMap(sheet =>
+                sheet.origFiles.map(orig => orig.name)
+            );
             const newSheets = sheets.filter(
                 sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1)
             );
@@ -190,7 +198,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setInstrumentSheets(prev => {
             return prev
                 .concat(manipulation.add)
-                .map(sheet => (sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet));
+                .map(sheet =>
+                    sheet.uuid === manipulation.replacement.uuid ? manipulation.replacement : sheet
+                );
         });
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
@@ -215,7 +225,10 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     }
 
     function checkIfCastWarningMessageMayBeNeeded() {
-        if (instrumentSheets.length > 0 && instrumentSheets.some(sheet => sheet.voices.length > 0)) {
+        if (
+            instrumentSheets.length > 0 &&
+            instrumentSheets.some(sheet => sheet.voices.length > 0)
+        ) {
             return true;
         }
 
@@ -244,7 +257,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
      * Open the next available instrumentSheet, depending on the direction (next or previous)
      */
     function openNextAvailableInstrumentSheet(direction) {
-        const existingIndex = instrumentSheets.findIndex(sheet => sheet.uuid === instrumentSheetInEdit.uuid);
+        const existingIndex = instrumentSheets.findIndex(
+            sheet => sheet.uuid === instrumentSheetInEdit.uuid
+        );
         const candidate = direction === 'next' ? existingIndex + 1 : existingIndex - 1;
         const fallbackIndex = direction === 'next' ? 0 : instrumentSheets.length - 1;
         const newIndex = instrumentSheets[candidate] ? candidate : fallbackIndex;

@@ -37,8 +37,12 @@ const ModeOptions = props => {
                     handleDrawColorChange={handleDrawColorChange}
                 />
             )}
-            {props.mode === 'marker' && <Typography className="text-gray-700">Textmarker / Highlighter</Typography>}
-            {props.mode === 'text' && <Typography className="text-gray-700">Text als Notiz</Typography>}
+            {props.mode === 'marker' && (
+                <Typography className="text-gray-700">Textmarker / Highlighter</Typography>
+            )}
+            {props.mode === 'text' && (
+                <Typography className="text-gray-700">Text als Notiz</Typography>
+            )}
         </div>
     );
 };

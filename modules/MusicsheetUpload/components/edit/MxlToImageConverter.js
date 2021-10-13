@@ -56,7 +56,9 @@ const MxlToImageConverter = props => {
                         id={`renderedOsmdImage${img.pageNbr}`}
                         key={Math.random()}
                     >
-                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">Seite {img.pageNbr}</span>
+                        <span className="absolute bottom-0 right-0 m-6 text-gray-700">
+                            Seite {img.pageNbr}
+                        </span>
                         <img src={img.data} className="border" />
                     </div>
                 ))

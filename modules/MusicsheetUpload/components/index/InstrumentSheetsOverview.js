@@ -26,7 +26,9 @@ const InstrumentSheetsOverview = props => {
                 {sheetsExist ? (
                     <InstrumentSheetsManipulationList {...props} />
                 ) : (
-                    <Typography className="text-center text-gray-400 text-lg">Stimmen zum Upload auswählen.</Typography>
+                    <Typography className="text-center text-gray-400 text-lg">
+                        Stimmen zum Upload auswählen.
+                    </Typography>
                 )}
             </div>
         </section>

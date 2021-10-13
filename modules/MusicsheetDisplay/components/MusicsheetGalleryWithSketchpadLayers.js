@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import MusicsheetPagesLoader from './MusicsheetPagesLoader';
-import { MusicsheetDisplayContext, MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
+import {
+    MusicsheetDisplayContext,
+    MusicsheetLoaderContext,
+} from '../context/MusicsheetDisplayContexts';
 
 const MusicsheetGalleryWithSketchpadLayers = () => {
     const imageGalleryEl = useRef();
@@ -16,7 +19,10 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
 
     // set musisheetPages for ImageGallery
     useEffect(() => {
-        const images = musicsheetPages.map(item => ({ original: item.downloadLink, thumbnail: item.downloadLink }));
+        const images = musicsheetPages.map(item => ({
+            original: item.downloadLink,
+            thumbnail: item.downloadLink,
+        }));
         setPageImages(images);
     }, [musicsheetPages]);
 
@@ -38,7 +44,8 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     function initializeSketchpadLayers() {
         if (allImagesLoaded()) {
             cleanUpPreviousLayerImages();
-            const slideWrapper = imageGalleryEl.current && imageGalleryEl.current.imageGallerySlideWrapper.current;
+            const slideWrapper =
+                imageGalleryEl.current && imageGalleryEl.current.imageGallerySlideWrapper.current;
             if (slideWrapper && sketchpadLayers.length > 0) {
                 const container = document.createElement('div');
                 const layerWrapper = document.createElement('div');

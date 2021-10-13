@@ -26,7 +26,10 @@ const ChooseOrCreateSelector = props => {
                     setOptions(fetchOptions);
                 })
                 .catch(error => {
-                    console.error(`Fetching options from GET ${props.fetchOptionsUrl} failed with an error.`, error);
+                    console.error(
+                        `Fetching options from GET ${props.fetchOptionsUrl} failed with an error.`,
+                        error
+                    );
                 });
         }
     }, []);

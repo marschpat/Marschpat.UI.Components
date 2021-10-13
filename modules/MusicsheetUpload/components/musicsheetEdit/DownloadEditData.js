@@ -21,7 +21,10 @@ const DownloadEditData = props => {
                 props.handleMusicsheetEditData(rawEditData);
             })
             .catch(error => {
-                console.error(`Fetching musicsheet edit data from GET ${dlUrl} failed with an error.`, error);
+                console.error(
+                    `Fetching musicsheet edit data from GET ${dlUrl} failed with an error.`,
+                    error
+                );
             });
     };
 
@@ -34,7 +37,10 @@ const DownloadEditData = props => {
                 if (path) fetchMusicsheetEditData(path);
             })
             .catch(error => {
-                console.error(`Fetching musicsheet edit data from GET ${path} failed with an error.`, error);
+                console.error(
+                    `Fetching musicsheet edit data from GET ${path} failed with an error.`,
+                    error
+                );
                 props.abort();
             });
     };

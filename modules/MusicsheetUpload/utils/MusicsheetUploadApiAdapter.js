@@ -27,7 +27,9 @@ class MusicsheetUploadApiAdapter {
         return origFiles.map(origFile => {
             const newOrigFile = { ...origFile };
             if (origFile.type === 'mxl') {
-                newOrigFile.dataBinary = !this.humanReadable ? origFile.blob : 'SOME-BINARY-RUBBISH';
+                newOrigFile.dataBinary = !this.humanReadable
+                    ? origFile.blob
+                    : 'SOME-BINARY-RUBBISH';
                 delete newOrigFile.data;
             }
             delete newOrigFile.blob;

@@ -15,14 +15,12 @@ import Typography from '@material-ui/core/Typography';
 const supportedTypes = ['image', 'pdf', 'mxl'];
 
 const InstrumentSheetEditor = props => {
-    const [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews] = useGeneratePages(
-        props.instrumentSheet,
-        supportedTypes,
-        true
-    );
+    const [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews] =
+        useGeneratePages(props.instrumentSheet, supportedTypes, true);
     const [assignedVoices, setAssignedVoices] = useState(props.instrumentSheet.voices ?? null);
     const renderPagesPreview =
-        (props.instrumentSheet.origFiles.length === 1 && props.instrumentSheet.origFiles[0].type !== 'mxl') ||
+        (props.instrumentSheet.origFiles.length === 1 &&
+            props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
     const { dispatchFlashMessage, handleAvailableVoicesUpdate } = useContext(UploaderContext);
@@ -52,7 +50,8 @@ const InstrumentSheetEditor = props => {
                             <PageImageExporter
                                 data={
                                     pages && pageInEdit
-                                        ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                        ? pages.find(page => page.fileId === pageInEdit.fileId)
+                                              ?.pageData
                                         : null
                                 }
                             />
@@ -69,7 +68,9 @@ const InstrumentSheetEditor = props => {
                                     <img
                                         src={
                                             pages && pageInEdit
-                                                ? pages.find(page => page.fileId === pageInEdit.fileId)?.pageData
+                                                ? pages.find(
+                                                      page => page.fileId === pageInEdit.fileId
+                                                  )?.pageData
                                                 : null
                                         }
                                         className="border rounded-sm"
@@ -83,7 +84,9 @@ const InstrumentSheetEditor = props => {
                                 pages={pages}
                                 pageNbr={pageInEdit?.pageNbr}
                                 currentInstrumentSheet={props.instrumentSheet}
-                                handleOriginalFileManipulation={props.handleOriginalFileManipulation}
+                                handleOriginalFileManipulation={
+                                    props.handleOriginalFileManipulation
+                                }
                             />
                         )}
                     </div>

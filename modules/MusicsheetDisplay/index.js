@@ -134,7 +134,9 @@ const MusicsheetLoader = () => {
     function isAllowedAsDefaultVoice(voiceId, excludeVoiceIds = []) {
         const notDefaultIfOtherVoicesExist = [1, 2, 73, 74];
 
-        return !notDefaultIfOtherVoicesExist.includes(voiceId) && !excludeVoiceIds.includes(voiceId);
+        return (
+            !notDefaultIfOtherVoicesExist.includes(voiceId) && !excludeVoiceIds.includes(voiceId)
+        );
     }
 
     /**

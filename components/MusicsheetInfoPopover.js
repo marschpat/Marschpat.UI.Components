@@ -51,7 +51,8 @@ function MusicsheetInfoPopover(props) {
             >
                 <div className="p-20">
                     {infoRows.map(
-                        (row, index) => row.value && <InfoRow name={row.name} value={row.value} key={index} />
+                        (row, index) =>
+                            row.value && <InfoRow name={row.name} value={row.value} key={index} />
                     )}
                 </div>
             </Popover>

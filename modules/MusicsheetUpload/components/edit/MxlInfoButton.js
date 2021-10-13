@@ -14,8 +14,8 @@ const MxlInfoButton = props => {
                         <li>Seitenumbrüche aus MXL</li>
                     </ul>
                     <p className="mt-16">
-                        Es wird empfohlen MXL-Files ab Version 3.0 zu verwenden, um eine optimale Darstellung zu
-                        ermöglichen.
+                        Es wird empfohlen MXL-Files ab Version 3.0 zu verwenden, um eine optimale
+                        Darstellung zu ermöglichen.
                     </p>
                 </>
             }

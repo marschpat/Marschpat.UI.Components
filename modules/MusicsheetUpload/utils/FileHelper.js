@@ -54,11 +54,17 @@ class FileHelper {
         const fileExtension = fileObject.file.name.split('.').pop().toLowerCase();
 
         if (mxlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/mxl;');
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(
+                /data:(.*);/,
+                'data:application/mxl;'
+            );
         }
 
         if (musicXmlFileTypes.includes(fileExtension)) {
-            fileObject.dataUrlString = fileObject.dataUrlString.replace(/data:(.*);/, 'data:application/musicxml;');
+            fileObject.dataUrlString = fileObject.dataUrlString.replace(
+                /data:(.*);/,
+                'data:application/musicxml;'
+            );
         }
 
         return fileObject;
@@ -79,8 +85,10 @@ class FileHelper {
                     dataUrlString: reader.result,
                 });
             };
-            reader.onabort = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
-            reader.onerror = () => reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
+            reader.onabort = () =>
+                reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
+            reader.onerror = () =>
+                reject('Error FileHelper.readFileAsDataUrl(): file reading was aborted');
         });
     }
 

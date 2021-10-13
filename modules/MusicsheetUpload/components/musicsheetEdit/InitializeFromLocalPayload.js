@@ -14,7 +14,9 @@ const InitializeFromLocalPayload = props => {
             } catch (error) {
                 console.error(error);
                 setLogMsg(
-                    prev => (prev += "Seems something's not right with the payload. Check errors in dev console. \n")
+                    prev =>
+                        (prev +=
+                            "Seems something's not right with the payload. Check errors in dev console. \n")
                 );
             }
         }

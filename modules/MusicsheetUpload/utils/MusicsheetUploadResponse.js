@@ -23,7 +23,11 @@ class MusicsheetUploadResponse {
      * Check if there's a Sheet Music suggested
      */
     isSimilarSheetMusicSuggested() {
-        return this.data.statusMessage === 'Error' && this.data.similarFilesExists && this.data.similarFiles.length > 0;
+        return (
+            this.data.statusMessage === 'Error' &&
+            this.data.similarFilesExists &&
+            this.data.similarFiles.length > 0
+        );
     }
 }
 

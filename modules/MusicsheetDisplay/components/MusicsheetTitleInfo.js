@@ -12,7 +12,11 @@ const MusicsheetTitleInfo = () => {
                 Stück: {musicsheetMetaData.name}
             </Typography>
 
-            <MusicsheetInfoPopover musicsheet={musicsheetMetaData} btnColor="inherit" className="ml-20" />
+            <MusicsheetInfoPopover
+                musicsheet={musicsheetMetaData}
+                btnColor="inherit"
+                className="ml-20"
+            />
         </div>
     );
 };
