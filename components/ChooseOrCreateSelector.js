@@ -4,7 +4,7 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const ChooseOrCreateSelector = props => {
     const [selected, setSelected] = useState(null);
-    const [options, setOptions] = useState(null);
+    const [options, setOptions] = useState([]);
     const handleChange = newSelected => {
         setSelected(newSelected);
         props.handleSelectedChange({
@@ -73,6 +73,7 @@ const ChooseOrCreateSelector = props => {
                 InputLabelProps: { shrink: true },
                 variant: 'outlined',
             }}
+            isMulti={props.isMulti ? true : false}
             variant={props.isFixed ? 'fixed' : ''}
             id={props.label ? props.label.toLowerCase() : Math.random()}
         />
