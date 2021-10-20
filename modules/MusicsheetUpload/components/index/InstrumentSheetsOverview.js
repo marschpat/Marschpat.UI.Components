@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import VoicesAutoAssignButton from './VoicesAutoAssignButton';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { UploaderContext } from '../../context/UploaderContext';
 import InstrumentSheetsManipulationList from './InstrumentSheetsManipulationList';
 import Typography from '@material-ui/core/Typography';
 
 const InstrumentSheetsOverview = props => {
     const sheetsExist = props.instrumentSheets && props.instrumentSheets.length > 0;
+    const { implementationMode } = useContext(UploaderContext);
 
     return (
         <section className="mt-20">
@@ -12,7 +15,7 @@ const InstrumentSheetsOverview = props => {
                 <Typography variant="h6" className="font-bold">
                     Stimmen
                 </Typography>
-                {sheetsExist && (
+                {implementationMode !== MP_EDU && sheetsExist && (
                     <VoicesAutoAssignButton
                         instrumentSheets={props.instrumentSheets}
                         availableVoices={props.availableVoices}
