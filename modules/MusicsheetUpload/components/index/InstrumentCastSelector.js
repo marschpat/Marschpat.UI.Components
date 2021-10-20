@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import InfoTooltip from '../InfoTooltip';
+import { UploaderContext } from '../../context/UploaderContext';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
@@ -8,6 +10,7 @@ const InstrumentCastSelector = props => {
     const showError = props.error ? true : false;
     const castOptions = props.castOptions ?? null;
     const [selectedCast, setSelectedCast] = useState(null);
+    const { inHelpMode } = useContext(UploaderContext);
 
     const handleChange = cast => {
         if (selectedCast?.id === cast.id) return;
@@ -49,7 +52,7 @@ const InstrumentCastSelector = props => {
     }, [props.resetState]);
 
     return (
-        <div className="max-w-640 w-full mt-20 mr-36">
+        <div className="max-w-512 w-full mt-20 mr-36">
             <FuseChipSelect
                 value={selectedCast}
                 onChange={handleCastChange}
@@ -68,6 +71,17 @@ const InstrumentCastSelector = props => {
                 id="cast"
             />
             <InputErrorMessage msg={props?.error?.msg} condition={showError} />
+            {inHelpMode && (
+                <div className="my-10 flex items-center justify-between">
+                    <p className="text-base text-orange-300 font-bold">
+                        Wie funktioniert die "Besetzung"?
+                    </p>
+                    <InfoTooltip
+                        name="instrument-cast-info"
+                        title="Die Wahl der Besetzung hat Auswirkung auf die zur Verfügung stehenden Instrumentenstimmen und Zuordnung in MARSCHPAT!"
+                    />
+                </div>
+            )}
         </div>
     );
 };

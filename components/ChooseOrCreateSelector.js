@@ -65,7 +65,7 @@ const ChooseOrCreateSelector = props => {
             value={selected}
             options={options}
             onChange={handleChange}
-            className="max-w-640 w-full mt-20 mr-36"
+            className="max-w-512 w-full mt-20 mr-36"
             placeholder={`${props.label} auswählen` + (props.isFixed ? '' : ' oder eingeben')}
             error={false}
             textFieldProps={{
