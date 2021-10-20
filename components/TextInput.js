@@ -7,7 +7,7 @@ const TextInput = props => {
     const showError = props.error ? true : false;
 
     return (
-        <div className="max-w-640 w-full mt-20 mr-36">
+        <div className="max-w-512 w-full mt-20 mr-36">
             <TextField
                 type="text"
                 label={props.label}

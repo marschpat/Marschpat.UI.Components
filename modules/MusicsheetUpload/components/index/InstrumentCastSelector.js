@@ -50,7 +50,7 @@ const InstrumentCastSelector = props => {
     }, [props.resetState]);
 
     return (
-        <div className="max-w-640 w-full mt-20 mr-36">
+        <div className="max-w-512 w-full mt-20 mr-36">
             <FuseChipSelect
                 value={selectedCast}
                 onChange={handleCastChange}
