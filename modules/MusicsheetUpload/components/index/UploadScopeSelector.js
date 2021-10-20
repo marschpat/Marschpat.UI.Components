@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
+import InfoTooltip from '../InfoTooltip';
+import { UploaderContext } from '../../context/UploaderContext';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
+import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import { UploaderContext } from '../../context/UploaderContext';
 
 const labelTexts = {
     [MP_WEB]: {
@@ -61,9 +62,15 @@ const UploadScopeSelector = props => {
 
     return (
         <section className="mt-40">
-            <Typography variant="h6" className="font-bold">
-                Zuordnung
-            </Typography>
+            <div className="flex items-center justify-between">
+                <Typography variant="h6" className="font-bold">
+                    Zuordnung
+                </Typography>
+                <InfoTooltip
+                    name="assignement-info"
+                    title='Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.'
+                />
+            </div>
             <FormControl component="fieldset" className="pl-24">
                 <RadioGroup
                     value={uploadScope}

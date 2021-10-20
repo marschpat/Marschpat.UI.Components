@@ -1,7 +1,7 @@
 import React from 'react';
-import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
+import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
 
 function InfoTooltip(props) {
     return (
@@ -13,7 +13,7 @@ function InfoTooltip(props) {
                     aria-label={props.name ?? 'information'}
                     size="small"
                 >
-                    <Icon>info</Icon>
+                    <EmojiObjectsOutlinedIcon className="text-3xl" fontSize="inherit" />
                 </IconButton>
             </TooltipStyled>
         </div>
