@@ -10,6 +10,7 @@ const TagSelector = props => {
     const [tagOptions, setTagOptions] = useState(null);
     const [selectedTags, setSelectedTags] = useState(null);
     const GET_tags = apiRoutes[implementationMode].musiclibrary;
+    const { inHelpMode } = useContext(UploaderContext);
 
     useEffect(() => {
         const request = axios
@@ -63,13 +64,15 @@ const TagSelector = props => {
                 variant="fixed"
                 id="tags"
             />
-            <div className="my-10 flex items-center justify-between">
-                <p className="text-base text-orange-300 font-bold">Wozu Tag's?</p>
-                <InfoTooltip
-                    name="tag-info"
-                    title="Tag's helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden"
-                />
-            </div>
+            {inHelpMode && (
+                <div className="my-10 flex items-center justify-between">
+                    <p className="text-base text-orange-300 font-bold">Wozu Tag's?</p>
+                    <InfoTooltip
+                        name="tag-info"
+                        title="Tag's helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden"
+                    />
+                </div>
+            )}
         </div>
     );
 

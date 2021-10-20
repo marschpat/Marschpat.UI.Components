@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 
 const InstrumentSheetsOverview = props => {
     const sheetsExist = props.instrumentSheets && props.instrumentSheets.length > 0;
-    const { implementationMode } = useContext(UploaderContext);
+    const { implementationMode, inHelpMode } = useContext(UploaderContext);
 
     return (
         <section className="mt-40">
@@ -26,10 +26,12 @@ const InstrumentSheetsOverview = props => {
                         handleInstrumentSheetsUpdate={props.handleInstrumentSheetsUpdate}
                     />
                 )}
-                <InfoTooltip
-                    name="instrument-voices-overview-info"
-                    title="Hier siehst du alle Instrumentenstimmen des Musikstücks und kannst diese im Detail bearbeiten"
-                />
+                {inHelpMode && (
+                    <InfoTooltip
+                        name="instrument-voices-overview-info"
+                        title="Hier siehst du alle Instrumentenstimmen des Musikstücks und kannst diese im Detail bearbeiten"
+                    />
+                )}
             </div>
             <div className="pl-8">
                 {sheetsExist ? (

@@ -21,7 +21,7 @@ const labelTexts = {
 };
 
 const UploadScopeSelector = props => {
-    const { implementationMode, user, organisation } = useContext(UploaderContext);
+    const { implementationMode, user, organisation, inHelpMode } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
     const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(
         user,
@@ -66,10 +66,12 @@ const UploadScopeSelector = props => {
                 <Typography variant="h6" className="font-bold">
                     Zuordnung
                 </Typography>
-                <InfoTooltip
-                    name="assignement-info"
-                    title='Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.'
-                />
+                {inHelpMode && (
+                    <InfoTooltip
+                        name="assignement-info"
+                        title='Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.'
+                    />
+                )}
             </div>
             <FormControl component="fieldset" className="pl-24">
                 <RadioGroup

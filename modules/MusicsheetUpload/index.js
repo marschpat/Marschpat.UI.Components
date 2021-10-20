@@ -31,6 +31,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [openEdit, setOpenEdit] = useState(false);
     const [resetChildState, setResetChildState] = useState(false);
     const [agreedToLegalConsent, setAgreedToLegalConsent] = useState(false);
+    const [inHelpMode, setInHelpMode] = useState(false);
     const [
         castOptions,
         availableInstrumentVoices,
@@ -54,6 +55,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                     dispatchFlashMessage,
                     availableInstrumentVoices,
                     handleAvailableVoicesUpdate,
+                    inHelpMode,
+                    setInHelpMode,
                 }}
             >
                 <EditModeInspector
