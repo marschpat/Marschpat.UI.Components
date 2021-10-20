@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const LegalConsent = ({ agreed, handleChange }) => {
     return (
-        <section className="mt-48">
+        <section className="mt-60">
             <Typography variant="h6" className="font-bold">
                 Zustimmen
             </Typography>
@@ -22,14 +22,16 @@ const LegalConsent = ({ agreed, handleChange }) => {
                         />
                     }
                     label={
-                        <div className="max-w-2xl ml-12 text-base">
-                            <span className={!agreed ? 'text-red-500' : ''}>
-                                Hiermit bestätige ich explizit, dass ich die notwendigen Rechte der
-                                Musikstücke bzw. Einzelstimmen besitze und somit die Rechte Dritter
-                                nicht verletzt werden. MARSCHPAT weißt darauf hin, dass das
-                                Vervielfältigen und die Weitergabe von Musiknoten an Dritte
-                                urheberrechtlich verboten ist.
-                            </span>
+                        <div className="max-w-lg ml-12 text-base">
+                            <div className="mt-10">
+                                <p className={!agreed ? 'text-red-500' : ''}>
+                                    Hiermit bestätige ich explizit, dass ich die notwendigen Rechte
+                                    der Musikstücke bzw. Einzelstimmen besitze und somit die Rechte
+                                    Dritter nicht verletzt werden. MARSCHPAT weißt darauf hin, dass
+                                    das Vervielfältigen und die Weitergabe von Musiknoten an Dritte
+                                    urheberrechtlich verboten ist.
+                                </p>
+                            </div>
                         </div>
                     }
                 />

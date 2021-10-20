@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TagSelector from './TagSelector';
+import HelpModeButton from './HelpModeButton';
 import InstrumentCastSelector from './InstrumentCastSelector';
 import useValidationErrors from '../../utils/useValidationErrors';
 import TextInput from '@marschpat/Marschpat.UI.Components/components/TextInput';
@@ -7,7 +8,6 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
@@ -47,9 +47,12 @@ const MetaDataForm = props => {
 
     return (
         <section>
-            <Typography variant="h6" className="font-bold">
-                Grunddaten des Musikstücks
-            </Typography>
+            <div className="flex items-center justify-between">
+                <Typography variant="h6" className="font-bold">
+                    Grunddaten des Musikstücks
+                </Typography>
+                <HelpModeButton />
+            </div>
             <div className="flex flex-wrap pl-24">
                 <TextInput
                     label="Titel des Musikstücks"
