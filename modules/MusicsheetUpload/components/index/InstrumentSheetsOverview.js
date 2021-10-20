@@ -10,7 +10,7 @@ const InstrumentSheetsOverview = props => {
     const { implementationMode } = useContext(UploaderContext);
 
     return (
-        <section className="mt-20">
+        <section className="mt-40">
             <div className="flex items-center justify-between">
                 <Typography variant="h6" className="font-bold">
                     Stimmen

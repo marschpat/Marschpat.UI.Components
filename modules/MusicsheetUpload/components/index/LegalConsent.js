@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const LegalConsent = ({ agreed, handleChange }) => {
     return (
-        <section className="mt-48">
+        <section className="mt-60">
             <Typography variant="h6" className="font-bold">
                 Zustimmen
             </Typography>

@@ -60,7 +60,7 @@ const UploadScopeSelector = props => {
     }, [uploadScope]);
 
     return (
-        <section className="mt-20">
+        <section className="mt-40">
             <Typography variant="h6" className="font-bold">
                 Zuordnung
             </Typography>
