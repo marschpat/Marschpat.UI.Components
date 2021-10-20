@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import InfoTooltip from '../InfoTooltip';
 import VoicesAutoAssignButton from './VoicesAutoAssignButton';
 import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
@@ -15,6 +16,7 @@ const InstrumentSheetsOverview = props => {
                 <Typography variant="h6" className="font-bold">
                     Stimmen
                 </Typography>
+
                 {implementationMode !== MP_EDU && sheetsExist && (
                     <VoicesAutoAssignButton
                         instrumentSheets={props.instrumentSheets}
@@ -24,6 +26,10 @@ const InstrumentSheetsOverview = props => {
                         handleInstrumentSheetsUpdate={props.handleInstrumentSheetsUpdate}
                     />
                 )}
+                <InfoTooltip
+                    name="instrument-voices-overview-info"
+                    title="Hier siehst du alle Instrumentenstimmen des Musikstücks und kannst diese im Detail bearbeiten"
+                />
             </div>
             <div className="pl-8">
                 {sheetsExist ? (
