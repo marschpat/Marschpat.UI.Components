@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import InfoPopover from './InfoPopover';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
@@ -68,6 +69,10 @@ const InstrumentCastSelector = props => {
                 id="cast"
             />
             <InputErrorMessage msg={props?.error?.msg} condition={showError} />
+            <div className="flex items-center justify-between">
+                <p className="text-orange-300 font-bold">Wie funktioniert die "Besetzung"?</p>
+                <InfoPopover />
+            </div>
         </div>
     );
 };

@@ -7,7 +7,6 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
-
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
