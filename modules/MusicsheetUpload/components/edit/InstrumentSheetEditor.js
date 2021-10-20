@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import PageEditor from './PageEditor';
+import InfoTooltip from '../InfoTooltip';
 import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
+import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import OriginalFileManipulator from './OriginalFileManipulator';
 import VoicesAssignmentSelection from './VoicesAssignmentSelection';
 import { UploaderContext } from '../../context/UploaderContext';
@@ -23,7 +25,8 @@ const InstrumentSheetEditor = props => {
             props.instrumentSheet.origFiles[0].type !== 'mxl') ||
         props.instrumentSheet.origFiles.length > 1;
     const inDebugMode = useInDebugMode();
-    const { dispatchFlashMessage, handleAvailableVoicesUpdate } = useContext(UploaderContext);
+    const { dispatchFlashMessage, handleAvailableVoicesUpdate, inHelpMode, implementationMode } =
+        useContext(UploaderContext);
 
     return pageInEdit ? (
         <div className="flex">
@@ -102,6 +105,24 @@ const InstrumentSheetEditor = props => {
                                 assignedVoices={assignedVoices}
                                 handleVoicesAssignemnt={setAssignedVoices}
                             />
+                            {implementationMode !== MP_EDU && inHelpMode && (
+                                <div className="mt-40">
+                                    <div className="flex items-center justify-between">
+                                        <p className="text-base text-orange-300 font-bold">
+                                            Du findest die gewünschte Stimme nicht?
+                                        </p>
+                                        <InfoTooltip
+                                            name="missing-cast-info"
+                                            title='Hast du die richtige Besetzung ausgewählt? Schließe die Stimmen Ansicht und wähle die für dich passende Besetzung bei den "Grunddaten des Musikstücks" aus'
+                                        />
+                                    </div>
+                                    <p className="mt-10 text-base text-orange-300">
+                                        Hast du die richtige Besetzung ausgewählt? Schließe die
+                                        Stimmen Ansicht und wähle die für dich passende Besetzung
+                                        bei den "Grunddaten des Musikstücks" aus
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

@@ -17,7 +17,7 @@ function HelpModeButton(props) {
                 checkedIcon={
                     <EmojiObjectsIcon
                         className="text-5xl text-orange-300"
-                        fonstSize="inherit"
+                        fontSize="inherit"
                         color="inherit"
                     />
                 }
