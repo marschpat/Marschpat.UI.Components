@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
 import { apiRoutes } from '../../utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
@@ -44,24 +45,32 @@ const TagSelector = props => {
     }, [props.resetState]);
 
     return (
-        <FuseChipSelect
-            className="max-w-640 w-full mt-20 mr-36"
-            value={selectedTags}
-            onChange={value => setSelectedTags(value)}
-            placeholder="Tag's zuordnen"
-            textFieldProps={{
-                label: 'Kategorie',
-                InputLabelProps: {
-                    shrink: true,
-                },
-                variant: 'outlined',
-            }}
-            options={tagOptions}
-            error={false}
-            isMulti
-            variant="fixed"
-            id="tags"
-        />
+        <div className="max-w-640 w-full mt-20 mr-36">
+            <FuseChipSelect
+                value={selectedTags}
+                onChange={value => setSelectedTags(value)}
+                placeholder="Tag's zuordnen"
+                textFieldProps={{
+                    label: 'Tags',
+                    InputLabelProps: {
+                        shrink: true,
+                    },
+                    variant: 'outlined',
+                }}
+                options={tagOptions}
+                error={false}
+                isMulti
+                variant="fixed"
+                id="tags"
+            />
+            <div className="my-10 flex items-center justify-between">
+                <p className="text-base text-orange-300 font-bold">Wozu Tag's?</p>
+                <InfoTooltip
+                    name="tag-info"
+                    title="Tag's helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden"
+                />
+            </div>
+        </div>
     );
 
     function mapTags(tagItems) {
