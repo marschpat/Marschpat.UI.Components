@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { UploaderContext } from '../../context/UploaderContext';
-import { MP_WEB } from '../../utils/ImplementationModesLookup';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
+import { MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import Card from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';

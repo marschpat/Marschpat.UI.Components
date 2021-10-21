@@ -19,16 +19,6 @@ export const MP_EDU = 2;
 /** Implementation details for varying API endpoints */
 export const apiRoutes = {
     [MP_WEB]: {
-        musiclibrary: '/musiclibary/tags',
-    },
-    [MP_EDU]: {
-        musiclibrary: '/musiclibrary/tags',
-    },
-};
-
-/** Implementation details for varying API endpoints */
-export const clientRoutes = {
-    [MP_WEB]: {
         musiclibrary: '/musiclibary',
     },
     [MP_EDU]: {

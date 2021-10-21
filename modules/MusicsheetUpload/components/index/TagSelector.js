@@ -2,28 +2,30 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
-import { apiRoutes } from '../../utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {
-    const { implementationMode } = useContext(UploaderContext);
-    const [tagOptions, setTagOptions] = useState(null);
-    const [selectedTags, setSelectedTags] = useState(null);
-    const GET_tags = apiRoutes[implementationMode].musiclibrary;
-    const { inHelpMode } = useContext(UploaderContext);
+    const [tagOptions, setTagOptions] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
+    const { implementationMode, inHelpMode } = useContext(UploaderContext);
+    const GET_tags = `${apiRoutes[implementationMode].musiclibrary}/tags`;
 
     useEffect(() => {
-        const request = axios
-            .get(GET_tags)
-            .then(response => {
-                setTagOptions(mapTags(response.data));
-            })
-            .catch(error => {
-                console.error(
-                    'Fetching musiclibrary tags from GET /musiclibrary/tags failed with an error.',
-                    error
-                );
-            });
+        async function fetchData() {
+            await axios
+                .get(GET_tags)
+                .then(response => {
+                    setTagOptions(mapTags(response.data));
+                })
+                .catch(error => {
+                    console.error(
+                        `Fetching musiclibrary tags from GET ${GET_tags} failed with an error.`,
+                        error
+                    );
+                });
+        }
+        fetchData();
     }, []);
 
     useEffect(() => {

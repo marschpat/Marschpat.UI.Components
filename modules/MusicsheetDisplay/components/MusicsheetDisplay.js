@@ -7,6 +7,7 @@ import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
 } from '../context/MusicsheetDisplayContexts';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
@@ -18,18 +19,23 @@ const MusicsheetDisplay = props => {
         musicsheetPages: pages,
         musicsheetMetaData,
         instrumentVoice,
+        implementationMode,
     } = useContext(MusicsheetLoaderContext);
+
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
 
-    useEffect(async () => {
-        await initializeFromQueryParams();
-        await fetchSketchpadLayers();
+    useEffect(() => {
+        async function fetchData() {
+            await initializeFromQueryParams();
+            await fetchSketchpadLayers();
 
-        const layers = require('../layers.example.js');
-        const layersInit = initializeLayers(layers);
+            const layers = require('../layers.example.js');
+            const layersInit = initializeLayers(layers);
 
-        setSketchpadLayers(layersInit);
+            setSketchpadLayers(layersInit);
+        }
+        fetchData();
     }, [sheetId]);
 
     function initializeLayers(layers) {
@@ -42,7 +48,7 @@ const MusicsheetDisplay = props => {
 
     async function fetchSketchpadLayers() {
         console.log('fetching sketchpad layers', { sheetId, voiceId });
-        const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
+        const url = `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${sheetId}/${voiceId}`;
         await axios
             .get(url)
             .then(response => {
@@ -56,7 +62,9 @@ const MusicsheetDisplay = props => {
     async function persistSketchpadLayerInDb(layer) {
         console.log('persisting layer', layer);
         await axios
-            .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
+            .post(
+                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
+            )
             .then(response => {
                 console.log('okay! sketchpad layer persisted', response);
             })

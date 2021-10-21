@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import ImageCropperToolbar from './ImageCropperToolbar';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 
 const dimensions = {

@@ -4,7 +4,7 @@ import InfoTooltip from '../InfoTooltip';
 import PagesOverview from './PagesOverview';
 import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import OriginalFileManipulator from './OriginalFileManipulator';
 import VoicesAssignmentSelection from './VoicesAssignmentSelection';
 import { UploaderContext } from '../../context/UploaderContext';

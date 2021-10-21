@@ -1,6 +1,7 @@
-import { React, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetPagesLoader = props => {
     const {
@@ -8,21 +9,25 @@ const MusicsheetPagesLoader = props => {
         instrumentVoice: voice,
         setHasError,
         handleMusicsheetPagesLoaded,
+        implementationMode,
     } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
 
-    useEffect(async () => {
+    useEffect(() => {
         if (musicsheet && voice) {
-            const { success, data } = await fetchAllMusicsheetVoicePages(
-                musicsheet.sheetID,
-                voice.voiceID
-            );
-            if (success) {
-                setDownloadLinks(data);
+            async function fetchData() {
+                const { success, data } = await fetchAllMusicsheetVoicePages(
+                    musicsheet.sheetID,
+                    voice.voiceID
+                );
+                if (success) {
+                    setDownloadLinks(data);
+                }
+                if (!success) {
+                    setHasError(data);
+                }
             }
-            if (!success) {
-                setHasError(data);
-            }
+            fetchData();
         }
     }, [musicsheet, voice]);
 
@@ -35,7 +40,7 @@ const MusicsheetPagesLoader = props => {
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
         try {
             const response = await axios.post(
-                `/musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
+                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}/download/${voiceId}/?type=${type}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';

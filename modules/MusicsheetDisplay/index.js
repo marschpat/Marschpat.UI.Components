@@ -6,13 +6,14 @@ import LoadingError from './components/LoadingError';
 import MusicsheetDialog from './components/MusicsheetDialog';
 import MusicsheetPagesLoader from './components/MusicsheetPagesLoader';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 /**
  * Loads musicsheet meta data.
  * Handles errors if musicsheet doesn't exist.
  * Finds the default InstrumentVoice (if not passed as url param).
  */
-const MusicsheetLoader = () => {
+const MusicsheetLoader = ({ implementationMode }) => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
@@ -24,14 +25,17 @@ const MusicsheetLoader = () => {
      * Fetch the musicsheet's meta data information and
      * find the default instrument voice (if no voiceId provided as url param)
      */
-    useEffect(async () => {
-        const { success, data } = await fetchMusicsheetMetaData(sheetId);
-        if (success) {
-            const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
-            setMusicsheetMetaData(data);
-            setInstrumentVoice(voice);
+    useEffect(() => {
+        async function fetchData() {
+            const { success, data } = await fetchMusicsheetMetaData(sheetId);
+            if (success) {
+                const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
+                setMusicsheetMetaData(data);
+                setInstrumentVoice(voice);
+            }
+            if (!success) handleLoadingError(data);
         }
-        if (!success) handleLoadingError(data);
+        fetchData();
     }, [sheetId]);
 
     return (
@@ -43,6 +47,7 @@ const MusicsheetLoader = () => {
                 setInstrumentVoice,
                 handleMusicsheetPagesLoaded,
                 setHasError,
+                implementationMode,
             }}
         >
             <MusicsheetPagesLoader>
@@ -59,7 +64,9 @@ const MusicsheetLoader = () => {
 
     async function fetchMusicsheetMetaData(sheetId) {
         try {
-            const response = await axios.get(`/musiclibrary/${sheetId}`);
+            const response = await axios.get(
+                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}`
+            );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
 
@@ -67,7 +74,6 @@ const MusicsheetLoader = () => {
         } catch (error) {
             const errorMsg = error?.response?.data?.message ?? error?.response?.data?.title;
             console.error('Error while fechtching musicsheet information occured:', errorMsg);
-
             return { success: false, data: errorMsg };
         }
     }
@@ -77,7 +83,7 @@ const MusicsheetLoader = () => {
         setIsLoading(false);
     }
 
-    function handleLoadingError(error) {
+    function handleLoadingError(error = true) {
         setIsLoading(false);
         setHasError(error);
     }
