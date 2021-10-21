@@ -7,6 +7,7 @@ import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
 } from '../context/MusicsheetDisplayContexts';
+import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
@@ -18,7 +19,9 @@ const MusicsheetDisplay = props => {
         musicsheetPages: pages,
         musicsheetMetaData,
         instrumentVoice,
+        implementationMode,
     } = useContext(MusicsheetLoaderContext);
+
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
 
@@ -45,7 +48,7 @@ const MusicsheetDisplay = props => {
 
     async function fetchSketchpadLayers() {
         console.log('fetching sketchpad layers', { sheetId, voiceId });
-        const url = `/musiclibrary/sketchpad/${sheetId}/${voiceId}`;
+        const url = `${clientRoutes[implementationMode].musiclibrary}/sketchpad/${sheetId}/${voiceId}`;
         await axios
             .get(url)
             .then(response => {
@@ -59,7 +62,9 @@ const MusicsheetDisplay = props => {
     async function persistSketchpadLayerInDb(layer) {
         console.log('persisting layer', layer);
         await axios
-            .post(`/musiclibrary/sketchpad/${layer.sheetId}/${layer.voiceId}`)
+            .post(
+                `${clientRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
+            )
             .then(response => {
                 console.log('okay! sketchpad layer persisted', response);
             })
