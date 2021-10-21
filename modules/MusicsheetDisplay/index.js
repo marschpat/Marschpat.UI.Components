@@ -70,7 +70,6 @@ const MusicsheetLoader = () => {
         } catch (error) {
             const errorMsg = error?.response?.data?.message ?? error?.response?.data?.title;
             console.error('Error while fechtching musicsheet information occured:', errorMsg);
-
             return { success: false, data: errorMsg };
         }
     }
@@ -80,7 +79,7 @@ const MusicsheetLoader = () => {
         setIsLoading(false);
     }
 
-    function handleLoadingError(error) {
+    function handleLoadingError(error = true) {
         setIsLoading(false);
         setHasError(error);
     }
