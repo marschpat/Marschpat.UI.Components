@@ -72,7 +72,7 @@ const Sketchpad = () => {
             link.download = `sketchpad-layer-${sheetId}-${voiceId}-pageIndex${layerPage.pageIndex}.png`;
             link.href = layerPage.data;
             link.click();
-            link.delete;
+            link.delete();
         });
     }
 
