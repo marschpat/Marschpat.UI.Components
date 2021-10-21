@@ -13,7 +13,7 @@ import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/Implement
  * Handles errors if musicsheet doesn't exist.
  * Finds the default InstrumentVoice (if not passed as url param).
  */
-const MusicsheetLoader = () => {
+const MusicsheetLoader = ({ implementationMode }) => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
@@ -63,7 +63,9 @@ const MusicsheetLoader = () => {
 
     async function fetchMusicsheetMetaData(sheetId) {
         try {
-            const response = await axios.get(`/musiclibrary/${sheetId}`);
+            const response = await axios.get(
+                `${clientRoutes[implementationMode].musiclibrary}/${sheetId}`
+            );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
 
