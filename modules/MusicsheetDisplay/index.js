@@ -47,6 +47,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 setInstrumentVoice,
                 handleMusicsheetPagesLoaded,
                 setHasError,
+                setIsLoading,
                 implementationMode,
             }}
         >
