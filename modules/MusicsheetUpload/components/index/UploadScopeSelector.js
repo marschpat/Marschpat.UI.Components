@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
 import useHasUserRoles from '@marschpat/local/utils/useHasUserRoles';
-import { MP_WEB, MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_WEB, MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';

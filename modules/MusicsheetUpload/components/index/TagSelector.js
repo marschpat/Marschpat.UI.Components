@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
-import { apiRoutes } from '../../utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {

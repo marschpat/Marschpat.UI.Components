@@ -6,6 +6,7 @@ import LoadingError from './components/LoadingError';
 import MusicsheetDialog from './components/MusicsheetDialog';
 import MusicsheetPagesLoader from './components/MusicsheetPagesLoader';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
+import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 /**
  * Loads musicsheet meta data.
