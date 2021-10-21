@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 
 const TagSelector = props => {
     const [tagOptions, setTagOptions] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const { implementationMode, inHelpMode } = useContext(UploaderContext);
-    const GET_tags = `${clientRoutes[implementationMode].musiclibrary}/tags`;
+    const GET_tags = `${apiRoutes[implementationMode].musiclibrary}/tags`;
 
     useEffect(() => {
         async function fetchData() {

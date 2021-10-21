@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { UploaderContext } from '../../context/UploaderContext';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
@@ -27,7 +27,7 @@ const UploadSuccess = props => {
                     <div className="mt-16 w-full flex justify-around">
                         <Button
                             component={Link}
-                            to={clientRoutes[implementationMode].musiclibrary}
+                            to={apiRoutes[implementationMode].musiclibrary}
                             variant="contained"
                             color="primary"
                         >

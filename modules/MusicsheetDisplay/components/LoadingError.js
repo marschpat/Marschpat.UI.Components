@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 
 const LoadingError = ({ errorMsg }) => {
@@ -18,7 +18,7 @@ const LoadingError = ({ errorMsg }) => {
             <button onClick={() => history.goBack()} className="text-red-800">
                 Zurück
             </button>
-            <Link to={clientRoutes[implementationMode].musiclibrary}>Zur Library</Link>
+            <Link to={apiRoutes[implementationMode].musiclibrary}>Zur Library</Link>
         </div>
     );
 };

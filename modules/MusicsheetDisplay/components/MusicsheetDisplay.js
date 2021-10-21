@@ -7,7 +7,7 @@ import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
 } from '../context/MusicsheetDisplayContexts';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
@@ -48,7 +48,7 @@ const MusicsheetDisplay = props => {
 
     async function fetchSketchpadLayers() {
         console.log('fetching sketchpad layers', { sheetId, voiceId });
-        const url = `${clientRoutes[implementationMode].musiclibrary}/sketchpad/${sheetId}/${voiceId}`;
+        const url = `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${sheetId}/${voiceId}`;
         await axios
             .get(url)
             .then(response => {
@@ -63,7 +63,7 @@ const MusicsheetDisplay = props => {
         console.log('persisting layer', layer);
         await axios
             .post(
-                `${clientRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
+                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
             )
             .then(response => {
                 console.log('okay! sketchpad layer persisted', response);

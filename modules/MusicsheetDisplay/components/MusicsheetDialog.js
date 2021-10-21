@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import MusicsheetDisplay from './MusicsheetDisplay';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 
@@ -24,7 +24,7 @@ const MusicsheetDialog = () => {
         const fromPlaylist = urlParams.get('pl');
         const goBackPath = fromPlaylist
             ? `/playlist/${fromPlaylist}`
-            : clientRoutes[implementationMode].musiclibrary;
+            : apiRoutes[implementationMode].musiclibrary;
         history.push(goBackPath);
     }
 };

@@ -6,7 +6,7 @@ import LoadingError from './components/LoadingError';
 import MusicsheetDialog from './components/MusicsheetDialog';
 import MusicsheetPagesLoader from './components/MusicsheetPagesLoader';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 /**
  * Loads musicsheet meta data.
@@ -65,7 +65,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
     async function fetchMusicsheetMetaData(sheetId) {
         try {
             const response = await axios.get(
-                `${clientRoutes[implementationMode].musiclibrary}/${sheetId}`
+                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';

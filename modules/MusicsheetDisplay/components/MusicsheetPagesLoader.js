@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
-import { clientRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetPagesLoader = props => {
     const {
@@ -40,7 +40,7 @@ const MusicsheetPagesLoader = props => {
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
         try {
             const response = await axios.post(
-                `${clientRoutes[implementationMode].musiclibrary}/${sheetId}/download/${voiceId}/?type=${type}`
+                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}/download/${voiceId}/?type=${type}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
