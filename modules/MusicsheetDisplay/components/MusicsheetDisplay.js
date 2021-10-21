@@ -22,14 +22,17 @@ const MusicsheetDisplay = props => {
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
 
-    useEffect(async () => {
-        await initializeFromQueryParams();
-        await fetchSketchpadLayers();
+    useEffect(() => {
+        async function fetchData() {
+            await initializeFromQueryParams();
+            await fetchSketchpadLayers();
 
-        const layers = require('../layers.example.js');
-        const layersInit = initializeLayers(layers);
+            const layers = require('../layers.example.js');
+            const layersInit = initializeLayers(layers);
 
-        setSketchpadLayers(layersInit);
+            setSketchpadLayers(layersInit);
+        }
+        fetchData();
     }, [sheetId]);
 
     function initializeLayers(layers) {

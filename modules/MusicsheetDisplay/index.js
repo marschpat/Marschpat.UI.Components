@@ -24,14 +24,17 @@ const MusicsheetLoader = () => {
      * Fetch the musicsheet's meta data information and
      * find the default instrument voice (if no voiceId provided as url param)
      */
-    useEffect(async () => {
-        const { success, data } = await fetchMusicsheetMetaData(sheetId);
-        if (success) {
-            const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
-            setMusicsheetMetaData(data);
-            setInstrumentVoice(voice);
+    useEffect(() => {
+        async function fetchData() {
+            const { success, data } = await fetchMusicsheetMetaData(sheetId);
+            if (success) {
+                const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
+                setMusicsheetMetaData(data);
+                setInstrumentVoice(voice);
+            }
+            if (!success) handleLoadingError(data);
         }
-        if (!success) handleLoadingError(data);
+        fetchData();
     }, [sheetId]);
 
     return (
