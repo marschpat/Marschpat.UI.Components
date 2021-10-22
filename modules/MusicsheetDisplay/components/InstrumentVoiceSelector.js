@@ -28,7 +28,7 @@ const InstrumentVoiceSelector = () => {
         const excludeVoiceIds = [];
         // const excludeVoiceIds = [1, 2, 73, 74];          // formerly disabled voices, currently all voices are available again
 
-        return detectRenderType(voice) === 'mxl' && excludeVoiceIds.includes(voice.voiceID)
+        return detectRenderType(voice) === 'mxl' && excludeVoiceIds.includes(voice.voiceId)
             ? true
             : false;
     }

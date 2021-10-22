@@ -17,8 +17,8 @@ const MusicsheetPagesLoader = props => {
         if (musicsheet && voice) {
             async function fetchData() {
                 const { success, data } = await fetchAllMusicsheetVoicePages(
-                    musicsheet.sheetID,
-                    voice.voiceID
+                    musicsheet.sheetId,
+                    voice.voiceId
                 );
                 if (success) {
                     setDownloadLinks(data);

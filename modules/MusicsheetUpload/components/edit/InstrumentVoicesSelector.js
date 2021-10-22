@@ -58,8 +58,8 @@ const InstrumentVoicesSelector = props => {
     );
 
     function compareByVoiceId(itemA, itemB) {
-        if (itemA.voiceID < itemB.voiceID) return -1;
-        if (itemA.voiceID > itemB.voiceID) return 1;
+        if (itemA.voiceId < itemB.voiceId) return -1;
+        if (itemA.voiceId > itemB.voiceId) return 1;
         return 0;
     }
 };

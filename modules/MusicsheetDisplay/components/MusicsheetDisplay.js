@@ -22,8 +22,8 @@ const MusicsheetDisplay = props => {
         implementationMode,
     } = useContext(MusicsheetLoaderContext);
 
-    const voiceId = instrumentVoice.voiceID;
-    const sheetId = musicsheetMetaData.sheetID;
+    const voiceId = instrumentVoice.voiceId;
+    const sheetId = musicsheetMetaData.sheetId;
 
     useEffect(() => {
         async function fetchData() {

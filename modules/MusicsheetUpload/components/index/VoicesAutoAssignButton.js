@@ -13,7 +13,7 @@ const VoicesAutoAssignButton = props => {
 
     /**
      * Try to match voices by id if instrumentSheet hasn't assigned voices
-     * Get filename of each origFile, find matching voices if filename === voiceID
+     * Get filename of each origFile, find matching voices if filename === voiceId
      */
     const autoAssignVoices = () => {
         const voices = props.availableVoices;
@@ -28,7 +28,7 @@ const VoicesAutoAssignButton = props => {
                 .filter(name => name);
             let matchingVoices = [];
             origFileNames.forEach(name => {
-                const voice = voices.find(voice => voice.voiceID === parseInt(name));
+                const voice = voices.find(voice => voice.voiceId === parseInt(name));
                 if (voice && !alreadyAssignedVoices.includes(voice)) {
                     matchingVoices.push(voice);
                     alreadyAssignedVoices.push(voice);

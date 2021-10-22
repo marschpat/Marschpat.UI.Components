@@ -59,10 +59,10 @@ const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
     }
 
     function determineRenamingVoices(assignedVoices) {
-        const assignedIds = assignedVoices.map(item => item.voiceID);
+        const assignedIds = assignedVoices.map(item => item.voiceId);
         if (!instrumentVoicesOfCurrentCast) return [];
         const remainingAvailableVoices = instrumentVoicesOfCurrentCast.filter(
-            available => !assignedIds.includes(available.voiceID)
+            available => !assignedIds.includes(available.voiceId)
         );
 
         return remainingAvailableVoices;
@@ -77,7 +77,7 @@ const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
             return group?.instruments?.flatMap(instrument => {
                 return instrument?.voices?.map(voice => {
                     return {
-                        value: voice.voiceID,
+                        value: voice.voiceId,
                         label: voice.name,
                         group: group.name,
                         instrument: instrument.name,

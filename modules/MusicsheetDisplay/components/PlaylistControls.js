@@ -19,21 +19,21 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
     }, [musicsheetId, inPlaylist]);
 
     function getMusicsheetNavigation() {
-        const current = inPlaylist.musicSheets.find(el => el.sheetID === musicsheetId)?.index;
+        const current = inPlaylist.musicSheets.find(el => el.sheetId === musicsheetId)?.index;
 
         const nextId =
-            inPlaylist.musicSheets.find(el => el.index === current + 1)?.sheetID ?? false;
+            inPlaylist.musicSheets.find(el => el.index === current + 1)?.sheetId ?? false;
         const prevId =
-            inPlaylist.musicSheets.find(el => el.index === current - 1)?.sheetID ?? false;
+            inPlaylist.musicSheets.find(el => el.index === current - 1)?.sheetId ?? false;
 
         const navLinks = {
             next: {
                 available: !!nextId,
-                path: nextId ? `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistID}` : '',
+                path: nextId ? `/musicsheet/show/${nextId}?pl=${inPlaylist.playlistId}` : '',
             },
             prev: {
                 available: !!prevId,
-                path: prevId ? `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistID}` : '',
+                path: prevId ? `/musicsheet/show/${prevId}?pl=${inPlaylist.playlistId}` : '',
             },
         };
 
