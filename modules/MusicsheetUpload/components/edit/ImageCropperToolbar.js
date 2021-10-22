@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import UnlockAspectRatioToggle from './UnlockAspectRatioToggle';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import Button from '@material-ui/core/Button';

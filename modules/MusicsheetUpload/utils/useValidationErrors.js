@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MP_EDU, MP_WEB } from './ImplementationModesLookup';
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const useValidationErrors = (implementationMode = MP_WEB) => {
     const initialerrors = getInitialValidationErrors();

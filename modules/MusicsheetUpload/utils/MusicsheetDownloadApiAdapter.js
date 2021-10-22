@@ -1,4 +1,4 @@
-import { MP_EDU, MP_WEB } from './ImplementationModesLookup';
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 class MusicsheetDownloadApiAdapter {
     constructor(rawApiData, implementationMode = MP_WEB) {

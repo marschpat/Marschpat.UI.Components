@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import TagSelector from './TagSelector';
 import HelpModeButton from './HelpModeButton';
 import InstrumentCastSelector from './InstrumentCastSelector';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 import useValidationErrors from '../../utils/useValidationErrors';
 import TextInput from '@marschpat/Marschpat.UI.Components/components/TextInput';

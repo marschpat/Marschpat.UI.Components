@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import UploadModal from './UploadModal';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import PersistFinalPayloadToFile from './PersistPayloadToFile';
 import { UploaderContext } from '../../context/UploaderContext';
 import useUploadProgress from '../../utils/useUploadProgress';
