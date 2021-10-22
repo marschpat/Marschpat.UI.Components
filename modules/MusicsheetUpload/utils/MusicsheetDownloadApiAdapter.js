@@ -59,16 +59,16 @@ class MusicsheetDownloadApiAdapter {
         }
 
         return voices.map(voice => {
-            const voiceId = voice.voiceId;
+            const voiceId = voice.voiceID;
             if (!voiceOptions) {
-                return { value: voiceId, label: voice.label, voiceId: voiceId };
+                return { value: voiceId, label: voice.label, voiceID: voiceId };
             }
-            const voiceOption = voiceOptions.find(item => item.voiceId === voiceId);
+            const voiceOption = voiceOptions.find(item => item.voiceID === voiceId);
             return (
                 voiceOption ?? {
                     value: voiceId,
                     label: 'Stimme noch nicht bearbeitet',
-                    voiceId: voiceId,
+                    voiceID: voiceId,
                 }
             );
         });
