@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import InfoTooltip from '../InfoTooltip';
 import VoicesAutoAssignButton from './VoicesAutoAssignButton';
-import { MP_EDU } from '../../utils/ImplementationModesLookup';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 import InstrumentSheetsManipulationList from './InstrumentSheetsManipulationList';
 import Typography from '@material-ui/core/Typography';

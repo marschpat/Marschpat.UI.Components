@@ -2,12 +2,13 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import MusicsheetDisplay from './MusicsheetDisplay';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
+import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 
 const MusicsheetDialog = () => {
     const history = useHistory();
-    const { musicsheetMetaData } = useContext(MusicsheetLoaderContext);
+    const { musicsheetMetaData, implementationMode } = useContext(MusicsheetLoaderContext);
     const [isOpen, setIsOpen] = useState(!!musicsheetMetaData);
 
     return (
@@ -21,7 +22,9 @@ const MusicsheetDialog = () => {
     function closeDialog() {
         const urlParams = new URLSearchParams(window.location.search);
         const fromPlaylist = urlParams.get('pl');
-        const goBackPath = fromPlaylist ? `/playlist/${fromPlaylist}` : '/musiclibrary';
+        const goBackPath = fromPlaylist
+            ? `/playlist/${fromPlaylist}`
+            : apiRoutes[implementationMode].musiclibrary;
         history.push(goBackPath);
     }
 };
