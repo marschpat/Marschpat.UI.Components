@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TagSelector from './TagSelector';
 import HelpModeButton from './HelpModeButton';
 import InstrumentCastSelector from './InstrumentCastSelector';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { UploaderContext } from '../../context/UploaderContext';
 import useValidationErrors from '../../utils/useValidationErrors';
 import TextInput from '@marschpat/Marschpat.UI.Components/components/TextInput';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
+
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
+    const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors();
+    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(implementationMode);
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
@@ -63,15 +67,20 @@ const MetaDataForm = props => {
                     autoFocus={true}
                     error={checkIfError('title')}
                 />
-                <InstrumentCastSelector
-                    castOptions={props.castOptions}
-                    initialCast={metaData.castId}
-                    handleCastChange={handleCastChange}
-                    handleVoicesAssignementReset={props.handleVoicesAssignementReset}
-                    castWarningRequired={props.castWarningRequired}
-                    resetState={props.resetState}
-                    error={checkIfError('cast')}
-                />
+
+                {/* NO CastSelector option only in Marschpat Edu WebApp available */}
+                {implementationMode !== MP_EDU && (
+                    <InstrumentCastSelector
+                        castOptions={props.castOptions}
+                        initialCast={metaData.castId}
+                        handleCastChange={handleCastChange}
+                        handleVoicesAssignementReset={props.handleVoicesAssignementReset}
+                        castWarningRequired={props.castWarningRequired}
+                        resetState={props.resetState}
+                        error={checkIfError('cast')}
+                    />
+                )}
+
                 <ChooseOrCreateSelector
                     label="Verlag"
                     labelAttr="name"
@@ -164,7 +173,7 @@ const MetaDataForm = props => {
     function handleTagsChange(tags) {
         setMetaData({
             ...metaData,
-            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagID: tag.tagID })) : tags,
+            tags: tags && tags.length > 0 ? tags.map(tag => ({ tagId: tag.tagId })) : tags,
         });
     }
 

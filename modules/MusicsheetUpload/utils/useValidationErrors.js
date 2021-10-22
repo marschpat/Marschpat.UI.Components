@@ -1,10 +1,9 @@
 import { useState } from 'react';
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
-const useValidationErrors = () => {
-    const [errors, setErrors] = useState([
-        { attrName: 'title', msg: 'Bitte Titel eingeben' },
-        { attrName: 'cast', msg: 'Bitte Besetzung auswählen!' },
-    ]);
+const useValidationErrors = (implementationMode = MP_WEB) => {
+    const initialerrors = getInitialValidationErrors();
+    const [errors, setErrors] = useState(initialerrors);
 
     // Validate required field errors
     const validateRequiredFields = data => {
@@ -29,6 +28,18 @@ const useValidationErrors = () => {
 
         return errors.find(error => error.attrName === attrName) ?? false;
     };
+
+    function getInitialValidationErrors() {
+        if (implementationMode === MP_WEB) {
+            return [
+                { attrName: 'title', msg: 'Bitte Titel eingeben' },
+                { attrName: 'cast', msg: 'Bitte Besetzung auswählen!' },
+            ];
+        }
+        if (implementationMode === MP_EDU) {
+            return [{ attrName: 'title', msg: 'Bitte Titel eingeben' }];
+        }
+    }
 
     return [errors, checkIfError, validateRequiredFields];
 };
