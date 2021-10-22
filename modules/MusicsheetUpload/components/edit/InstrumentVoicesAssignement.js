@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { UploaderContext } from '../../context/UploaderContext';
 import InstrumentVoicesSelector from './InstrumentVoicesSelector';
 import InstrumentVoiceBuilder from './InstrumentVoiceBuilder';
-import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { MP_EDU, MP_WEB } from '../../utils/ImplementationModesLookup';
 import Typography from '@material-ui/core/Typography';
 
 const InstrumentVoicesAssignement = props => {

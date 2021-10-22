@@ -6,7 +6,7 @@ import PageImageExporter from './PageImageExporter';
 import StoreInstrumentSheet from './StoreInstrumentSheet';
 import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import OriginalFileManipulator from './OriginalFileManipulator';
-import VoicesAssignmentSelection from './VoicesAssignmentSelection';
+import InstrumentVoicesAssignement from './InstrumentVoicesAssignement';
 import { UploaderContext } from '../../context/UploaderContext';
 import useGeneratePages from '../../utils/useGeneratePages';
 import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
@@ -95,13 +95,15 @@ const InstrumentSheetEditor = props => {
                     </div>
                     <div className="max-w-400 w-full flex justify-end">
                         <div className="w-full ml-36">
-                            <div className="mb-24 flex flex-grow-0">
-                                <Typography variant="h6">Besetzung:</Typography>
-                                <Typography variant="h6" className="ml-12">
-                                    {props.castName}
-                                </Typography>
-                            </div>
-                            <VoicesAssignmentSelection
+                            {implementationMode !== MP_EDU && (
+                                <div className="mb-24 flex flex-grow-0">
+                                    <Typography variant="h6">Besetzung:</Typography>
+                                    <Typography variant="h6" className="ml-12">
+                                        {props.castName}
+                                    </Typography>
+                                </div>
+                            )}
+                            <InstrumentVoicesAssignement
                                 assignedVoices={assignedVoices}
                                 handleVoicesAssignemnt={setAssignedVoices}
                             />
