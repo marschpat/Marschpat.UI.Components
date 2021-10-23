@@ -35,7 +35,7 @@ class MusicsheetDownloadApiAdapter {
             copyright: this.rawData.copyright || '',
             iswc: this.rawData.iswc || '',
             castId: this.rawData.castId || null,
-            tags: this.rawData.tags || null,
+            tags: this.rawData.tags || [],
         };
     }
 
