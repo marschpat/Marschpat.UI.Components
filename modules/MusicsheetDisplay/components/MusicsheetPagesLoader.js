@@ -7,9 +7,8 @@ const MusicsheetPagesLoader = props => {
     const {
         musicsheetMetaData: musicsheet,
         instrumentVoice: voice,
-        setHasError,
+        handleLoadingError,
         handleMusicsheetPagesLoaded,
-        setIsLoading,
         implementationMode,
     } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
@@ -25,8 +24,7 @@ const MusicsheetPagesLoader = props => {
                     setDownloadLinks(data);
                 }
                 if (!success) {
-                    setHasError(data);
-                    setIsLoading(false);
+                    handleLoadingError(data);
                 }
             }
             fetchData();
