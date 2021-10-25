@@ -1,6 +1,9 @@
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+
 class MusicsheetDownloadApiAdapter {
-    constructor(rawApiData) {
+    constructor(rawApiData, implementationMode = MP_WEB) {
         this.rawData = rawApiData;
+        this.implementationMode = implementationMode;
     }
 
     getInstrumentSheets() {
@@ -32,7 +35,7 @@ class MusicsheetDownloadApiAdapter {
             copyright: this.rawData.copyright || '',
             iswc: this.rawData.iswc || '',
             castId: this.rawData.castId || null,
-            tags: this.rawData.tags || null,
+            tags: this.rawData.tags || [],
         };
     }
 
@@ -51,6 +54,10 @@ class MusicsheetDownloadApiAdapter {
      * Right now we're just returning the id and label provided in the edit data download
      */
     mapVoices(voices, voiceOptions = null) {
+        if (this.implementationMode === MP_EDU) {
+            return voices;
+        }
+
         return voices.map(voice => {
             const voiceId = voice.voiceID;
             if (!voiceOptions) {

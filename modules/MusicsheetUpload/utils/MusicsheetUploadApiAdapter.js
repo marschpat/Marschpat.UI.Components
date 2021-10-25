@@ -1,7 +1,10 @@
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+
 class MusicsheetUploadApiAdapter {
-    constructor(rawPayload, humanReadable = false) {
+    constructor(rawPayload, implementationMode = MP_WEB, humanReadable = false) {
         this.rawPayload = rawPayload;
         this.humanReadable = humanReadable;
+        this.implementationMode = implementationMode;
     }
 
     /**
@@ -68,6 +71,10 @@ class MusicsheetUploadApiAdapter {
     }
 
     cleanUpVoices(voices) {
+        if (this.implementationMode === MP_EDU) {
+            return voices;
+        }
+
         return voices.map(voice => ({
             voiceID: voice.voiceID,
             label: voice.label,

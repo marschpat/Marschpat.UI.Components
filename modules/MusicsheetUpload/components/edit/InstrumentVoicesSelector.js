@@ -1,12 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { UploaderContext } from '../../context/UploaderContext';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
-import Typography from '@material-ui/core/Typography';
 
-const VoicesAssignmentSelection = props => {
+const InstrumentVoicesSelector = props => {
     const [availableVoices, setAvailableVoices] = useState(null);
     const [showWarning, setShowWarning] = useState(null);
     const { availableInstrumentVoices } = useContext(UploaderContext);
+
+    useEffect(() => {
+        if (!availableInstrumentVoices) {
+            setShowWarning(true);
+        }
+        if (availableInstrumentVoices) {
+            setAvailableVoices(availableInstrumentVoices);
+        }
+    }, [availableInstrumentVoices]);
 
     const handleChange = (values, detail) => {
         // if removed value isn't included in availableVoices yet, reinclude it
@@ -28,18 +36,8 @@ const VoicesAssignmentSelection = props => {
         props.handleVoicesAssignemnt(values);
     };
 
-    useEffect(() => {
-        if (!availableInstrumentVoices) {
-            setShowWarning(true);
-        }
-        if (availableInstrumentVoices) {
-            setAvailableVoices(availableInstrumentVoices);
-        }
-    }, [availableInstrumentVoices]);
-
     return (
-        <div className="w-full">
-            <Typography variant="h5">Stimme auswählen</Typography>
+        <>
             <FuseChipSelect
                 className="mt-8"
                 value={props.assignedVoices}
@@ -56,14 +54,14 @@ const VoicesAssignmentSelection = props => {
                     <span>! Bitte zuerst Besetzung auswählen !</span>
                 </div>
             )}
-        </div>
+        </>
     );
+
+    function compareByVoiceId(itemA, itemB) {
+        if (itemA.voiceID < itemB.voiceID) return -1;
+        if (itemA.voiceID > itemB.voiceID) return 1;
+        return 0;
+    }
 };
 
-function compareByVoiceId(itemA, itemB) {
-    if (itemA.voiceID < itemB.voiceID) return -1;
-    if (itemA.voiceID > itemB.voiceID) return 1;
-    return 0;
-}
-
-export default VoicesAssignmentSelection;
+export default InstrumentVoicesSelector;

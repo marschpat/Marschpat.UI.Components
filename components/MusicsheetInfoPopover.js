@@ -49,10 +49,14 @@ function MusicsheetInfoPopover(props) {
                     horizontal: 'center',
                 }}
             >
-                <div className="p-20">
+                <div className="px-20 py-10">
+                    <div className="-mx-6 bg-gray-200">
+                        <div className="px-6 py-6 text-left text-xl font-medium text-gray-700 uppercase tracking-wider">
+                            Informationen zum Musikstück
+                        </div>
+                    </div>
                     {infoRows.map(
-                        (row, index) =>
-                            row.value && <InfoRow name={row.name} value={row.value} key={index} />
+                        (row, index) => row.value && <InfoRow name={row.name} value={row.value} key={index} />
                     )}
                 </div>
             </Popover>
