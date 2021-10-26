@@ -50,8 +50,8 @@ function MusicsheetInfoPopover(props) {
                 }}
             >
                 <div className="px-20 py-10">
-                    <div class="-mx-6 bg-gray-200">
-                        <div class="px-6 py-6 text-left text-xl font-medium text-gray-700 uppercase tracking-wider">
+                    <div className="-mx-6 bg-gray-200">
+                        <div className="px-6 py-6 mb-20 text-left text-xl font-medium text-gray-700 uppercase tracking-wider">
                             Informationen zum Musikstück
                         </div>
                     </div>
@@ -68,7 +68,7 @@ function MusicsheetInfoPopover(props) {
 
     function InfoRow({ name, value }) {
         return (
-            <div className="grid grid-cols-2 gap-4 border-b">
+            <div className="mb-10 grid grid-cols-2 gap-4 border-b">
                 <div>
                     <Typography className="text-lg font-semibold">{name}</Typography>
                 </div>

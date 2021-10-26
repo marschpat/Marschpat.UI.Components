@@ -19,17 +19,14 @@ const TagSelector = props => {
                     setTagOptions(mapTags(response.data));
                 })
                 .catch(error => {
-                    console.error(
-                        `Fetching musiclibrary tags from GET ${GET_tags} failed with an error.`,
-                        error
-                    );
+                    console.error(`Fetching musiclibrary tags from GET ${GET_tags} failed with an error.`, error);
                 });
         }
         fetchData();
     }, []);
 
     useEffect(() => {
-        if (tagOptions && props.initialTags && !selectedTags) {
+        if (tagOptions.length > 0 && props.initialTags.length > 0 && selectedTags.length === 0) {
             const initialItems = props.initialTags.map(initTag =>
                 tagOptions.find(item => item.value === initTag.tagId)
             );

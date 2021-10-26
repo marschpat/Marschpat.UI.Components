@@ -10,7 +10,8 @@ import CarouselFullscreenButton from './CarouselFullscreenButton';
 import TogglePagesPreviewButton from './TogglePagesPreviewButton';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-const FullscreenHeader = props => {
+
+function FullscreenHeader(props) {
     return (
         <AppBar>
             <Toolbar>
@@ -20,10 +21,12 @@ const FullscreenHeader = props => {
                         <MusicsheetTitleInfo />
                         <InstrumentVoiceInfo />
                     </div>
-                    <div className="flex-1 flex items-center md:justify-center">
-                        <ToggleSketchpadButton />
-                        <LayersSelect />
-                    </div>
+                    {props.withSketchpadFeature && (
+                        <div className="flex-1 flex items-center md:justify-center">
+                            <ToggleSketchpadButton />
+                            <LayersSelect />
+                        </div>
+                    )}
                     <div className="flex items-center justify-end">
                         {props.inPlaylist && (
                             <PlaylistControls
@@ -40,6 +43,6 @@ const FullscreenHeader = props => {
             </Toolbar>
         </AppBar>
     );
-};
+}
 
 export default FullscreenHeader;
