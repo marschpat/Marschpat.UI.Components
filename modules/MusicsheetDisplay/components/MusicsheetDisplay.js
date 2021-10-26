@@ -7,7 +7,10 @@ import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
 } from '../context/MusicsheetDisplayContexts';
-import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import {
+    apiRoutes,
+    MP_EDU,
+} from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
     const [viewMode, setViewMode] = useState('view');
@@ -21,19 +24,19 @@ const MusicsheetDisplay = props => {
         instrumentVoice,
         implementationMode,
     } = useContext(MusicsheetLoaderContext);
-
+    const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
 
     useEffect(() => {
         async function fetchData() {
             await initializeFromQueryParams();
-            await fetchSketchpadLayers();
-
-            const layers = require('../layers.example.js');
-            const layersInit = initializeLayers(layers);
-
-            setSketchpadLayers(layersInit);
+            if (withSketchpadFeature) {
+                await fetchSketchpadLayers();
+                const layers = require('../layers.example.js');
+                const layersInit = initializeLayers(layers);
+                setSketchpadLayers(layersInit);
+            }
         }
         fetchData();
     }, [sheetId]);
@@ -100,7 +103,11 @@ const MusicsheetDisplay = props => {
                 persistSketchpadLayerInDb,
             }}
         >
-            <FullscreenHeader musicsheetId={sheetId} inPlaylist={inPlaylist} />
+            <FullscreenHeader
+                musicsheetId={sheetId}
+                inPlaylist={inPlaylist}
+                withSketchpadFeature={withSketchpadFeature}
+            />
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
@@ -114,13 +121,13 @@ const MusicsheetDisplay = props => {
 
     function initializeFromQueryParams() {
         const urlParams = new URLSearchParams(window.location.search);
-        const mode = urlParams.get('mode');
         const playlistId = urlParams.get('pl');
-        if (mode === 'sketchpad') {
-            setViewMode('sketchpad');
-        }
         if (playlistId) {
             initializeWithPlaylist(playlistId);
+        }
+        const mode = urlParams.get('mode');
+        if (withSketchpadFeature && mode === 'sketchpad') {
+            setViewMode('sketchpad');
         }
     }
 
