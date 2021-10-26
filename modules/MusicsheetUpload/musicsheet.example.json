@@ -12,10 +12,10 @@
     "ownerType": 2,
     "ownerId": null,
     "sheetId:": 0,
-    "tags": [{ "tagID": 1 }, { "tagID": 2 }, { "tagID": 10 }],
+    "tags": [{ "tagId": 1 }, { "tagId": 2 }, { "tagId": 10 }],
     "instrumentSheets": [
         {
-            "voices": [{ "voiceID": 3 }, { "voiceID": 4 }, { "voiceID": 8 }],
+            "voices": [{ "voiceId": 3 }, { "voiceId": 4 }, { "voiceId": 8 }],
             "origFiles": [
                 {
                     "name": "47erRegimentsmarsch,MP - Klarinette in B 1.pdf",
@@ -86,7 +86,7 @@
             ]
         },
         {
-            "voices": [{ "voiceID": 9 }],
+            "voices": [{ "voiceId": 9 }],
             "origFiles": [
                 {
                     "name": "Pecherbua_Pecherlied Hernstein.jpeg",

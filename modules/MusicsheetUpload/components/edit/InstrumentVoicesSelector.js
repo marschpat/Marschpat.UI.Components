@@ -24,8 +24,8 @@ const InstrumentVoicesSelector = props => {
                 const removedValue = detail.removedValue;
                 if (
                     removedValue &&
-                    removedValue.voiceID &&
-                    !newAvailable.find(item => item.voiceID === removedValue.voiceID)
+                    removedValue.voiceId &&
+                    !newAvailable.find(item => item.voiceId === removedValue.voiceId)
                 ) {
                     newAvailable.push(removedValue);
                     newAvailable = newAvailable.sort(compareByVoiceId);
