@@ -46,7 +46,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 instrumentVoice,
                 setInstrumentVoice,
                 handleMusicsheetPagesLoaded,
-                setHasError,
+                handleLoadingError,
                 implementationMode,
             }}
         >
@@ -104,6 +104,8 @@ const MusicsheetLoader = ({ implementationMode }) => {
             }
             defaultVoice = voice;
         }
+
+        if (!defaultVoice) handleLoadingError('no default voice for musicsheet');
 
         return defaultVoice;
     }
