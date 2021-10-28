@@ -13,6 +13,10 @@ const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
 
     useEffect(() => {
         handleAvailableVoicesUpdate();
+    }, [instrumentSheets]);
+
+    useEffect(() => {
+        handleAvailableVoicesUpdate();
     }, [instrumentVoicesOfCurrentCast]);
 
     const handleCastChange = selectedCast => {
