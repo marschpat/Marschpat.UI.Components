@@ -22,7 +22,7 @@ const PageEditor = props => {
             return (
                 <PdfToImageConverter
                     data={originalFileData}
-                    documentPageNbr={page.documentPageNbr}
+                    documentPageNbr={page.pageNbr}
                     orientation={page.cropBox?.orientation}
                     cropBox={page.cropBox}
                     handlePageImageUpdate={handlePageEdit}
