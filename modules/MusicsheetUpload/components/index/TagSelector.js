@@ -29,7 +29,12 @@ const TagSelector = props => {
     }, []);
 
     useEffect(() => {
-        if (tagOptions.length > 0 && props.initialTags.length > 0 && selectedTags.length === 0) {
+        if (
+            tagOptions.length > 0 &&
+            props.initialTags &&
+            props.initialTags.length > 0 &&
+            selectedTags.length === 0
+        ) {
             const initialItems = props.initialTags.map(initTag =>
                 tagOptions.find(item => item.value === initTag.tagID)
             );
