@@ -176,7 +176,7 @@ const MetaDataForm = props => {
             tags:
                 tags && tags.length > 0
                     ? tags.map(tag => {
-                          if (tag) return { tagId: tag.tagID };
+                          if (tag) return { tagID: tag.tagID };
                       })
                     : tags,
         });
