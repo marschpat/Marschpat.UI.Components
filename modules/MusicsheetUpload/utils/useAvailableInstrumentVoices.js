@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
-const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
+const useAvailableInstrumentVoices = (
+    instrumentSheets,
+    implementationMode,
+    organisation = null
+) => {
     const [castOptions, setCastOptions] = useState(null);
     const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null);
     const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
 
     useEffect(() => {
-        fetchInstrumentVoicesInCastGroups();
-    }, []);
+        if (organisation && !castOptions) {
+            fetchInstrumentVoicesInCastGroups();
+        }
+    }, [organisation]);
 
     useEffect(() => {
         handleAvailableVoicesUpdate();
@@ -52,13 +58,21 @@ const useAvailableInstrumentVoices = (instrumentSheets, implementationMode) => {
     ];
 
     function fetchInstrumentVoicesInCastGroups() {
+        const castRoute =
+            implementationMode === MP_WEB
+                ? `/cast?organisationId=${organisation.organisationId}`
+                : '/cast';
+
         axios
-            .get('/cast')
+            .get(castRoute)
             .then(response => {
                 setCastOptions(mapCasts(response.data));
             })
             .catch(error => {
-                console.error('Fetching castOptions from GET /cast failed with an error.', error);
+                console.error(
+                    `Fetching castOptions from GET ${castRoute} failed with an error.`,
+                    error
+                );
             });
     }
 
