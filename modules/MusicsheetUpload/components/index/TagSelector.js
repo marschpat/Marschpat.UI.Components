@@ -36,7 +36,7 @@ const TagSelector = props => {
             selectedTags.length === 0
         ) {
             const initialItems = props.initialTags.map(initTag =>
-                tagOptions.find(item => item.value === initTag.tagId)
+                tagOptions.find(item => item.value === initTag.tagID)
             );
             setSelectedTags(initialItems);
         }
