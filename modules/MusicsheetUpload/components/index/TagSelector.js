@@ -35,11 +35,13 @@ const TagSelector = props => {
             props.initialTags.length > 0 &&
             selectedTags.length === 0
         ) {
-            const initialItems = props.initialTags.map(initTag =>
-                tagOptions.find(
+            const initialItems = props.initialTags.map(initTag => {
+                if (!initTag) return;
+
+                return tagOptions.find(
                     item => item.value === initTag.tagID || item.value === initTag.tagId
-                )
-            );
+                );
+            });
             setSelectedTags(initialItems);
         }
     }, [tagOptions, props.initialTags]);
