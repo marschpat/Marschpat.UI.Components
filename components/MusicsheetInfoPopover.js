@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 
 function MusicsheetInfoPopover(props) {
     const [anchorEl, setAnchorEl] = useState(null);
-    console.log('my mushe', props.musicsheet);
     const infoRows = [
         { name: 'Titel', value: props.musicsheet?.name ?? null },
         { name: 'Untertitel', value: props.musicsheet?.subtitle ?? null },
