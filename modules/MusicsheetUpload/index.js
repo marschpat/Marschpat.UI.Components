@@ -108,7 +108,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                     uploadScope={uploadScope}
                                     instrumentSheets={instrumentSheets}
                                     agreedToLegalConsent={agreedToLegalConsent}
-                                    handleReset={resetUploaderState}
                                 />
                                 {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
                             </div>
@@ -201,23 +200,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
         dispatchFlashMessage('Neue Instrumentenstimme extrahiert', 'success');
-    }
-
-    /**
-     * Reset MusicsheetUploader back to initial state.
-     * Also set ResetChildState to true.
-     * @ToDo: refactor, find a better way to do this
-     */
-    function resetUploaderState() {
-        setMetaData(null);
-        setInstrumentSheets([]);
-        setOpenEdit(false);
-        setInstrumentSheetInEdit(null);
-        handleAvailableVoicesReset();
-        setErrors(null);
-        setAgreedToLegalConsent(false);
-        setResetChildState(true);
-        document.getElementById('uploader-top').scrollIntoView(true);
     }
 
     function checkIfCastWarningMessageMayBeNeeded() {

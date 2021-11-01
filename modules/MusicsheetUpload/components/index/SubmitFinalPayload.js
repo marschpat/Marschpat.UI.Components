@@ -113,16 +113,10 @@ const SubmitFinalPayload = props => {
                 hasError={hasError}
                 totalSize={totalUploadSize}
                 progress={uploadProgress}
-                handleUploaderReset={resetUploader}
                 handleSubmitPayloadReset={resetSubmitPayload}
             />
         </section>
     );
-
-    function resetUploader() {
-        resetSubmitPayload();
-        props.handleReset();
-    }
 
     function resetSubmitPayload() {
         setIsUploading(false);

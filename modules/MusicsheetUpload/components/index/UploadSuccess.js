@@ -34,7 +34,7 @@ const UploadSuccess = props => {
                             Zum Notenpool
                         </Button>
                         <Button
-                            onClick={props.handleUploaderReset}
+                            onClick={() => window.location.reload(false)}
                             variant="contained"
                             color="secondary"
                         >
