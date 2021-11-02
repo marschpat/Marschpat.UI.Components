@@ -83,6 +83,7 @@ const ImageCropper = props => {
                         ready={setInitialCropBox}
                         aspectRatio={aspectRatioLock ? dimensions[orientation].aspectRatio : 0}
                         autoCropArea={1}
+                        dragMode="move"
                         guides={true}
                         style={{ height: 500, width: '100%' }}
                         checkOrientation={false}
