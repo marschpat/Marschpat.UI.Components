@@ -158,8 +158,15 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             const existingFileNames = prevSheets.flatMap(sheet =>
                 sheet.origFiles.map(orig => orig.name)
             );
-            const newSheets = sheets.filter(
-                sheet => !sheet.origFiles.some(file => existingFileNames.indexOf(file.name) !== -1)
+            const newSheets = sheets.filter(sheet =>
+                sheet.origFiles.some(file => {
+                    if (existingFileNames.indexOf(file.name) !== -1) {
+                        dispatchFlashMessage(`Datei "${file.name}" bereits hinzugefügt`, 'warning');
+                        return false;
+                    }
+
+                    return true;
+                })
             );
 
             return [...prevSheets, ...newSheets];
