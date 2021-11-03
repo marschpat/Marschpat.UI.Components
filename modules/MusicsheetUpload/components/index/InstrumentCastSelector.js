@@ -8,7 +8,7 @@ import FuseChipSelect from '@fuse/core/FuseChipSelect';
 const InstrumentCastSelector = props => {
     const dispatchConfirm = useDispatchConfirmDialog();
     const showError = props.error ? true : false;
-    const castOptions = props.castOptions ?? null;
+    const castOptions = props.castOptions ?? [];
     const [selectedCast, setSelectedCast] = useState(null);
     const { inHelpMode } = useContext(UploaderContext);
 
