@@ -12,10 +12,8 @@ const useAvailableInstrumentVoices = (
     const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
 
     useEffect(() => {
-        if (organisation && !castOptions) {
-            fetchInstrumentVoicesInCastGroups();
-        }
-    }, [organisation]);
+        fetchInstrumentVoicesInCastGroups();
+    }, []);
 
     useEffect(() => {
         handleAvailableVoicesUpdate();
@@ -59,7 +57,7 @@ const useAvailableInstrumentVoices = (
 
     function fetchInstrumentVoicesInCastGroups() {
         const castRoute =
-            implementationMode === MP_WEB
+            implementationMode === MP_WEB && organisation
                 ? `/cast?organisationId=${organisation.organisationId}`
                 : '/cast';
 
