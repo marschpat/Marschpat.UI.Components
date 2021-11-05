@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react';
+import axios from 'axios';
+import EmbedVideo from './EmbedVideo';
 import TagSelector from './TagSelector';
 import HelpModeButton from './HelpModeButton';
 import InstrumentCastSelector from './InstrumentCastSelector';
-import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import { UploaderContext } from '../../context/UploaderContext';
 import useValidationErrors from '../../utils/useValidationErrors';
 import TextInput from '@marschpat/Marschpat.UI.Components/components/TextInput';
+import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
-import axios from 'axios';
 
 const initialMetaData = require('../../metaData.initial.json');
 
@@ -55,6 +56,7 @@ const MetaDataForm = props => {
                 <Typography variant="h6" className="font-bold">
                     Grunddaten des Musikstücks
                 </Typography>
+                <EmbedVideo />
                 <HelpModeButton />
             </div>
             <div className="flex flex-wrap pl-24">
