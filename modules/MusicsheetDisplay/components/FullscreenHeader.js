@@ -15,7 +15,10 @@ function FullscreenHeader(props) {
     return (
         <AppBar>
             <Toolbar>
-                <div className="w-full md:flex md:justify-between md:items-center">
+                <div
+                    data-tour="tour_musiclibraryheader"
+                    className="w-full md:flex md:justify-between md:items-center"
+                >
                     <div className="flex items-center">
                         <DialogCloseButton variant="arrow" />
                         <MusicsheetTitleInfo />
