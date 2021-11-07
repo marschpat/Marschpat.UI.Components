@@ -9,7 +9,12 @@ const DialogCloseButton = ({ variant }) => {
 
     return (
         <Tooltip title="Notenblatt Ansicht schließen">
-            <IconButton onClick={closeDialog} color="inherit" aria-label="back">
+            <IconButton
+                data-tour={variant === 'arrow' ? '' : 'tour_musiclibraryheaderexit'}
+                onClick={closeDialog}
+                color="inherit"
+                aria-label="back"
+            >
                 <Icon>{variant === 'arrow' ? 'arrow_back' : 'close'}</Icon>
             </IconButton>
         </Tooltip>
