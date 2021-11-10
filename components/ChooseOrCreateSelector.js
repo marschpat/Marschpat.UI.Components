@@ -7,6 +7,16 @@ const ChooseOrCreateSelector = props => {
     const [options, setOptions] = useState([]);
     const handleChange = newSelected => {
         setSelected(newSelected);
+        if (props.isMulti) {
+            props.handleSelectedChange(
+                newSelected.map(item => ({
+                    id: item.value !== item.label ? item.value : 0,
+                    name: item.label,
+                }))
+            );
+            return;
+        }
+
         props.handleSelectedChange({
             id: newSelected.value !== newSelected.label ? newSelected.value : 0,
             name: newSelected.label,
