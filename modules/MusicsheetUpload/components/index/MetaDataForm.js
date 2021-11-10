@@ -3,6 +3,7 @@ import axios from 'axios';
 import EmbedVideo from './EmbedVideo';
 import TagSelector from './TagSelector';
 import HelpModeButton from './HelpModeButton';
+import BrowserSupportNote from './BrowserSupportNote';
 import InstrumentCastSelector from './InstrumentCastSelector';
 import { UploaderContext } from '../../context/UploaderContext';
 import useValidationErrors from '../../utils/useValidationErrors';
@@ -56,6 +57,7 @@ const MetaDataForm = props => {
                 <Typography variant="h6" className="font-bold">
                     Grunddaten des Musikstücks
                 </Typography>
+                <BrowserSupportNote />
                 <EmbedVideo />
                 <HelpModeButton />
             </div>
