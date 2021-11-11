@@ -20,8 +20,11 @@ const InstrumentVoiceSelector = () => {
     const handleClose = () => {
         setAnchor(null);
     };
+
+    // set InstrumentVoice and persist as my favourite voice to local storage
     function handleVoiceChange(voice) {
         setInstrumentVoice(voice);
+        localStorage.setItem('favVoice', JSON.stringify(voice));
         handleClose();
     }
     function checkIfVoiceShouldBeDisabled(voice) {
