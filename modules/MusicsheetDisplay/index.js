@@ -90,7 +90,13 @@ const MusicsheetLoader = ({ implementationMode }) => {
 
     // get the first voice that isn't one of our "excluded voices"
     // see https://github.com/marschpat/Marschpat.UI.Web/issues/587
+    // if there's a "preferred voice" persisted in local storage, takte that one
     function findDefaultVoice(musicsheet) {
+        if (localStorage.getItem('favVoice')) {
+            const favVoice = JSON.parse(localStorage.getItem('favVoice'));
+            return favVoice;
+        }
+
         let defaultVoice = null;
         for (let i = 0; i < musicsheet.voices.length; i++) {
             const voice = musicsheet.voices[i];
