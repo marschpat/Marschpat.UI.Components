@@ -90,11 +90,11 @@ const MusicsheetLoader = ({ implementationMode }) => {
 
     // get the first voice that isn't one of our "excluded voices"
     // see https://github.com/marschpat/Marschpat.UI.Web/issues/587
-    // if there's a "preferred voice" persisted in local storage, takte that one
+    // or: if there's a valid "favorite voice" persisted in local storage, take that one
     function findDefaultVoice(musicsheet) {
-        if (localStorage.getItem('favVoice')) {
-            const favVoice = JSON.parse(localStorage.getItem('favVoice'));
-            return favVoice;
+        const favoriteVoice = checkForFavoriteVoice(musicsheet.voices);
+        if (favoriteVoice) {
+            return favoriteVoice;
         }
 
         let defaultVoice = null;
@@ -114,6 +114,25 @@ const MusicsheetLoader = ({ implementationMode }) => {
         if (!defaultVoice) handleLoadingError('no default voice for musicsheet');
 
         return defaultVoice;
+    }
+
+    /**
+     * Check if a favorite voice (favVoice) exists in local storage.
+     * If that voice is an "available voice" on the requested musicsheet return it as sugested default voice
+     *
+     * @param {array} availableVoices
+     * @returns object | bool
+     */
+    function checkForFavoriteVoice(availableVoices) {
+        if (localStorage.getItem('favVoice')) {
+            const favVoice = JSON.parse(localStorage.getItem('favVoice'));
+            const validFavVoice = availableVoices.some(
+                existingVoice => existingVoice.voiceId === favVoice.voiceId
+            );
+            if (validFavVoice) return favVoice;
+        }
+
+        return false;
     }
 
     /**
