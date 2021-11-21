@@ -28,7 +28,11 @@ const InstrumentSheetEditor = props => {
     const { dispatchFlashMessage, handleAvailableVoicesUpdate, inHelpMode, implementationMode } =
         useContext(UploaderContext);
 
-    return pageInEdit ? (
+    // https://github.com/marschpat/Marschpat.UI.Web/issues/877
+    // try to blindfix the ominous "empty images bug", which occoured for some users (it may be a browser / OS issue tough).
+    const pagesReady = !!(pages && pageInEdit && originalFile && previews);
+
+    return pagesReady ? (
         <div className="flex">
             <div className="max-w-200 w-full">
                 <PagesOverview
