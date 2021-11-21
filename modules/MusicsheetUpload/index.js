@@ -242,6 +242,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
      * Open the next available instrumentSheet, depending on the direction (next or previous)
      */
     function openNextAvailableInstrumentSheet(direction) {
+        setOpenEdit(false);
         const existingIndex = instrumentSheets.findIndex(
             sheet => sheet.uuid === instrumentSheetInEdit.uuid
         );
@@ -249,6 +250,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         const fallbackIndex = direction === 'next' ? 0 : instrumentSheets.length - 1;
         const newIndex = instrumentSheets[candidate] ? candidate : fallbackIndex;
         setInstrumentSheetInEdit(instrumentSheets[newIndex]);
+        setOpenEdit(true);
     }
 };
 

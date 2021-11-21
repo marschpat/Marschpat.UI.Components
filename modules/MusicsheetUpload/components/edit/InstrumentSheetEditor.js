@@ -134,6 +134,7 @@ const InstrumentSheetEditor = props => {
                 </div>
 
                 <StoreInstrumentSheet
+                    isReady={pagesReady}
                     handleStoreInstrumentSheet={handleStoreInstrumentSheet}
                     handleNextInstrumentSheet={handleStoreAndNext}
                 />
