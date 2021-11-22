@@ -26,6 +26,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
      * find the default instrument voice (if no voiceId provided as url param)
      */
     useEffect(() => {
+        setIsLoading(true);
         async function fetchData() {
             const { success, data } = await fetchMusicsheetMetaData(sheetId);
             if (success) {
@@ -34,6 +35,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 setInstrumentVoice(voice);
             }
             if (!success) handleLoadingError(data);
+            setIsLoading(false);
         }
         fetchData();
     }, [sheetId]);
@@ -48,6 +50,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 handleMusicsheetPagesLoaded,
                 handleLoadingError,
                 implementationMode,
+                isLoading,
             }}
         >
             <MusicsheetPagesLoader>
