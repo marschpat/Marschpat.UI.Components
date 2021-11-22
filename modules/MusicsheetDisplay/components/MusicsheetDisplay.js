@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import Loading from './Loading';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
@@ -23,6 +24,7 @@ const MusicsheetDisplay = props => {
         musicsheetMetaData,
         instrumentVoice,
         implementationMode,
+        isLoading,
     } = useContext(MusicsheetLoaderContext);
     const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceID;
@@ -111,10 +113,16 @@ const MusicsheetDisplay = props => {
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">
                 {/* render "normal" VIEW view mode */}
-                {viewMode === 'view' && <MusicsheetGalleryWithSketchpadLayers />}
+                {viewMode === 'view' && !isLoading && <MusicsheetGalleryWithSketchpadLayers />}
 
                 {/* render SKETCHPAD view mode */}
-                {viewMode === 'sketchpad' && <Sketchpad />}
+                {viewMode === 'sketchpad' && !isLoading && <Sketchpad />}
+
+                {isLoading && (
+                    <div className="mt-160">
+                        <Loading />
+                    </div>
+                )}
             </div>
         </MusicsheetDisplayContext.Provider>
     );
