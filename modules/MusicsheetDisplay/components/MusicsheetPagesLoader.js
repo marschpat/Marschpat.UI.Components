@@ -10,12 +10,14 @@ const MusicsheetPagesLoader = props => {
         handleLoadingError,
         handleMusicsheetPagesLoaded,
         implementationMode,
+        setIsLoading,
     } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
 
     useEffect(() => {
         if (musicsheet && voice) {
             async function fetchData() {
+                setIsLoading(true);
                 const { success, data } = await fetchAllMusicsheetVoicePages(
                     musicsheet.sheetID,
                     voice.voiceID
@@ -35,6 +37,7 @@ const MusicsheetPagesLoader = props => {
         if (downloadLinks) {
             handleMusicsheetPagesLoaded(downloadLinks);
         }
+        setIsLoading(false);
     }, [downloadLinks]);
 
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
