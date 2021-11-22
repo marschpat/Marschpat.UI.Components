@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Loading from './Loading';
+import LoadingError from './LoadingError';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
@@ -25,6 +26,7 @@ const MusicsheetDisplay = props => {
         instrumentVoice,
         implementationMode,
         isLoading,
+        hasError,
     } = useContext(MusicsheetLoaderContext);
     const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceId;
@@ -117,6 +119,13 @@ const MusicsheetDisplay = props => {
 
                 {/* render SKETCHPAD view mode */}
                 {viewMode === 'sketchpad' && !isLoading && <Sketchpad />}
+
+                {/* ERROR */}
+                {hasError && !isLoading && (
+                    <div className="mt-160">
+                        <LoadingError errorMsg={hasError} />
+                    </div>
+                )}
 
                 {isLoading && (
                     <div className="mt-160">

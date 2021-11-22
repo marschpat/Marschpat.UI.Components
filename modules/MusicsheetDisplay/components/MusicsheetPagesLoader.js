@@ -24,6 +24,7 @@ const MusicsheetPagesLoader = props => {
                 );
                 if (success) {
                     setDownloadLinks(data);
+                    handleLoadingError(false);
                 }
                 if (!success) {
                     handleLoadingError(data);

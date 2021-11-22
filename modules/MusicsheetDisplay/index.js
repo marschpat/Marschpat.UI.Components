@@ -33,9 +33,9 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
                 setMusicsheetMetaData(data);
                 setInstrumentVoice(voice);
+                handleLoadingError(false);
             }
             if (!success) handleLoadingError(data);
-            setIsLoading(false);
         }
         fetchData();
     }, [sheetId]);
@@ -52,6 +52,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 implementationMode,
                 isLoading,
                 setIsLoading,
+                hasError,
             }}
         >
             <MusicsheetPagesLoader>
