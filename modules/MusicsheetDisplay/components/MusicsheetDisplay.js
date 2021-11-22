@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import Loading from './Loading';
-import LoadingError from './LoadingError';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
@@ -20,14 +19,8 @@ const MusicsheetDisplay = props => {
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
-    const {
-        musicsheetPages: pages,
-        musicsheetMetaData,
-        instrumentVoice,
-        implementationMode,
-        isLoading,
-        hasError,
-    } = useContext(MusicsheetLoaderContext);
+    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading } =
+        useContext(MusicsheetLoaderContext);
     const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceID;
     const sheetId = musicsheetMetaData.sheetID;
@@ -119,13 +112,6 @@ const MusicsheetDisplay = props => {
 
                 {/* render SKETCHPAD view mode */}
                 {viewMode === 'sketchpad' && !isLoading && <Sketchpad />}
-
-                {/* ERROR */}
-                {hasError && !isLoading && (
-                    <div className="mt-160">
-                        <LoadingError errorMsg={hasError} />
-                    </div>
-                )}
 
                 {isLoading && (
                     <div className="mt-160">
