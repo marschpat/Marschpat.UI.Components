@@ -21,7 +21,10 @@ const MetaDataForm = props => {
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(implementationMode);
+    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(
+        t,
+        implementationMode
+    );
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
