@@ -12,10 +12,12 @@ import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationM
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
+    const { t } = useTranslation(['uploader']);
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
@@ -55,7 +57,7 @@ const MetaDataForm = props => {
         <section>
             <div className="flex items-center justify-between">
                 <Typography variant="h6" className="font-bold">
-                    Grunddaten des Musikstücks
+                    {t('META_HL')}
                 </Typography>
                 <BrowserSupportNote />
                 <EmbedVideo />
