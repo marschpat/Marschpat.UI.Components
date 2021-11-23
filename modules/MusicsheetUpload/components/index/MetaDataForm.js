@@ -68,7 +68,7 @@ const MetaDataForm = props => {
             </div>
             <div className="flex flex-wrap pl-24">
                 <TextInput
-                    label="Titel des Musikstücks"
+                    label={t('META_TITLE')}
                     name="title"
                     value={metaData.title}
                     onChange={event => setMetaData({ ...metaData, title: event.target.value })}
@@ -91,7 +91,7 @@ const MetaDataForm = props => {
                 )}
 
                 <ChooseOrCreateSelector
-                    label="Verlag"
+                    label={t('PUBLISHER')}
                     labelAttr="name"
                     fetchOptionsUrl="/publisher"
                     initialValue={metaData.publisherId}
@@ -100,7 +100,7 @@ const MetaDataForm = props => {
                     handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
                 />
                 <ChooseOrCreateSelector
-                    label="Komponist"
+                    label={t('COMPOSER')}
                     options={personOptions}
                     resetState={props.resetState}
                     initialValue={metaData.composerId}
@@ -108,7 +108,7 @@ const MetaDataForm = props => {
                     handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
                 />
                 <ChooseOrCreateSelector
-                    label="Arrangeur"
+                    label={t('ARRANGER')}
                     options={personOptions}
                     resetState={props.resetState}
                     initialValue={metaData.arrangerId}
@@ -121,7 +121,7 @@ const MetaDataForm = props => {
                     handleTagsChange={handleTagsChange}
                 />
                 <TextInput
-                    label="Copyright"
+                    label={t('COPYRIGHT')}
                     name="copyright"
                     value={metaData.copyright}
                     onChange={event =>
@@ -133,14 +133,14 @@ const MetaDataForm = props => {
                     error={false}
                 />
                 <TextInput
-                    label="ISWC Nummer"
+                    label={t('ISWC')}
                     name="iswc"
                     value={metaData.iswc}
                     onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
                     error={false}
                 />
                 <TextInput
-                    label="Untertitel"
+                    label={t('SUBTITLE')}
                     name="subtitle"
                     value={metaData.subtitle}
                     onChange={event =>

@@ -1,7 +1,41 @@
 export const de = {
     META_HL: 'Grunddaten des Musikstücks',
+    META_TITLE: 'Titel des Musikstücks',
+    ERROR_TITLE: 'Bitte Titel eingeben',
+    PUBLISHER: 'Verlag',
+    COMPOSER: 'Komponist',
+    ARRANGER: 'Arrangeur',
+    COPYRIGHT: 'Copyright',
+    ISWC: 'ISWC Nummer',
+    SUBTITLE: 'Untertitel',
+    CAST: 'Besetzung',
+    CAST_SELECT: 'Besetzung auswählen',
+    CAST_WARNING_HL: 'Besetzung wirklich ändern?',
+    CAST_WARNING_TEXT:
+        'Besetzung wirklich ändern? Zuordnung bereits zugewiesener Stimmen gehen dadurch verloren.',
+    CAST_WARNING_CONFIRM: 'Besetzung auswählen',
+    ERROR_CAST: 'Bitte Besetzung auswählen',
+    TAGS: 'Tags',
+    TAGS_SELECT: "Tag's zuordnen",
 };
 
 export const en = {
-    META_HL: 'Sheet Music Base Data',
+    META_HL: 'Sheet Music base data',
+    META_TITLE: 'Sheet Music title',
+    ERROR_TITLE: 'Please enter title',
+    PUBLISHER: 'Publisher',
+    COMPOSER: 'Composer',
+    ARRANGER: 'Arranger',
+    COPYRIGHT: 'Copyright',
+    ISWC: 'ISWC number',
+    SUBTITLE: 'Subtitle',
+    CAST: 'Instrument cast',
+    CAST_SELECT: 'Select instrument cast',
+    CAST_WARNING_HL: 'Really change the cast?',
+    CAST_WARNING_TEXT:
+        'Really change the cast? Assignments of already assigned voices are lost as a result.',
+    CAST_WARNING_CONFIRM: 'Change Cast',
+    ERROR_CAST: 'Please select cast',
+    TAGS: 'Tags',
+    TAGS_SELECT: 'Select tags',
 };
