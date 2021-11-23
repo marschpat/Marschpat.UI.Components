@@ -17,6 +17,13 @@ export const de = {
     ERROR_CAST: 'Bitte Besetzung auswählen',
     TAGS: 'Tags',
     TAGS_SELECT: "Tag's zuordnen",
+    ASSIGNMENT: 'Zuordnung',
+    ASSIGNMENT_TEXT:
+        'Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.',
+    SCOPE_MARCH_PRIVATE: 'In meinen privaten Notenpool hochladen',
+    SCOPE_MARCH_ORG: 'In den Notenpool meines Vereins hochladen:',
+    SCOPE_EDU_PRIVATE: 'Für mich hochladen (privater Notenpool)',
+    SCOPE_EDU_ORG: 'Für Musikschule Notenpool hochladen:',
 };
 
 export const en = {
@@ -38,4 +45,11 @@ export const en = {
     ERROR_CAST: 'Please select cast',
     TAGS: 'Tags',
     TAGS_SELECT: 'Select tags',
+    ASSIGNMENT: 'Assignment',
+    ASSIGNMENT_TEXT:
+        'Specify whether the piece of music should only be available for you (in your private pool of sheet music - "MY NOTES") or for all members of your club / music school ("COMMON NOTES").',
+    SCOPE_MARCH_PRIVATE: 'Upload to my private musiclibrary',
+    SCOPE_MARCH_ORG: 'Upload to my organisations musiclibrary:',
+    SCOPE_EDU_PRIVATE: 'Upload to my private musiclibrary',
+    SCOPE_EDU_ORG: 'Upload to my organisations musiclibrary:',
 };
