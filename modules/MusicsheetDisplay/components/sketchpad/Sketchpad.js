@@ -14,8 +14,8 @@ const Sketchpad = () => {
         useContext(MusicsheetLoaderContext);
     const { setSketchpadLayers, persistSketchpadLayerInDb, toggleViewMode } =
         useContext(MusicsheetDisplayContext);
-    const voiceId = instrumentVoice.voiceID;
-    const sheetId = musicsheetMetaData.sheetID;
+    const voiceId = instrumentVoice.voiceId;
+    const sheetId = musicsheetMetaData.sheetId;
     const initialLayer = () => ({
         uuid: uuidv4(),
         name: null,

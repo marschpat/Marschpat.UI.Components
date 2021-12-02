@@ -89,7 +89,7 @@ const TagSelector = props => {
 
     function mapTags(tagItems) {
         return tagItems.map(item => ({
-            value: item.tagID,
+            value: item.tagId,
             label: item.name,
             ...item,
         }));
