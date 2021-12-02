@@ -42,16 +42,16 @@ const MusicsheetLoader = ({ implementationMode }) => {
     }, [sheetId]);
 
     useEffect(() => {
-        if (instrumentVoice && currentVoice !== instrumentVoice.voiceID) {
+        if (instrumentVoice && currentVoice !== instrumentVoice.voiceId) {
             async function fetchData() {
                 setIsLoading(true);
                 const { success, data } = await fetchAllMusicsheetVoicePages(
-                    musicsheetMetaData.sheetID,
-                    instrumentVoice.voiceID
+                    musicsheetMetaData.sheetId,
+                    instrumentVoice.voiceId
                 );
                 if (success) {
                     setDownloadLinks(data);
-                    setCurrentVoice(instrumentVoice.voiceID);
+                    setCurrentVoice(instrumentVoice.voiceId);
                     setHasError(false);
                     setIsLoading(false);
                 }
@@ -154,7 +154,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 defaultVoice = voice;
                 break;
             }
-            if (detectRenderType(voice) === 'mxl' && isAllowedAsDefaultVoice(voice.voiceID)) {
+            if (detectRenderType(voice) === 'mxl' && isAllowedAsDefaultVoice(voice.voiceId)) {
                 defaultVoice = voice;
                 break;
             }
@@ -177,7 +177,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
         if (localStorage.getItem('favVoice')) {
             const favVoice = JSON.parse(localStorage.getItem('favVoice'));
             const validFavVoice = availableVoices.some(
-                existingVoice => existingVoice.voiceID === favVoice.voiceID
+                existingVoice => existingVoice.voiceId === favVoice.voiceId
             );
             if (validFavVoice) return favVoice;
         }
@@ -230,7 +230,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
      * @returns object
      */
     function voiceFromId(musicsheet, voiceId) {
-        const voice = musicsheet.voices.find(voice => voice.voiceID === parseInt(voiceId));
+        const voice = musicsheet.voices.find(voice => voice.voiceId === parseInt(voiceId));
         if (!voice) {
             return findDefaultVoice(musicsheet);
         }

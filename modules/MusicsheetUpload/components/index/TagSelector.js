@@ -41,7 +41,7 @@ const TagSelector = props => {
                 if (!initTag) return;
 
                 return tagOptions.find(
-                    item => item.value === initTag.tagID || item.value === initTag.tagId
+                    item => item.value === initTag.tagId || item.value === initTag.tagId
                 );
             });
             setSelectedTags(initialItems);
@@ -91,7 +91,7 @@ const TagSelector = props => {
 
     function mapTags(tagItems) {
         return tagItems.map(item => ({
-            value: item.tagID,
+            value: item.tagId,
             label: item.name,
             ...item,
         }));
