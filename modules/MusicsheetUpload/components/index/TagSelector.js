@@ -39,7 +39,7 @@ const TagSelector = props => {
                 if (!initTag) return;
 
                 return tagOptions.find(
-                    item => item.value === initTag.tagID || item.value === initTag.tagId
+                    item => item.value === initTag.tagId || item.value === initTag.tagId
                 );
             });
             setSelectedTags(initialItems);
