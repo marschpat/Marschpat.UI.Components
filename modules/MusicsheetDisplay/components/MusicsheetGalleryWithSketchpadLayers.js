@@ -127,7 +127,7 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
 
             {hasError ||
                 (isLoading && (
-                    <div class="h-screen">
+                    <div className="h-screen">
                         {hasError && <LoadingError errorMsg={hasError} />}
                         {isLoading && <Loading />}
                     </div>
