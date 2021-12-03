@@ -3,28 +3,32 @@ import axios from 'axios';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
 import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
-const MusicsheetPagesLoader = props => {
-    const {
-        musicsheetMetaData: musicsheet,
-        instrumentVoice: voice,
-        handleLoadingError,
-        handleMusicsheetPagesLoaded,
-        implementationMode,
-        setIsLoading,
-    } = useContext(MusicsheetLoaderContext);
+const MusicsheetPagesLoader = ({
+    children,
+    sheetId,
+    voiceId,
+    handleMusicsheetPagesLoaded,
+    handleLoadingError,
+}) => {
+    // const {
+    //     musicsheetMetaData: musicsheet,
+    //     instrumentVoice: voice,
+    //     handleLoadingError,
+    //     handleMusicsheetPagesLoaded,
+    //     implementationMode,
+    //     setIsLoading,
+    // } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
 
     useEffect(() => {
-        if (musicsheet && voice) {
+        console.log('MusicsheetPagesLoader sheet and or voice changed', { sheetId, voiceId });
+        if (sheetId && voiceId) {
             async function fetchData() {
-                setIsLoading(true);
-                const { success, data } = await fetchAllMusicsheetVoicePages(
-                    musicsheet.sheetId,
-                    voice.voiceId
-                );
+                const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
+                console.log('okay, what happens? ', { success, data });
                 if (success) {
                     setDownloadLinks(data);
-                    handleLoadingError(false);
+                    handleMusicsheetPagesLoaded(data);
                 }
                 if (!success) {
                     handleLoadingError(data);
@@ -32,19 +36,13 @@ const MusicsheetPagesLoader = props => {
             }
             fetchData();
         }
-    }, [musicsheet, voice]);
-
-    useEffect(() => {
-        if (downloadLinks) {
-            handleMusicsheetPagesLoaded(downloadLinks);
-        }
-        setIsLoading(false);
-    }, [downloadLinks]);
+    }, [sheetId, voiceId]);
 
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
+        console.log('kay?', `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`);
         try {
             const response = await axios.post(
-                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}/download/${voiceId}/?type=${type}`
+                `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
@@ -58,7 +56,7 @@ const MusicsheetPagesLoader = props => {
         }
     }
 
-    return downloadLinks && props.children;
+    return downloadLinks && children;
 };
 
 export default MusicsheetPagesLoader;

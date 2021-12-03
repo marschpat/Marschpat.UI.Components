@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import Loading from './components/Loading';
 import LoadingError from './components/LoadingError';
 import MusicsheetDialog from './components/MusicsheetDialog';
+import MusicsheetPagesLoader from './components/MusicsheetPagesLoader';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
 import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
@@ -16,10 +17,10 @@ const MusicsheetLoader = ({ implementationMode }) => {
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
-    const [musicsheetPages, setMusicsheetPages] = useState(null);
     const [musicsheetMetaData, setMusicsheetMetaData] = useState(null);
-    const [downloadLinks, setDownloadLinks] = useState(null);
-    const [current, setCurrent] = useState({ sheet: null, voice: null });
+    const [musicsheetPages, setMusicsheetPages] = useState(null);
+    // const [downloadLinks, setDownloadLinks] = useState(null);
+    // const [current, setCurrent] = useState({ sheet: null, voice: null });
     const { sheetId, voiceId = 0 } = useParams();
 
     /**
@@ -27,7 +28,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
      * find the default instrument voice (if no voiceId provided as url param)
      */
     useEffect(() => {
-        console.log('sheet id changed', sheetId);
+        console.log('MusicsheetLoader sheet or voice changed', { sheetId, voiceId });
         setIsLoading(true);
         async function fetchData() {
             const { success, data } = await fetchMusicsheetMetaData(sheetId);
@@ -35,45 +36,45 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
                 setMusicsheetMetaData(data);
                 setInstrumentVoice(voice);
-                setIsLoading(false);
+                // setIsLoading(false);
             }
             if (!success) handleLoadingError(data);
         }
         fetchData();
-    }, [sheetId]);
+    }, [sheetId, voiceId]);
 
-    useEffect(() => {
-        console.log('musheDa or InstVoi changed', { musicsheetMetaData, instrumentVoice });
-        const sheetId = musicsheetMetaData ? musicsheetMetaData.sheetId : null;
-        const voiceId = instrumentVoice ? instrumentVoice.voiceId : null;
-        const isTheSame = sheetId === current.sheet && voiceId === current.voice;
+    // useEffect(() => {
+    //     console.log('musheDa or InstVoi changed', { musicsheetMetaData, instrumentVoice });
+    //     const sheetId = musicsheetMetaData ? musicsheetMetaData.sheetId : null;
+    //     const voiceId = instrumentVoice ? instrumentVoice.voiceId : null;
+    //     const isTheSame = sheetId === current.sheet && voiceId === current.voice;
 
-        if (sheetId && voiceId && !isTheSame) {
-            async function fetchData() {
-                console.log('fetching new', { sheet: sheetId, voice: voiceId });
-                setIsLoading(true);
-                const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
-                if (success) {
-                    setDownloadLinks(data);
-                    setCurrent({ sheet: sheetId, voice: voiceId });
-                    setHasError(false);
-                    setIsLoading(false);
-                }
-                if (!success) {
-                    handleLoadingError(data);
-                }
-            }
-            fetchData();
-        }
-    }, [musicsheetMetaData, instrumentVoice]);
+    //     if (sheetId && voiceId && !isTheSame) {
+    //         async function fetchData() {
+    //             console.log('fetching new', { sheet: sheetId, voice: voiceId });
+    //             setIsLoading(true);
+    //             const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
+    //             if (success) {
+    //                 setDownloadLinks(data);
+    //                 setCurrent({ sheet: sheetId, voice: voiceId });
+    //                 setHasError(false);
+    //                 setIsLoading(false);
+    //             }
+    //             if (!success) {
+    //                 handleLoadingError(data);
+    //             }
+    //         }
+    //         fetchData();
+    //     }
+    // }, [musicsheetMetaData, instrumentVoice]);
 
-    useEffect(() => {
-        console.log('downloadlinks changed', downloadLinks);
-        if (downloadLinks) {
-            handleMusicsheetPagesLoaded(downloadLinks);
-        }
-        setIsLoading(false);
-    }, [downloadLinks]);
+    // useEffect(() => {
+    //     console.log('downloadlinks changed', downloadLinks);
+    //     if (downloadLinks) {
+    //         handleMusicsheetPagesLoaded(downloadLinks);
+    //     }
+    //     setIsLoading(false);
+    // }, [downloadLinks]);
 
     return (
         <MusicsheetLoaderContext.Provider
@@ -82,15 +83,26 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 musicsheetPages,
                 instrumentVoice,
                 setInstrumentVoice,
-                handleMusicsheetPagesLoaded,
-                handleLoadingError,
+                // handleMusicsheetPagesLoaded,
+                // handleLoadingError,
                 implementationMode,
-                isLoading,
-                setIsLoading,
-                hasError,
+                // isLoading,
+                // setIsLoading,
+                // hasError,
             }}
         >
-            {downloadLinks && !hasError && <MusicsheetDialog />}
+            {musicsheetMetaData && instrumentVoice && (
+                <MusicsheetPagesLoader
+                    sheetId={musicsheetMetaData.sheetId}
+                    voiceId={instrumentVoice.voiceId}
+                    handleMusicsheetPagesLoaded={handleMusicsheetPagesLoaded}
+                    handleLoadingError={handleLoadingError}
+                >
+                    {musicsheetPages && <MusicsheetDialog />}
+                </MusicsheetPagesLoader>
+            )}
+
+            {/* {downloadLinks && !hasError && <MusicsheetDialog />} */}
 
             {/* while loading */}
             {isLoading && <Loading />}
@@ -112,23 +124,6 @@ const MusicsheetLoader = ({ implementationMode }) => {
         } catch (error) {
             const errorMsg = error?.response?.data?.message ?? error?.response?.data?.title;
             console.error('Error while fechtching musicsheet information occured:', errorMsg);
-            return { success: false, data: errorMsg };
-        }
-    }
-
-    async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
-        try {
-            const response = await axios.post(
-                `${apiRoutes[implementationMode].musiclibrary}/${sheetId}/download/${voiceId}/?type=${type}`
-            );
-            const success = response?.data ? true : false;
-            const data = success ? response.data : 'invalid API response (no data)';
-
-            return { success, data };
-        } catch (error) {
-            const errorMsg = error?.response?.data?.message;
-            console.error('Error while fechtching musicsheet downloadLink occured:', errorMsg);
-
             return { success: false, data: errorMsg };
         }
     }
