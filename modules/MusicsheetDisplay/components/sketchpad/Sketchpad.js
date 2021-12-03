@@ -1,7 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import LayerControls from './LayerControls';
 import SketchpadDrawPage from './SketchpadDrawPage';
-import MusicsheetPagesLoader from '../MusicsheetPagesLoader';
 import {
     MusicsheetLoaderContext,
     MusicsheetDisplayContext,
@@ -77,7 +76,7 @@ const Sketchpad = () => {
     }
 
     return (
-        <MusicsheetPagesLoader>
+        <div>
             <LayerControls
                 handleLayerNameChange={handleLayerNameChange}
                 handlePersistLayer={handlePersistLayer}
@@ -89,7 +88,7 @@ const Sketchpad = () => {
                     key={index}
                 />
             ))}
-        </MusicsheetPagesLoader>
+        </div>
     );
 };
 

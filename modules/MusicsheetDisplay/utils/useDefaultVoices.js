@@ -99,7 +99,7 @@ function useDefaultVoices() {
         return voice;
     }
 
-    return [findDefaultVoice, voiceFromId, isExistingVoice];
+    return { findDefaultVoice, voiceFromId, isExistingVoice };
 }
 
 export default useDefaultVoices;

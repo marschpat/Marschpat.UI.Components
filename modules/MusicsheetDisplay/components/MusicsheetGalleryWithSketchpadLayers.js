@@ -1,20 +1,38 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
+import Loading from './Loading';
+import LoadingError from './LoadingError';
 import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
 } from '../context/MusicsheetDisplayContexts';
+import useDefaultVoices from '../utils/useDefaultVoices';
+import useFetchMusicsheetPages from '../utils/useFetchMusicsheetPages';
 
 const MusicsheetGalleryWithSketchpadLayers = () => {
     const imageGalleryEl = useRef();
     const [pageImages, setPageImages] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
-    const { musicsheetPages } = useContext(MusicsheetLoaderContext);
+    const { musicsheetMetaData: musicsheet, instrumentVoice: voice } =
+        useContext(MusicsheetLoaderContext);
     const { isCarouselFullscreen, setIsCarouselFullscreen, showPagesPreview, sketchpadLayers } =
         useContext(MusicsheetDisplayContext);
+    const { fetchMusicsheetPages, musicsheetPages, isLoading, hasError, setHasError } =
+        useFetchMusicsheetPages();
+    const { findDefaultVoice } = useDefaultVoices();
 
     const [imagesLoadedCount, setImagesLoadedCount] = useState(0);
+
+    useEffect(() => {
+        const voice = findDefaultVoice(musicsheet);
+        if (!voice) {
+            setHasError('musicsheet has no instrument voices');
+        }
+        if (voice) {
+            fetchMusicsheetPages(musicsheet.sheetId, voice.voiceId);
+        }
+    }, [musicsheet, voice]);
 
     // set musisheetPages for ImageGallery
     useEffect(() => {
@@ -90,20 +108,30 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
 
     return (
         <div className="relative">
-            <ImageGallery
-                items={pageImages}
-                ref={imageGalleryEl}
-                showIndex={true}
-                thumbnailPosition="left"
-                showThumbnails={showPagesPreview}
-                onScreenChange={e => setIsCarouselFullscreen(e)}
-                onBeforeSlide={nextIndex => {
-                    setCurrentPageIndex(nextIndex);
-                    initializeSketchpadLayers();
-                }}
-                onImageLoad={e => setImagesLoadedCount(prev => (prev += 1))}
-                onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
-            />
+            {!hasError && !isLoading && (
+                <ImageGallery
+                    items={pageImages}
+                    ref={imageGalleryEl}
+                    showIndex={true}
+                    thumbnailPosition="left"
+                    showThumbnails={showPagesPreview}
+                    onScreenChange={e => setIsCarouselFullscreen(e)}
+                    onBeforeSlide={nextIndex => {
+                        setCurrentPageIndex(nextIndex);
+                        initializeSketchpadLayers();
+                    }}
+                    onImageLoad={e => setImagesLoadedCount(prev => (prev += 1))}
+                    onErrorImageURL="/assets/images/musiclibrary/IMAGE_ERROR_1.jpg"
+                />
+            )}
+
+            {hasError ||
+                (isLoading && (
+                    <div class="h-screen">
+                        {hasError && <LoadingError errorMsg={hasError} />}
+                        {isLoading && <Loading />}
+                    </div>
+                ))}
         </div>
     );
 };

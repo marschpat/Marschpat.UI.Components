@@ -5,7 +5,6 @@ import Loading from './components/Loading';
 import LoadingError from './components/LoadingError';
 import useDefaultVoices from './utils/useDefaultVoices';
 import MusicsheetDialog from './components/MusicsheetDialog';
-import MusicsheetPagesLoader from './components/MusicsheetPagesLoader';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
 import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
@@ -19,8 +18,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
     const [musicsheetMetaData, setMusicsheetMetaData] = useState(null);
-    const [musicsheetPages, setMusicsheetPages] = useState(null);
-    const [findDefaultVoice, voiceFromId] = useDefaultVoices();
+    const { findDefaultVoice, voiceFromId } = useDefaultVoices();
     const { sheetId, voiceId = 0 } = useParams();
 
     /**
@@ -32,42 +30,44 @@ const MusicsheetLoader = ({ implementationMode }) => {
         async function fetchData() {
             const { success, data } = await fetchMusicsheetMetaData(sheetId);
             if (success) {
-                const voice = voiceId ? voiceFromId(data, voiceId) : findDefaultVoice(data);
                 setMusicsheetMetaData(data);
-                setInstrumentVoice(voice);
+                setIsLoading(false);
             }
             if (!success) handleLoadingError(data);
         }
         fetchData();
     }, [sheetId, voiceId]);
 
+    useEffect(() => {
+        if (musicsheetMetaData) {
+            const voice = voiceId
+                ? voiceFromId(musicsheetMetaData, voiceId)
+                : findDefaultVoice(musicsheetMetaData);
+            if (!voice) {
+                setHasError('musicsheet has no instrument voices');
+            }
+            if (voice) {
+                setInstrumentVoice(voice);
+            }
+        }
+    }, [musicsheetMetaData, voiceId]);
+
     return (
         <MusicsheetLoaderContext.Provider
             value={{
                 musicsheetMetaData,
-                musicsheetPages,
                 instrumentVoice,
                 setInstrumentVoice,
                 implementationMode,
             }}
         >
-            {musicsheetMetaData && instrumentVoice && (
-                <MusicsheetPagesLoader
-                    musicsheet={musicsheetMetaData}
-                    candidateVoiceId={instrumentVoice.voiceId}
-                    setIsLoading={setIsLoading}
-                    handleLoadingError={handleLoadingError}
-                    handleMusicsheetPagesLoaded={handleMusicsheetPagesLoaded}
-                >
-                    {musicsheetPages && !isLoading && <MusicsheetDialog />}
-                </MusicsheetPagesLoader>
-            )}
+            {musicsheetMetaData && instrumentVoice && <MusicsheetDialog />}
 
             {/* while loading */}
             {isLoading && <Loading />}
 
             {/* when error occurs */}
-            {hasError && !isLoading && <LoadingError errorMsg={hasError} />}
+            {hasError && <LoadingError errorMsg={hasError} />}
         </MusicsheetLoaderContext.Provider>
     );
 
@@ -87,12 +87,8 @@ const MusicsheetLoader = ({ implementationMode }) => {
         }
     }
 
-    function handleMusicsheetPagesLoaded(pages) {
-        setMusicsheetPages(pages);
-        setIsLoading(false);
-    }
-
     function handleLoadingError(error = true) {
+        console.log('my error?', error);
         setIsLoading(false);
         setHasError(error);
     }
