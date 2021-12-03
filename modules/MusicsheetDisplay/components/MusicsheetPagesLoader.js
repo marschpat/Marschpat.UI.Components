@@ -1,7 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
-import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetPagesLoader = ({
     children,
@@ -10,22 +8,12 @@ const MusicsheetPagesLoader = ({
     handleMusicsheetPagesLoaded,
     handleLoadingError,
 }) => {
-    // const {
-    //     musicsheetMetaData: musicsheet,
-    //     instrumentVoice: voice,
-    //     handleLoadingError,
-    //     handleMusicsheetPagesLoaded,
-    //     implementationMode,
-    //     setIsLoading,
-    // } = useContext(MusicsheetLoaderContext);
     const [downloadLinks, setDownloadLinks] = useState(null);
 
     useEffect(() => {
-        console.log('MusicsheetPagesLoader sheet and or voice changed', { sheetId, voiceId });
         if (sheetId && voiceId) {
             async function fetchData() {
                 const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
-                console.log('okay, what happens? ', { success, data });
                 if (success) {
                     setDownloadLinks(data);
                     handleMusicsheetPagesLoaded(data);
@@ -39,7 +27,6 @@ const MusicsheetPagesLoader = ({
     }, [sheetId, voiceId]);
 
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
-        console.log('kay?', `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`);
         try {
             const response = await axios.post(
                 `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
