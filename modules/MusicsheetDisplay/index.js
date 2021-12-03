@@ -53,10 +53,11 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 <MusicsheetPagesLoader
                     sheetId={musicsheetMetaData.sheetId}
                     voiceId={instrumentVoice.voiceId}
+                    setIsLoading={setIsLoading}
                     handleLoadingError={handleLoadingError}
                     handleMusicsheetPagesLoaded={handleMusicsheetPagesLoaded}
                 >
-                    {musicsheetPages && <MusicsheetDialog />}
+                    {musicsheetPages && !isLoading && <MusicsheetDialog />}
                 </MusicsheetPagesLoader>
             )}
 
@@ -64,7 +65,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
             {isLoading && <Loading />}
 
             {/* when error occurs */}
-            {hasError && <LoadingError errorMsg={hasError} />}
+            {hasError && !isLoading && <LoadingError errorMsg={hasError} />}
         </MusicsheetLoaderContext.Provider>
     );
 
@@ -117,7 +118,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
             defaultVoice = voice;
         }
 
-        if (!defaultVoice) handleLoadingError('no default voice for musicsheet');
+        // if (!defaultVoice) handleLoadingError('no default voice for musicsheet');
 
         return defaultVoice;
     }

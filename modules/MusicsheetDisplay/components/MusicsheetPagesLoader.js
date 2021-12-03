@@ -5,6 +5,7 @@ const MusicsheetPagesLoader = ({
     children,
     sheetId,
     voiceId,
+    setIsLoading,
     handleMusicsheetPagesLoaded,
     handleLoadingError,
 }) => {
@@ -13,6 +14,7 @@ const MusicsheetPagesLoader = ({
     useEffect(() => {
         if (sheetId && voiceId) {
             async function fetchData() {
+                setIsLoading(true);
                 const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
                 if (success) {
                     setDownloadLinks(data);
