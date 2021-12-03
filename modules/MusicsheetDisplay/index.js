@@ -88,7 +88,6 @@ const MusicsheetLoader = ({ implementationMode }) => {
     }
 
     function handleLoadingError(error = true) {
-        console.log('my error?', error);
         setIsLoading(false);
         setHasError(error);
     }
