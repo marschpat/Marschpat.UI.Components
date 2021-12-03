@@ -19,7 +19,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
     const [musicsheetPages, setMusicsheetPages] = useState(null);
     const [musicsheetMetaData, setMusicsheetMetaData] = useState(null);
     const [downloadLinks, setDownloadLinks] = useState(null);
-    const [currentVoice, setCurrentVoice] = useState(null);
+    const [current, setCurrent] = useState({ sheet: null, voice: null });
     const { sheetId, voiceId = 0 } = useParams();
 
     /**
@@ -27,6 +27,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
      * find the default instrument voice (if no voiceId provided as url param)
      */
     useEffect(() => {
+        console.log('sheet id changed', sheetId);
         setIsLoading(true);
         async function fetchData() {
             const { success, data } = await fetchMusicsheetMetaData(sheetId);
@@ -42,16 +43,19 @@ const MusicsheetLoader = ({ implementationMode }) => {
     }, [sheetId]);
 
     useEffect(() => {
-        if (instrumentVoice && currentVoice !== instrumentVoice.voiceId) {
+        console.log('musheDa or InstVoi changed', { musicsheetMetaData, instrumentVoice });
+        const sheetId = musicsheetMetaData ? musicsheetMetaData.sheetId : null;
+        const voiceId = instrumentVoice ? instrumentVoice.voiceId : null;
+        const isTheSame = sheetId === current.sheet && voiceId === current.voice;
+
+        if (sheetId && voiceId && !isTheSame) {
             async function fetchData() {
+                console.log('fetching new', { sheet: sheetId, voice: voiceId });
                 setIsLoading(true);
-                const { success, data } = await fetchAllMusicsheetVoicePages(
-                    musicsheetMetaData.sheetId,
-                    instrumentVoice.voiceId
-                );
+                const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
                 if (success) {
                     setDownloadLinks(data);
-                    setCurrentVoice(instrumentVoice.voiceId);
+                    setCurrent({ sheet: sheetId, voice: voiceId });
                     setHasError(false);
                     setIsLoading(false);
                 }
@@ -61,9 +65,10 @@ const MusicsheetLoader = ({ implementationMode }) => {
             }
             fetchData();
         }
-    }, [instrumentVoice]);
+    }, [musicsheetMetaData, instrumentVoice]);
 
     useEffect(() => {
+        console.log('downloadlinks changed', downloadLinks);
         if (downloadLinks) {
             handleMusicsheetPagesLoaded(downloadLinks);
         }
