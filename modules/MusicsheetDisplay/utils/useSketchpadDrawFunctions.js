@@ -1,4 +1,3 @@
-import LoginForm from 'app/main/login/LoginForm';
 import { useState } from 'react';
 
 const useSketchpadDrawFunctions = mode => {
