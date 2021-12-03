@@ -1,34 +1,49 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useDefaultVoices from '../utils/useDefaultVoices';
 
 const MusicsheetPagesLoader = ({
     children,
-    sheetId,
-    voiceId,
+    musicsheet,
+    candidateVoiceId,
     setIsLoading,
     handleMusicsheetPagesLoaded,
     handleLoadingError,
 }) => {
     const [downloadLinks, setDownloadLinks] = useState(null);
+    const [current, setCurrent] = useState({ sheet: null, voice: null });
+    const [findDefaultVoice, voiceFromId, isExistingVoice] = useDefaultVoices();
 
     useEffect(() => {
-        if (sheetId && voiceId) {
-            async function fetchData() {
+        if (musicsheet && candidateVoiceId) {
+            async function fetchMusicsheetPages(voiceId) {
                 setIsLoading(true);
-                const { success, data } = await fetchAllMusicsheetVoicePages(sheetId, voiceId);
+
+                const { success, data } = await fetchAllMusicsheetVoicePages(
+                    musicsheet.sheetId,
+                    voiceId
+                );
                 if (success) {
                     setDownloadLinks(data);
+                    setCurrent({ sheet: musicsheet.sheetId, voice: voiceId });
                     handleMusicsheetPagesLoaded(data);
                 }
                 if (!success) {
                     handleLoadingError(data);
                 }
             }
-            fetchData();
-        }
-    }, [sheetId, voiceId]);
 
-    async function fetchAllMusicsheetVoicePages(sheetId, voiceId = 0, type = 'rendered') {
+            const voiceId = isExistingVoice(candidateVoiceId, musicsheet.voices)
+                ? candidateVoiceId
+                : findDefaultVoice(musicsheet).voiceId;
+
+            if (musicsheet.sheetId !== current.sheet || voiceId !== current.voice) {
+                fetchMusicsheetPages(voiceId);
+            }
+        }
+    }, [musicsheet, candidateVoiceId]);
+
+    async function fetchAllMusicsheetVoicePages(sheetId, voiceId, type = 'rendered') {
         try {
             const response = await axios.post(
                 `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`

@@ -53,8 +53,8 @@ const MusicsheetLoader = ({ implementationMode }) => {
         >
             {musicsheetMetaData && instrumentVoice && (
                 <MusicsheetPagesLoader
-                    sheetId={musicsheetMetaData.sheetId}
-                    voiceId={instrumentVoice.voiceId}
+                    musicsheet={musicsheetMetaData}
+                    candidateVoiceId={instrumentVoice.voiceId}
                     setIsLoading={setIsLoading}
                     handleLoadingError={handleLoadingError}
                     handleMusicsheetPagesLoaded={handleMusicsheetPagesLoaded}

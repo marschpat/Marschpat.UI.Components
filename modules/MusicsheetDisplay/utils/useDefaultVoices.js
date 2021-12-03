@@ -35,13 +35,15 @@ function useDefaultVoices() {
     function checkForFavoriteVoice(availableVoices) {
         if (localStorage.getItem('favVoice')) {
             const favVoice = JSON.parse(localStorage.getItem('favVoice'));
-            const validFavVoice = availableVoices.some(
-                existingVoice => existingVoice.voiceId === favVoice.voiceId
-            );
+            const validFavVoice = isExistingVoice(favVoice.voiceId, availableVoices);
             if (validFavVoice) return favVoice;
         }
 
         return false;
+    }
+
+    function isExistingVoice(voiceId, availableVoices) {
+        return availableVoices.some(existingVoice => existingVoice.voiceId === voiceId);
     }
 
     /**
@@ -97,7 +99,7 @@ function useDefaultVoices() {
         return voice;
     }
 
-    return [findDefaultVoice, voiceFromId];
+    return [findDefaultVoice, voiceFromId, isExistingVoice];
 }
 
 export default useDefaultVoices;
