@@ -36,7 +36,7 @@ const MusicsheetDisplay = props => {
             }
         }
         fetchData();
-    }, [sheetId]);
+    }, [sheetId, voiceId]);
 
     function initializeLayers(layers) {
         return layers.map(item => ({ ...item, active: false }));

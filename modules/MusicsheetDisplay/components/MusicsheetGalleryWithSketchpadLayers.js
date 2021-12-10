@@ -21,7 +21,6 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     const { fetchMusicsheetPages, musicsheetPages, isLoading, hasError, setHasError } =
         useFetchMusicsheetPages();
     const { findDefaultVoice } = useDefaultVoices();
-
     const [imagesLoadedCount, setImagesLoadedCount] = useState(0);
 
     useEffect(() => {
