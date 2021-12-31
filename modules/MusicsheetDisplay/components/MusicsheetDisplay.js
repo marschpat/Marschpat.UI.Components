@@ -21,7 +21,8 @@ const MusicsheetDisplay = props => {
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading } =
         useContext(MusicsheetLoaderContext);
-    const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
+    const withSketchpadFeature = true;
+    // const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetId;
 
