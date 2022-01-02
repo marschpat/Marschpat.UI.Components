@@ -64,7 +64,8 @@ const MusicsheetDisplay = props => {
         console.log('persisting layer', layer);
         await axios
             .post(
-                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
+                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`,
+                layer
             )
             .then(response => {
                 console.log('okay! sketchpad layer persisted', response);
