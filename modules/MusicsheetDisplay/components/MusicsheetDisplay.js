@@ -31,9 +31,6 @@ const MusicsheetDisplay = props => {
             await initializeFromQueryParams();
             if (withSketchpadFeature) {
                 await fetchSketchpadLayers();
-                const layers = require('../layers.example.js');
-                const layersInit = initializeLayers(layers);
-                setSketchpadLayers(layersInit);
             }
         }
         fetchData();
@@ -53,6 +50,8 @@ const MusicsheetDisplay = props => {
         await axios
             .get(url)
             .then(response => {
+                const layersInit = initializeLayers(response.data);
+                setSketchpadLayers(layersInit);
                 console.log('fetched sketchpad layers', response);
             })
             .catch(error => {
