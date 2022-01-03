@@ -47,7 +47,7 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
         if (isCarouselFullscreen) {
             imageGalleryEl.current.fullScreen();
         }
-    }, [isCarouselFullscreen]);
+    }, [isCarouselFullscreen, imageGalleryEl]);
 
     useEffect(() => {
         initializeSketchpadLayers();
