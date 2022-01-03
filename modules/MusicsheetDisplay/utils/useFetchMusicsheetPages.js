@@ -3,7 +3,7 @@ import axios from 'axios';
 
 function useFetchMusicsheetPages() {
     const [hasError, setHasError] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
     const [musicsheetPages, setMusicsheetPages] = useState([]);
 
     async function fetchMusicsheetPages(sheetId, voiceId) {
