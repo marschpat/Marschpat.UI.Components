@@ -65,6 +65,7 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
                         brushColor={layerOptions.color}
                         brushRadius={layerOptions.size}
                         hideGrid={true}
+                        lazyRadius={0}
                     />
                 </div>
             )}
