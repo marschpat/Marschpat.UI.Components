@@ -14,17 +14,31 @@ import {
 } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
+    const user = props.user;
+    const organisation = props.organisation;
     const [viewMode, setViewMode] = useState('view');
     const [inPlaylist, setInPlaylist] = useState(null);
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
-    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading } =
+    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading, allowLayerCreation, setAllowLayerCreation } =
         useContext(MusicsheetLoaderContext);
     const withSketchpadFeature = true;
     // const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetId;
+
+    useEffect(() => {
+        if(musicsheetMetaData.isPrivate) {
+            if(musicsheetMetaData.ownerType == 'Organisation') {
+                let member = organisation.members.find(x => x.userId == user.userId);
+                setAllowLayerCreation(member && member.isAdmin);
+            }
+            else if(musicsheetMetaData.ownerType == 'PrivateUser') {
+                setAllowLayerCreation(musicsheetMetaData.ownerId == user.userId);
+            }
+        }
+    }, [musicsheetMetaData])
 
     useEffect(() => {
         async function fetchData() {
@@ -105,6 +119,7 @@ const MusicsheetDisplay = props => {
                 musicsheetId={sheetId}
                 inPlaylist={inPlaylist}
                 withSketchpadFeature={withSketchpadFeature}
+                allowLayerCreation={allowLayerCreation}
             />
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">

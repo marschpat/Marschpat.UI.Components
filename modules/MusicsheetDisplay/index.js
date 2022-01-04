@@ -18,6 +18,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
     const [musicsheetMetaData, setMusicsheetMetaData] = useState(null);
+    const [allowLayerCreation, setAllowLayerCreation] = useState(false);
     const { findDefaultVoice, voiceFromId } = useDefaultVoices();
     const { sheetId, voiceId = 0 } = useParams();
 
@@ -59,6 +60,8 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 instrumentVoice,
                 setInstrumentVoice,
                 implementationMode,
+                allowLayerCreation,
+                setAllowLayerCreation
             }}
         >
             {musicsheetMetaData && instrumentVoice && <MusicsheetDialog />}

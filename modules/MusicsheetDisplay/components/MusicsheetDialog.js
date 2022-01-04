@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import MusicsheetDisplay from './MusicsheetDisplay';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
@@ -8,13 +9,19 @@ import Slide from '@material-ui/core/Slide';
 
 const MusicsheetDialog = () => {
     const history = useHistory();
+    const user = useSelector(({ auth }) => auth.user);
+    const organisation = useSelector(({ marschpat }) => marschpat.organisation);
     const { musicsheetMetaData, implementationMode } = useContext(MusicsheetLoaderContext);
     const [isOpen, setIsOpen] = useState(!!musicsheetMetaData);
 
     return (
         <Dialog fullScreen open={isOpen} onClose={closeDialog} TransitionComponent={Transition}>
             <div className="p-20">
-                <MusicsheetDisplay handleClose={closeDialog} />
+                <MusicsheetDisplay
+                    user={user}
+                    organisation={organisation}
+                    handleClose={closeDialog}
+                />
             </div>
         </Dialog>
     );
