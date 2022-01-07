@@ -32,7 +32,6 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
     async function fetchImageDimensions() {
         const { success, data } = await fetchMusicsheetVoicePage(props.page.musicSheetId, props.page.voiceId, props.page.pageIndex);
         if (success) {
-            console.log('neww datas', data);
             const img = new Image();
             img.src = data.downloadLink;
             img.onload = () => {
@@ -43,6 +42,7 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
 
     async function fetchMusicsheetVoicePage(sheetId, voiceId, pageIndex) {
         try {
+            // @ToDo: Backend: be sure to return a new **unique** link here!
             const response = await axios.post(`musiclibrary/${sheetId}/download/${voiceId}/${pageIndex}`);
             const success = response?.data ? true : false;
             const data = success ? response.data : 'invalid API response (no data)';
