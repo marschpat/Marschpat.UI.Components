@@ -10,7 +10,7 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
     const [pageDimensions, setPageDimensions] = useState(null);
 
     // fetch pageimage for pageIndex again to determine original image dimensions
-    // @ToDo double requests: find a better way to do this!
+    // @ToDo double requests: find a better way to do this! (e.g.: receiving the original image dimensions from the backend)
     useEffect(() => {
         fetchImageDimensions();
     }, []);
@@ -30,14 +30,20 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
     }));
 
     async function fetchImageDimensions() {
-        const { success, data } = await fetchMusicsheetVoicePage(props.page.musicSheetId, props.page.voiceId, props.page.pageIndex);
-        if (success) {
-            const img = new Image();
-            img.src = data.downloadLink;
-            img.onload = () => {
-                setPageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+        // sorry for the dirty workaround.
+        // we have to make sure to receive a fresh (new) pageImage s3 link here, 
+        // to avoid chrome / windows bug (chrome blocks the multiple img request).
+        // @ToDo: remove setTimeout function (line37 & line46) if backend always returns a unique link for sure
+        setTimeout(async () => {
+            const { success, data } = await fetchMusicsheetVoicePage(props.page.musicSheetId, props.page.voiceId, props.page.pageIndex);
+            if (success) {
+                const img = new Image();
+                img.src = data.downloadLink;
+                img.onload = () => {
+                    setPageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+                }
             }
-        }
+        }, 1001);
     }
 
     async function fetchMusicsheetVoicePage(sheetId, voiceId, pageIndex) {
