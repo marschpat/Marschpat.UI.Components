@@ -88,7 +88,7 @@ const MetaDataForm = props => {
                 <ChooseOrCreateSelector
                     label="Verlag"
                     labelAttr="name"
-                    fetchOptionsUrl="/publisher"
+                    fetchOptionsUrl="/publisher?publisherUnderLicenseOnly=true"
                     initialValue={metaData.publisherId}
                     initialCustomOption={metaData.publisher}
                     resetState={props.resetState}
