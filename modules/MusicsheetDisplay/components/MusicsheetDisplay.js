@@ -4,6 +4,7 @@ import Loading from './Loading';
 import Sketchpad from './sketchpad/Sketchpad';
 import FullscreenHeader from './FullscreenHeader';
 import MusicsheetGalleryWithSketchpadLayers from './MusicsheetGalleryWithSketchpadLayers';
+import useDispatchFlashMessage from '@marschpat/local/utils/useDispatchFlashMessage';
 import {
     MusicsheetDisplayContext,
     MusicsheetLoaderContext,
@@ -14,29 +15,42 @@ import {
 } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
 const MusicsheetDisplay = props => {
+    const user = props.user;
+    const organisation = props.organisation;
     const [viewMode, setViewMode] = useState('view');
     const [inPlaylist, setInPlaylist] = useState(null);
     const [showPagesPreview, setShowPagesPreview] = useState(true);
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
-    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading } =
+    const dispatchFlashMessage = useDispatchFlashMessage();
+    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading, allowLayerCreation, setAllowLayerCreation } =
         useContext(MusicsheetLoaderContext);
-    const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
+    const withSketchpadFeature = true;
+    // const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetId;
+
+    useEffect(() => {
+        if(musicsheetMetaData.isPrivate) {
+            if(musicsheetMetaData.ownerType == 'Organisation') {
+                let member = organisation.members.find(x => x.userId == user.userId);
+                setAllowLayerCreation(member && member.isAdmin);
+            }
+            else if(musicsheetMetaData.ownerType == 'PrivateUser') {
+                setAllowLayerCreation(musicsheetMetaData.ownerId == user.userId);
+            }
+        }
+    }, [musicsheetMetaData])
 
     useEffect(() => {
         async function fetchData() {
             await initializeFromQueryParams();
             if (withSketchpadFeature) {
                 await fetchSketchpadLayers();
-                const layers = require('../layers.example.js');
-                const layersInit = initializeLayers(layers);
-                setSketchpadLayers(layersInit);
             }
         }
         fetchData();
-    }, [sheetId]);
+    }, [sheetId, voiceId]);
 
     function initializeLayers(layers) {
         return layers.map(item => ({ ...item, active: false }));
@@ -47,29 +61,29 @@ const MusicsheetDisplay = props => {
     }
 
     async function fetchSketchpadLayers() {
-        console.log('fetching sketchpad layers', { sheetId, voiceId });
         const url = `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${sheetId}/${voiceId}`;
         await axios
             .get(url)
             .then(response => {
-                console.log('fetched sketchpad layers', response);
+                const layersInit = initializeLayers(response.data);
+                setSketchpadLayers(layersInit);
             })
             .catch(error => {
-                console.error(`Fetching sketchpad layers from ${url} failed with an error.`, error);
+                dispatchFlashMessage("Fehler beim Laden der Notizen.");
             });
     }
 
     async function persistSketchpadLayerInDb(layer) {
-        console.log('persisting layer', layer);
         await axios
             .post(
-                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`
+                `${apiRoutes[implementationMode].musiclibrary}/sketchpad/${layer.sheetId}/${layer.voiceId}`,
+                layer
             )
             .then(response => {
-                console.log('okay! sketchpad layer persisted', response);
+                dispatchFlashMessage("Notiz gespeichert :)", 'success');
             })
             .catch(error => {
-                console.error(`Persisting sketchpad layer failed with an error.`, error);
+                dispatchFlashMessage("Fehler beim Speichern der Notiz, bitte probieren Sie es erneut.");
             });
     }
 
@@ -81,7 +95,7 @@ const MusicsheetDisplay = props => {
                 setInPlaylist(response.data);
             })
             .catch(error => {
-                console.error(`Fetching playlist ${playlistId} falied with an error.`, error);
+                dispatchFlashMessage("Fehler beim Laden der Playlist, bitte versuchen Sie es erneut.");
             });
     }
 
@@ -104,6 +118,7 @@ const MusicsheetDisplay = props => {
                 musicsheetId={sheetId}
                 inPlaylist={inPlaylist}
                 withSketchpadFeature={withSketchpadFeature}
+                allowLayerCreation={allowLayerCreation}
             />
 
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">

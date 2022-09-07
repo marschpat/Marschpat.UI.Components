@@ -26,7 +26,9 @@ function FullscreenHeader(props) {
                     </div>
                     {props.withSketchpadFeature && (
                         <div className="flex-1 flex items-center md:justify-center">
-                            <ToggleSketchpadButton />
+                           {props.allowLayerCreation && (
+                                <ToggleSketchpadButton />
+                           )} 
                             <LayersSelect />
                         </div>
                     )}

@@ -22,20 +22,30 @@ class MusicsheetDownloadApiAdapter {
         });
     }
 
+    // sorry for the mess here. we need to catch the possibility of legacy `whatsoeverID` naming
+    // (insted of `whatsoeverId` as it should be) :(
     getMetaData() {
+        const tags =
+            this.rawData.tags && this.rawData.tags.length > 0
+                ? this.rawData.tags.map(tag => {
+                      const tId = tag.tagId ?? tag.tagID;
+                      return { tagId: tId };
+                  })
+                : [];
+
         return {
             title: this.rawData.title || '',
             subtitle: this.rawData.subTitle || '',
-            arrangerId: this.rawData.arrangeurId || 0,
+            arrangerId: (this.rawData.arrangeurId ?? this.rawData.arrangeurID) || 0,
             arranger: this.rawData.customArrangeur || '',
-            composerId: this.rawData.composerId || 0,
+            composerId: (this.rawData.composerId ?? this.rawData.composerID) || 0,
             composer: this.rawData.customComposer || '',
-            publisherId: this.rawData.publisherId || 0,
+            publisherId: (this.rawData.publisherId ?? this.rawData.publisherID) || 0,
             publisher: this.rawData.customPublisher || '',
             copyright: this.rawData.copyright || '',
             iswc: this.rawData.iswc || '',
-            castId: this.rawData.castId || null,
-            tags: this.rawData.tags || [],
+            castId: (this.rawData.castId ?? this.rawData.castID) || null,
+            tags: tags,
         };
     }
 
@@ -59,11 +69,16 @@ class MusicsheetDownloadApiAdapter {
         }
 
         return voices.map(voice => {
-            const voiceId = voice.voiceId;
+            const voiceId = voice.voiceId ?? voice.voiceID;
             if (!voiceOptions) {
                 return { value: voiceId, label: voice.label, voiceId: voiceId };
             }
-            const voiceOption = voiceOptions.find(item => item.voiceId === voiceId);
+
+            const voiceOption = voiceOptions.find(item => {
+                const vId = item.voiceId ?? item.voiceID;
+                return vId === voiceId;
+            });
+
             return (
                 voiceOption ?? {
                     value: voiceId,

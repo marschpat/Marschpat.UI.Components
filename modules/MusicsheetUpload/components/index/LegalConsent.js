@@ -25,11 +25,7 @@ const LegalConsent = ({ agreed, handleChange }) => {
                         <div className="max-w-lg ml-12 text-base">
                             <div className="mt-10">
                                 <p className={!agreed ? 'text-red-500' : ''}>
-                                    Hiermit bestätige ich explizit, dass ich die notwendigen Rechte
-                                    der Musikstücke bzw. Einzelstimmen besitze und somit die Rechte
-                                    Dritter nicht verletzt werden. MARSCHPAT weißt darauf hin, dass
-                                    das Vervielfältigen und die Weitergabe von Musiknoten an Dritte
-                                    urheberrechtlich verboten ist.
+                                    Hiermit bestätige ich explizit, dass ich die notwendigen Rechte der Musikstücke bzw. Einzelstimmen besitze und somit die Rechte Dritter nicht verletzt werden. MARSCHPAT weißt darauf hin, dass das Vervielfältigen und die Weitergabe von Musiknoten an Dritte urheberrechtlich verboten ist. Die hochgeladenen Musikstücke stehen nur dem jeweiligen Verein/Einzeluser zur internen Verwendung zur Verfügung und werden von MARSCHPAT nicht öffentlich gestellt und auch nicht an Dritte weitergegeben.
                                 </p>
                             </div>
                         </div>
