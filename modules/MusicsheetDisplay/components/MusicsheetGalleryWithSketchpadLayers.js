@@ -104,25 +104,10 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     function allImagesLoaded() {
         return pageImages.length === imagesLoadedCount;
     }
-    function renderImage(item) {
-       /*  if (item.original.includes('PLACEHOLDER')) {
-            return (
-                <div className="m-256">
-                    <FuseLoading />
-                </div>
-            );
-        } */
-        /* return (
-			<div className="m-256">
-				<FuseLoading />
-			</div>
-		); */
+    function renderImage(item) {       
         return (
             <div>
                 <img
-                   /*  className={
-                        'image-gallery-image ' + `${props.vertical ? 'vertical' : 'horizontal'}`
-                    } */
                     onContextMenu={(e)=> e.preventDefault()}
                     className={
                         'image-gallery-image horizontal'
@@ -131,11 +116,21 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
                     alt={item.originalAlt}
                     srcSet={item.srcSet}
                     sizes={item.sizes}
-                    /* onLoad={props.onImageLoad}
-                    onError={onImageError} */
                 />
-                {/* <h1>Pages:{musicsheetFile.length}</h1> */}
-                {/* ADD HERE ANYTHING YOU WANT IN OUR CUSTOM MP RENDERER :)*/}
+            </div>
+        );
+    }
+    function renderThumbInner(item) {
+
+        return (
+            <div>
+                <img
+                    onContextMenu={(e)=> e.preventDefault()}
+                    src={item.original}
+                    alt={item.originalAlt}
+                    srcSet={item.srcSet}
+                    sizes={item.sizes}
+                />
             </div>
         );
     }
@@ -145,6 +140,7 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
                 <ImageGallery
                     items={pageImages}
                     renderItem={renderImage}
+                    renderThumbInner={renderThumbInner}
                     ref={imageGalleryEl}
                     showIndex={true}
                     thumbnailPosition="left"
