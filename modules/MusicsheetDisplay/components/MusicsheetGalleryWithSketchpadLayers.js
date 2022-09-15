@@ -104,12 +104,43 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     function allImagesLoaded() {
         return pageImages.length === imagesLoadedCount;
     }
+    function renderImage(item) {       
+        return (
+            <div>
+                <img
+                    onContextMenu={(e)=> e.preventDefault()}
+                    className={
+                        'image-gallery-image horizontal'
+                    }
+                    src={item.original}
+                    alt={item.originalAlt}
+                    srcSet={item.srcSet}
+                    sizes={item.sizes}
+                />
+            </div>
+        );
+    }
+    function renderThumbInner(item) {
 
+        return (
+            <div>
+                <img
+                    onContextMenu={(e)=> e.preventDefault()}
+                    src={item.original}
+                    alt={item.originalAlt}
+                    srcSet={item.srcSet}
+                    sizes={item.sizes}
+                />
+            </div>
+        );
+    }
     return (
         <div className="relative">
             {!hasError && !isLoading && (
                 <ImageGallery
                     items={pageImages}
+                    renderItem={renderImage}
+                    renderThumbInner={renderThumbInner}
                     ref={imageGalleryEl}
                     showIndex={true}
                     thumbnailPosition="left"
