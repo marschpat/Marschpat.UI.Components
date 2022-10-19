@@ -28,7 +28,8 @@ const UploadScopeSelector = props => {
         user,
         organisation
     );
-    const initialState = () => (hasUserSubscribedRole() ? 'private' : 'organisation');
+    const initialState = () =>
+        hasUserSubscribedRole() && user.contextId === 0 ? 'private' : 'organisation';
     const allowAdminActions = () => {
         if (implementationMode === MP_EDU) {
             return organisation && (user.isAdmin || user.isTeacher);
@@ -77,7 +78,7 @@ const UploadScopeSelector = props => {
                     aria-label="upload-scope"
                     required
                 >
-                    {hasUserSubscribedRole() && (
+                    {hasUserSubscribedRole() && user.contextId === 0 && (
                         <FormControlLabel
                             value="private"
                             control={<Radio />}
@@ -87,17 +88,20 @@ const UploadScopeSelector = props => {
                             className="-mb-12"
                         />
                     )}
-                    {organisation && hasUserJumpSeatRole() && allowAdminActions() && (
-                        <FormControlLabel
-                            value="organisation"
-                            control={<Radio />}
-                            label={
-                                <Typography>
-                                    {labelTexts[implementationMode].org + organisation?.name}
-                                </Typography>
-                            }
-                        />
-                    )}
+                    {organisation &&
+                        hasUserJumpSeatRole() &&
+                        allowAdminActions() &&
+                        user.contextId === 1 && (
+                            <FormControlLabel
+                                value="organisation"
+                                control={<Radio />}
+                                label={
+                                    <Typography>
+                                        {labelTexts[implementationMode].org + organisation?.name}
+                                    </Typography>
+                                }
+                            />
+                        )}
                 </RadioGroup>
             </FormControl>
         </section>
