@@ -11,10 +11,13 @@ import CardContent from '@material-ui/core/CardContent';
 const UsagePermissionCheck = props => {
     const { implementationMode, user, organisation } = useContext(UploaderContext);
     const history = useHistory();
-    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(
-        user,
-        organisation
-    );
+    const [
+        hasUserSubscribedRole,
+        hasUserJumpSeatRole,
+        hasUserJumpSeatRoleOnly,
+        isAdmin,
+        hasUserTrialExpired,
+    ] = useHasUserRoles(user, organisation);
 
     function isAllowedToUse() {
         if (implementationMode === MP_WEB) {

@@ -23,10 +23,13 @@ const labelTexts = {
 const UploadScopeSelector = props => {
     const { implementationMode, user, organisation, inHelpMode } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
-    const [hasUserSubscribedRole, hasUserJumpSeatRole, isAdmin] = useHasUserRoles(
-        user,
-        organisation
-    );
+    const [
+        hasUserSubscribedRole,
+        hasUserJumpSeatRole,
+        hasUserJumpSeatRoleOnly,
+        isAdmin,
+        hasUserTrialExpired,
+    ] = useHasUserRoles(user, organisation);
     const initialState = () =>
         hasUserSubscribedRole() && user.contextId === 0 ? 'private' : 'organisation';
     const allowAdminActions = () => {
