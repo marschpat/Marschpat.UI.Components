@@ -12,6 +12,11 @@ import EditModeInspector from './components/musicsheetEdit/EditModeInspector';
 import InstrumentSheetEditDialog from './InstrumentSheetEditDialog';
 import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
+import i18next from 'i18next';
+import { de, en } from './uploader-i18n';
+
+i18next.addResourceBundle('de', 'uploader', de);
+i18next.addResourceBundle('en', 'uploader', en);
 
 /**
  * MusicsheetUpload index

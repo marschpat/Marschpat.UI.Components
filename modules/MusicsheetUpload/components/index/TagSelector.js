@@ -4,8 +4,10 @@ import InfoTooltip from '../InfoTooltip';
 import { UploaderContext } from '../../context/UploaderContext';
 import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { useTranslation } from 'react-i18next';
 
 const TagSelector = props => {
+    const { t } = useTranslation(['uploader']);
     const [tagOptions, setTagOptions] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const { implementationMode, inHelpMode } = useContext(UploaderContext);
@@ -61,9 +63,9 @@ const TagSelector = props => {
             <FuseChipSelect
                 value={selectedTags}
                 onChange={value => setSelectedTags(value)}
-                placeholder="Tag's zuordnen"
+                placeholder={t('TAGS_SELECT')}
                 textFieldProps={{
-                    label: 'Tags',
+                    label: t('TAGS'),
                     InputLabelProps: {
                         shrink: true,
                     },

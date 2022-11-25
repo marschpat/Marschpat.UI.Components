@@ -4,8 +4,10 @@ import { UploaderContext } from '../../context/UploaderContext';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentCastSelector = props => {
+    const { t } = useTranslation(['uploader']);
     const dispatchConfirm = useDispatchConfirmDialog();
     const showError = props.error ? true : false;
     const castOptions = props.castOptions ?? [];
@@ -24,9 +26,9 @@ const InstrumentCastSelector = props => {
         if (warningRequired) {
             dispatchConfirm(
                 () => handleChange(cast),
-                'Besetzung wirklich ändern?',
-                'Besetzung wirklich ändern? Zuordnung bereits zugewiesener Stimmen gehen dadurch verloren.',
-                'Besetzung ändern'
+                t('CAST_WARNING_HL'),
+                t('CAST_WARNING_TEXT'),
+                t('CAST_WARNING_CONFIRM')
             );
         }
     };
@@ -56,9 +58,9 @@ const InstrumentCastSelector = props => {
             <FuseChipSelect
                 value={selectedCast}
                 onChange={handleCastChange}
-                placeholder="Besetzung auswählen"
+                placeholder={t('CAST_SELECT')}
                 textFieldProps={{
-                    label: 'Besetzung',
+                    label: t('CAST'),
                     InputLabelProps: {
                         shrink: true,
                     },

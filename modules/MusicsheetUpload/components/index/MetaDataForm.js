@@ -12,14 +12,19 @@ import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationM
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
+    const { t } = useTranslation(['uploader']);
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(implementationMode);
+    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(
+        t,
+        implementationMode
+    );
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
@@ -55,7 +60,7 @@ const MetaDataForm = props => {
         <section>
             <div className="flex items-center justify-between">
                 <Typography variant="h6" className="font-bold">
-                    Grunddaten des Musikstücks
+                    {t('META_HL')}
                 </Typography>
                 <BrowserSupportNote />
                 <EmbedVideo />
@@ -63,7 +68,7 @@ const MetaDataForm = props => {
             </div>
             <div className="flex flex-wrap pl-24">
                 <TextInput
-                    label="Titel des Musikstücks"
+                    label={t('META_TITLE')}
                     name="title"
                     value={metaData.title}
                     onChange={event => setMetaData({ ...metaData, title: event.target.value })}
@@ -86,7 +91,7 @@ const MetaDataForm = props => {
                 )}
 
                 <ChooseOrCreateSelector
-                    label="Verlag"
+                    label={t('PUBLISHER')}
                     labelAttr="name"
                     fetchOptionsUrl="/publisher?publisherUnderLicenseOnly=true"
                     initialValue={metaData.publisherId}
@@ -95,7 +100,7 @@ const MetaDataForm = props => {
                     handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
                 />
                 <ChooseOrCreateSelector
-                    label="Komponist"
+                    label={t('COMPOSER')}
                     options={personOptions}
                     resetState={props.resetState}
                     initialValue={metaData.composerId}
@@ -103,7 +108,7 @@ const MetaDataForm = props => {
                     handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
                 />
                 <ChooseOrCreateSelector
-                    label="Arrangeur"
+                    label={t('ARRANGER')}
                     options={personOptions}
                     resetState={props.resetState}
                     initialValue={metaData.arrangerId}
@@ -116,7 +121,7 @@ const MetaDataForm = props => {
                     handleTagsChange={handleTagsChange}
                 />
                 <TextInput
-                    label="Copyright"
+                    label={t('COPYRIGHT')}
                     name="copyright"
                     value={metaData.copyright}
                     onChange={event =>
@@ -128,14 +133,14 @@ const MetaDataForm = props => {
                     error={false}
                 />
                 <TextInput
-                    label="ISWC Nummer"
+                    label={t('ISWC')}
                     name="iswc"
                     value={metaData.iswc}
                     onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
                     error={false}
                 />
                 <TextInput
-                    label="Untertitel"
+                    label={t('SUBTITLE')}
                     name="subtitle"
                     value={metaData.subtitle}
                     onChange={event =>

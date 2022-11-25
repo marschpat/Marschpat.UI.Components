@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+const locale = {
+    de: { CHOOSE: 'auswählen', CREATE: 'oder eingeben' },
+    en: { CHOOSE: 'select', CREATE: 'or create' },
+};
+i18next.addResourceBundle('de', 'selector', locale.de);
+i18next.addResourceBundle('en', 'selector', locale.en);
 
 const ChooseOrCreateSelector = props => {
+    const { t } = useTranslation(['selector']);
     const [selected, setSelected] = useState(null);
     const [options, setOptions] = useState([]);
     const handleChange = newSelected => {
@@ -76,7 +85,7 @@ const ChooseOrCreateSelector = props => {
             options={options}
             onChange={handleChange}
             className="max-w-512 w-full mt-20 mr-36"
-            placeholder={`${props.label} auswählen` + (props.isFixed ? '' : ' oder eingeben')}
+            placeholder={`${props.label} ` + t('CHOOSE') + (props.isFixed ? '' : ' ' + t('CREATE'))}
             error={false}
             textFieldProps={{
                 label: props.label,

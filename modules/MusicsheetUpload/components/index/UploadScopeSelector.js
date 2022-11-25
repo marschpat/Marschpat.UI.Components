@@ -8,19 +8,20 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
-const labelTexts = {
-    [MP_WEB]: {
-        private: 'In meinen privaten Notenpool hochladen',
-        org: 'In den Notenpool meines Vereins hochladen: ',
-    },
-    [MP_EDU]: {
-        private: 'Für mich hochladen (privater Notenpool)',
-        org: 'Für Musikschule Notenpool hochladen: ',
-    },
-};
+import { useTranslation } from 'react-i18next';
 
 const UploadScopeSelector = props => {
+    const { t } = useTranslation(['uploader']);
+    const labelTexts = {
+        [MP_WEB]: {
+            private: t('SCOPE_MARCH_PRIVATE'),
+            org: t('SCOPE_MARCH_ORG') + ' ',
+        },
+        [MP_EDU]: {
+            private: t('SCOPE_EDU_PRIVATE'),
+            org: t('SCOPE_EDU_ORG') + ' ',
+        },
+    };
     const { implementationMode, user, organisation, inHelpMode } = useContext(UploaderContext);
     const [uploadScope, setUploadScope] = useState('');
     const [
@@ -68,14 +69,9 @@ const UploadScopeSelector = props => {
         <section className="mt-40">
             <div className="flex items-center justify-between">
                 <Typography variant="h6" className="font-bold">
-                    Zuordnung
+                    {t('ASSIGNMENT')}
                 </Typography>
-                {inHelpMode && (
-                    <InfoTooltip
-                        name="assignement-info"
-                        title='Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.'
-                    />
-                )}
+                {inHelpMode && <InfoTooltip name="assignement-info" title={t('ASSIGNMENT_TEXT')} />}
             </div>
             <FormControl component="fieldset" className="pl-24">
                 <RadioGroup
