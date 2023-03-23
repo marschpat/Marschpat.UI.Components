@@ -19,11 +19,11 @@ export const de = {
     TAGS_SELECT: "Tag's zuordnen",
     ASSIGNMENT: 'Zuordnung',
     ASSIGNMENT_TEXT:
-        'Lege fest ob das Musikstück nur für dich (in deinem privaten Notenpool - "MEINE NOTEN") oder für alle Mitglieder deines Vereins / deiner Musikschule ("GEMEINSAME NOTEN") zur Verfügung stehen soll.',
-    SCOPE_MARCH_PRIVATE: 'In meinen privaten Notenpool hochladen',
-    SCOPE_MARCH_ORG: 'In den Notenpool meines Vereins hochladen:',
-    SCOPE_EDU_PRIVATE: 'Für mich hochladen (privater Notenpool)',
-    SCOPE_EDU_ORG: 'Für Musikschule Notenpool hochladen:',
+        'Lege fest ob das Musikstück nur für dich (in deiner privaten Notenbibliothek - "NOTEN UPLOADS - privater Context") oder für alle Mitglieder deines Vereins / deiner Musikschule ("NOTEN UPLOADS - Vereinscontext") zur Verfügung stehen soll.',
+    SCOPE_MARCH_PRIVATE: 'In meine private Notenbibliothek hochladen',
+    SCOPE_MARCH_ORG: 'In die Notenbibliothek meines Vereins hochladen:',
+    SCOPE_EDU_PRIVATE: 'Für mich hochladen (private Notenbibliothek)',
+    SCOPE_EDU_ORG: 'Für Musikschule Notenbibliothek hochladen:',
 };
 
 export const en = {
