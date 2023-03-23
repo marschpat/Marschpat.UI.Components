@@ -22,7 +22,7 @@ const UploadSuccess = props => {
                         className="w-128 h-128 my-32 text-mp-gold"
                     />
                     <Typography className="text-20 mb-16 text-center">
-                        Das Musikstück steht in unserem Notenpool zur Verfügung.
+                        Das Musikstück steht in unserer Notenbibliothek zur Verfügung.
                     </Typography>
                     <div className="mt-16 w-full flex justify-around">
                         <Button
@@ -31,7 +31,7 @@ const UploadSuccess = props => {
                             variant="contained"
                             color="primary"
                         >
-                            Zum Notenpool
+                            Zur Notenbibliothek
                         </Button>
                         <Button
                             onClick={() => window.location.reload(false)}
