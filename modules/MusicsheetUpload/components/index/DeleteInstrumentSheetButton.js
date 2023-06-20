@@ -2,8 +2,10 @@ import React from 'react';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import { useTranslation } from 'react-i18next';
 
 const DeleteInstrumentSheetButton = props => {
+    const { t } = useTranslation(['uploader']);
     const dispatchConfirm = useDispatchConfirmDialog();
 
     const removeInstrumentSheet = () => {
@@ -13,8 +15,8 @@ const DeleteInstrumentSheetButton = props => {
     const handleClick = () => {
         dispatchConfirm(
             removeInstrumentSheet,
-            'Stimme wirklich entfernen?',
-            'Stimme wirklich entfernen? Alle Änderungen gehen verloren.'
+            t('UPLOADER_VOICE_REMOVE'),
+            t('UPLOADER_VOICE_REMOVE_DESC')
         );
     };
 
@@ -22,7 +24,7 @@ const DeleteInstrumentSheetButton = props => {
         <IconButton
             onClick={handleClick}
             aria-label="remove-instrument-voice"
-            title="Stimme löschen"
+            title={t('UPLOADER_VOICE_REMOVE_ACTION')}
         >
             <DeleteIcon />
         </IconButton>

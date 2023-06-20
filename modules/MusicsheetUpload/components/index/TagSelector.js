@@ -79,11 +79,8 @@ const TagSelector = props => {
             />
             {inHelpMode && (
                 <div className="my-10 flex items-center justify-between">
-                    <p className="text-base text-orange-300 font-bold">Wozu Tag's?</p>
-                    <InfoTooltip
-                        name="tag-info"
-                        title="Tag's helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden"
-                    />
+                    <p className="text-base text-orange-300 font-bold">{t('UPLOADER_HOWTOTAGS')}</p>
+                    <InfoTooltip name="tag-info" title={t('UPLOADER_HOWTOTAGS_DESC')} />
                 </div>
             )}
         </div>

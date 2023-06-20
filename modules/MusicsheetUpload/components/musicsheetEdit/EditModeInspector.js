@@ -5,8 +5,10 @@ import { UploaderContext } from '../../context/UploaderContext';
 import MusicsheetDownloadApiAdapter from '../../utils/MusicsheetDownloadApiAdapter';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import history from '@history';
+import { useTranslation } from 'react-i18next';
 
 const EditModeInspector = props => {
+    const { t } = useTranslation(['uploader']);
     const [sheetInEdit, setSheetInEdit] = useState(null);
     const { dispatchFlashMessage, implementationMode } = useContext(UploaderContext);
     const inDebugMode = useInDebugMode();
@@ -29,8 +31,7 @@ const EditModeInspector = props => {
     };
 
     const abortEditMode = () => {
-        const msg =
-            'Aktuell können nur neue Musikstücke bearbeitet werden. Bitte warten, oder legen sie das Musikstück erneut an.';
+        const msg = t('UPLOADER_ABORT_EDIT_MODE');
         dispatchFlashMessage(msg, 'warning');
         close();
     };

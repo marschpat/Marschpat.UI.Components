@@ -7,8 +7,10 @@ import Card from '@material-ui/core/Card';
 import Backdrop from '@material-ui/core/Backdrop';
 import Typography from '@material-ui/core/Typography';
 import CardContent from '@material-ui/core/CardContent';
+import { useTranslation } from 'react-i18next';
 
 const UsagePermissionCheck = props => {
+    const { t } = useTranslation(['uploader']);
     const { implementationMode, user, organisation } = useContext(UploaderContext);
     const history = useHistory();
     const [
@@ -33,14 +35,8 @@ const UsagePermissionCheck = props => {
         <Backdrop open={true} onClick={() => history.push('/pages/myprofile')}>
             <Card className="max-w-sm">
                 <CardContent>
-                    <Typography color="textSecondary">
-                        Du kannst unseren Notenblatt Uploader leider nicht nützen.
-                    </Typography>
-                    <Typography>
-                        Um unseren MARSCHPAT Notenblatt Uploader nützen zu können bitte eine
-                        MARSCHPAT Mitgliedschaft abschließen, oder Administrator in deinem Verein
-                        werden.
-                    </Typography>
+                    <Typography color="textSecondary">{t('UPLOADER_PERMISSION_MSG')}</Typography>
+                    <Typography>{t('UPLOADER_PERMISSION_MSG_DESC')}</Typography>
                 </CardContent>
             </Card>
         </Backdrop>

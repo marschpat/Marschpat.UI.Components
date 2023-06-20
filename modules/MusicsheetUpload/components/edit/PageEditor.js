@@ -2,8 +2,10 @@ import React from 'react';
 import ImageCropper from './ImageCropper';
 import MxlToImageConverter from './MxlToImageConverter';
 import PdfToImageConverter from './PdfToImageConverter';
+import { useTranslation } from 'react-i18next';
 
 const PageEditor = props => {
+    const { t } = useTranslation(['uploader']);
     const page = props.page;
     const originalFileData = props.originalFile.data;
     const editType = props.supportedTypes.includes(page.type) ? page.type : 'no-support';
@@ -42,7 +44,9 @@ const PageEditor = props => {
             );
         }
 
-        return <div className="text-gray-600 text-center italic">...not yet supported...</div>;
+        return (
+            <div className="text-gray-600 text-center italic">{t('UPLOADER_NOT_SUPPORTED')}</div>
+        );
     };
 
     return (

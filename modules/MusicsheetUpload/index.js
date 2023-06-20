@@ -14,6 +14,7 @@ import useAvailableInstrumentVoices from './utils/useAvailableInstrumentVoices';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import i18next from 'i18next';
 import { de, en } from './uploader-i18n';
+import { useTranslation } from 'react-i18next';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -44,6 +45,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         handleAvailableVoicesUpdate,
         handleAvailableVoicesReset,
     ] = useAvailableInstrumentVoices(instrumentSheets, implementationMode, organisation);
+
+    const { t } = useTranslation(['uploader']);
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
     useEffect(() => {
@@ -166,7 +169,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             const newSheets = sheets.filter(sheet =>
                 sheet.origFiles.some(file => {
                     if (existingFileNames.indexOf(file.name) !== -1) {
-                        dispatchFlashMessage(`Datei "${file.name}" bereits hinzugefügt`, 'warning');
+                        dispatchFlashMessage(
+                            `${t('UPLOADER_INDEX_FILE')} "${file.name}" ${t(
+                                'UPLOADER_INDEX_ALREADY_ADDED'
+                            )}`,
+                            'warning'
+                        );
                         return false;
                     }
 
@@ -211,7 +219,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         });
         setInstrumentSheetInEdit(manipulation.replacement);
         setOpenEdit(true);
-        dispatchFlashMessage('Neue Instrumentenstimme extrahiert', 'success');
+        dispatchFlashMessage(t('UPLOADER_INDEX_NEWVOICESEXTRACTED'), 'success');
     }
 
     function checkIfCastWarningMessageMayBeNeeded() {

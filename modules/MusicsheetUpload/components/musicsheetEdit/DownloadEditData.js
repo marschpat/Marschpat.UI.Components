@@ -3,8 +3,10 @@ import axios from 'axios';
 import ProgressInfo from '../ProgressInfo';
 import useUploadProgress from '../../utils/useUploadProgress';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
+import { useTranslation } from 'react-i18next';
 
 const DownloadEditData = props => {
+    const { t } = useTranslation(['uploader']);
     const [isDownloading, setIsDownloading] = useState(props.sheetId ? true : false);
     const [uploadProgress, totalUploadSize, handleUploadProgress] = useUploadProgress();
 
@@ -55,9 +57,9 @@ const DownloadEditData = props => {
                 <ProgressInfo
                     totalSize={totalUploadSize}
                     progress={uploadProgress}
-                    description={'Download gesamt'}
-                    message="Einen Moment noch, Musikstück wird geladen..."
-                    infoText="Wir bereiten das Musikstück zur Bearbeitung auf. Dies kann ggf etwas Zeit in Anspruch nehmen. Bitte achte auf eine stabile Internetverbindung."
+                    description={t('UPLOADER_DOWNLOAD_STATUS')}
+                    message={t('UPLOADER_DOWNLOAD_INPROGESS')}
+                    infoText={t('UPLOADER_DOWNLOAD_INPROGESS_DESC')}
                 />
             </LoadingModal>
         )

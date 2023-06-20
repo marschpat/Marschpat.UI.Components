@@ -11,10 +11,12 @@ import MusicsheetUploadApiAdapter from '../../utils/MusicsheetUploadApiAdapter';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import Button from '@material-ui/core/Button';
 import PublishIcon from '@material-ui/icons/Publish';
+import { useTranslation } from 'react-i18next';
 
 const initialPayload = require('../../musicsheet.initial.json');
 
 const SubmitFinalPayload = props => {
+    const { t } = useTranslation(['uploader']);
     const [finalPayload, setFinalPayload] = useState(initialPayload);
     const [isSuccess, setIsSuccess] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -31,11 +33,11 @@ const SubmitFinalPayload = props => {
     // @ToDo: Sry for the mess, needs refactoring when all requirements are clear
     const submit = () => {
         if (props.errors && props.errors.length > 0) {
-            dispatchFlashMessage('Erforderliche Grunddaten vollständig eingeben!', 'error');
+            dispatchFlashMessage(t('UPLOADER_REQ_DATA_MISSING'), 'error');
             return;
         }
         if (!finalPayload.instrumentSheets || finalPayload.instrumentSheets.length < 1) {
-            dispatchFlashMessage('Stimmen zum Upload auswählen!', 'error');
+            dispatchFlashMessage(t('UPLOADER_REQ_VOICES_MISSING'), 'error');
             return;
         }
         const allSheetsCompleted = finalPayload.instrumentSheets.every(sheet => {
@@ -43,11 +45,11 @@ const SubmitFinalPayload = props => {
             return completed;
         });
         if (!allSheetsCompleted) {
-            dispatchFlashMessage('Stimmen bearbeiten und Instrumentenstimmen zuordnen!', 'error');
+            dispatchFlashMessage(t('UPLOADER_REQ_VOICES_ASSIGN_MISSING'), 'error');
             return;
         }
         if (!props.agreedToLegalConsent) {
-            dispatchFlashMessage('Zustimmen nicht vergessen!', 'error');
+            dispatchFlashMessage(t('UPLOADER_VOICES_FORGET'), 'error');
             return;
         }
 
@@ -65,7 +67,7 @@ const SubmitFinalPayload = props => {
                 const response = new MusicsheetUploadResponse(resp);
                 if (response.isSheetMusicPersisted()) {
                     setIsSuccess(true);
-                    dispatchFlashMessage('Upload erfolgreich', 'success');
+                    dispatchFlashMessage(t('UPLOADER_UPLOAD_SUCCESS'), 'success');
                     return;
                 }
                 if (response.hasValidationErrors()) {
@@ -74,7 +76,7 @@ const SubmitFinalPayload = props => {
                         'Upload failed with errrors: ',
                         response.data.messages.map(msg => msg)
                     );
-                    dispatchFlashMessage(`Upload fehlgeschlagen: ${errorMsg}`, 'error');
+                    dispatchFlashMessage(`${t('UPLOADER_UPLOAD_ERROR')}: ${errorMsg}`, 'error');
                     setHasError(errorMsg);
                     return;
                 }
@@ -83,7 +85,7 @@ const SubmitFinalPayload = props => {
                 setIsSuccess(false);
                 setIsUploading(false);
                 console.error('Submitting payload failed with error.', error);
-                dispatchFlashMessage('Upload fehlgeschlagen', 'error');
+                dispatchFlashMessage(t('UPLOADER_UPLOAD_ERROR'), 'error');
             });
     };
 
@@ -100,7 +102,7 @@ const SubmitFinalPayload = props => {
                         <div className="flex items-center">
                             <PublishIcon className="text-white" />
                             <span className="ml-12 text-white text-xl font-bold">
-                                Musikstück Upload
+                                {t('UPLOADER_UPLOAD_SHEET_ACTION')}
                             </span>
                         </div>
                     </Button>

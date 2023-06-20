@@ -5,13 +5,15 @@ import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentSheetFullscreenHeader = props => {
+    const { t } = useTranslation(['uploader']);
     const [editMode, setEditMode] = useState(false);
     const modeTranslation = {
         mxl: 'MXL Editor',
         pdf: 'PDF Editor',
-        image: 'Bild Editor',
+        image: `${t('UPLOADER_IMG')} Editor`,
     };
 
     useEffect(() => {
@@ -28,10 +30,10 @@ const InstrumentSheetFullscreenHeader = props => {
                             color="inherit"
                             onClick={props.handleClose}
                             aria-label="back"
-                            title="Editor schließen, Stimme nicht speichern"
+                            title={t('UPLOADER_IMG_HEADER')}
                         >
                             <Icon>arrow_back</Icon>
-                            <span className="ml-8">Zurück</span>
+                            <span className="ml-8">{t('UPLOADER_IMG_HEADER_BTN')}</span>
                         </IconButton>
                     </div>
                     <Typography variant="h6">
@@ -43,7 +45,7 @@ const InstrumentSheetFullscreenHeader = props => {
                             color="inherit"
                             onClick={props.handleClose}
                             aria-label="close"
-                            title="Editor schließen, Stimme nicht speichern"
+                            title={t('UPLOADER_IMG_HEADER')}
                         >
                             <CloseIcon />
                         </IconButton>

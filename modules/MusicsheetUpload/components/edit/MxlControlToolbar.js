@@ -6,19 +6,21 @@ import MxlTitleControl from './MxlTitleControl';
 import MxlCompactModeControl from './MxlCompactModeControl';
 import MxlSkyBottomDistanceControl from './MxlSkyBottomDistanceControl';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const MxlControlToolbar = props => {
+    const { t } = useTranslation(['uploader']);
     return (
         <div className="mb-10">
             <div className="flex justify-between items-center">
                 <Typography variant="h6" className="text-gray-700 font-semibold">
-                    MXL Vorschau
+                    {t('UPLOADER_MXL_PREVIEW')}
                 </Typography>
-                <TooltipStyled title="Achtung: Die Anzahl der Seiten ist von der Taktanzahl und Ihren Einstellungen (Skalierung, Notenabstand) abhängig. Fürs Marschieren empfehlen wir die Noten auf eine Seite zu skalieren">
+                <TooltipStyled title={t('UPLOADER_MXL_PREVIEW')}>
                     <div className="cursor-pointer">
                         {props.pagesCount && (
                             <Typography className="text-gray-500 text-lg font-semibold">
-                                Anzahl Seiten: {props.pagesCount}
+                                {t('UPLOADER_MXL_PREVIEW_PAGES')} {props.pagesCount}
                             </Typography>
                         )}
                     </div>

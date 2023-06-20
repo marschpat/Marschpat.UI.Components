@@ -1,22 +1,21 @@
 import React from 'react';
 import EmojiObjectsOutlinedIcon from '@material-ui/icons/EmojiObjectsOutlined';
+import { useTranslation } from 'react-i18next';
 
 const MxlInfo = props => {
+    const { t } = useTranslation(['uploader']);
     return (
         <div className="mr-20">
             <div className="px-8 py-12 border border-mp-gold rounded-md">
                 <div className="flex items-center">
                     <EmojiObjectsOutlinedIcon className="mr-6 text-mp-gold" fontSize="large" />
-                    <h3 className="text-gray-700 text-lg">MXL Upload?</h3>
+                    <h3 className="text-gray-700 text-lg">{t('UPLOADER_MXL_INFO')}</h3>
                 </div>
                 <div className="mt-12">
                     <p className="text-gray-600 text-base">
-                        Das Verarbeiten von .mxl Dateien kann einige Zeit in Anspruch nehmen.
+                        {t('UPLOADER_MXL_INFO_DESC')}
                         <br />
-                        Wir emfpehlen die Aufbereitung Notenblättern im MXL Format von einem
-                        möglichst leistungsstarken Computer aus durchzuführen, oder das MXL zuvor
-                        als Bild oder PDF Datei abzuspeichern und diese Dateien zum Upload zu
-                        verwenden.
+                        {t('UPLOADER_MXL_INFO_DESC_1')}
                     </p>
                 </div>
             </div>
