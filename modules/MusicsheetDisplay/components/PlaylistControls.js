@@ -4,8 +4,10 @@ import IconButton from '@material-ui/core/IconButton';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
 import SkipNextIcon from '@material-ui/icons/SkipNext';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
+    const { t } = useTranslation(['msd']);
     const [currentIndex, setCurrentIndex] = useState('');
     const [navLinks, setNavLinks] = useState({
         next: { available: false, path: '' },
@@ -42,7 +44,7 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
 
     return (
         <div className="mr-20 flex items-cener">
-            <Tooltip title={`Zum vorherigen Stück in Playlist: ${inPlaylist.name}`}>
+            <Tooltip title={`${t('MSD_PREV_TRACK')} ${inPlaylist.name}`}>
                 <IconButton
                     component={Link}
                     to={navLinks.prev.path}
@@ -54,19 +56,21 @@ const PlaylistControls = ({ musicsheetId, inPlaylist }) => {
                 </IconButton>
             </Tooltip>
             <Tooltip
-                title={`Musikstück ${currentIndex} von ${inPlaylist.count} in Playlist: ${inPlaylist.name}`}
+                title={`${t('MSD_MUSICSHEET')} ${currentIndex} ${t('MSD_FROM')} ${
+                    inPlaylist.count
+                } ${t('MSD_FROM')} ${inPlaylist.name}`}
                 className="cursor-default"
             >
                 <div className="flex items-center">
                     <div className="text-xs text-center">
-                        <div>Stück</div>
+                        <div>{t('MSD_PIECE')}</div>
                         <div>
                             {currentIndex} / {inPlaylist.count}
                         </div>
                     </div>
                 </div>
             </Tooltip>
-            <Tooltip title={`Zum nächsten Stück in Playlist: ${inPlaylist.name}`}>
+            <Tooltip title={`${t('MSD_NEXT_TRACK')} ${inPlaylist.name}`}>
                 <IconButton
                     component={Link}
                     to={navLinks.next.path}

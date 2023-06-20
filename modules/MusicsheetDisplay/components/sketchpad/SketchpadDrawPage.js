@@ -3,8 +3,10 @@ import CanvasDraw from 'react-canvas-draw';
 import PageLayerModeControl from './PageLayerModeControl';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 const SketchpadDrawPage = forwardRef((props, ref) => {
+    const { t } = useTranslation(['msd']);
     const canvasDrawEl = useRef();
     const [layerOptions, setLayerOptions] = useState(null);
     const [pageDimensions, setPageDimensions] = useState(null);
@@ -31,17 +33,21 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
 
     async function fetchImageDimensions() {
         // sorry for the dirty workaround.
-        // we have to make sure to receive a fresh (new) pageImage s3 link here, 
+        // we have to make sure to receive a fresh (new) pageImage s3 link here,
         // to avoid chrome / windows bug (chrome blocks the multiple img request).
         // @ToDo: remove setTimeout function (line37 & line46) if backend always returns a unique link for sure
         setTimeout(async () => {
-            const { success, data } = await fetchMusicsheetVoicePage(props.page.musicSheetId, props.page.voiceId, props.page.pageIndex);
+            const { success, data } = await fetchMusicsheetVoicePage(
+                props.page.musicSheetId,
+                props.page.voiceId,
+                props.page.pageIndex
+            );
             if (success) {
                 const img = new Image();
                 img.src = data.downloadLink;
                 img.onload = () => {
                     setPageDimensions({ width: img.naturalWidth, height: img.naturalHeight });
-                }
+                };
             }
         }, 1001);
     }
@@ -49,9 +55,11 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
     async function fetchMusicsheetVoicePage(sheetId, voiceId, pageIndex) {
         try {
             // @ToDo: Backend: be sure to return a new **unique** link here!
-            const response = await axios.post(`musiclibrary/${sheetId}/download/${voiceId}/${pageIndex}`);
+            const response = await axios.post(
+                `musiclibrary/${sheetId}/download/${voiceId}/${pageIndex}`
+            );
             const success = response?.data ? true : false;
-            const data = success ? response.data : 'invalid API response (no data)';
+            const data = success ? response.data : t('MSD_ERROR_NORESPONSE');
             return { success, data };
         } catch (error) {
             const errorMsg = error?.response?.data?.message;

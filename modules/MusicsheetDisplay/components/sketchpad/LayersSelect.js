@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { MusicsheetDisplayContext } from '../../context/MusicsheetDisplayContexts';
+import { useTranslation } from 'react-i18next';
 
 const LayersSelect = () => {
+    const { t } = useTranslation(['msd']);
     const { sketchpadLayers, setSketchpadLayers } = useContext(MusicsheetDisplayContext);
     const [values, setValues] = useState([]);
     const [options, setOptions] = useState([]);
@@ -37,7 +39,7 @@ const LayersSelect = () => {
             <FuseChipSelect
                 value={values}
                 onChange={handleActiveLayersChange}
-                placeholder="Bestehende Notizen ein/ausblenden"
+                placeholder={t('MSD_NOTES_DROPDOWN')}
                 textFieldProps={{ variant: 'standard' }}
                 options={options}
                 isMulti

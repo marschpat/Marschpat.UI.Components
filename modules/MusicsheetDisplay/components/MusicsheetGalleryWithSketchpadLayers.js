@@ -9,8 +9,10 @@ import {
 } from '../context/MusicsheetDisplayContexts';
 import useDefaultVoices from '../utils/useDefaultVoices';
 import useFetchMusicsheetPages from '../utils/useFetchMusicsheetPages';
+import { useTranslation } from 'react-i18next';
 
 const MusicsheetGalleryWithSketchpadLayers = () => {
+    const { t } = useTranslation(['msd']);
     const imageGalleryEl = useRef();
     const [pageImages, setPageImages] = useState([]);
     const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -26,7 +28,7 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     useEffect(() => {
         const voice = findDefaultVoice(musicsheet);
         if (!voice) {
-            setHasError('musicsheet has no instrument voices');
+            setHasError(t('MSD_ERROR_NOVOICE'));
         }
         if (voice) {
             fetchMusicsheetPages(musicsheet.sheetId, voice.voiceId);
@@ -104,14 +106,12 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
     function allImagesLoaded() {
         return pageImages.length === imagesLoadedCount;
     }
-    function renderImage(item) {       
+    function renderImage(item) {
         return (
             <div>
                 <img
-                    onContextMenu={(e)=> e.preventDefault()}
-                    className={
-                        'image-gallery-image horizontal'
-                    }
+                    onContextMenu={e => e.preventDefault()}
+                    className={'image-gallery-image horizontal'}
                     src={item.original}
                     alt={item.originalAlt}
                     srcSet={item.srcSet}
@@ -121,11 +121,10 @@ const MusicsheetGalleryWithSketchpadLayers = () => {
         );
     }
     function renderThumbInner(item) {
-
         return (
             <div>
                 <img
-                    onContextMenu={(e)=> e.preventDefault()}
+                    onContextMenu={e => e.preventDefault()}
                     src={item.original}
                     alt={item.originalAlt}
                     srcSet={item.srcSet}

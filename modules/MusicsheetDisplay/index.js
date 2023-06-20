@@ -8,12 +8,19 @@ import MusicsheetDialog from './components/MusicsheetDialog';
 import { MusicsheetLoaderContext } from './context/MusicsheetDisplayContexts';
 import { apiRoutes } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 
+import i18next from 'i18next';
+import en from './musicSheetDisplay-i18n/en';
+import de from './musicSheetDisplay-i18n/de';
+import { useTranslation } from 'react-i18next';
+i18next.addResourceBundle('en', 'msd', en);
+i18next.addResourceBundle('de', 'msd', de);
 /**
  * Loads musicsheet meta data.
  * Handles errors if musicsheet doesn't exist.
  * Finds the default InstrumentVoice (if not passed as url param).
  */
 const MusicsheetLoader = ({ implementationMode }) => {
+    const { t } = useTranslation(['msd']);
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [instrumentVoice, setInstrumentVoice] = useState(null);
@@ -45,7 +52,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 ? voiceFromId(musicsheetMetaData, voiceId)
                 : findDefaultVoice(musicsheetMetaData);
             if (!voice) {
-                setHasError('musicsheet has no instrument voices');
+                setHasError(t('MSD_ERROR_NOVOICE'));
             }
             if (voice) {
                 setInstrumentVoice(voice);
@@ -61,7 +68,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 setInstrumentVoice,
                 implementationMode,
                 allowLayerCreation,
-                setAllowLayerCreation
+                setAllowLayerCreation,
             }}
         >
             {musicsheetMetaData && instrumentVoice && <MusicsheetDialog />}
@@ -80,7 +87,7 @@ const MusicsheetLoader = ({ implementationMode }) => {
                 `${apiRoutes[implementationMode].musiclibrary}/${sheetId}`
             );
             const success = response?.data ? true : false;
-            const data = success ? response.data : 'invalid API response (no data)';
+            const data = success ? response.data : t('MSD_ERROR_NORESPONSE');
 
             return { success, data };
         } catch (error) {

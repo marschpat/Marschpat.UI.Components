@@ -9,8 +9,10 @@ import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import { MusicsheetLoaderContext } from '../context/MusicsheetDisplayContexts';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentVoiceSelector = () => {
+    const { t } = useTranslation(['msd']);
     const [anchor, setAnchor] = useState(null);
     const { musicsheetMetaData, setInstrumentVoice } = useContext(MusicsheetLoaderContext);
 
@@ -50,8 +52,8 @@ const InstrumentVoiceSelector = () => {
     return (
         musicsheetMetaData.voices.length > 0 && (
             <div className="mx-20">
-                <Tooltip title="Stimme auswählen">
-                    <IconButton aria-label="Besetzung" color="inherit" onClick={handleOpen}>
+                <Tooltip title={t('MSD_SELECT_VOICE')}>
+                    <IconButton aria-label={t('MSD_CAST')} color="inherit" onClick={handleOpen}>
                         <Badge badgeContent={musicsheetMetaData.voices.length} color="secondary">
                             <Icon>keyboard_voice</Icon>
                         </Badge>
@@ -82,7 +84,7 @@ const InstrumentVoiceSelector = () => {
                                 secondary={
                                     `${voice.mxlAvailable ? 'MXL' : ''}` +
                                     `${voice.mxlAvailable && voice.renderedAvailable ? '/' : ''}` +
-                                    `${voice.renderedAvailable ? 'BILD' : ''}`
+                                    `${voice.renderedAvailable ? t('MSD_IMG') : ''}`
                                 }
                             />
                         </MenuItem>

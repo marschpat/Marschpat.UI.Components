@@ -13,8 +13,10 @@ import {
     apiRoutes,
     MP_EDU,
 } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { useTranslation } from 'react-i18next';
 
 const MusicsheetDisplay = props => {
+    const { t } = useTranslation(['msd']);
     const user = props.user;
     const organisation = props.organisation;
     const [viewMode, setViewMode] = useState('view');
@@ -23,24 +25,29 @@ const MusicsheetDisplay = props => {
     const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
     const [sketchpadLayers, setSketchpadLayers] = useState([]);
     const dispatchFlashMessage = useDispatchFlashMessage();
-    const { musicsheetMetaData, instrumentVoice, implementationMode, isLoading, allowLayerCreation, setAllowLayerCreation } =
-        useContext(MusicsheetLoaderContext);
+    const {
+        musicsheetMetaData,
+        instrumentVoice,
+        implementationMode,
+        isLoading,
+        allowLayerCreation,
+        setAllowLayerCreation,
+    } = useContext(MusicsheetLoaderContext);
     const withSketchpadFeature = true;
     // const withSketchpadFeature = implementationMode === MP_EDU ? true : false;
     const voiceId = instrumentVoice.voiceId;
     const sheetId = musicsheetMetaData.sheetId;
 
     useEffect(() => {
-        if(musicsheetMetaData.isPrivate) {
-            if(musicsheetMetaData.ownerType == 'Organisation') {
+        if (musicsheetMetaData.isPrivate) {
+            if (musicsheetMetaData.ownerType == 'Organisation') {
                 let member = organisation.members.find(x => x.userId == user.userId);
                 setAllowLayerCreation(member && member.isAdmin);
-            }
-            else if(musicsheetMetaData.ownerType == 'PrivateUser') {
+            } else if (musicsheetMetaData.ownerType == 'PrivateUser') {
                 setAllowLayerCreation(musicsheetMetaData.ownerId == user.userId);
             }
         }
-    }, [musicsheetMetaData])
+    }, [musicsheetMetaData]);
 
     useEffect(() => {
         async function fetchData() {
@@ -69,7 +76,7 @@ const MusicsheetDisplay = props => {
                 setSketchpadLayers(layersInit);
             })
             .catch(error => {
-                dispatchFlashMessage("Fehler beim Laden der Notizen.");
+                dispatchFlashMessage(t('MSD_ERROR_LOADING_NOTES'));
             });
     }
 
@@ -80,10 +87,10 @@ const MusicsheetDisplay = props => {
                 layer
             )
             .then(response => {
-                dispatchFlashMessage("Notiz gespeichert :)", 'success');
+                dispatchFlashMessage(t('MSD_NOTES_SAVED'), 'success');
             })
             .catch(error => {
-                dispatchFlashMessage("Fehler beim Speichern der Notiz, bitte probieren Sie es erneut.");
+                dispatchFlashMessage(t('MSD_ERROR_NOTES_SAVED'));
             });
     }
 
@@ -95,7 +102,7 @@ const MusicsheetDisplay = props => {
                 setInPlaylist(response.data);
             })
             .catch(error => {
-                dispatchFlashMessage("Fehler beim Laden der Playlist, bitte versuchen Sie es erneut.");
+                dispatchFlashMessage(t('MSD_ERROR_LOADING_PL'));
             });
     }
 

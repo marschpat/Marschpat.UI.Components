@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
+import { useTranslation } from 'react-i18next';
 
 const LayerNameInput = ({ handleLayerNameChange }) => {
-    const [name, setName] = useState('Neue Notiz');
+    const { t } = useTranslation(['msd']);
+    const [name, setName] = useState(t('MSD_NOTES_DEFAULT_NAME'));
 
     useEffect(() => {
         handleLayerNameChange(name);

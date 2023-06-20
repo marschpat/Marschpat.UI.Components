@@ -3,12 +3,14 @@ import { MusicsheetDisplayContext } from '../context/MusicsheetDisplayContexts';
 import IconButton from '@material-ui/core/IconButton';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import Tooltip from '@material-ui/core/Tooltip';
+import { useTranslation } from 'react-i18next';
 
 const TogglePagesPreviewButton = () => {
+    const { t } = useTranslation(['msd']);
     const { setShowPagesPreview } = useContext(MusicsheetDisplayContext);
 
     return (
-        <Tooltip title="Seiten ein/ausblenden">
+        <Tooltip title={t('MSD_SHOW_PAGES_TTP')}>
             <IconButton
                 onClick={() => setShowPagesPreview(prev => !prev)}
                 edge="end"
