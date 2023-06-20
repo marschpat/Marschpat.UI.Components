@@ -5,17 +5,25 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 
+import i18next from 'i18next';
+import en from './components-i18n/en';
+import de from './components-i18n/de';
+import { useTranslation } from 'react-i18next';
+i18next.addResourceBundle('en', 'msd', en);
+i18next.addResourceBundle('de', 'msd', de);
+
 function MusicsheetInfoPopover(props) {
+    const { t } = useTranslation(['msd']);
     const [anchorEl, setAnchorEl] = useState(null);
     const infoRows = [
-        { name: 'Titel', value: props.musicsheet?.name ?? null },
-        { name: 'Untertitel', value: props.musicsheet?.subtitle ?? null },
-        { name: 'Komponist', value: props.musicsheet?.composerName ?? null },
-        { name: 'Verlag', value: props.musicsheet?.publisher ?? null },
-        { name: 'Arrangeur', value: props.musicsheet?.arrangeurName ?? null },
-        { name: 'Besetzung', value: props.musicsheet?.castName ?? null },
-        { name: 'ISWC Nummer', value: props.musicsheet?.iswc ?? null },
-        { name: 'Copyright', value: props.musicsheet?.copyright ?? null },
+        { name: t('COMP_POPOVER_TITLE'), value: props.musicsheet?.name ?? null },
+        { name: t('COMP_POPOVER_SUBTITLE'), value: props.musicsheet?.subtitle ?? null },
+        { name: t('COMP_POPOVER_COMPOSER'), value: props.musicsheet?.composerName ?? null },
+        { name: t('COMP_POPOVER_PUBLISHER'), value: props.musicsheet?.publisher ?? null },
+        { name: t('COMP_POPOVER_ARRANGEUR'), value: props.musicsheet?.arrangeurName ?? null },
+        { name: t('COMP_POPOVER_CAST'), value: props.musicsheet?.castName ?? null },
+        { name: t('COMP_POPOVER_ISWC_NR'), value: props.musicsheet?.iswc ?? null },
+        { name: t('COMP_POPOVER_COPYRIGHT'), value: props.musicsheet?.copyright ?? null },
     ];
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -26,7 +34,7 @@ function MusicsheetInfoPopover(props) {
 
     return props.musicsheet ? (
         <div className={props.className ?? ''}>
-            <Tooltip title="Infos zu dem Stück">
+            <Tooltip title={t('COMP_POPOVER_TTP')}>
                 <IconButton
                     color={props.btnColor ?? 'default'}
                     aria-label="information"
@@ -53,7 +61,7 @@ function MusicsheetInfoPopover(props) {
                 <div className="px-20 py-10">
                     <div className="-mx-6 bg-gray-200">
                         <div className="px-6 py-6 mb-20 text-left text-xl font-medium text-gray-700 uppercase tracking-wider">
-                            Informationen zum Musikstück
+                            {t('COMP_POPOVER_HEADER')}
                         </div>
                     </div>
                     {infoRows.map(
