@@ -3,8 +3,10 @@ import { UploaderContext } from '../../context/UploaderContext';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import IconButton from '@material-ui/core/IconButton';
 import PageviewOutlinedIcon from '@material-ui/icons/PageviewOutlined';
+import { useTranslation } from 'react-i18next';
 
 const VoicesAutoAssignButton = props => {
+    const { t } = useTranslation(['uploader']);
     const { dispatchFlashMessage } = useContext(UploaderContext);
     const handleClick = () => {
         if (!props.handleCastCheck()) return false;
@@ -39,12 +41,12 @@ const VoicesAutoAssignButton = props => {
         });
         props.handleInstrumentSheetsUpdate(newInstrumentSheets);
         props.handleAssignedVoicesChange();
-        dispatchFlashMessage('Automatische Stimmenzuordnung durchgeführt', 'success');
+        dispatchFlashMessage(t('UPLOADER_VOICES_ASSIGNED_AUTO'), 'success');
     };
 
     return (
         <div>
-            <TooltipStyled title="Automatische Stimmenzuordnung versuchen?">
+            <TooltipStyled title={t('UPLOADER_VOICES_ASSIGN_TRY')}>
                 <IconButton onClick={handleClick} aria-label="auto-assign-voices">
                     <PageviewOutlinedIcon />
                 </IconButton>

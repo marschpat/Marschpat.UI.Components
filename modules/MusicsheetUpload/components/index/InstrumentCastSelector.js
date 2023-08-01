@@ -75,13 +75,8 @@ const InstrumentCastSelector = props => {
             <InputErrorMessage msg={props?.error?.msg} condition={showError} />
             {inHelpMode && (
                 <div className="my-10 flex items-center justify-between">
-                    <p className="text-base text-orange-300 font-bold">
-                        Wie funktioniert die "Besetzung"?
-                    </p>
-                    <InfoTooltip
-                        name="instrument-cast-info"
-                        title="Die Wahl der Besetzung hat Auswirkung auf die zur Verfügung stehenden Instrumentenstimmen und Zuordnung in MARSCHPAT!"
-                    />
+                    <p className="text-base text-orange-300 font-bold">{t('UPLOADER_HOWTOCAST')}</p>
+                    <InfoTooltip name="instrument-cast-info" title={t('UPLOADER_HOWTOCAST_DESC')} />
                 </div>
             )}
         </div>

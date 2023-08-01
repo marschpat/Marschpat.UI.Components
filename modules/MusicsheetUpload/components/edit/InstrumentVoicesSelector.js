@@ -1,8 +1,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UploaderContext } from '../../context/UploaderContext';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentVoicesSelector = props => {
+    const { t } = useTranslation(['uploader']);
     const [availableVoices, setAvailableVoices] = useState(null);
     const [showWarning, setShowWarning] = useState(null);
     const { availableInstrumentVoices } = useContext(UploaderContext);
@@ -42,7 +44,7 @@ const InstrumentVoicesSelector = props => {
                 className="mt-8"
                 value={props.assignedVoices}
                 onChange={handleChange}
-                placeholder="Instrumentenstimme wählen"
+                placeholder={t('UPLOADER_SET_INSTRUMENTVOICE')}
                 textFieldProps={{ variant: 'standard' }}
                 options={availableVoices}
                 isMulti
@@ -51,7 +53,7 @@ const InstrumentVoicesSelector = props => {
             />
             {showWarning && (
                 <div className="mt-24 py-4 flex justify-center text-xl rounded-md bg-orange-700">
-                    <span>! Bitte zuerst Besetzung auswählen !</span>
+                    <span>{t('UPLOADER_SET_CAST_FIRST_WARNING')}</span>
                 </div>
             )}
         </>

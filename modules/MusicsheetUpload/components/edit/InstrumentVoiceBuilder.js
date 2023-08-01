@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/components/ChooseOrCreateSelector';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentVoiceBuilder = props => {
+    const { t } = useTranslation(['uploader']);
     const defaultVoice =
         props.assignedVoices.length > 0
             ? props.assignedVoices[0]
@@ -28,12 +30,12 @@ const InstrumentVoiceBuilder = props => {
 
     return (
         <div>
-            <p className="text-gray-700">Lege die Instrumentenstimme für dieses Notenblatt fest.</p>
+            <p className="text-gray-700">{t('UPLOADER_SET_VOICE')}</p>
             <div className="mt-24">
                 {/* INSTRUMENT */}
                 <ChooseOrCreateSelector
                     isFixed={true}
-                    label="Instrument"
+                    label={t('UPLOADER_INSTRUMENT_LBL')}
                     labelAttr="name"
                     fetchOptionsUrl="/instrument-new"
                     initialValue={builtVoice.instrumentNew?.id ?? null}
@@ -47,7 +49,7 @@ const InstrumentVoiceBuilder = props => {
                 {/* VARIANT */}
                 <ChooseOrCreateSelector
                     isFixed={true}
-                    label="Stimme"
+                    label={t('UPLOADER_VOICE_LBL')}
                     labelAttr="name"
                     fetchOptionsUrl="/instrument-voice"
                     initialValue={builtVoice.instrumentVoice?.id ?? null}
@@ -61,7 +63,7 @@ const InstrumentVoiceBuilder = props => {
                 {showWarning && (
                     <div className="mt-68 px-10 py-5 flex justify-center rounded-md bg-red-200">
                         <p className="text-base text-gray-800 text-center">
-                            Instrument und Stimme auswählen!
+                            {t('UPLOADER_INST_AND_VOICE_LBL')}
                         </p>
                     </div>
                 )}

@@ -5,6 +5,7 @@ import ImageCropperToolbar from './ImageCropperToolbar';
 import { UploaderContext } from '../../context/UploaderContext';
 import { MP_EDU } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
+import { useTranslation } from 'react-i18next';
 
 const dimensions = {
     landscape: {
@@ -18,6 +19,7 @@ const dimensions = {
 };
 
 const ImageCropper = props => {
+    const { t } = useTranslation(['uploader']);
     const cropper = useRef(null);
     const [src, setSrc] = useState(null);
     const [image, setImage] = useState(null);
@@ -89,7 +91,7 @@ const ImageCropper = props => {
                         checkOrientation={false}
                     />
                 ) : (
-                    <LoadingBusyIndicator msg="Einen Moment..." />
+                    <LoadingBusyIndicator msg={t('UPLOADER_IMG_CROPPER_LOADING')} />
                 )}
             </div>
 

@@ -2,8 +2,10 @@ import React from 'react';
 import ProgressInfo from '../ProgressInfo';
 import UploadSuccess from './UploadSuccess';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
+import { useTranslation } from 'react-i18next';
 
 const UploadModal = props => {
+    const { t } = useTranslation(['uploader']);
     const isUploading = !props.success && !props.hasError;
 
     return (
@@ -12,8 +14,8 @@ const UploadModal = props => {
                 <ProgressInfo
                     totalSize={props.totalSize}
                     progress={props.progress}
-                    message="Einen Moment noch, Upload läuft..."
-                    infoText="Beim digitalisieren deines Musikstücks generieren wir für unsere Geräte optimierte Versionen. Je nach Anzahl der Stimmen, Notenblätter pro Stimme und Dateigröße deiner original Dateien kann der Musikstück Upload einige Zeit in Anspruch nehmen. Bitte achte auf eine stabile Internetverbindung während des Uploads."
+                    message={t('UPLOADER_UPLOAD_INPROGESS')}
+                    infoText={t('UPLOADER_UPLOAD_INPROGESS_DESC')}
                 />
             ) : (
                 <UploadSuccess

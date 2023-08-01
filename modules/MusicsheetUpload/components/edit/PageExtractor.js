@@ -9,8 +9,10 @@ import {
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import Button from '@material-ui/core/Button';
 import EjectIcon from '@material-ui/icons/Eject';
+import { useTranslation } from 'react-i18next';
 
 const PageExtractor = props => {
+    const { t } = useTranslation(['uploader']);
     const fileType = props.originalFile.type;
     const dispatchConfirm = useDispatchConfirmDialog();
 
@@ -26,9 +28,9 @@ const PageExtractor = props => {
     const handleExtractPageClick = () => {
         dispatchConfirm(
             handelExtractPage,
-            `Seite ${props.pageNbr} aus dem Dokument extrahieren?`,
-            `Seite ${props.pageNbr} wirklich aus dem Dokument entfernen und als neue Instrumentenstimme anlegen? (Diese Aktion kann nicht rückgängig gemacht werden)`,
-            'Ja, extrahieren'
+            `${t('UPLOADER_PAGE')} ${props.pageNbr} ${t('UPLOADER_PAGE_EXTRACT')}`,
+            `${t('UPLOADER_PAGE')} ${props.pageNbr} ${t('UPLOADER_PAGE_EXTRACT_DESC')}`,
+            t('UPLOADER_PAGE_EXTRACT_CONFIRM')
         );
     };
 
@@ -36,11 +38,13 @@ const PageExtractor = props => {
         <Button
             onClick={handleExtractPageClick}
             variant="outlined"
-            title={`Seite ${props.pageNbr} als neue Instrumentenstimme (Datei) extrahieren`}
+            title={`${t('UPLOADER_PAGE')} ${props.pageNbr} ${t('UPLOADER_PAGE_EXTRACT_NEW')}`}
             className={props.className}
         >
             <EjectIcon />
-            <span className="ml-10">Seite {props.pageNbr} extrahieren</span>
+            <span className="ml-10">
+                {t('UPLOADER_PAGE')} {props.pageNbr} {t('UPLOADER_PAGE_EXTRACT_WORD')}
+            </span>
         </Button>
     );
 

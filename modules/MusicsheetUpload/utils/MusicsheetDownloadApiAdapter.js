@@ -1,4 +1,5 @@
 import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/ImplementationModesLookup';
+import { useTranslation } from 'react-i18next';
 
 class MusicsheetDownloadApiAdapter {
     constructor(rawApiData, implementationMode = MP_WEB) {
@@ -64,6 +65,8 @@ class MusicsheetDownloadApiAdapter {
      * Right now we're just returning the id and label provided in the edit data download
      */
     mapVoices(voices, voiceOptions = null) {
+        const { t } = useTranslation(['uploader']);
+
         if (this.implementationMode === MP_EDU) {
             return voices;
         }
@@ -82,7 +85,7 @@ class MusicsheetDownloadApiAdapter {
             return (
                 voiceOption ?? {
                     value: voiceId,
-                    label: 'Stimme noch nicht bearbeitet',
+                    label: t('UPLOADER_VOICE_EDIT_STATUS_NOTICE'),
                     voiceId: voiceId,
                 }
             );

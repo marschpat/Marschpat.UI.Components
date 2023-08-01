@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 
 function useFetchMusicsheetPages() {
+    const { t } = useTranslation(['msd']);
     const [hasError, setHasError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [musicsheetPages, setMusicsheetPages] = useState([]);
@@ -21,7 +23,7 @@ function useFetchMusicsheetPages() {
                 `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
             );
             const success = response?.data ? true : false;
-            const data = success ? response.data : 'invalid API response (no data)';
+            const data = success ? response.data : t('MSD_ERROR_NORESPONSE');
 
             return { success, data };
         } catch (error) {

@@ -4,11 +4,13 @@ import FileHelper from '../../utils/FileHelper';
 import { generateInstrumentSheet } from '../../utils/InstrumentSheetsHelper';
 import Typography from '@material-ui/core/Typography';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { useTranslation } from 'react-i18next';
 
 const FileDropzone = props => {
     const allowedExtensions = ['.mxl', '.musicxml', '.pdf', '.png', '.jpg', '.jpeg'];
     const [originalFiles, setOriginalFiles] = useState(null);
 
+    const { t } = useTranslation(['uploader']);
     /**
      * Validate dropped files, set them as originalFiles and later pass them to parent as handleInstrumentSheetsUpdate.
      * All file types are readed as dataUri string (reader.readAsDataURL), except `mxl` files.
@@ -70,9 +72,7 @@ const FileDropzone = props => {
                 <input {...getInputProps()} accept={allowedExtensions} />
                 <div className="flex flex-col items-center text-gray-400">
                     <CloudUploadIcon style={{ fontSize: 120 }} />
-                    <Typography variant="h6">
-                        Ziehe Files per Drag & Drop hierher oder klicken um Files auszuwählen
-                    </Typography>
+                    <Typography variant="h6">{t('UPLOADER_FILEDROPZONE')}</Typography>
                 </div>
             </div>
         </section>

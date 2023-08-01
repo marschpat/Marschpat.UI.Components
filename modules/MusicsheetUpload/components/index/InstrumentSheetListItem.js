@@ -14,8 +14,10 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import DescriptionIcon from '@material-ui/icons/Description';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import PictureAsPdfIcon from '@material-ui/icons/PictureAsPdf';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentSheetListItem = props => {
+    const { t } = useTranslation(['uploader']);
     const allowedMergeTypes = ['pdf', 'image'];
     const sheetType = props.instrumentSheet.origFiles[0].type;
     const allowMergeMode = allowedMergeTypes.includes(sheetType);
@@ -61,7 +63,11 @@ const InstrumentSheetListItem = props => {
                     sheetId={props.instrumentSheet.uuid}
                     handleRemoveInstrumentSheets={props.handleRemoveInstrumentSheets}
                 />
-                <IconButton edge="end" aria-label="edit-instrument-voice" title="Stimme bearbeiten">
+                <IconButton
+                    edge="end"
+                    aria-label="edit-instrument-voice"
+                    title={t('UPLOADER_VOICE_EDIT_ACTION')}
+                >
                     <ChevronRightIcon />
                 </IconButton>
             </ListItemSecondaryAction>
@@ -78,14 +84,15 @@ function FileTypeIcon({ type }) {
 }
 
 function CompletionStatus({ instrumentSheet }) {
+    const { t } = useTranslation(['uploader']);
     const [completed, voicesReady, pagesReady] = getCompletionStatus(instrumentSheet);
     const voicesNames = voicesReady()
         ? instrumentSheet.voices.map(voice => voice.label).join(', ')
         : null;
     const labelText = () => {
         if (completed) return voicesNames;
-        if (voicesReady() && !pagesReady()) return voicesNames + ' --- Stimme noch bearbeiten! ';
-        return 'Stimme noch nicht bearbeitet';
+        if (voicesReady() && !pagesReady()) return voicesNames + t('UPLOADER_VOICE_EDIT_NOTICE');
+        return t('UPLOADER_VOICE_EDIT_STATUS_NOTICE');
     };
 
     return (
@@ -97,17 +104,18 @@ function CompletionStatus({ instrumentSheet }) {
                     ? 'px-6 max-w-xs truncate cursor-pointer bg-green-300'
                     : 'px-6 cursor-pointer bg-grey-300'
             }
-            title={`Zugewiesene Stimmen: ${voicesNames}`}
+            title={`${t('UPLOADER_VOICES_ASSIGNED')} ${voicesNames}`}
             id="completion-status"
         />
     );
 }
 
 function PageInformation({ instrumentSheet }) {
+    const { t } = useTranslation(['uploader']);
     const pageCount = instrumentSheet.pages.length;
     const isDirty = instrumentSheet?.dirty ?? false;
     const showPagesCount = !isDirty && instrumentSheet.pages.length > 0;
-    return showPagesCount && <span>{`Seiten: ${pageCount}`}</span>;
+    return showPagesCount && <span>{`${t('UPLOADER_PAGES')} ${pageCount}`}</span>;
 }
 
 export default InstrumentSheetListItem;

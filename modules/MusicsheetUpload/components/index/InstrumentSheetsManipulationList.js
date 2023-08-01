@@ -4,8 +4,10 @@ import InstrumentSheetListItem from './InstrumentSheetListItem';
 import { UploaderContext } from '../../context/UploaderContext';
 import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmDialog';
 import List from '@material-ui/core/List';
+import { useTranslation } from 'react-i18next';
 
 const InstrumentSheetsManipulationList = props => {
+    const { t } = useTranslation(['uploader']);
     const instrumentSheets = props.instrumentSheets;
     const renderMergeButton = instrumentSheets.length > 1;
     const [mergeParent, setMergeParent] = useState(null);
@@ -64,15 +66,15 @@ const InstrumentSheetsManipulationList = props => {
 
         props.handleRemoveInstrumentSheets(childs.map(child => child.uuid));
         setInMergeMode(false);
-        dispatchFlashMessage('Stimmen erfolgreich zusammen geführt', 'success');
+        dispatchFlashMessage(t('UPLOADER_VOICES_MERGED_SUCCESS'), 'success');
     };
 
     const handleConfirmMerge = () => {
         dispatchConfirm(
             mergeSheets,
-            'Stimmen wirklich zusammenführen?',
-            'Stimmen wirklich zusammenführen? Diese Aktion kann nicht rückgängig gemacht werden. Bearbeitungsvortschritt in den Stimmen geht gegebenenfalls verloren.',
-            'Stimmen zusammenführen'
+            t('UPLOADER_VOICES_MERGE'),
+            t('UPLOADER_VOICES_MERGE_DESC'),
+            t('UPLOADER_VOICES_MERGE_ACTION')
         );
     };
 

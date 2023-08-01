@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ImageCropper from './ImageCropper';
 import { loadPdf, renderPageAsImage } from '../../utils/PdfViewerHelpers';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
+import { useTranslation } from 'react-i18next';
 
 const PdfToImageConverter = props => {
+    const { t } = useTranslation(['uploader']);
     const [imgSrc, setImgSrc] = useState(null);
     const [pageNbr, setPageNbr] = useState(1);
     const [pdfDocument, setPdfDocument] = useState(null);
@@ -45,7 +47,7 @@ const PdfToImageConverter = props => {
         />
     ) : (
         <div style={{ height: 584 }}>
-            <LoadingBusyIndicator msg="PDF Seite wird geladen..." />
+            <LoadingBusyIndicator msg={t('UPLOADER_PDF_LOADING')} />
         </div>
     );
 };

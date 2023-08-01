@@ -2,21 +2,20 @@ import React from 'react';
 import TooltipStyled from '@marschpat/Marschpat.UI.Components/components/TooltipStyled';
 import IconButton from '@material-ui/core/IconButton';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { useTranslation } from 'react-i18next';
 
 const MxlInfoButton = props => {
+    const { t } = useTranslation(['uploader']);
     return (
         <TooltipStyled
             title={
                 <>
-                    <p>Wenn möglich werden die Voreinstellungen aus dem MXL-File übernommen</p>
+                    <p>{t('UPLOADER_MXL_INFO_BTN')}</p>
                     <ul className="list-disc list-inside">
-                        <li>Zeilenumbrüche aus MXL</li>
-                        <li>Seitenumbrüche aus MXL</li>
+                        <li>{t('UPLOADER_MXL_INFO_LINEBREAK')}</li>
+                        <li>{t('UPLOADER_MXL_INFO_PAGEBREAK')}</li>
                     </ul>
-                    <p className="mt-16">
-                        Es wird empfohlen MXL-Files ab Version 3.0 zu verwenden, um eine optimale
-                        Darstellung zu ermöglichen.
-                    </p>
+                    <p className="mt-16">{t('UPLOADER_MXL_INFO_BREAK_DESC')}</p>
                 </>
             }
         >

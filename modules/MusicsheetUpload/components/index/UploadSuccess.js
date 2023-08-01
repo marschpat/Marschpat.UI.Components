@@ -6,14 +6,16 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import CancelOutlinedIcon from '@material-ui/icons/CancelOutlined';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { useTranslation } from 'react-i18next';
 
 const UploadSuccess = props => {
+    const { t } = useTranslation(['uploader']);
     const { implementationMode } = useContext(UploaderContext);
 
     return (
         <div className="w-full flex flex-col items-center">
             <Typography className="text-40 text-center" color="primary">
-                {!props.hasError ? 'Upload erfolgreich!' : 'Upload fehlgeschlagen'}
+                {!props.hasError ? `${t('UPLOADER_UPLOAD_SUCCESS')}!` : t('UPLOADER_UPLOAD_ERROR')}
             </Typography>
             {!props.hasError ? (
                 <>
@@ -22,7 +24,7 @@ const UploadSuccess = props => {
                         className="w-128 h-128 my-32 text-mp-gold"
                     />
                     <Typography className="text-20 mb-16 text-center">
-                        Das Musikstück steht in unserer Notenbibliothek zur Verfügung.
+                        {t('UPLOADER_UPLOAD_SUCCESS_DESC')}
                     </Typography>
                     <div className="mt-16 w-full flex justify-around">
                         <Button
@@ -31,14 +33,14 @@ const UploadSuccess = props => {
                             variant="contained"
                             color="primary"
                         >
-                            Zur Notenbibliothek
+                            {t('UPLOADER_UPLOAD_SUCCESS_GOTO_MUSICLIB')}
                         </Button>
                         <Button
                             onClick={() => window.location.reload(false)}
                             variant="contained"
                             color="secondary"
                         >
-                            Weiter uploaden
+                            {t('UPLOADER_UPLOAD_SUCCESS_GOTO_UPLOAD')}
                         </Button>
                     </div>
                 </>
@@ -49,11 +51,11 @@ const UploadSuccess = props => {
                         className="w-128 h-128 my-32 text-red-500"
                     />
                     <Typography className="text-20 mb-16 text-center">
-                        Beim Upload ist ein Fehler aufgetreten:{' '}
+                        {t('UPLOADER_UPLOAD_ERROR_MSG')}{' '}
                         <span className="text-red-500">{props.hasError}</span>
                     </Typography>
                     <Button onClick={props.handleSubmitPayloadReset} variant="contained">
-                        Zurück
+                        {t('UPLOADER_UPLOAD_ERROR_BACK')}
                     </Button>
                 </>
             )}

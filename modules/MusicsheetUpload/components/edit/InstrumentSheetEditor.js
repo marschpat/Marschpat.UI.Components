@@ -13,10 +13,12 @@ import { findOrigFileForPage } from '../../utils/InstrumentSheetsHelper';
 import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugMode';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const supportedTypes = ['image', 'pdf', 'mxl'];
 
 const InstrumentSheetEditor = props => {
+    const { t } = useTranslation(['uploader']);
     const [pages, setPages, pageInEdit, setPageInEdit, originalFile, setOriginalFile, previews] =
         useGeneratePages(props.instrumentSheet, supportedTypes, true);
     const [assignedVoices, setAssignedVoices] = useState(props.instrumentSheet.voices ?? null);
@@ -101,7 +103,7 @@ const InstrumentSheetEditor = props => {
                         <div className="w-full ml-36">
                             {implementationMode !== MP_EDU && (
                                 <div className="mb-24 flex flex-grow-0">
-                                    <Typography variant="h6">Besetzung:</Typography>
+                                    <Typography variant="h6">{t('CAST')}:</Typography>
                                     <Typography variant="h6" className="ml-12">
                                         {props.castName}
                                     </Typography>
@@ -115,17 +117,15 @@ const InstrumentSheetEditor = props => {
                                 <div className="mt-40">
                                     <div className="flex items-center justify-between">
                                         <p className="text-base text-orange-300 font-bold">
-                                            Du findest die gewünschte Stimme nicht?
+                                            {t('UPLOADER_IMG_CROPPER_HELP_VOICES')}
                                         </p>
                                         <InfoTooltip
                                             name="missing-cast-info"
-                                            title='Hast du die richtige Besetzung ausgewählt? Schließe die Stimmen Ansicht und wähle die für dich passende Besetzung bei den "Grunddaten des Musikstücks" aus'
+                                            title={t('UPLOADER_IMG_CROPPER_HELP_VOICES_TTP')}
                                         />
                                     </div>
                                     <p className="mt-10 text-base text-orange-300">
-                                        Hast du die richtige Besetzung ausgewählt? Schließe die
-                                        Stimmen Ansicht und wähle die für dich passende Besetzung
-                                        bei den "Grunddaten des Musikstücks" aus
+                                        {t('UPLOADER_IMG_CROPPER_HELP_VOICES_DESC')}
                                     </p>
                                 </div>
                             )}
@@ -140,7 +140,7 @@ const InstrumentSheetEditor = props => {
             </div>
         </div>
     ) : (
-        <LoadingBusyIndicator msg="Einen Moment, Datei wird geladen und zur Bearbeitung aufbereitet." />
+        <LoadingBusyIndicator msg={t('UPLOADER_IMG_CROPPER_LOADING_EDIT')} />
     );
 
     /* Update the currently edited page */
@@ -174,7 +174,7 @@ const InstrumentSheetEditor = props => {
     function storeAndUpdateVoices() {
         persistCurrentInstrumentSheet();
         handleAvailableVoicesUpdate();
-        dispatchFlashMessage('Instrumentenstimme gespeichert', 'success');
+        dispatchFlashMessage(t('UPLOADER_IMG_CROPPER_VOICE_SAVED'), 'success');
     }
 
     /* Build the final InstrumentSheet Object and pass it up to parent component (MusicsheetUploadIndex) */
@@ -211,7 +211,7 @@ const InstrumentSheetEditor = props => {
             return page;
         });
         setPages(newPages);
-        dispatchFlashMessage('Auswahl für alle Seiten im File übernommen', 'success');
+        dispatchFlashMessage(t('UPLOADER_IMG_CROPPER_SELECTION_ALL'), 'success');
     }
 };
 

@@ -5,10 +5,12 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import MergeTypeIcon from '@material-ui/icons/MergeType';
 import EmojiFlagsIcon from '@material-ui/icons/EmojiFlags';
+import { useTranslation } from 'react-i18next';
 
 const MergeControls = props => {
     const inMergeMode = props.inMergeMode;
     const [checked, setChecked] = useState(false);
+    const { t } = useTranslation(['uploader']);
 
     useEffect(() => {
         setChecked(props.isMergeChild);
@@ -22,7 +24,7 @@ const MergeControls = props => {
     return !inMergeMode ? (
         <div className="inline-block">
             {props.wasMerged && (
-                <div className="inline-block" title="Zusammengefügte Stimmen">
+                <div className="inline-block" title={t('UPLOADER_VOICES_MERGED_TTP')}>
                     <EmojiFlagsIcon className="mr-20 text-mp-gold" />
                 </div>
             )}
@@ -30,7 +32,7 @@ const MergeControls = props => {
                 <IconButton
                     onClick={() => props.handleActivateMergeMode(props.instrumentSheetId)}
                     aria-label="merge-instrument-voices"
-                    title="Stimmen zusammen führen"
+                    title={t('UPLOADER_VOICES_MERGE_ACTION')}
                 >
                     <MergeTypeIcon />
                 </IconButton>
@@ -43,14 +45,14 @@ const MergeControls = props => {
                     <IconButton
                         onClick={props.handleConfirmMerge}
                         aria-label="confirm-merge"
-                        title="Stimmen zusammen führen"
+                        title={t('UPLOADER_VOICES_MERGE_ACTION')}
                     >
                         <DoneIcon />
                     </IconButton>
                     <IconButton
                         onClick={props.handleCancelMergeMode}
                         aria-label="cancel-merge"
-                        title="Zusammen führen abbrechen"
+                        title={t('UPLOADER_VOICES_MERGE_CANCEL')}
                     >
                         <CloseIcon />
                     </IconButton>

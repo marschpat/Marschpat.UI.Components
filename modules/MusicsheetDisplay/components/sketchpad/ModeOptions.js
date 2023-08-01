@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ModeOptionDraw from './ModeOptionDraw';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 
 const ModeOptions = props => {
+    const { t } = useTranslation(['msd']);
     const [modeOptions, setModeOptions] = useState({
         draw: { name: 'draw', size: 5, color: '#3f3f3f' },
         marker: { name: 'marker', size: 32, color: 'rgba(234, 255, 0, 0.43)' },
@@ -38,10 +40,10 @@ const ModeOptions = props => {
                 />
             )}
             {props.mode === 'marker' && (
-                <Typography className="text-gray-700">Textmarker / Highlighter</Typography>
+                <Typography className="text-gray-700">{t('MSD_TOOL_MARKER')}</Typography>
             )}
             {props.mode === 'text' && (
-                <Typography className="text-gray-700">Text als Notiz</Typography>
+                <Typography className="text-gray-700">{t('MSD_TOOL_TEXT_AS_NOTE')}</Typography>
             )}
         </div>
     );

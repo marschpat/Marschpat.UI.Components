@@ -3,6 +3,7 @@ import Loading from '../Loading';
 import LoadingError from '../LoadingError';
 import LayerControls from './LayerControls';
 import SketchpadDrawPage from './SketchpadDrawPage';
+import { useTranslation } from 'react-i18next';
 
 import {
     MusicsheetLoaderContext,
@@ -13,6 +14,7 @@ import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugM
 import { v4 as uuidv4 } from 'uuid';
 
 const Sketchpad = () => {
+    const { t } = useTranslation(['msd']);
     const { musicsheetMetaData, instrumentVoice } = useContext(MusicsheetLoaderContext);
     const { setSketchpadLayers, persistSketchpadLayerInDb, toggleViewMode } =
         useContext(MusicsheetDisplayContext);
@@ -47,7 +49,7 @@ const Sketchpad = () => {
             .map(drawPage => drawPage.getCanvasDrawPageLayerObject())
             .filter(el => el);
         if (layerPages.length < 1) {
-            alert('Notiz ist leer');
+            alert(t('MSD_NOTE_EMPTY'));
             return false;
         }
         await persistLayerInCreation(layerPages);

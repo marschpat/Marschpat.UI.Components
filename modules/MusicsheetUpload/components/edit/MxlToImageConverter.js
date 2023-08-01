@@ -4,6 +4,7 @@ import { UploaderContext } from '../../context/UploaderContext';
 import MxlControlToolbar from '../edit/MxlControlToolbar';
 import LoadingModal from '@marschpat/Marschpat.UI.Components/components/LoadingModal';
 import LoadingBusyIndicator from '@marschpat/Marschpat.UI.Components/components/LoadingBusyIndicator';
+import { useTranslation } from 'react-i18next';
 
 const defaultOsmdOptions = {
     zoom: 1,
@@ -14,6 +15,7 @@ const defaultOsmdOptions = {
 };
 
 const MxlToImageConverter = props => {
+    const { t } = useTranslation(['uploader']);
     const osmdEl = useRef(null);
     const [isLoading, setIsLoading] = useState(true);
     const [pageImages, setPageImages] = useState(null);
@@ -78,8 +80,8 @@ const MxlToImageConverter = props => {
 
             <LoadingModal open={isLoading}>
                 <LoadingBusyIndicator
-                    msg="MXL Datei wird geladen..."
-                    description="Wir bereiten dein MusicXML file zur weiteren Verarbeitung vor. Abhängig von Größe und Komplexität der MXL Datei, der Rechenleistung deines Computers, und anderen Faktoren kann dies einige Zeit in Anspruch nehmen."
+                    msg={t('UPLOADER_MXL_LOADING')}
+                    description={t('UPLOADER_MXL_LOADING_DESC')}
                 />
             </LoadingModal>
         </div>
@@ -184,9 +186,7 @@ const MxlToImageConverter = props => {
             console.error('Error occured in MxlToImageConverter', e);
             setIsLoading(false);
             props.handleCloseOnError();
-            dispatchFlashMessage(
-                'MXL Datei fehlerhaft! Bitte überprüfe die MXL Datei. Ist es eine MXL Version 3.0 Datei?'
-            );
+            dispatchFlashMessage(t('UPLOADER_MXL_ERROR'));
         }
     }
 
