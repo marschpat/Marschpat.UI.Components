@@ -20,7 +20,9 @@ const EditModeInspector = props => {
         const apiAdapter = new MusicsheetDownloadApiAdapter(rawData, implementationMode);
         const metaData = apiAdapter.getMetaData();
         const uploadScope = apiAdapter.getUploadScope();
-        const instrumentSheets = apiAdapter.getInstrumentSheets();
+        const instrumentSheets = apiAdapter.getInstrumentSheets(
+            t('UPLOADER_VOICE_EDIT_STATUS_NOTICE')
+        );
         props.handleInitialEditValues({
             metaData,
             uploadScope,

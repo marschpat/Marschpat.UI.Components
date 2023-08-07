@@ -7,9 +7,9 @@ class MusicsheetDownloadApiAdapter {
         this.implementationMode = implementationMode;
     }
 
-    getInstrumentSheets() {
+    getInstrumentSheets(notice) {
         return this.rawData.instrumentSheets.map(rawSheet => {
-            const voicesClean = this.mapVoices(rawSheet.voices);
+            const voicesClean = this.mapVoices(rawSheet.voices, null, notice);
             const origFilesClean = this.mapOriginalFiles(rawSheet.origFiles);
             const pagesClean = this.mapPages(rawSheet.pages);
 
@@ -64,8 +64,8 @@ class MusicsheetDownloadApiAdapter {
      * We could provide voiceOptions here and set the actual voice item.
      * Right now we're just returning the id and label provided in the edit data download
      */
-    mapVoices(voices, voiceOptions = null) {
-        const { t } = useTranslation(['uploader']);
+    mapVoices(voices, voiceOptions = null, notice = '') {
+        /* const { t } = useTranslation(['uploader']); */
 
         if (this.implementationMode === MP_EDU) {
             return voices;
@@ -85,7 +85,8 @@ class MusicsheetDownloadApiAdapter {
             return (
                 voiceOption ?? {
                     value: voiceId,
-                    label: t('UPLOADER_VOICE_EDIT_STATUS_NOTICE'),
+                    /* label: t('UPLOADER_VOICE_EDIT_STATUS_NOTICE'), */
+                    label: notice,
                     voiceId: voiceId,
                 }
             );
