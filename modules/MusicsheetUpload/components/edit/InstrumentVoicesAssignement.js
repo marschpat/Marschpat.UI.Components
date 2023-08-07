@@ -15,7 +15,7 @@ const InstrumentVoicesAssignement = props => {
             <Typography variant="h5">
                 {implementationMode === MP_EDU
                     ? t('UPLOADER_INST_AND_VOICE_LBL')
-                    : t('UPLOADER_SET_VOICE')}
+                    : t('UPLOADER_SET_VOICE_1')}
             </Typography>
 
             {implementationMode === MP_WEB && (

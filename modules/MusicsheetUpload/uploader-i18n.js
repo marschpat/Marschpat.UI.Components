@@ -115,7 +115,7 @@ export const de = {
     UPLOADER_VOICE_LBL: 'Stimme',
     UPLOADER_INST_AND_VOICE_LBL: 'Stimme & Instrument festlegen',
     UPLOADER_SET_INST_AND_VOICE: 'Instrument und Stimme auswählen!',
-    UPLOADER_SET_VOICE: 'Stimme auswählen',
+    UPLOADER_SET_VOICE_1: 'Stimme auswählen',
     UPLOADER_SET_INSTRUMENTVOICE: 'Instrumentenstimme wählen',
     UPLOADER_SET_CAST_FIRST_WARNING: '! Bitte zuerst Besetzung auswählen !',
     UPLOADER_MXL_COMPACTMODE:
@@ -285,7 +285,7 @@ export const en = {
     UPLOADER_VOICE_LBL: 'Voice',
     UPLOADER_INST_AND_VOICE_LBL: 'Set voice & instrument',
     UPLOADER_SET_INST_AND_VOICE: 'Select voice & instrument!',
-    UPLOADER_SET_VOICE: 'Select instrument voice',
+    UPLOADER_SET_VOICE_1: 'Select instrument voice',
     UPLOADER_SET_INSTRUMENTVOICE: 'Select instrument voice',
     UPLOADER_SET_CAST_FIRST_WARNING: '! Please select instrumentation first !',
     UPLOADER_MXL_COMPACTMODE:
