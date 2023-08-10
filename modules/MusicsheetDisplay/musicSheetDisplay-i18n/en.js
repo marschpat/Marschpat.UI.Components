@@ -32,6 +32,7 @@ const locale = {
     MSD_NOTES_DEFAULT_NAME: 'New remark',
     MSD_NOTES_CREATE: 'Create remark',
     MSD_NOTES_CREATE_CANCEL: 'Cancel',
+    MSD_PRINT_NOT_ALLOWED: 'Duplication of musicsheets is not permitted.',
 };
 
 export default locale;

@@ -32,6 +32,7 @@ const locale = {
     MSD_NOTES_DEFAULT_NAME: 'Neue Notiz',
     MSD_NOTES_CREATE: 'Notiz anlegen',
     MSD_NOTES_CREATE_CANCEL: 'Abbrechen',
+    MSD_PRINT_NOT_ALLOWED: 'Es ist nicht gestattet die Noten zu vervielfältigen.',
 };
 
 export default locale;
