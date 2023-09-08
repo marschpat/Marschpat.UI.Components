@@ -131,22 +131,24 @@ const MusicsheetDisplay = props => {
                 <img src={'assets/images/logos/MARSCHPAT_LOGO_CENTERED.png'} />
             </div> */}
             <div className="mt-160 sm:mt-136 md:mt-48 w-full">
-                <div
-                    className="flex flex-row "
-                    style={{
-                        position: 'absolute',
-                        top: '20%',
-                        left: '30%',
-                    }}
-                >
-                    <img
+                {musicsheetMetaData.ownerType === 'Public' && (
+                    <div
+                        className="flex flex-row "
                         style={{
-                            zIndex: 9999,
-                            opacity: 0.2,
+                            position: 'absolute',
+                            top: '20%',
+                            left: '30%',
                         }}
-                        src={'assets/images/logos/MARSCHPAT_LOGO_CENTERED.png'}
-                    />
-                </div>
+                    >
+                        <img
+                            style={{
+                                zIndex: 9999,
+                                opacity: 0.2,
+                            }}
+                            src={'assets/images/logos/MARSCHPAT_LOGO_CENTERED.png'}
+                        />
+                    </div>
+                )}
 
                 {/* render "normal" VIEW view mode */}
                 {viewMode === 'view' && !isLoading && <MusicsheetGalleryWithSketchpadLayers />}
