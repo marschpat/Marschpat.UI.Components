@@ -8,7 +8,8 @@ const TextInput = props => {
 
     return (
         <div className="max-w-512 w-full mt-20 mr-36">
-            <TextField
+            {props.title && <p className="text-gray-700 text-xl pb-4">{props.title}</p>}
+            <TextField className="bg-white"
                 type="text"
                 label={props.label}
                 id={props.name}

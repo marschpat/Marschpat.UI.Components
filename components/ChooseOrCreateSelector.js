@@ -80,22 +80,24 @@ const ChooseOrCreateSelector = props => {
     }, [props.resetState]);
 
     return (
-        <FuseChipSelect
-            value={selected}
-            options={options}
-            onChange={handleChange}
-            className="max-w-512 w-full mt-20 mr-36"
-            placeholder={`${props.label} ` + t('CHOOSE') + (props.isFixed ? '' : ' ' + t('CREATE'))}
-            error={false}
-            textFieldProps={{
-                label: props.label,
-                InputLabelProps: { shrink: true },
-                variant: 'outlined',
-            }}
-            isMulti={props.isMulti ? true : false}
-            variant={props.isFixed ? 'fixed' : ''}
-            id={props.label ? props.label.toLowerCase() : Math.random()}
-        />
+        <div className="max-w-512 w-full mt-20 mr-36">
+            {props.title && <p className="text-gray-700 text-xl pb-4">{props.title}</p>}
+            <FuseChipSelect className="bg-white"
+                value={selected}
+                options={options}
+                onChange={handleChange}
+                placeholder={`${props.label} ` + t('CHOOSE') + (props.isFixed ? '' : ' ' + t('CREATE'))}
+                error={false}
+                textFieldProps={{
+                    label: props.label,
+                    InputLabelProps: { shrink: true },
+                    variant: 'outlined',
+                }}
+                isMulti={props.isMulti ? true : false}
+                variant={props.isFixed ? 'fixed' : ''}
+                id={props.label ? props.label.toLowerCase() : Math.random()}
+            />
+        </div>
     );
 };
 

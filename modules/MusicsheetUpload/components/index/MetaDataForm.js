@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import axios from 'axios';
 import EmbedVideo from './EmbedVideo';
 import TagSelector from './TagSelector';
@@ -13,6 +13,7 @@ import ChooseOrCreateSelector from '@marschpat/Marschpat.UI.Components/component
 import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
+import CloseButton from '../../utils/CloseButton';
 
 const initialMetaData = require('../../metaData.initial.json');
 
@@ -30,12 +31,16 @@ const MetaDataForm = props => {
         props.handleMetaDataUpdate(metaData);
     }, 500);
 
+    const handleMetadataCloseClick = () => {
+        props.onMetadataCloseClick();
+    };
+
     // Handle metaData change
     useEffect(() => {
         handleDebouncedMetaDataUpdate(metaData);
     }, [metaData]);
 
-    // Update errors
+    // Update errors    // triggers an infite render loop when errors thrown
     useEffect(() => {
         props.handleUpdateErrors(errors);
     }, [errors]);
@@ -57,18 +62,25 @@ const MetaDataForm = props => {
     }, [props.initialMetaData]);
 
     return (
-        <section>
-            <div className="flex items-center justify-between">
-                <Typography variant="h6" className="font-bold">
-                    {t('META_HL')}
-                </Typography>
-                <BrowserSupportNote />
-                <EmbedVideo />
-                <HelpModeButton />
+        <section className="block w-full p-6 ml-6 bg-gray-200  border border-gray-200 shadow pb-24">
+            <div className="relative flex items-center justify-between">
+                <div className="absolute left-0 flex items-center pb-24">
+                    <CloseButton onClick={handleMetadataCloseClick}/>
+                </div>
+                <div className="mx-auto text-center pt-24 pb-12">
+                    <Typography variant="h4" className="font-bold">
+                        {t('META_HL')}
+                    </Typography>
+                    <p className="text-gray-700 text-xl pb-4">filename{/* TODO: insert filename variable */}</p>
+                </div>
+                <div className="flex space-x-4">
+                    <BrowserSupportNote />
+                    <EmbedVideo />
+                </div>
             </div>
             <div className="flex flex-wrap pl-24">
                 <TextInput
-                    label={t('META_TITLE')}
+                    title={t('META_TITLE')}
                     name="title"
                     value={metaData.title}
                     onChange={event => setMetaData({ ...metaData, title: event.target.value })}
@@ -89,7 +101,7 @@ const MetaDataForm = props => {
                         error={checkIfError('cast')}
                     />
                 )}
-
+                <p className="text-gray-700 text-xl pt-24">{t('META_TITLE_OPTIONAl')}</p>
                 <ChooseOrCreateSelector
                     label={t('PUBLISHER')}
                     labelAttr="name"

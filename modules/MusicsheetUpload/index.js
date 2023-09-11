@@ -15,6 +15,9 @@ import useInDebugMode from '@marschpat/Marschpat.UI.Components/utils/useInDebugM
 import i18next from 'i18next';
 import { de, en } from './uploader-i18n';
 import { useTranslation } from 'react-i18next';
+import Typography from '@material-ui/core/Typography';
+import UploadVoiceSelector from '../MusicsheetUpload/components/index/UploadVoiceSelector';
+import { tr } from 'date-fns/locale';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -38,6 +41,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [resetChildState, setResetChildState] = useState(false);
     const [agreedToLegalConsent, setAgreedToLegalConsent] = useState(false);
     const [inHelpMode, setInHelpMode] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 720);
+
+    // visibillity states for mobile view popups
+    const [isVisible, setIsVisible] = useState(false);
+    const [isMetadataVisible, setMetadataIsVisible] = useState(true);
+
     const [
         castOptions,
         availableInstrumentVoices,
@@ -48,10 +57,33 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     const { t } = useTranslation(['uploader']);
 
+    const handleMetadataIsVisibleStateChangeClose = () => {
+        setMetadataIsVisible(false);
+    };
+
+    const handleMetadataIsVisibleStateChangeOpen = () => {
+        setMetadataIsVisible(true);
+    };
+
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
     useEffect(() => {
         setResetChildState(false);
     }, [resetChildState]);
+
+    useEffect(() => {
+        // function to handle resize event
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 720);
+        };
+
+        // Add event listener on component mount for resize event
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     return (
         <div id="uploader-top">
@@ -74,51 +106,60 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                 >
                     <UsagePermissionCheck>
                         <div className="max-w-3xl mx-auto my-20 px-16 sm:px-24">
-                            <div>
-                                <MetaDataForm
-                                    castOptions={castOptions}
-                                    resetState={resetChildState}
-                                    initialMetaData={initialEdit?.metaData}
-                                    castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
-                                    handleUpdateErrors={setErrors}
-                                    handleMetaDataUpdate={setMetaData}
-                                    handleCastChange={handleCastChange}
-                                    handleVoicesAssignementReset={resetAllVoicesAssignements}
-                                />
-                                <UploadScopeSelector
-                                    initialScope={initialEdit?.uploadScope}
-                                    userSubscriptionValidationRequired={false}
-                                    handleUploadScopeUpdate={setUploadScope}
-                                />
-                                <InstrumentSheetsOverview
-                                    instrumentSheets={instrumentSheets}
-                                    availableVoices={availableInstrumentVoices}
-                                    handleCastCheck={castIsSetOrError}
-                                    handleInstrumentSheetsUpdate={setInstrumentSheets}
-                                    handleRemoveInstrumentSheets={removeInstrumentSheets}
-                                    handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                                    handleOpenInstrumentSheetEdit={toggleInstrumentSheetEditDialog}
-                                />
-                                <FileDropzone
-                                    resetState={resetChildState}
-                                    handleInstrumentSheetsUpdate={addNewInstrumentSheets}
-                                />
-                                <LegalConsent
-                                    agreed={agreedToLegalConsent}
-                                    handleChange={() =>
-                                        setAgreedToLegalConsent(!agreedToLegalConsent)
-                                    }
-                                />
-                                <SubmitFinalPayload
-                                    errors={errors}
-                                    sheetId={sheetId}
-                                    metaData={metaData}
-                                    uploadScope={uploadScope}
-                                    instrumentSheets={instrumentSheets}
-                                    agreedToLegalConsent={agreedToLegalConsent}
-                                />
-                                {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}
-                            </div>
+                            <Typography variant="h4" className="font-bold p-24">
+                                {t('UPLOADER_TITLE')}
+                            </Typography>
+                            {isMobile ? 
+                                <div className={`fixed bottom-0 left-0 w-full bg-white p-4 border shadow-lg transform transition-transform duration-300 ${ isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
+                                    Popup Content
+                                </div>
+                            : 
+                                <div className="grid grid-cols-2 gap-4">
+                                    <UploadVoiceSelector
+                                        filename="Filename"
+                                        instrumentation="Instrumentation"
+                                        availableVoices={availableInstrumentVoices}
+                                        handleCastCheck={castIsSetOrError}
+                                        handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                                        onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
+                                    />
+                                    {isMetadataVisible && <MetaDataForm
+                                        castOptions={castOptions}
+                                        resetState={resetChildState}
+                                        initialMetaData={initialEdit?.metaData}
+                                        castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                        handleUpdateErrors={setErrors}
+                                        handleMetaDataUpdate={setMetaData}
+                                        handleCastChange={handleCastChange}
+                                        handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                        onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
+                                    />}
+                                    {/**<UploadScopeSelector
+                                        initialScope={initialEdit?.uploadScope}
+                                        userSubscriptionValidationRequired={false}
+                                        handleUploadScopeUpdate={setUploadScope}
+                                    />
+                                    <FileDropzone
+                                        resetState={resetChildState}
+                                        handleInstrumentSheetsUpdate={addNewInstrumentSheets}
+                                    />
+                                    <LegalConsent
+                                        agreed={agreedToLegalConsent}
+                                        handleChange={() =>
+                                            setAgreedToLegalConsent(!agreedToLegalConsent)
+                                        }
+                                    />
+                                    <SubmitFinalPayload
+                                        errors={errors}
+                                        sheetId={sheetId}
+                                        metaData={metaData}
+                                        uploadScope={uploadScope}
+                                        instrumentSheets={instrumentSheets}
+                                        agreedToLegalConsent={agreedToLegalConsent}
+                                    />
+                                    {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}*/}
+                                </div>
+                            }
                         </div>
                     </UsagePermissionCheck>
                     {instrumentSheetInEdit && openEdit && (

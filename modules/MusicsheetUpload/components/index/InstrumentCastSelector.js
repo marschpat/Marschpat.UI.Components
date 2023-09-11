@@ -5,6 +5,12 @@ import useDispatchConfirmDialog from '@marschpat/local/utils/useDispatchConfirmD
 import InputErrorMessage from '@marschpat/Marschpat.UI.Components/components/InputErrorMessage';
 import FuseChipSelect from '@fuse/core/FuseChipSelect';
 import { useTranslation } from 'react-i18next';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
 
 const InstrumentCastSelector = props => {
     const { t } = useTranslation(['uploader']);
@@ -12,12 +18,13 @@ const InstrumentCastSelector = props => {
     const showError = props.error ? true : false;
     const castOptions = props.castOptions ?? [];
     const [selectedCast, setSelectedCast] = useState(null);
+    const [tempSelectedCast, setTempSelectedCast] = useState(null);
     const { inHelpMode } = useContext(UploaderContext);
-
+    const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] = useState(false);
     const handleChange = cast => {
         if (selectedCast?.id === cast.id) return;
-        props.handleVoicesAssignementReset();
-        setSelectedCast(cast);
+        setTempSelectedCast(cast);
+        handleClickOpen();
     };
 
     const handleCastChange = cast => {
@@ -32,6 +39,26 @@ const InstrumentCastSelector = props => {
             );
         }
     };
+
+    const handleClickOpen = () => {
+        setOpenInstrumentationConfirmationModal(true);
+    };
+    
+    const handleClose = () => {
+        setOpenInstrumentationConfirmationModal(false);
+    };
+
+    const handleConfirm = () => {
+        props.handleVoicesAssignementReset();
+        if(!tempSelectedCast) return;
+        setSelectedCast(tempSelectedCast);
+        setTempSelectedCast(null);
+        setOpenInstrumentationConfirmationModal(false);
+    };
+
+    useEffect(() => {
+        console.log("openInstrumentationConfirmationModal", openInstrumentationConfirmationModal);
+    }, [openInstrumentationConfirmationModal]);
 
     // Update selected cast
     useEffect(() => {
@@ -55,12 +82,12 @@ const InstrumentCastSelector = props => {
 
     return (
         <div className="max-w-512 w-full mt-20 mr-36">
-            <FuseChipSelect
+            <p className="text-gray-700 text-s pb-4">{t('CAST')}</p>
+            <FuseChipSelect className="bg-white"
                 value={selectedCast}
                 onChange={handleCastChange}
                 placeholder={t('CAST_SELECT')}
                 textFieldProps={{
-                    label: t('CAST'),
                     InputLabelProps: {
                         shrink: true,
                     },
@@ -79,6 +106,24 @@ const InstrumentCastSelector = props => {
                     <InfoTooltip name="instrument-cast-info" title={t('UPLOADER_HOWTOCAST_DESC')} />
                 </div>
             )}
+                <Dialog
+                    open={openInstrumentationConfirmationModal}
+                    onClose={handleClose}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <div className="p-24">
+                        <DialogTitle id="alert-dialog-title" className="text-center">{t('CAST_WARNING_HL')}</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description" className="text-center">{t('CAST_WARNING_TEXT')}</DialogContentText>
+                        </DialogContent>
+                        <DialogActions className="flex items-center justify-center">
+                            <Button onClick={handleClose} className="flex items-left justify-center bg-grey-200 rounded">{t('CAST_WARNING_CANCEL')}</Button>
+                            <Button onClick={handleConfirm} className="flex items-center justify-center bg-grey-200 rounded">{t('CAST_WARNING_CONFIRM')}</Button>
+                        </DialogActions>
+                    </div>
+                </Dialog>
+            
         </div>
     );
 };

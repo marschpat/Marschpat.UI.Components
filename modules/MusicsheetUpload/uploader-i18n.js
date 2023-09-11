@@ -1,6 +1,7 @@
 export const de = {
-    META_HL: 'Grunddaten des Musikstücks',
+    META_HL: 'Metadaten bearbeiten',
     META_TITLE: 'Titel des Musikstücks',
+    META_TITLE_OPTIONAl: 'Metadaten (optional) ⌄',
     ERROR_TITLE: 'Bitte Titel eingeben',
     PUBLISHER: 'Verlag',
     COMPOSER: 'Komponist',
@@ -14,6 +15,7 @@ export const de = {
     CAST_WARNING_TEXT:
         'Besetzung wirklich ändern? Zuordnung bereits zugewiesener Stimmen gehen dadurch verloren.',
     CAST_WARNING_CONFIRM: 'Besetzung auswählen',
+    CAST_WARNING_CANCEL: 'Abbrechen',
     ERROR_CAST: 'Bitte Besetzung auswählen',
     TAGS: 'Tags',
     TAGS_SELECT: "Tag's zuordnen",
@@ -24,6 +26,8 @@ export const de = {
     SCOPE_MARCH_ORG: 'In die Notenbibliothek meines Vereins hochladen:',
     SCOPE_EDU_PRIVATE: 'Für mich hochladen (private Notenbibliothek)',
     SCOPE_EDU_ORG: 'Für Musikschule Notenbibliothek hochladen:',
+
+    UPLOADER_TITLE: 'Noten hochladen',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -169,8 +173,9 @@ export const de = {
 };
 
 export const en = {
-    META_HL: 'Music sheet base data',
+    META_HL: 'Edit metadata',
     META_TITLE: 'Music sheet title',
+    META_TITLE_OPTIONAl: 'Metadata (optional) ⌄',
     ERROR_TITLE: 'Please enter title',
     PUBLISHER: 'Publisher',
     COMPOSER: 'Composer',
@@ -184,6 +189,7 @@ export const en = {
     CAST_WARNING_TEXT:
         'Really change the instrumentation? Assignments of already assigned instrument voices are lost as a result.',
     CAST_WARNING_CONFIRM: 'Change instrumentation',
+    CAST_WARNING_CANCEL: 'Cancel',
     ERROR_CAST: 'Please select instrumentation',
     TAGS: 'Tags',
     TAGS_SELECT: 'Select tags',
@@ -195,6 +201,7 @@ export const en = {
     SCOPE_EDU_PRIVATE: 'Upload to my private musiclibrary',
     SCOPE_EDU_ORG: 'Upload to my band musiclibrary:',
 
+    UPLOADER_TITLE: 'Upload Notes',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',
     UPLOADER_INDEX_ALREADY_ADDED: 'already added',
