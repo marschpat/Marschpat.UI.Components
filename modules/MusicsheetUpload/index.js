@@ -17,7 +17,7 @@ import { de, en } from './uploader-i18n';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import UploadVoiceSelector from '../MusicsheetUpload/components/index/UploadVoiceSelector';
-import { tr } from 'date-fns/locale';
+import InfoPlaceholder from '../MusicsheetUpload/components/index/InfoPlaceholder';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -42,6 +42,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [agreedToLegalConsent, setAgreedToLegalConsent] = useState(false);
     const [inHelpMode, setInHelpMode] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 720);
+    const [selectedCast, setSelectedCast] = useState(null);
 
     // visibillity states for mobile view popups
     const [isVisible, setIsVisible] = useState(false);
@@ -64,6 +65,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const handleMetadataIsVisibleStateChangeOpen = () => {
         setMetadataIsVisible(true);
     };
+
+    const handeCastChanged = (cast) => {
+        handleCastChange(cast);
+        setSelectedCast(cast);
+    }
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
     useEffect(() => {
@@ -110,30 +116,64 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                 {t('UPLOADER_TITLE')}
                             </Typography>
                             {isMobile ? 
-                                <div className={`fixed bottom-0 left-0 w-full bg-white p-4 border shadow-lg transform transition-transform duration-300 ${ isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
-                                    Popup Content
+                                <div>
+                                    <div className="grid grid-cols-1 gap-4" style={{ flex: 1, visibility: !isMetadataVisible ? "visible" : "hidden", position: !isMetadataVisible ? 'relative' : 'absolute'}}>
+                                        <UploadVoiceSelector
+                                            filename={metaData ? metaData.title : "---"}
+                                            instrumentation={selectedCast ? selectedCast.label : "---"}
+                                            availableVoices={availableInstrumentVoices}
+                                            isMetadataVisible={isMetadataVisible}
+                                            isMobile={isMobile}
+                                            handleCastCheck={castIsSetOrError}
+                                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                                            onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
+                                        />
+                                    </div>
+                                    <div className="flex box w-full h-full" style={{ flex: 1, visibility: isMetadataVisible ? "visible" : "hidden", position: isMetadataVisible ? 'relative' : 'absolute'}}>
+                                        <MetaDataForm
+                                            castOptions={castOptions}
+                                            resetState={resetChildState}
+                                            initialMetaData={initialEdit?.metaData}
+                                            castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                            handleUpdateErrors={setErrors}
+                                            handleMetaDataUpdate={setMetaData}
+                                            handleCastChange={handeCastChanged}
+                                            handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                            isVisible={isMetadataVisible}
+                                            onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
+                                            isMobile={isMobile}
+                                        />
+                                    </div>
                                 </div>
                             : 
                                 <div className="grid grid-cols-2 gap-4">
                                     <UploadVoiceSelector
-                                        filename="Filename"
-                                        instrumentation="Instrumentation"
+                                        filename={metaData ? metaData.title : "---"}
+                                        instrumentation={selectedCast ? selectedCast.label : "---"}
                                         availableVoices={availableInstrumentVoices}
+                                        isMetadataVisible={isMetadataVisible}
+                                        isMobile={isMobile}
                                         handleCastCheck={castIsSetOrError}
                                         handleAssignedVoicesChange={handleAvailableVoicesUpdate}
                                         onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
                                     />
-                                    {isMetadataVisible && <MetaDataForm
-                                        castOptions={castOptions}
-                                        resetState={resetChildState}
-                                        initialMetaData={initialEdit?.metaData}
-                                        castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
-                                        handleUpdateErrors={setErrors}
-                                        handleMetaDataUpdate={setMetaData}
-                                        handleCastChange={handleCastChange}
-                                        handleVoicesAssignementReset={resetAllVoicesAssignements}
-                                        onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
-                                    />}
+                                    <div style={{ flex: 1, visibility: isMetadataVisible ? "visible" : "hidden", position: isMetadataVisible ? 'relative' : 'absolute'}} className="flex flex-wrap"> 
+                                        <MetaDataForm
+                                            castOptions={castOptions}
+                                            resetState={resetChildState}
+                                            initialMetaData={initialEdit?.metaData}
+                                            castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                            handleUpdateErrors={setErrors}
+                                            handleMetaDataUpdate={setMetaData}
+                                            handleCastChange={handeCastChanged}
+                                            handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                            isVisible={isMetadataVisible}
+                                            onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
+                                        />
+                                    </div>
+                                    <div style={{ flex: 1, visibility: !isMetadataVisible ? "visible" : "hidden", position: !isMetadataVisible ? 'relative' : 'absolute'}}>
+                                        <InfoPlaceholder numberOfNoteSheets={instrumentSheets.length} />
+                                    </div>
                                     {/**<UploadScopeSelector
                                         initialScope={initialEdit?.uploadScope}
                                         userSubscriptionValidationRequired={false}

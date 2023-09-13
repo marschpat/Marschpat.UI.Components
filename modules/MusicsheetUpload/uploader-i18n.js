@@ -1,7 +1,7 @@
 export const de = {
     META_HL: 'Metadaten bearbeiten',
     META_TITLE: 'Titel des Musikstücks',
-    META_TITLE_OPTIONAl: 'Metadaten (optional) ⌄',
+    META_TITLE_OPTIONAl: 'Metadaten (optional)',
     ERROR_TITLE: 'Bitte Titel eingeben',
     PUBLISHER: 'Verlag',
     COMPOSER: 'Komponist',
@@ -28,6 +28,9 @@ export const de = {
     SCOPE_EDU_ORG: 'Für Musikschule Notenbibliothek hochladen:',
 
     UPLOADER_TITLE: 'Noten hochladen',
+    UPLOADER_MUSICPIECESUPLOADED: 'Musikstücke angelegt',
+    UPLOADER_MUSICPIECESUPLOADED_DESC: 'Wähle Musikstücke oder Notenblätter auf der linken Seite aus, um diese zu bearbeiten oder hochzuladen.',
+    UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tipp: Ziehe Notenblätter per Drag & Drop zur passenden Stimme, um diese hinzuzufügen.',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -175,7 +178,7 @@ export const de = {
 export const en = {
     META_HL: 'Edit metadata',
     META_TITLE: 'Music sheet title',
-    META_TITLE_OPTIONAl: 'Metadata (optional) ⌄',
+    META_TITLE_OPTIONAl: 'Metadata (optional)',
     ERROR_TITLE: 'Please enter title',
     PUBLISHER: 'Publisher',
     COMPOSER: 'Composer',
@@ -202,6 +205,9 @@ export const en = {
     SCOPE_EDU_ORG: 'Upload to my band musiclibrary:',
 
     UPLOADER_TITLE: 'Upload Notes',
+    UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
+    UPLOADER_MUSICPIECESUPLOADED_DESC: 'Select music pieces or sheet music on the left side to edit or upload them.',
+    UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tip: Drag and drop the sheet music to the appropriate voice to add them.',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',
     UPLOADER_INDEX_ALREADY_ADDED: 'already added',

@@ -14,6 +14,7 @@ import { useDebounce } from '@fuse/hooks';
 import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import CloseButton from '../../utils/CloseButton';
+import CollapseButton from '../../utils/CollapseButton';
 
 const initialMetaData = require('../../metaData.initial.json');
 
@@ -22,6 +23,7 @@ const MetaDataForm = props => {
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
+    const [isOptionalVisible, setIsOptionalVisible] = useState(false);
     const [errors, checkIfError, validateRequiredFields] = useValidationErrors(
         t,
         implementationMode
@@ -29,10 +31,15 @@ const MetaDataForm = props => {
     const handleDebouncedMetaDataUpdate = useDebounce(metaData => {
         validateRequiredFields(metaData);
         props.handleMetaDataUpdate(metaData);
+        props.handleMetaDataUpdate(metaData);
     }, 500);
 
     const handleMetadataCloseClick = () => {
         props.onMetadataCloseClick();
+    };
+
+    const handleExpandStateChange = newState => {
+        setIsOptionalVisible(newState);
     };
 
     // Handle metaData change
@@ -71,7 +78,7 @@ const MetaDataForm = props => {
                     <Typography variant="h4" className="font-bold">
                         {t('META_HL')}
                     </Typography>
-                    <p className="text-gray-700 text-xl pb-4">filename{/* TODO: insert filename variable */}</p>
+                    <p className="text-gray-700 text-xl pb-4">{metaData ? metaData.title : "---"}</p>
                 </div>
                 <div className="flex space-x-4">
                     <BrowserSupportNote />
@@ -82,7 +89,7 @@ const MetaDataForm = props => {
                 <TextInput
                     title={t('META_TITLE')}
                     name="title"
-                    value={metaData.title}
+                    value={metaData ? metaData.title : "---"}
                     onChange={event => setMetaData({ ...metaData, title: event.target.value })}
                     required={true}
                     autoFocus={true}
@@ -99,70 +106,81 @@ const MetaDataForm = props => {
                         castWarningRequired={props.castWarningRequired}
                         resetState={props.resetState}
                         error={checkIfError('cast')}
+                        isMobile={props.isMobile}
                     />
                 )}
-                <p className="text-gray-700 text-xl pt-24">{t('META_TITLE_OPTIONAl')}</p>
-                <ChooseOrCreateSelector
-                    label={t('PUBLISHER')}
-                    labelAttr="name"
-                    fetchOptionsUrl="/publisher?publisherUnderLicenseOnly=true"
-                    initialValue={metaData.publisherId}
-                    initialCustomOption={metaData.publisher}
-                    resetState={props.resetState}
-                    handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
-                />
-                <ChooseOrCreateSelector
-                    label={t('COMPOSER')}
-                    options={personOptions}
-                    resetState={props.resetState}
-                    initialValue={metaData.composerId}
-                    initialCustomOption={metaData.composer}
-                    handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
-                />
-                <ChooseOrCreateSelector
-                    label={t('ARRANGER')}
-                    options={personOptions}
-                    resetState={props.resetState}
-                    initialValue={metaData.arrangerId}
-                    initialCustomOption={metaData.arranger}
-                    handleSelectedChange={item => handleChooseOrCreateChange('arranger', item)}
-                />
-                <TagSelector
-                    initialTags={metaData.tags}
-                    resetState={props.resetState}
-                    handleTagsChange={handleTagsChange}
-                />
-                <TextInput
-                    label={t('COPYRIGHT')}
-                    name="copyright"
-                    value={metaData.copyright}
-                    onChange={event =>
-                        setMetaData({
-                            ...metaData,
-                            copyright: event.target.value,
-                        })
-                    }
-                    error={false}
-                />
-                <TextInput
-                    label={t('ISWC')}
-                    name="iswc"
-                    value={metaData.iswc}
-                    onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
-                    error={false}
-                />
-                <TextInput
-                    label={t('SUBTITLE')}
-                    name="subtitle"
-                    value={metaData.subtitle}
-                    onChange={event =>
-                        setMetaData({
-                            ...metaData,
-                            subtitle: event.target.value,
-                        })
-                    }
-                    error={false}
-                />
+                <div className="grid grid-cols-2">
+                    <p className="text-black text-lg pt-24 font-bold">{t('META_TITLE_OPTIONAl')}</p>
+                    <p className="pt-16">
+                        <CollapseButton
+                            isExpanded={isOptionalVisible} 
+                            onStateChange={handleExpandStateChange}
+                        />
+                    </p>
+                </div>
+                <div style={{ visibility: isOptionalVisible && props.isVisible ? "visible" : "hidden" }} className="flex flex-wrap"> 
+                    <ChooseOrCreateSelector
+                        label={t('PUBLISHER')}
+                        labelAttr="name"
+                        fetchOptionsUrl="/publisher?publisherUnderLicenseOnly=true"
+                        initialValue={metaData.publisherId}
+                        initialCustomOption={metaData.publisher}
+                        resetState={props.resetState}
+                        handleSelectedChange={item => handleChooseOrCreateChange('publisher', item)}
+                    />
+                    <ChooseOrCreateSelector
+                        label={t('COMPOSER')}
+                        options={personOptions}
+                        resetState={props.resetState}
+                        initialValue={metaData.composerId}
+                        initialCustomOption={metaData.composer}
+                        handleSelectedChange={item => handleChooseOrCreateChange('composer', item)}
+                    />
+                    <ChooseOrCreateSelector
+                        label={t('ARRANGER')}
+                        options={personOptions}
+                        resetState={props.resetState}
+                        initialValue={metaData.arrangerId}
+                        initialCustomOption={metaData.arranger}
+                        handleSelectedChange={item => handleChooseOrCreateChange('arranger', item)}
+                    />
+                    <TagSelector
+                        initialTags={metaData.tags}
+                        resetState={props.resetState}
+                        handleTagsChange={handleTagsChange}
+                    />
+                    <TextInput
+                        label={t('COPYRIGHT')}
+                        name="copyright"
+                        value={metaData.copyright}
+                        onChange={event =>
+                            setMetaData({
+                                ...metaData,
+                                copyright: event.target.value,
+                            })
+                        }
+                        error={false}
+                    />
+                    <TextInput
+                        label={t('ISWC')}
+                        name="iswc"
+                        value={metaData.iswc}
+                        onChange={event => setMetaData({ ...metaData, iswc: event.target.value })}
+                        error={false}
+                    />
+                    <TextInput
+                        label={t('SUBTITLE')}
+                        name="subtitle"
+                        value={metaData.subtitle}
+                        onChange={event =>
+                            setMetaData({
+                                ...metaData,
+                                subtitle: event.target.value,
+                            })
+                        }
+                        error={false}
+                    />
+                </div>
             </div>
         </section>
     );

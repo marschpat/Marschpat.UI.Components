@@ -56,10 +56,6 @@ const InstrumentCastSelector = props => {
         setOpenInstrumentationConfirmationModal(false);
     };
 
-    useEffect(() => {
-        console.log("openInstrumentationConfirmationModal", openInstrumentationConfirmationModal);
-    }, [openInstrumentationConfirmationModal]);
-
     // Update selected cast
     useEffect(() => {
         props.handleCastChange(selectedCast);
@@ -82,7 +78,7 @@ const InstrumentCastSelector = props => {
 
     return (
         <div className="max-w-512 w-full mt-20 mr-36">
-            <p className="text-gray-700 text-s pb-4">{t('CAST')}</p>
+            <p className="text-gray-700 text-lg mb-4 font-semibold">{t('CAST')}</p>
             <FuseChipSelect className="bg-white"
                 value={selectedCast}
                 onChange={handleCastChange}
@@ -111,19 +107,38 @@ const InstrumentCastSelector = props => {
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    classes={{ paper: 'rounded-lg' }}
                 >
-                    <div className="p-24">
-                        <DialogTitle id="alert-dialog-title" className="text-center">{t('CAST_WARNING_HL')}</DialogTitle>
+                    <div className="p-24 rounded-full">
+                        <DialogTitle id="alert-dialog-title" className="text-center font-bold text-xl">{t('CAST_WARNING_HL')}</DialogTitle>
                         <DialogContent>
                             <DialogContentText id="alert-dialog-description" className="text-center">{t('CAST_WARNING_TEXT')}</DialogContentText>
                         </DialogContent>
                         <DialogActions className="flex items-center justify-center">
-                            <Button onClick={handleClose} className="flex items-left justify-center bg-grey-200 rounded">{t('CAST_WARNING_CANCEL')}</Button>
-                            <Button onClick={handleConfirm} className="flex items-center justify-center bg-grey-200 rounded">{t('CAST_WARNING_CONFIRM')}</Button>
+                            {props.isMobile || <div className="flex items-center justify-center">
+                                <Button onClick={handleClose}  style={{ textTransform: 'none' }} className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24">{t('CAST_WARNING_CANCEL')}</Button>
+                                <Button onClick={handleConfirm} style={{ textTransform: 'none' }} className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24">{t('CAST_WARNING_CONFIRM')}</Button>
+                            </div>}
+                            {props.isMobile && 
+                            <div className="flex flex-col items-center">
+                                <Button 
+                                    onClick={handleConfirm} 
+                                    style={{ textTransform: 'none' }} 
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center"
+                                >
+                                {t('CAST_WARNING_CONFIRM')}
+                                </Button>
+                                <Button 
+                                    onClick={handleClose}  
+                                    style={{ textTransform: 'none' }} 
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-24"
+                                >
+                                {t('CAST_WARNING_CANCEL')}
+                                </Button>
+                            </div>}
                         </DialogActions>
                     </div>
                 </Dialog>
-            
         </div>
     );
 };
