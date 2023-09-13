@@ -31,6 +31,8 @@ export const de = {
     UPLOADER_MUSICPIECESUPLOADED: 'Musikstücke angelegt',
     UPLOADER_MUSICPIECESUPLOADED_DESC: 'Wähle Musikstücke oder Notenblätter auf der linken Seite aus, um diese zu bearbeiten oder hochzuladen.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tipp: Ziehe Notenblätter per Drag & Drop zur passenden Stimme, um diese hinzuzufügen.',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Titel des Musikstücks',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION: 'Besetzung',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -208,6 +210,8 @@ export const en = {
     UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
     UPLOADER_MUSICPIECESUPLOADED_DESC: 'Select music pieces or sheet music on the left side to edit or upload them.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tip: Drag and drop the sheet music to the appropriate voice to add them.',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Music sheet title',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION: 'Instrumentation',
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',
     UPLOADER_INDEX_ALREADY_ADDED: 'already added',

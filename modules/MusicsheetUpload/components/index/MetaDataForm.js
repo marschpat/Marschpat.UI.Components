@@ -78,7 +78,7 @@ const MetaDataForm = props => {
                     <Typography variant="h4" className="font-bold">
                         {t('META_HL')}
                     </Typography>
-                    <p className="text-gray-700 text-xl pb-4">{metaData ? metaData.title : "---"}</p>
+                    <p className="text-gray-700 text-xl pb-4">{metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}</p>
                 </div>
                 <div className="flex space-x-4">
                     <BrowserSupportNote />
@@ -89,7 +89,7 @@ const MetaDataForm = props => {
                 <TextInput
                     title={t('META_TITLE')}
                     name="title"
-                    value={metaData ? metaData.title : "---"}
+                    value={metaData.title}
                     onChange={event => setMetaData({ ...metaData, title: event.target.value })}
                     required={true}
                     autoFocus={true}

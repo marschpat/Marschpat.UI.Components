@@ -119,8 +119,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                 <div>
                                     <div className="grid grid-cols-1 gap-4" style={{ flex: 1, visibility: !isMetadataVisible ? "visible" : "hidden", position: !isMetadataVisible ? 'relative' : 'absolute'}}>
                                         <UploadVoiceSelector
-                                            filename={metaData ? metaData.title : "---"}
-                                            instrumentation={selectedCast ? selectedCast.label : "---"}
+                                            filename={metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}
+                                            instrumentation={selectedCast ? selectedCast.label : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION')}
                                             availableVoices={availableInstrumentVoices}
                                             isMetadataVisible={isMetadataVisible}
                                             isMobile={isMobile}
@@ -148,8 +148,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                             : 
                                 <div className="grid grid-cols-2 gap-4">
                                     <UploadVoiceSelector
-                                        filename={metaData ? metaData.title : "---"}
-                                        instrumentation={selectedCast ? selectedCast.label : "---"}
+                                        filename={metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}
+                                        instrumentation={selectedCast ? selectedCast.label : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION')}
                                         availableVoices={availableInstrumentVoices}
                                         isMetadataVisible={isMetadataVisible}
                                         isMobile={isMobile}
