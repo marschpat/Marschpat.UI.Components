@@ -42,6 +42,16 @@ const MetaDataForm = props => {
         setIsOptionalVisible(newState);
     };
 
+    const getDisplayFilename = () => {
+        if (props.isMobile) {
+            if (metaData.title.length > 16) return metaData.title.slice(0, 16) + '...';
+            else return metaData.title;
+        }
+
+        if (metaData.title.length > 30) return metaData.title.slice(0, 30) + '...';
+        else return metaData.title;
+    };
+
     // Handle metaData change
     useEffect(() => {
         handleDebouncedMetaDataUpdate(metaData);
@@ -72,13 +82,19 @@ const MetaDataForm = props => {
         <section className="block w-full p-6 ml-6 bg-gray-200  border border-gray-200 shadow pb-24">
             <div className="relative flex items-center justify-between">
                 <div className="absolute left-0 flex items-center pb-24">
-                    <CloseButton onClick={handleMetadataCloseClick}/>
+                    <CloseButton onClick={handleMetadataCloseClick} />
                 </div>
                 <div className="mx-auto text-center pt-24 pb-12">
                     <Typography variant="h4" className="font-bold">
                         {t('META_HL')}
                     </Typography>
-                    <p className="text-gray-700 text-xl pb-4">{metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}</p>
+                    <p className="text-gray-700 text-xl pb-4">
+                        {metaData
+                            ? metaData.title
+                                ? getDisplayFilename()
+                                : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')
+                            : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}
+                    </p>
                 </div>
                 <div className="flex space-x-4">
                     <BrowserSupportNote />
@@ -109,16 +125,21 @@ const MetaDataForm = props => {
                         isMobile={props.isMobile}
                     />
                 )}
-                <div className="grid grid-cols-2">
+                <div className="flex flex-wrap items-center">
                     <p className="text-black text-lg pt-24 font-bold">{t('META_TITLE_OPTIONAl')}</p>
-                    <p className="pt-16">
+                    <p className="pt-24">
                         <CollapseButton
-                            isExpanded={isOptionalVisible} 
+                            isExpanded={isOptionalVisible}
                             onStateChange={handleExpandStateChange}
                         />
                     </p>
                 </div>
-                <div style={{ visibility: isOptionalVisible && props.isVisible ? "visible" : "hidden" }} className="flex flex-wrap"> 
+                <div
+                    style={{
+                        visibility: isOptionalVisible && props.isVisible ? 'visible' : 'hidden',
+                    }}
+                    className="flex flex-wrap"
+                >
                     <ChooseOrCreateSelector
                         label={t('PUBLISHER')}
                         labelAttr="name"

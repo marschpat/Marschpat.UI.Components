@@ -28,11 +28,14 @@ export const de = {
     SCOPE_EDU_ORG: 'Für Musikschule Notenbibliothek hochladen:',
 
     UPLOADER_TITLE: 'Noten hochladen',
+    UPLOADER_SAVE: 'Speichern',
     UPLOADER_MUSICPIECESUPLOADED: 'Musikstücke angelegt',
     UPLOADER_MUSICPIECESUPLOADED_DESC: 'Wähle Musikstücke oder Notenblätter auf der linken Seite aus, um diese zu bearbeiten oder hochzuladen.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tipp: Ziehe Notenblätter per Drag & Drop zur passenden Stimme, um diese hinzuzufügen.',
-    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Titel des Musikstücks',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Unbenannt',
     UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION: 'Besetzung',
+    UPLOADER_ACCEPT_NOT: 'Nicht zustimmen',
+
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -207,11 +210,14 @@ export const en = {
     SCOPE_EDU_ORG: 'Upload to my band musiclibrary:',
 
     UPLOADER_TITLE: 'Upload Notes',
+    UPLOADER_SAVE: 'Save',
     UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
     UPLOADER_MUSICPIECESUPLOADED_DESC: 'Select music pieces or sheet music on the left side to edit or upload them.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP: 'Tip: Drag and drop the sheet music to the appropriate voice to add them.',
-    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Music sheet title',
+    UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME: 'Unnamed',
     UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION: 'Instrumentation',
+    UPLOADER_ACCEPT_NOT: 'Don`t agree',
+
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',
     UPLOADER_INDEX_ALREADY_ADDED: 'already added',
@@ -251,7 +257,7 @@ export const en = {
     UPLOADER_ACCEPT: 'Agree',
     UPLOADER_LEGAL_CONSENT:
         'I explicitly confirm that I own the necessary rights to the music sheets or individual instrument voices and that the rights of third parties are not violated. MARSCHPAT points out that copying and sharing of music sheets with third parties is forbidden under copyright law. MARSCHPAT will not make the uploaded music available to the public and will not pass it on to any third party.',
-    UPLOADER_ACCEPT_NOTICE: 'Pleasy agree!',
+    UPLOADER_ACCEPT_NOTICE: 'Please agree!',
     UPLOADER_REQ_DATA_MISSING: 'Enter the required basic data completely!',
     UPLOADER_REQ_VOICES_MISSING: 'Select instrument voices to upload!',
     UPLOADER_REQ_VOICES_ASSIGN_MISSING:

@@ -17,7 +17,9 @@ import { de, en } from './uploader-i18n';
 import { useTranslation } from 'react-i18next';
 import Typography from '@material-ui/core/Typography';
 import UploadVoiceSelector from '../MusicsheetUpload/components/index/UploadVoiceSelector';
+import UploadOverview from '../MusicsheetUpload/components/index/UploadOverview';
 import InfoPlaceholder from '../MusicsheetUpload/components/index/InfoPlaceholder';
+import SafeButton from '@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/utils/SafeButton';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -43,6 +45,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [inHelpMode, setInHelpMode] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 720);
     const [selectedCast, setSelectedCast] = useState(null);
+    const [openVoiceSelector, setOpenVoiceSelector] = useState(true);
 
     // visibillity states for mobile view popups
     const [isVisible, setIsVisible] = useState(false);
@@ -66,10 +69,20 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMetadataIsVisible(true);
     };
 
-    const handeCastChanged = (cast) => {
+    const handeCastChanged = cast => {
         handleCastChange(cast);
         setSelectedCast(cast);
-    }
+    };
+
+    const handleOnVoiceSelect = voice => {
+        console.log('Voice selected: ', voice);
+        setOpenVoiceSelector(false);
+    };
+
+    // handle backend save here
+    const handeSaveClicked = () => {
+        console.log('Save clicked');
+    };
 
     // In case resetChildState was triggerd, reset it back to false after resetting the child components
     useEffect(() => {
@@ -112,67 +125,218 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                 >
                     <UsagePermissionCheck>
                         <div className="max-w-3xl mx-auto my-20 px-16 sm:px-24">
-                            <Typography variant="h4" className="font-bold p-24">
-                                {t('UPLOADER_TITLE')}
-                            </Typography>
-                            {isMobile ? 
+                            <div className="flex justify-between items-center">
+                                <Typography variant="h4" className="font-bold p-24">
+                                    {t('UPLOADER_TITLE')}
+                                </Typography>
+                                <SafeButton
+                                    text={t('UPLOADER_SAVE')}
+                                    isMobile={isMobile}
+                                    licenseCheckRequired={true}
+                                    onClick={handeSaveClicked}
+                                ></SafeButton>
+                            </div>
+                            {isMobile ? (
                                 <div>
-                                    <div className="grid grid-cols-1 gap-4" style={{ flex: 1, visibility: !isMetadataVisible ? "visible" : "hidden", position: !isMetadataVisible ? 'relative' : 'absolute'}}>
-                                        <UploadVoiceSelector
-                                            filename={metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}
-                                            instrumentation={selectedCast ? selectedCast.label : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION')}
-                                            availableVoices={availableInstrumentVoices}
-                                            isMetadataVisible={isMetadataVisible}
-                                            isMobile={isMobile}
-                                            handleCastCheck={castIsSetOrError}
-                                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                                            onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
-                                        />
+                                    <div
+                                        className="grid grid-cols-1 gap-4"
+                                        style={{
+                                            flex: 1,
+                                            visibility: !isMetadataVisible ? 'visible' : 'hidden',
+                                            position: !isMetadataVisible ? 'relative' : 'absolute',
+                                        }}
+                                    >
+                                        {openVoiceSelector && (
+                                            <UploadVoiceSelector
+                                                filename={
+                                                    metaData
+                                                        ? metaData.title
+                                                            ? metaData.title
+                                                            : t(
+                                                                  'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                              )
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                          )
+                                                }
+                                                instrumentation={
+                                                    selectedCast
+                                                        ? selectedCast.label
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                          )
+                                                }
+                                                availableVoices={availableInstrumentVoices}
+                                                isMetadataVisible={isMetadataVisible}
+                                                isMobile={isMobile}
+                                                onVoiceClick={handleOnVoiceSelect}
+                                                handleCastCheck={castIsSetOrError}
+                                                handleAssignedVoicesChange={
+                                                    handleAvailableVoicesUpdate
+                                                }
+                                                onMetadataEditClick={
+                                                    handleMetadataIsVisibleStateChangeOpen
+                                                }
+                                            />
+                                        )}
+                                        {!openVoiceSelector && (
+                                            <UploadOverview
+                                                filename={
+                                                    metaData
+                                                        ? metaData.title
+                                                            ? metaData.title
+                                                            : t(
+                                                                  'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                              )
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                          )
+                                                }
+                                                instrumentation={
+                                                    selectedCast
+                                                        ? selectedCast.label
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                          )
+                                                }
+                                                isMetadataVisible={isMetadataVisible}
+                                                isMobile={isMobile}
+                                                handleCastCheck={castIsSetOrError}
+                                                handleAssignedVoicesChange={
+                                                    handleAvailableVoicesUpdate
+                                                }
+                                                onMetadataEditClick={
+                                                    handleMetadataIsVisibleStateChangeOpen
+                                                }
+                                                onInstrumentSheetsUpdate={addNewInstrumentSheets}
+                                            />
+                                        )}
                                     </div>
-                                    <div className="flex box w-full h-full" style={{ flex: 1, visibility: isMetadataVisible ? "visible" : "hidden", position: isMetadataVisible ? 'relative' : 'absolute'}}>
+                                    <div
+                                        className="flex box w-full h-full"
+                                        style={{
+                                            flex: 1,
+                                            visibility: isMetadataVisible ? 'visible' : 'hidden',
+                                            position: isMetadataVisible ? 'relative' : 'absolute',
+                                        }}
+                                    >
                                         <MetaDataForm
                                             castOptions={castOptions}
                                             resetState={resetChildState}
                                             initialMetaData={initialEdit?.metaData}
-                                            castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                            castWarningRequired={
+                                                checkIfCastWarningMessageMayBeNeeded
+                                            }
                                             handleUpdateErrors={setErrors}
                                             handleMetaDataUpdate={setMetaData}
                                             handleCastChange={handeCastChanged}
-                                            handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                            handleVoicesAssignementReset={
+                                                resetAllVoicesAssignements
+                                            }
                                             isVisible={isMetadataVisible}
-                                            onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
+                                            onMetadataCloseClick={
+                                                handleMetadataIsVisibleStateChangeClose
+                                            }
                                             isMobile={isMobile}
                                         />
                                     </div>
                                 </div>
-                            : 
+                            ) : (
                                 <div className="grid grid-cols-2 gap-4">
-                                    <UploadVoiceSelector
-                                        filename={metaData ? metaData.title ? metaData.title : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME') : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')}
-                                        instrumentation={selectedCast ? selectedCast.label : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION')}
-                                        availableVoices={availableInstrumentVoices}
-                                        isMetadataVisible={isMetadataVisible}
-                                        isMobile={isMobile}
-                                        handleCastCheck={castIsSetOrError}
-                                        handleAssignedVoicesChange={handleAvailableVoicesUpdate}
-                                        onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
-                                    />
-                                    <div style={{ flex: 1, visibility: isMetadataVisible ? "visible" : "hidden", position: isMetadataVisible ? 'relative' : 'absolute'}} className="flex flex-wrap"> 
+                                    {openVoiceSelector && (
+                                        <UploadVoiceSelector
+                                            filename={
+                                                metaData
+                                                    ? metaData.title
+                                                        ? metaData.title
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                          )
+                                                    : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')
+                                            }
+                                            instrumentation={
+                                                selectedCast
+                                                    ? selectedCast.label
+                                                    : t(
+                                                          'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                      )
+                                            }
+                                            availableVoices={availableInstrumentVoices}
+                                            isMetadataVisible={isMetadataVisible}
+                                            isMobile={isMobile}
+                                            onVoiceClick={handleOnVoiceSelect}
+                                            handleCastCheck={castIsSetOrError}
+                                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                                            onMetadataEditClick={
+                                                handleMetadataIsVisibleStateChangeOpen
+                                            }
+                                        />
+                                    )}
+                                    {!openVoiceSelector && (
+                                        <UploadOverview
+                                            filename={
+                                                metaData
+                                                    ? metaData.title
+                                                        ? metaData.title
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                          )
+                                                    : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')
+                                            }
+                                            instrumentation={
+                                                selectedCast
+                                                    ? selectedCast.label
+                                                    : t(
+                                                          'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                      )
+                                            }
+                                            isMetadataVisible={isMetadataVisible}
+                                            isMobile={isMobile}
+                                            handleCastCheck={castIsSetOrError}
+                                            handleAssignedVoicesChange={handleAvailableVoicesUpdate}
+                                            onMetadataEditClick={
+                                                handleMetadataIsVisibleStateChangeOpen
+                                            }
+                                            onInstrumentSheetsUpdate={addNewInstrumentSheets}
+                                        />
+                                    )}
+                                    <div
+                                        style={{
+                                            flex: 1,
+                                            visibility: isMetadataVisible ? 'visible' : 'hidden',
+                                            position: isMetadataVisible ? 'relative' : 'absolute',
+                                        }}
+                                        className="flex flex-wrap"
+                                    >
                                         <MetaDataForm
                                             castOptions={castOptions}
                                             resetState={resetChildState}
                                             initialMetaData={initialEdit?.metaData}
-                                            castWarningRequired={checkIfCastWarningMessageMayBeNeeded}
+                                            castWarningRequired={
+                                                checkIfCastWarningMessageMayBeNeeded
+                                            }
                                             handleUpdateErrors={setErrors}
                                             handleMetaDataUpdate={setMetaData}
                                             handleCastChange={handeCastChanged}
-                                            handleVoicesAssignementReset={resetAllVoicesAssignements}
+                                            handleVoicesAssignementReset={
+                                                resetAllVoicesAssignements
+                                            }
                                             isVisible={isMetadataVisible}
-                                            onMetadataCloseClick={handleMetadataIsVisibleStateChangeClose}
+                                            onMetadataCloseClick={
+                                                handleMetadataIsVisibleStateChangeClose
+                                            }
                                         />
                                     </div>
-                                    <div style={{ flex: 1, visibility: !isMetadataVisible ? "visible" : "hidden", position: !isMetadataVisible ? 'relative' : 'absolute'}}>
-                                        <InfoPlaceholder numberOfNoteSheets={instrumentSheets.length} />
+                                    <div
+                                        style={{
+                                            flex: 1,
+                                            visibility: !isMetadataVisible ? 'visible' : 'hidden',
+                                            position: !isMetadataVisible ? 'relative' : 'absolute',
+                                        }}
+                                    >
+                                        <InfoPlaceholder
+                                            numberOfNoteSheets={instrumentSheets.length}
+                                        />
                                     </div>
                                     {/**<UploadScopeSelector
                                         initialScope={initialEdit?.uploadScope}
@@ -199,7 +363,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                     />
                                     {inDebugMode && <ReviewPages instrumentSheets={instrumentSheets} />}*/}
                                 </div>
-                            }
+                            )}
                         </div>
                     </UsagePermissionCheck>
                     {instrumentSheetInEdit && openEdit && (

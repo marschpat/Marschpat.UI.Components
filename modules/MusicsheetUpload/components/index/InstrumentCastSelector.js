@@ -22,12 +22,19 @@ const InstrumentCastSelector = props => {
     const { inHelpMode } = useContext(UploaderContext);
     const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] = useState(false);
     const handleChange = cast => {
-        if (selectedCast?.id === cast.id) return;
+        if (selectedCast?.id === cast.id) return; 
+        
+        if(selectedCast == null) {
+            props.handleVoicesAssignementReset();
+            setSelectedCast(cast)
+            return;
+        }
+
         setTempSelectedCast(cast);
         handleClickOpen();
     };
 
-    const handleCastChange = cast => {
+    {/**const handleCastChange = cast => {
         const warningRequired = props.castWarningRequired();
         if (!warningRequired) handleChange(cast);
         if (warningRequired) {
@@ -38,7 +45,7 @@ const InstrumentCastSelector = props => {
                 t('CAST_WARNING_CONFIRM')
             );
         }
-    };
+    };**/}
 
     const handleClickOpen = () => {
         setOpenInstrumentationConfirmationModal(true);
@@ -50,9 +57,7 @@ const InstrumentCastSelector = props => {
 
     const handleConfirm = () => {
         props.handleVoicesAssignementReset();
-        if(!tempSelectedCast) return;
-        setSelectedCast(tempSelectedCast);
-        setTempSelectedCast(null);
+        setSelectedCast(tempSelectedCast)
         setOpenInstrumentationConfirmationModal(false);
     };
 
@@ -81,7 +86,7 @@ const InstrumentCastSelector = props => {
             <p className="text-gray-700 text-lg mb-4 font-semibold">{t('CAST')}</p>
             <FuseChipSelect className="bg-white"
                 value={selectedCast}
-                onChange={handleCastChange}
+                onChange={handleChange}
                 placeholder={t('CAST_SELECT')}
                 textFieldProps={{
                     InputLabelProps: {
@@ -116,22 +121,22 @@ const InstrumentCastSelector = props => {
                         </DialogContent>
                         <DialogActions className="flex items-center justify-center">
                             {props.isMobile || <div className="flex items-center justify-center">
-                                <Button onClick={handleClose}  style={{ textTransform: 'none' }} className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24">{t('CAST_WARNING_CANCEL')}</Button>
-                                <Button onClick={handleConfirm} style={{ textTransform: 'none' }} className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24">{t('CAST_WARNING_CONFIRM')}</Button>
+                                <Button onClick={handleClose}  style={{ textTransform: 'none' }} className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4">{t('CAST_WARNING_CANCEL')}</Button>
+                                <Button onClick={handleConfirm} style={{ textTransform: 'none' }} className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4">{t('CAST_WARNING_CONFIRM')}</Button>
                             </div>}
                             {props.isMobile && 
                             <div className="flex flex-col items-center">
                                 <Button 
                                     onClick={handleConfirm} 
                                     style={{ textTransform: 'none' }} 
-                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center"
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center p-8 pl-24 pr-24"
                                 >
                                 {t('CAST_WARNING_CONFIRM')}
                                 </Button>
                                 <Button 
                                     onClick={handleClose}  
                                     style={{ textTransform: 'none' }} 
-                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-24"
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
                                 >
                                 {t('CAST_WARNING_CANCEL')}
                                 </Button>
