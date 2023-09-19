@@ -41,7 +41,7 @@ const UploadVoiceSelector = ({
             else return filename;
         }
 
-        if (filename.length > 30) return filename.slice(0, 30) + '...';
+        if (filename.length > 22) return filename.slice(0, 22) + '...';
         else return filename;
     };
 

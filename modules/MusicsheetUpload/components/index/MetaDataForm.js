@@ -19,7 +19,7 @@ import CollapseButton from '../../utils/CollapseButton';
 const initialMetaData = require('../../metaData.initial.json');
 
 const MetaDataForm = props => {
-    const { t } = useTranslation(['uploader']);
+    const { t } = useTranslation(['uploader']); // used | used for translation | scope Global
     const { implementationMode } = useContext(UploaderContext);
     const [personOptions, setPersonOptions] = useState(null);
     const [metaData, setMetaData] = useState(initialMetaData);
@@ -48,7 +48,7 @@ const MetaDataForm = props => {
             else return metaData.title;
         }
 
-        if (metaData.title.length > 30) return metaData.title.slice(0, 30) + '...';
+        if (metaData.title.length > 22) return metaData.title.slice(0, 22) + '...';
         else return metaData.title;
     };
 

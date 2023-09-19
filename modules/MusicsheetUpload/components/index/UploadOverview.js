@@ -20,6 +20,8 @@ const UploadOverview = ({
     isMobile,
     onVoiceAddClick,
     onInstrumentSheetsUpdate,
+    musicPieces,
+    currentMusicPieceId,
 }) => {
     const { t } = useTranslation(['uploader']);
     const { implementationMode } = useContext(UploaderContext);
@@ -64,7 +66,7 @@ const UploadOverview = ({
             else return filename;
         }
 
-        if (filename.length > 30) return filename.slice(0, 30) + '...';
+        if (filename.length > 22) return filename.slice(0, 22) + '...';
         else return filename;
     };
 

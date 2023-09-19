@@ -7,9 +7,9 @@ const useAvailableInstrumentVoices = (
     implementationMode,
     organisation = null
 ) => {
-    const [castOptions, setCastOptions] = useState(null);
-    const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null);
-    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null);
+    const [castOptions, setCastOptions] = useState(null); // used | all casts | scope MusicPiece (Global)
+    const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null); // used | all voices of selecte cast (changes on "handleCastChange") | scope MusicPiece
+    const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null); // used | listener variable that triggers "handleAvailableVoicesUpdate" when changed | scope MusicPiece
 
     useEffect(() => {
         fetchInstrumentVoicesInCastGroups();
@@ -17,13 +17,14 @@ const useAvailableInstrumentVoices = (
 
     useEffect(() => {
         handleAvailableVoicesUpdate();
+        console.log('instrumentSheets: ', instrumentSheets);
     }, [instrumentSheets]);
 
     useEffect(() => {
         handleAvailableVoicesUpdate();
     }, [instrumentVoicesOfCurrentCast]);
 
-    const handleCastChange = selectedCast => {
+    const handleCastChange = (selectedCast, id) => {
         const availableInstruments = mapCastToInstrumentVoices(selectedCast);
         setInstrumentVoicesOfCurrentCast(availableInstruments);
     };
@@ -50,11 +51,12 @@ const useAvailableInstrumentVoices = (
     return [
         castOptions,
         availableInstrumentVoices,
-        handleCastChange,
-        handleAvailableVoicesUpdate,
-        handleAvailableVoicesReset,
+        handleCastChange, // only updates availableInstrumentVoices
+        handleAvailableVoicesUpdate, // takes selectedCast as input and updates availableInstrumentVoices
+        handleAvailableVoicesReset, // just sets availableInstrumentVoices to null
     ];
 
+    // used | gets all casts and all voices from api | scope MusicPiece (Global)
     function fetchInstrumentVoicesInCastGroups() {
         const castRoute =
             implementationMode === MP_WEB && organisation
