@@ -17,16 +17,18 @@ const InstrumentCastSelector = props => {
     const dispatchConfirm = useDispatchConfirmDialog();
     const showError = props.error ? true : false;
     const castOptions = props.castOptions ?? [];
-    const [selectedCast, setSelectedCast] = useState(null);
+    const [selectedCast, setSelectedCast] = useState(props.initialCast);
     const [tempSelectedCast, setTempSelectedCast] = useState(null);
-    const { inHelpMode } = useContext(UploaderContext);
-    const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] = useState(false);
+    const { inHelpMode, selectedMusicPieceIndex } = useContext(UploaderContext);
+    const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] =
+        useState(false);
+
     const handleChange = cast => {
-        if (selectedCast?.id === cast.id) return; 
-        
-        if(selectedCast == null) {
-            props.handleVoicesAssignementReset();
-            setSelectedCast(cast)
+        if (selectedCast?.id === cast.id) return;
+
+        if (selectedCast == null) {
+            //props.handleVoicesAssignementReset();
+            setSelectedCast(cast);
             return;
         }
 
@@ -34,7 +36,8 @@ const InstrumentCastSelector = props => {
         handleClickOpen();
     };
 
-    {/**const handleCastChange = cast => {
+    {
+        /**const handleCastChange = cast => {
         const warningRequired = props.castWarningRequired();
         if (!warningRequired) handleChange(cast);
         if (warningRequired) {
@@ -45,46 +48,52 @@ const InstrumentCastSelector = props => {
                 t('CAST_WARNING_CONFIRM')
             );
         }
-    };**/}
+    };**/
+    }
 
     const handleClickOpen = () => {
         setOpenInstrumentationConfirmationModal(true);
     };
-    
+
     const handleClose = () => {
         setOpenInstrumentationConfirmationModal(false);
     };
 
     const handleConfirm = () => {
-        props.handleVoicesAssignementReset();
-        setSelectedCast(tempSelectedCast)
+        //props.handleVoicesAssignementReset();
+        setSelectedCast(tempSelectedCast);
         setOpenInstrumentationConfirmationModal(false);
     };
 
     // Update selected cast
     useEffect(() => {
-        props.handleCastChange(selectedCast);
+        if (selectedCast != null) props.handleCastChange(selectedCast);
+        if (selectedCast == undefined) setSelectedCast(null);
     }, [selectedCast]);
 
     // Set initial cast if provided
     useEffect(() => {
         if (castOptions && props.initialCast) {
-            const castId = props.initialCast;
+            const castId = props.initialCast.id;
             const initialCastItem = castOptions.find(item => item.value === castId);
             setSelectedCast(initialCastItem);
+        } else if (props.initialCast == null) {
+            setSelectedCast(null);
         }
     }, [castOptions, props.initialCast]);
 
     useEffect(() => {
         if (props.resetState) {
-            setSelectedCast(null);
+            console.log('resetting cast');
+            setSelectedCast({ ...props.initialCast });
         }
     }, [props.resetState]);
 
     return (
         <div className="max-w-512 w-full mt-20 mr-36">
             <p className="text-gray-700 text-lg mb-4 font-semibold">{t('CAST')}</p>
-            <FuseChipSelect className="bg-white"
+            <FuseChipSelect
+                className="bg-white"
                 value={selectedCast}
                 onChange={handleChange}
                 placeholder={t('CAST_SELECT')}
@@ -107,43 +116,62 @@ const InstrumentCastSelector = props => {
                     <InfoTooltip name="instrument-cast-info" title={t('UPLOADER_HOWTOCAST_DESC')} />
                 </div>
             )}
-                <Dialog
-                    open={openInstrumentationConfirmationModal}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                    classes={{ paper: 'rounded-lg' }}
-                >
-                    <div className="p-24 rounded-full">
-                        <DialogTitle id="alert-dialog-title" className="text-center font-bold text-xl">{t('CAST_WARNING_HL')}</DialogTitle>
-                        <DialogContent>
-                            <DialogContentText id="alert-dialog-description" className="text-center">{t('CAST_WARNING_TEXT')}</DialogContentText>
-                        </DialogContent>
-                        <DialogActions className="flex items-center justify-center">
-                            {props.isMobile || <div className="flex items-center justify-center">
-                                <Button onClick={handleClose}  style={{ textTransform: 'none' }} className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4">{t('CAST_WARNING_CANCEL')}</Button>
-                                <Button onClick={handleConfirm} style={{ textTransform: 'none' }} className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4">{t('CAST_WARNING_CONFIRM')}</Button>
-                            </div>}
-                            {props.isMobile && 
+            <Dialog
+                open={openInstrumentationConfirmationModal}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                classes={{ paper: 'rounded-lg' }}
+            >
+                <div className="p-24 rounded-full">
+                    <DialogTitle id="alert-dialog-title" className="text-center font-bold text-xl">
+                        {t('CAST_WARNING_HL')}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description" className="text-center">
+                            {t('CAST_WARNING_TEXT')}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions className="flex items-center justify-center">
+                        {props.isMobile || (
+                            <div className="flex items-center justify-center">
+                                <Button
+                                    onClick={handleClose}
+                                    style={{ textTransform: 'none' }}
+                                    className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
+                                >
+                                    {t('CAST_WARNING_CANCEL')}
+                                </Button>
+                                <Button
+                                    onClick={handleConfirm}
+                                    style={{ textTransform: 'none' }}
+                                    className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
+                                >
+                                    {t('CAST_WARNING_CONFIRM')}
+                                </Button>
+                            </div>
+                        )}
+                        {props.isMobile && (
                             <div className="flex flex-col items-center">
-                                <Button 
-                                    onClick={handleConfirm} 
-                                    style={{ textTransform: 'none' }} 
+                                <Button
+                                    onClick={handleConfirm}
+                                    style={{ textTransform: 'none' }}
                                     className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center p-8 pl-24 pr-24"
                                 >
-                                {t('CAST_WARNING_CONFIRM')}
+                                    {t('CAST_WARNING_CONFIRM')}
                                 </Button>
-                                <Button 
-                                    onClick={handleClose}  
-                                    style={{ textTransform: 'none' }} 
+                                <Button
+                                    onClick={handleClose}
+                                    style={{ textTransform: 'none' }}
                                     className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
                                 >
-                                {t('CAST_WARNING_CANCEL')}
+                                    {t('CAST_WARNING_CANCEL')}
                                 </Button>
-                            </div>}
-                        </DialogActions>
-                    </div>
-                </Dialog>
+                            </div>
+                        )}
+                    </DialogActions>
+                </div>
+            </Dialog>
         </div>
     );
 };

@@ -1,31 +1,22 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import EmbedVideo from './EmbedVideo';
-import BrowserSupportNote from './BrowserSupportNote';
-import { UploaderContext } from '../../context/UploaderContext';
-import Typography from '@material-ui/core/Typography';
+import React, { useState, useEffect, useContext } from 'react';
+import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
-import Badge from '@material-ui/core/Badge';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
-import CollapseButton from '../../utils/CollapseButton';
-import VoiceButton from '../../utils/VoiceButton';
-import { propTypes } from 'velocity-react/velocity-component';
+import CollapseButton from '../utils_2.0/CollapseButton';
+import VoiceButton from '../utils_2.0/VoiceButton';
 
 const UploadVoiceSelector = ({
     filename,
     instrumentation,
     availableVoices,
     onMetadataEditClick,
-    isMetadataVisible,
-    isMobile,
     onVoiceClick,
 }) => {
     const { t } = useTranslation(['uploader']);
-    const { implementationMode } = useContext(UploaderContext);
+    const { selectedMusicPieceIndex, isMobile, isMetadataVisible } = useContext(UploaderContext);
     const [isExpanded, setIsExpanded] = useState(true);
     const [displayVoices, setDisplayVoices] = useState(false);
-    const [lastSelectedCast, setLastSelectedCast] = useState(null);
 
     const handleExpandStateChange = newState => {
         setIsExpanded(newState);
@@ -46,7 +37,6 @@ const UploadVoiceSelector = ({
     };
 
     useEffect(() => {
-        console.log('AvailableVoices: ', availableVoices);
         if (availableVoices && availableVoices.length > 0) {
             const groupedData = availableVoices.reduce((acc, item) => {
                 if (!acc[item.group]) {
@@ -86,7 +76,7 @@ const UploadVoiceSelector = ({
                             : 'group flex justify-between items-center mt-24 rounded-md text-white transition-colors bg-blue-600 active:bg-blue-600 hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue'
                     }
                     style={{ textTransform: 'none' }}
-                    onClick={onMetadataEditClick}
+                    onClick={() => onMetadataEditClick(selectedMusicPieceIndex)}
                 >
                     <div className="flex flex-col items-start justify-start">
                         <div
@@ -104,10 +94,6 @@ const UploadVoiceSelector = ({
                     </div>
                     <EditIcon className="ml-24" style={{ right: 0 }} />
                 </Button>
-                <div className="flex space-x-4">
-                    <BrowserSupportNote />
-                    <EmbedVideo />
-                </div>
             </div>
             {calcVisible() && (
                 <div className="flex flex-col pl-16">
@@ -123,7 +109,12 @@ const UploadVoiceSelector = ({
                                             <VoiceButton
                                                 voice={voice}
                                                 id={voice.id}
-                                                onVoiceClick={handleOnVoiceClick}
+                                                onVoiceClick={() =>
+                                                    handleOnVoiceClick(
+                                                        selectedMusicPieceIndex,
+                                                        voice
+                                                    )
+                                                }
                                             />
                                         ))}
                                 </div>

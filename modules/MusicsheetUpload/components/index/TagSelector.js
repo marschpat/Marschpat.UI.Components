@@ -60,7 +60,8 @@ const TagSelector = props => {
 
     return (
         <div className="max-w-512 w-full mt-20 mr-36">
-            <FuseChipSelect className="bg-white"
+            <FuseChipSelect
+                className="bg-white"
                 value={selectedTags}
                 onChange={value => setSelectedTags(value)}
                 placeholder={t('TAGS_SELECT')}
