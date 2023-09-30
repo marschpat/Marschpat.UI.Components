@@ -22,8 +22,9 @@ const UploadVoiceSelector = ({
         setIsExpanded(newState);
     };
 
-    const handleOnVoiceClick = voice => {
-        onVoiceClick(voice);
+    const handleOnVoiceClick = (voice, index) => {
+        console.log('handleOnVoiceClick: ', voice, index);
+        onVoiceClick(voice, index);
     };
 
     const getDisplayFilename = () => {
@@ -108,11 +109,10 @@ const UploadVoiceSelector = ({
                                         displayVoices[instrument].map(voice => (
                                             <VoiceButton
                                                 voice={voice}
-                                                id={voice.id}
                                                 onVoiceClick={() =>
                                                     handleOnVoiceClick(
-                                                        selectedMusicPieceIndex,
-                                                        voice
+                                                        voice,
+                                                        selectedMusicPieceIndex
                                                     )
                                                 }
                                             />

@@ -11,6 +11,7 @@ import UploadOverview from './components_2.0/UploadOverview';
 import InfoPlaceholder from './components_2.0/InfoPlaceholder';
 import SafeButton from '@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/utils_2.0/SafeButton';
 import useAvailableInstrumentHelper from './utils_2.0/useAvailableInstrumentHelper';
+import { set } from 'lodash';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -33,24 +34,14 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [selectedMusicPieceIndex, setSelectedMusicPieceIndex] = useState(0); // used | index of selected musicPiece | scope MusicPiece
     const [isMetadataVisible, setMetadataIsVisible] = useState(true); // used | toggles metadata form | scope Global
     const [isVoiceSelectorVisible, setIsVoiceSelectorVisible] = useState(true); // used | toggles voice selector | scope Global
+    const [tempInstrumentSheetIndexForVoiceAdd, setTempInstrumentSheetIndexForVoiceAdd] =
+        useState(null); // used | temp index for voice add | scope Global
 
     const initialMetaData = require('./metaData.initial.json');
 
     useEffect(() => {
         if (musicPieces.length == 0) {
             musicPieces[0] = {
-                metaData: initialMetaData,
-                selectedCast: null,
-                instrumentSheets: [],
-                availableInstrumentVoices: [],
-            };
-            musicPieces[1] = {
-                metaData: initialMetaData,
-                selectedCast: null,
-                instrumentSheets: [],
-                availableInstrumentVoices: [],
-            };
-            musicPieces[2] = {
                 metaData: initialMetaData,
                 selectedCast: null,
                 instrumentSheets: [],
@@ -73,9 +64,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     }, []);
 
     // Debugging Listener's ( TODO: remove )
-    // NEW AFTER REFACTORING
     useEffect(() => {
-        console.log('music Pieces after update: ', selectedMusicPieceIndex, musicPieces[0]);
+        console.log('music Pieces after update: ', selectedMusicPieceIndex, musicPieces);
     }, [musicPieces]);
 
     // function to handle resize event
@@ -86,6 +76,20 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     // handle backend save here
     const handeSaveClicked = () => {
         console.log('Save clicked');
+    };
+
+    const handleAddMusicPiece = () => {
+        console.log('Add music piece clicked');
+        var temp = musicPieces;
+        const newIndex = musicPieces.length;
+        temp[newIndex] = {
+            metaData: initialMetaData,
+            selectedCast: null,
+            instrumentSheets: [],
+            availableInstrumentVoices: [],
+        };
+        setMusicPieces([...temp]);
+        setSelectedMusicPieceIndex(newIndex);
     };
 
     // handle metaData error update
@@ -101,6 +105,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         }
     };
 
+    // handle metaData update
     const setMetaData = (metaData, index) => {
         if (musicPieces[index]) {
             musicPieces[index].metaData = metaData;
@@ -110,22 +115,39 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         }
     };
 
+    // handle cast update
     const updateCast = (selectedCast, index) => {
         if (musicPieces[index]) {
             musicPieces[index].selectedCast = selectedCast;
-            musicPieces[index].availableInstrumentVoices = getInstrumentVoicesOfCast(selectedCast);
+            musicPieces[index].availableInstrumentVoices = getInstrumentVoicesOfCast(
+                selectedCast,
+                musicPieces[index].instrumentSheets
+            );
+            if (musicPieces[index].instrumentSheets.length > 0) {
+                musicPieces[index].instrumentSheets = musicPieces[index].instrumentSheets?.forEach(
+                    instrumentSheet => {
+                        instrumentSheet.voices = instrumentSheet.voices.filter(voice =>
+                            musicPieces[index].availableInstrumentVoices.some(
+                                v => v.voiceId === voice.voiceId
+                            )
+                        );
+                    }
+                );
+                if (musicPieces[index].instrumentSheets === undefined)
+                    musicPieces[index].instrumentSheets = [];
+            }
             setMusicPieces([...musicPieces]);
         } else {
             //console.warn('Invalid index:', index);
         }
     };
 
-    const updateInstrumentSheets = (instrumentSheets, index) => {
+    const handleAddNewInstrumentSheet = (instrumentSheet, index) => {
         if (musicPieces[index]) {
-            musicPieces[index].instrumentSheets = instrumentSheets;
+            musicPieces[index].instrumentSheets.push(instrumentSheet);
             musicPieces[index].availableInstrumentVoices = getAvailableVoices(
                 musicPieces[index].selectedCast,
-                instrumentSheets
+                musicPieces[index].instrumentSheets
             );
             setMusicPieces([...musicPieces]);
         } else {
@@ -133,18 +155,99 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         }
     };
 
+    // handle instrumentSheets update
+    const updateInstrumentSheets = (newInstrumentSheets, index, instrumentSheetIndex) => {
+        console.log('updateInstrumentSheets: ', newInstrumentSheets, index, instrumentSheetIndex);
+
+        setMusicPieces(prevMusicPieces => {
+            if (prevMusicPieces[index]) {
+                const updatedMusicPiece = { ...prevMusicPieces[index] };
+
+                updatedMusicPiece.instrumentSheets = newInstrumentSheets;
+
+                updatedMusicPiece.availableInstrumentVoices = getAvailableVoices(
+                    updatedMusicPiece.selectedCast,
+                    newInstrumentSheets
+                );
+                return [
+                    ...prevMusicPieces.slice(0, index),
+                    updatedMusicPiece,
+                    ...prevMusicPieces.slice(index + 1),
+                ];
+            }
+            return prevMusicPieces; // If there's no valid index, just return the previous state
+        });
+    };
+
+    // handle add voice to musicPiece
+    const addNewVoiceToMusicPiece = (selectedVoice, index, instrumentSheetIndex) => {
+        if (
+            musicPieces[index] &&
+            musicPieces[index].instrumentSheets[instrumentSheetIndex] &&
+            musicPieces[index].instrumentSheets[instrumentSheetIndex].voices
+        ) {
+            musicPieces[index].instrumentSheets[instrumentSheetIndex].voices.push(selectedVoice);
+            musicPieces[index].availableInstrumentVoices = getAvailableVoices(
+                musicPieces[index].selectedCast,
+                musicPieces[index].instrumentSheets
+            );
+            setMusicPieces([...musicPieces]);
+        } else if (musicPieces[index]) {
+            musicPieces[index].instrumentSheets[instrumentSheetIndex] = {
+                ...musicPieces[index].instrumentSheets[instrumentSheetIndex],
+                voices: [selectedVoice],
+            };
+            musicPieces[index].availableInstrumentVoices = getAvailableVoices(
+                musicPieces[index].selectedCast,
+                musicPieces[index].instrumentSheets
+            );
+            setMusicPieces([...musicPieces]);
+        } else {
+            //console.warn('Invalid index:', index);
+        }
+    };
+
+    // handel metadata form visibility
     const handleMetadataIsVisibleStateChangeClose = () => {
         setMetadataIsVisible(false);
     };
 
+    // handel metadata form visibility
     const handleMetadataIsVisibleStateChangeOpen = index => {
         setSelectedMusicPieceIndex(index);
         setMetadataIsVisible(true);
     };
 
+    const handleOpenVoiceSelector = (index, instrumentSheetIndex) => {
+        setSelectedMusicPieceIndex(index);
+        setTempInstrumentSheetIndexForVoiceAdd(instrumentSheetIndex);
+        setIsVoiceSelectorVisible(true);
+    };
+
+    // handel voice selector visibility
     const handleOnVoiceSelect = (voice, index) => {
         console.log('Voice selected: ', voice, index);
+        if (tempInstrumentSheetIndexForVoiceAdd != null)
+            addNewVoiceToMusicPiece(voice, index, tempInstrumentSheetIndexForVoiceAdd);
+        else addNewVoiceToMusicPiece(voice, index, 0);
         setIsVoiceSelectorVisible(false);
+    };
+
+    // handle voice remove from musicPiece
+    const handleOnVoiceRemove = (voice, index, instrumentSheetIndex) => {
+        console.log('Voice removed: ', voice, index, instrumentSheetIndex);
+        musicPieces[index].instrumentSheets[instrumentSheetIndex].voices = musicPieces[
+            index
+        ].instrumentSheets[instrumentSheetIndex].voices.filter(v => v.voiceId !== voice.voiceId);
+
+        musicPieces[index].instrumentSheets = musicPieces[index].instrumentSheets.filter(
+            instrumentSheet => instrumentSheet.voices.length > 0
+        );
+        musicPieces[index].availableInstrumentVoices = getAvailableVoices(
+            musicPieces[index].selectedCast,
+            musicPieces[index].instrumentSheets
+        );
+        setMusicPieces([...musicPieces]);
     };
 
     return (
@@ -238,6 +341,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         musicPieces={musicPieces}
                                         onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
                                         onInstrumentSheetsUpdate={updateInstrumentSheets}
+                                        onVoiceClick={handleOnVoiceRemove}
+                                        onAddVoiceClick={handleOpenVoiceSelector}
+                                        onAddMusicPieceClick={handleAddMusicPiece}
                                     />
                                 )}
                                 {isMetadataVisible && (
