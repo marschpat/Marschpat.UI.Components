@@ -11,6 +11,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import { set } from 'lodash';
 
 const InstrumentCastSelector = props => {
     const { t } = useTranslation(['uploader']);
@@ -19,6 +20,8 @@ const InstrumentCastSelector = props => {
     const castOptions = props.castOptions ?? [];
     const [selectedCast, setSelectedCast] = useState(props.initialCast);
     const [tempSelectedCast, setTempSelectedCast] = useState(null);
+    const [igonreCastChange, setIgnoreCastChange] = useState(false);
+    const [isFirstCastChange, setIsFirstCastChange] = useState(true);
     const { inHelpMode, selectedMusicPieceIndex } = useContext(UploaderContext);
     const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] =
         useState(false);
@@ -67,8 +70,19 @@ const InstrumentCastSelector = props => {
 
     // Update selected cast
     useEffect(() => {
+        console.log('selected cast: ', selectedCast);
+        console.log('is first cast change: ', isFirstCastChange);
+        if (isFirstCastChange && selectedCast?.value != null) {
+            setIsFirstCastChange(false);
+            props.handleCastChange(selectedCast);
+            return;
+        }
+        if (igonreCastChange) {
+            setIgnoreCastChange(false);
+            return;
+        }
         if (selectedCast != null) props.handleCastChange(selectedCast);
-        if (selectedCast == undefined) setSelectedCast(null);
+        if (selectedCast == undefined) setSelectedCast({});
     }, [selectedCast]);
 
     // Set initial cast if provided
@@ -76,7 +90,10 @@ const InstrumentCastSelector = props => {
         if (castOptions && props.initialCast) {
             const castId = props.initialCast.id;
             const initialCastItem = castOptions.find(item => item.value === castId);
-            setSelectedCast(initialCastItem);
+            console.log('initial cast item: ', initialCastItem);
+            setIgnoreCastChange(true);
+            if (initialCastItem === undefined) setSelectedCast(null);
+            else setSelectedCast(initialCastItem);
         } else if (props.initialCast == null) {
             setSelectedCast(null);
         }

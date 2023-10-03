@@ -26,7 +26,7 @@ const MetaDataForm = props => {
     const [selectedCast, setSelectedCast] = useState(props.selectedCast); // [castId, castName]
     const [resetSelectedCast, setResetSelectedCast] = useState(false); // [castId, castName
     const [isOptionalVisible, setIsOptionalVisible] = useState(false);
-    const [errors, checkIfError, validateRequiredFields] = useValidationErrors(
+    const [errors, checkIfError, validateRequiredFields, resetErrors] = useValidationErrors(
         t,
         implementationMode
     );
@@ -51,11 +51,15 @@ const MetaDataForm = props => {
 
     useEffect(() => {
         fetchPersonOptions();
+        resetErrors();
+        validateRequiredFields(metaData);
     }, []);
 
     // Handle metaData change
     useEffect(() => {
+        console.log('useEffect: metaData: ', metaData);
         if (metaData != null) {
+            resetErrors();
             validateRequiredFields(metaData);
             props.handleMetaDataUpdate(metaData, selectedMusicPieceIndex);
         }

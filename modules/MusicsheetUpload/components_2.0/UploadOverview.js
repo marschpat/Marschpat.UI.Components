@@ -178,7 +178,7 @@ const UploadOverview = ({
     };
 
     const handleOnVoiceRemoveClick = (voice, index, instrumentSheetIndex) => {
-        console.log('handleOnVoiceClick: ', voice, index);
+        console.log('handleOnVoiceClick: ', voice, index, instrumentSheetIndex);
         onVoiceClick(voice, index, instrumentSheetIndex);
     };
 
@@ -330,7 +330,7 @@ const UploadOverview = ({
                                                 .length > 0 &&
                                             Object.keys(musicPieces[index].instrumentSheets).map(
                                                 instrument => (
-                                                    <div className="flex flex-cols-2">
+                                                    <div className="flex w-full">
                                                         <div className="flex flex-col h-full content-center">
                                                             <div className="flex pl-12 pt-8 h-48 w-48">
                                                                 <CollapseButton

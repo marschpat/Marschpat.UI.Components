@@ -8,12 +8,16 @@ const useValidationErrors = (t, implementationMode = MP_WEB) => {
         setErrors(getInitialValidationErrors());
     }, [t]);
 
+    function resetErrors() {
+        setErrors(getInitialValidationErrors());
+    }
+
     // Validate required field errors
     function validateRequiredFields(data) {
         if (!data) return;
 
         setErrors(prev => {
-            if (data.castId > 0) {
+            if (data.castId !== null) {
                 prev = prev.filter(error => error.attrName !== 'cast');
             }
             if (data.title && data.title !== '') {
@@ -44,7 +48,7 @@ const useValidationErrors = (t, implementationMode = MP_WEB) => {
         }
     }
 
-    return [errors, checkIfError, validateRequiredFields];
+    return [errors, checkIfError, validateRequiredFields, resetErrors];
 };
 
 export default useValidationErrors;

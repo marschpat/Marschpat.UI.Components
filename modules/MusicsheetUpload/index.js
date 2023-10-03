@@ -78,6 +78,10 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         console.log('music Pieces after update: ', selectedMusicPieceIndex, musicPieces);
     }, [musicPieces]);
 
+    useEffect(() => {
+        console.log('selectedMusicPieceIndex after update: ', selectedMusicPieceIndex);
+    }, [selectedMusicPieceIndex]);
+
     // function to handle resize event
     const handleResize = () => {
         setIsMobile(window.innerWidth < 720);
@@ -103,7 +107,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             availableInstrumentVoices: [],
         };
         setMusicPieces([...temp]);
-        setSelectedMusicPieceIndex(newIndex);
     };
 
     // handle metaData error update
@@ -131,6 +134,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handle cast update
     const updateCast = (selectedCast, index) => {
+        console.log('updateCast: ', selectedCast, index);
         if (musicPieces[index]) {
             var tempMusicPiece = { ...musicPieces[index] };
             tempMusicPiece.selectedCast = selectedCast;
