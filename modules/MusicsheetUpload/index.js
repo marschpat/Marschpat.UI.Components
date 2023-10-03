@@ -25,6 +25,7 @@ i18next.addResourceBundle('en', 'uploader', en);
 const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlashMessage }) => {
     const { t } = useTranslation(['uploader']);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 720); // used | checks if app runs on mobile | scope Global
+    const [visibillityStates, setVisibillityStates] = useState({}); // used | safes the collapsed states of UploadOverview | scope Global
 
     const [castOptions, getInstrumentVoicesOfCast, getAvailableVoices] =
         useAvailableInstrumentHelper(implementationMode, organisation);
@@ -53,6 +54,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             };
             setSelectedMusicPieceIndex(0);
         }
+
+        setVisibillityStates({
+            isExpanded: [],
+            isExpandedInstrumentSheets: [[]],
+        });
 
         console.log('user ', user);
         console.log('organisation ', organisation);
@@ -224,6 +230,14 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMetadataIsVisible(true);
     };
 
+    const handeVisivillityStateChange = (isExpanded, isExpandedInstrumentSheets) => {
+        setVisibillityStates({
+            isExpanded: isExpanded,
+            isExpandedInstrumentSheets: isExpandedInstrumentSheets,
+        });
+    };
+
+    // handel voice selector visibility
     const handleOpenVoiceSelector = (index, instrumentSheetIndex) => {
         setSelectedMusicPieceIndex(index);
         setTempInstrumentSheetIndexForVoiceAdd(instrumentSheetIndex);
@@ -352,6 +366,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                 {!isVoiceSelectorVisible && (
                                     <UploadOverview
                                         musicPieces={musicPieces}
+                                        visibillityStates={visibillityStates}
+                                        onVisibillityStatesChange={handeVisivillityStateChange}
                                         onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
                                         onInstrumentSheetsUpdate={updateInstrumentSheets}
                                         onVoiceClick={handleOnVoiceRemove}

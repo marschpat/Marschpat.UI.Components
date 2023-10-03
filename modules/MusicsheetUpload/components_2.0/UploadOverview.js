@@ -12,9 +12,12 @@ import AddIcon from '@material-ui/icons/Add';
 import FileDropButton from '../utils_2.0/FileDropButton';
 import NotesOverview from './NotesOverview';
 import { generateInstrumentSheet } from '../utils/InstrumentSheetsHelper';
+import is from 'date-fns/esm/locale/is/index.js';
 
 const UploadOverview = ({
     musicPieces,
+    visibillityStates,
+    onVisibillityStatesChange,
     onMetadataEditClick,
     onInstrumentSheetsUpdate,
     onVoiceClick,
@@ -23,22 +26,23 @@ const UploadOverview = ({
     onAddUnnasignedInstrumentSheetClick,
 }) => {
     const { t } = useTranslation(['uploader']);
-    const { selectedMusicPieceIndex, isMobile, isMetadataVisible } = useContext(UploaderContext);
+    const { isMobile, isMetadataVisible } = useContext(UploaderContext);
     const [isExpanded, setIsExpanded] = useState([]);
-    const [isExpandedInstrumentSheet, setIsExpandedInstrumentSheet] = useState([], []);
+    const [isExpandedInstrumentSheets, setIsExpandedInstrumentSheets] = useState([]);
     const allowedExtensions = ['.mxl', '.musicxml', '.pdf', '.png', '.jpg', '.jpeg'];
     const [originalFiles, setOriginalFiles] = useState(null);
     const [tempDropLocation, setTempDropLocation] = useState(null);
 
     useEffect(() => {
-        Object.keys(musicPieces).forEach(index => {
-            isExpanded[index] = true;
-        });
+        setIsExpanded(visibillityStates.isExpanded);
+        setIsExpandedInstrumentSheets(visibillityStates.isExpandedInstrumentSheets);
+        console.log('visibillityStates: ', visibillityStates);
     }, []);
 
     useEffect(() => {
-        console.log('isExpanded: ', isExpanded);
-    }, [isExpanded]);
+        console.log('isExpandedInstrumentSheets: ', isExpandedInstrumentSheets);
+        onVisibillityStatesChange(isExpanded, isExpandedInstrumentSheets);
+    }, [isExpanded, isExpandedInstrumentSheets]);
 
     const onDrop = useCallback(
         (pieceIndex, sheetIndex) => acceptedFiles => {
@@ -192,11 +196,18 @@ const UploadOverview = ({
     };
 
     const getExpandedOfInstrumentSheet = (index, instrumentSheetIndex) => {
-        if (isExpandedInstrumentSheet[(index, instrumentSheetIndex)] === undefined) {
-            return true;
-        } else {
-            return isExpandedInstrumentSheet[(index, instrumentSheetIndex)];
+        let isExpanded = isExpandedInstrumentSheets?.[index]?.[instrumentSheetIndex];
+
+        if (isExpanded !== undefined && isExpanded !== null) {
+            return isExpanded;
         }
+
+        if (!isExpandedInstrumentSheets[index]) {
+            isExpandedInstrumentSheets[index] = [];
+        }
+
+        isExpandedInstrumentSheets[index][instrumentSheetIndex] = true;
+        return true;
     };
 
     useEffect(() => {
@@ -322,12 +333,36 @@ const UploadOverview = ({
                                                     <div className="flex flex-cols-2">
                                                         <div className="flex flex-col h-full content-center">
                                                             <div className="flex pl-12 pt-8 h-48 w-48">
-                                                                <CollapseButton></CollapseButton>
+                                                                <CollapseButton
+                                                                    isExpanded={getExpandedOfInstrumentSheet(
+                                                                        index,
+                                                                        instrument
+                                                                    )}
+                                                                    onStateChange={state => {
+                                                                        const newExpandedInstrumentSheets =
+                                                                            [
+                                                                                ...isExpandedInstrumentSheets,
+                                                                            ];
+                                                                        newExpandedInstrumentSheets[
+                                                                            index
+                                                                        ][instrument] = state;
+                                                                        setIsExpandedInstrumentSheets(
+                                                                            [
+                                                                                ...newExpandedInstrumentSheets,
+                                                                            ]
+                                                                        );
+                                                                    }}
+                                                                ></CollapseButton>
                                                             </div>
-                                                            <div
-                                                                className="fex w-2 h-full bg-grey-300 rounded-full mb-16"
-                                                                style={{ marginLeft: 34 }}
-                                                            ></div>
+                                                            {getExpandedOfInstrumentSheet(
+                                                                index,
+                                                                instrument
+                                                            ) && (
+                                                                <div
+                                                                    className="fex w-2 h-full bg-grey-300 rounded-full mb-16"
+                                                                    style={{ marginLeft: 34 }}
+                                                                ></div>
+                                                            )}
                                                         </div>
                                                         <div className="flex flex-col pl-12">
                                                             <div className="flex flex-wrap">
@@ -419,28 +454,33 @@ const UploadOverview = ({
                                                                     </div>
                                                                 ))}
                                                             <div className="flex flex-wrap mt-16 mb-16">
-                                                                <NotesOverview
-                                                                    instrumentSheet={
-                                                                        musicPieces[index]
-                                                                            .instrumentSheets[
+                                                                {getExpandedOfInstrumentSheet(
+                                                                    index,
+                                                                    instrument
+                                                                ) && (
+                                                                    <NotesOverview
+                                                                        instrumentSheet={
+                                                                            musicPieces[index]
+                                                                                .instrumentSheets[
+                                                                                instrument
+                                                                            ]
+                                                                        }
+                                                                        index={index}
+                                                                        instrumentSheetIndex={
                                                                             instrument
-                                                                        ]
-                                                                    }
-                                                                    index={index}
-                                                                    instrumentSheetIndex={
-                                                                        instrument
-                                                                    }
-                                                                    onDrop={onDrop}
-                                                                    allowedExtensions={
-                                                                        allowedExtensions
-                                                                    }
-                                                                    onDuplicateFileClick={
-                                                                        handleDuplicateFileClick
-                                                                    }
-                                                                    onDeleteFileClick={
-                                                                        handleDeleteFileClick
-                                                                    }
-                                                                ></NotesOverview>
+                                                                        }
+                                                                        onDrop={onDrop}
+                                                                        allowedExtensions={
+                                                                            allowedExtensions
+                                                                        }
+                                                                        onDuplicateFileClick={
+                                                                            handleDuplicateFileClick
+                                                                        }
+                                                                        onDeleteFileClick={
+                                                                            handleDeleteFileClick
+                                                                        }
+                                                                    ></NotesOverview>
+                                                                )}
                                                             </div>
                                                         </div>
                                                     </div>
