@@ -4,15 +4,14 @@ import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import CollapseButton from '../utils_2.0/CollapseButton';
-import AttachFileIcon from '@material-ui/icons/AttachFile';
 import IconButton from '@material-ui/core/IconButton';
 import FileHelper from '../utils/FileHelper';
 import VoiceButton from '../utils_2.0/VoiceButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AddIcon from '@material-ui/icons/Add';
 import FileDropButton from '../utils_2.0/FileDropButton';
+import NotesOverview from './NotesOverview';
 import { generateInstrumentSheet } from '../utils/InstrumentSheetsHelper';
-import { get, set } from 'lodash';
 
 const UploadOverview = ({
     musicPieces,
@@ -21,6 +20,7 @@ const UploadOverview = ({
     onVoiceClick,
     onAddVoiceClick,
     onAddMusicPieceClick,
+    onAddUnnasignedInstrumentSheetClick,
 }) => {
     const { t } = useTranslation(['uploader']);
     const { selectedMusicPieceIndex, isMobile, isMetadataVisible } = useContext(UploaderContext);
@@ -72,20 +72,91 @@ const UploadOverview = ({
         []
     );
 
-    const getUnassingedInstrumentSheetsIndex = index => {
-        console.log(
-            'getUnassingedInstrumentSheetsIndex: ',
-            index,
-            musicPieces?.[index]?.instrumentSheets?.length
-        );
-        if (musicPieces?.[index]?.instrumentSheets?.length === 0) return 0;
-        else if (
-            musicPieces?.[index]?.instrumentSheets?.[
-                musicPieces?.[index]?.instrumentSheets?.length - 1
-            ].voices === undefined
-        )
-            return musicPieces?.[index]?.instrumentSheets?.length - 1;
-        else return musicPieces?.[index]?.instrumentSheets?.length;
+    const getUnassignedInstrumentSheetsIndex = index => {
+        // Ensure the piece and instrumentSheets exist and have length
+        if (!musicPieces?.[index]?.instrumentSheets?.length) return 0;
+
+        const lastSheetIndex = musicPieces[index].instrumentSheets.length - 1;
+        const lastSheetVoices = musicPieces[index].instrumentSheets[lastSheetIndex].voices;
+
+        // Check if voices exist and have entries
+        if (!lastSheetVoices?.length) {
+            // Return index of the last sheet if voices is empty
+            return lastSheetIndex;
+        } else {
+            // Return the length of instrumentSheets if voices is not empty
+            return musicPieces[index].instrumentSheets.length;
+        }
+    };
+
+    const handleDuplicateFileClick = (index, instrumentSheetIndex, fileIndex) => {
+        if (!musicPieces[index].instrumentSheets[instrumentSheetIndex].origFiles[fileIndex]) return;
+
+        const fileToDuplicate = {
+            ...musicPieces[index].instrumentSheets[instrumentSheetIndex].origFiles[fileIndex],
+        };
+
+        if (fileToDuplicate === null || fileToDuplicate === undefined) return;
+
+        const newInstrumentSheet = {
+            ...musicPieces[index].instrumentSheets[instrumentSheetIndex],
+        };
+
+        fileToDuplicate.name = calcNewFileName(fileToDuplicate, newInstrumentSheet, null);
+
+        newInstrumentSheet.origFiles.push(fileToDuplicate);
+
+        musicPieces[index].instrumentSheets[instrumentSheetIndex] = newInstrumentSheet;
+
+        onInstrumentSheetsUpdate(musicPieces[index].instrumentSheets, index);
+    };
+
+    const calcNewFileName = (fileToDuplicate, newInstrumentSheet) => {
+        if (
+            typeof fileToDuplicate.name !== 'string' ||
+            !Array.isArray(newInstrumentSheet.origFiles)
+        ) {
+            throw new Error(
+                'Invalid input: Ensure file names are strings and origFiles is an array.'
+            );
+        }
+
+        // Extract name and extension
+        const [nameWithoutExtension, fileExtension] = fileToDuplicate.name.split('.');
+
+        // Find highest existing copy number
+        const highestCopyNumber = newInstrumentSheet.origFiles.reduce((maxNumber, file) => {
+            const match = file.name.match(
+                new RegExp(`^${nameWithoutExtension}_(\\d+)\\.${fileExtension}$`)
+            );
+            if (match) {
+                return Math.max(maxNumber, parseInt(match[1], 10));
+            }
+            return maxNumber;
+        }, 0);
+
+        // Formulate new file name
+        const newFileName = `${nameWithoutExtension}_${highestCopyNumber + 1}.${fileExtension}`;
+
+        // Recursion is removed, as the highest existing copy number is determined in a single pass
+
+        return newFileName;
+    };
+
+    const handleDeleteFileClick = (index, instrumentSheetIndex, fileIndex) => {
+        console.log('handle on delete click: ', index, instrumentSheetIndex, fileIndex);
+        if (!musicPieces[index]?.instrumentSheets[instrumentSheetIndex]?.origFiles[fileIndex])
+            return;
+
+        var tempInstrumentSheets = musicPieces[index].instrumentSheets;
+
+        tempInstrumentSheets[instrumentSheetIndex].origFiles = musicPieces[index].instrumentSheets[
+            instrumentSheetIndex
+        ].origFiles.filter((file, i) => i !== fileIndex);
+
+        console.log('file delete click: ', tempInstrumentSheets);
+
+        onInstrumentSheetsUpdate(tempInstrumentSheets, index);
     };
 
     const getDisplayFilename = filename => {
@@ -153,13 +224,11 @@ const UploadOverview = ({
                 tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles.push(
                     instrumentSheet.origFiles[0]
                 );
+                if (!tempInstrumentSheets[tempDropLocation.sheetIndex].voices)
+                    tempInstrumentSheets[tempDropLocation.sheetIndex].voices = [];
             });
 
-            onInstrumentSheetsUpdate(
-                tempInstrumentSheets,
-                tempDropLocation?.pieceIndex,
-                tempDropLocation?.sheetIndex
-            );
+            onInstrumentSheetsUpdate(tempInstrumentSheets, tempDropLocation?.pieceIndex);
             setTempDropLocation(null);
             setOriginalFiles(null);
         }
@@ -234,7 +303,7 @@ const UploadOverview = ({
                                     </Button>
                                     <FileDropButton
                                         index={index}
-                                        instrumentSheetIndex={getUnassingedInstrumentSheetsIndex(
+                                        instrumentSheetIndex={getUnassignedInstrumentSheetsIndex(
                                             index
                                         )}
                                         onDrop={onDrop}
@@ -251,105 +320,146 @@ const UploadOverview = ({
                                             Object.keys(musicPieces[index].instrumentSheets).map(
                                                 instrument => (
                                                     <div className="flex flex-cols-2">
-                                                        {musicPieces[index].instrumentSheets[
-                                                            instrument
-                                                        ]?.voices &&
-                                                            musicPieces[index].instrumentSheets[
-                                                                instrument
-                                                            ].voices.length > 0 && (
-                                                                <div className="flex pl-12 pt-8 h-48 w-48">
-                                                                    <CollapseButton></CollapseButton>
-                                                                </div>
-                                                            )}
-                                                        <div className="flex flex-wrap pl-12">
-                                                            {musicPieces[index].instrumentSheets[
-                                                                instrument
-                                                            ]?.voices &&
-                                                                musicPieces[index].instrumentSheets[
-                                                                    instrument
-                                                                ].voices.length > 0 &&
-                                                                musicPieces[index].instrumentSheets[
-                                                                    instrument
-                                                                ].voices.map(
-                                                                    (voice, voiceIndex) => (
-                                                                        <div className="flex flex-wrap">
-                                                                            <VoiceButton
-                                                                                voice={voice}
-                                                                                onVoiceClick={() =>
-                                                                                    handleOnVoiceRemoveClick(
-                                                                                        voice,
-                                                                                        index,
-                                                                                        instrument
-                                                                                    )
-                                                                                }
-                                                                            />
-                                                                            {voiceIndex ===
-                                                                                musicPieces[index]
-                                                                                    .instrumentSheets[
-                                                                                    instrument
-                                                                                ].voices.length -
-                                                                                    1 && (
-                                                                                <IconButton
-                                                                                    onClick={() =>
-                                                                                        handleVoiceAddClick(
+                                                        <div className="flex flex-col h-full content-center">
+                                                            <div className="flex pl-12 pt-8 h-48 w-48">
+                                                                <CollapseButton></CollapseButton>
+                                                            </div>
+                                                            <div
+                                                                className="fex w-2 h-full bg-grey-300 rounded-full mb-16"
+                                                                style={{ marginLeft: 34 }}
+                                                            ></div>
+                                                        </div>
+                                                        <div className="flex flex-col pl-12">
+                                                            <div className="flex flex-wrap">
+                                                                {musicPieces[index]
+                                                                    .instrumentSheets[instrument]
+                                                                    ?.voices &&
+                                                                    musicPieces[index]
+                                                                        .instrumentSheets[
+                                                                        instrument
+                                                                    ].voices.length > 0 &&
+                                                                    musicPieces[
+                                                                        index
+                                                                    ].instrumentSheets[
+                                                                        instrument
+                                                                    ].voices.map(
+                                                                        (voice, voiceIndex) => (
+                                                                            <div className="flex flex-wrap">
+                                                                                <VoiceButton
+                                                                                    voice={voice}
+                                                                                    onVoiceClick={() =>
+                                                                                        handleOnVoiceRemoveClick(
+                                                                                            voice,
                                                                                             index,
                                                                                             instrument
                                                                                         )
                                                                                     }
-                                                                                    className="bg-gray-200 mt-16"
-                                                                                    style={{
-                                                                                        height: '32px',
-                                                                                        width: '32px',
-                                                                                    }}
-                                                                                >
-                                                                                    <AddCircleOutlineIcon />
-                                                                                </IconButton>
+                                                                                />
+                                                                                {voiceIndex ===
+                                                                                    musicPieces[
+                                                                                        index
+                                                                                    ]
+                                                                                        .instrumentSheets[
+                                                                                        instrument
+                                                                                    ].voices
+                                                                                        .length -
+                                                                                        1 && (
+                                                                                    <IconButton
+                                                                                        onClick={() =>
+                                                                                            handleVoiceAddClick(
+                                                                                                index,
+                                                                                                instrument
+                                                                                            )
+                                                                                        }
+                                                                                        className="bg-gray-200 mt-16"
+                                                                                        style={{
+                                                                                            height: '32px',
+                                                                                            width: '32px',
+                                                                                        }}
+                                                                                    >
+                                                                                        <AddCircleOutlineIcon />
+                                                                                    </IconButton>
+                                                                                )}
+                                                                            </div>
+                                                                        )
+                                                                    )}
+                                                            </div>
+                                                            {!musicPieces[index]?.instrumentSheets[
+                                                                instrument
+                                                            ]?.voices ||
+                                                                (musicPieces[index]
+                                                                    ?.instrumentSheets[instrument]
+                                                                    ?.voices?.length === 0 && (
+                                                                    <div className="flex flex-wrap pl-12">
+                                                                        <span className="text-lg font-light italic text-left not-uppercase !p-8 pt-16 pl-0 mr-12">
+                                                                            {t(
+                                                                                'UPLOADER_MUSICPIECESUPLOADED_NO_VOICE'
                                                                             )}
-                                                                        </div>
-                                                                    )
-                                                                )}
+                                                                        </span>
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            className="flex items-center bg-white mt-12 mr-12 !p-8 pl-16 pr-16 rounded-full text-black"
+                                                                            style={{
+                                                                                textTransform:
+                                                                                    'none',
+                                                                            }}
+                                                                            onClick={() =>
+                                                                                handleVoiceAddClick(
+                                                                                    index,
+                                                                                    instrument
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <span className="text-s not-uppercase">
+                                                                                {t(
+                                                                                    'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
+                                                                                )}
+                                                                            </span>
+                                                                        </Button>
+                                                                    </div>
+                                                                ))}
+                                                            <div className="flex flex-wrap mt-16 mb-16">
+                                                                <NotesOverview
+                                                                    instrumentSheet={
+                                                                        musicPieces[index]
+                                                                            .instrumentSheets[
+                                                                            instrument
+                                                                        ]
+                                                                    }
+                                                                    index={index}
+                                                                    instrumentSheetIndex={
+                                                                        instrument
+                                                                    }
+                                                                    onDrop={onDrop}
+                                                                    allowedExtensions={
+                                                                        allowedExtensions
+                                                                    }
+                                                                    onDuplicateFileClick={
+                                                                        handleDuplicateFileClick
+                                                                    }
+                                                                    onDeleteFileClick={
+                                                                        handleDeleteFileClick
+                                                                    }
+                                                                ></NotesOverview>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 )
                                             )}
-                                        {(!musicPieces?.[index]?.instrumentSheets?.length ||
-                                            musicPieces?.[index]?.instrumentSheets?.some(
-                                                sheet =>
-                                                    !sheet.voices ||
-                                                    !Object.keys(sheet.voices).length
-                                            )) && (
-                                            <div className="flex flex-wrap">
-                                                <div className="flex pl-12 pt-8 h-48">
-                                                    <CollapseButton></CollapseButton>
-                                                </div>
-                                                <div className="flex flex-wrap">
-                                                    <span className="text-lg font-light italic text-left not-uppercase !p-8 pt-16 pl-0 mr-12">
-                                                        {t('UPLOADER_MUSICPIECESUPLOADED_NO_VOICE')}
-                                                    </span>
-                                                    <Button
-                                                        variant="contained"
-                                                        className="flex items-center bg-white mt-12 mr-12 !p-8 pl-16 pr-16 rounded-full text-black"
-                                                        style={{ textTransform: 'none' }}
-                                                        onClick={() =>
-                                                            handleVoiceAddClick(
-                                                                index,
-                                                                musicPieces?.[index]
-                                                                    ?.instrumentSheets?.length - 1
-                                                            )
-                                                        }
-                                                    >
-                                                        <span className="text-s not-uppercase">
-                                                            {t(
-                                                                'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
-                                                            )}
-                                                        </span>
-                                                    </Button>
-                                                </div>
-                                            </div>
-                                        )}
                                     </div>
                                 )}
                             </div>
+                            <Button
+                                variant="contained"
+                                startIcon={<AddCircleOutlineIcon />}
+                                className="flex items-center bg-white mt-12 ml-32 rounded-full text-black"
+                                style={{ textTransform: 'none' }}
+                                onClick={() => onAddUnnasignedInstrumentSheetClick(index)}
+                            >
+                                <span className="text-s not-uppercase">
+                                    {t('UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE')}
+                                </span>
+                            </Button>
                             <div className="fex w-full h-6 bg-grey-300 mt-16 rounded-full"></div>
                         </div>
                     );

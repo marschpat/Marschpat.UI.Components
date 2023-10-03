@@ -31,7 +31,7 @@ const useAvailableInstrumentVoices = (
 
     const handleAvailableVoicesUpdate = () => {
         let allAssignedVoices = [];
-        instrumentSheets.forEach(instrumentSheet => {
+        instrumentSheets?.forEach(instrumentSheet => {
             if (instrumentSheet.voices && instrumentSheet.voices.length > 0) {
                 allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
             }

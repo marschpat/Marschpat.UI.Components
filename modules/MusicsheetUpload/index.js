@@ -44,7 +44,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             musicPieces[0] = {
                 metaData: initialMetaData,
                 selectedCast: null,
-                instrumentSheets: [],
+                instrumentSheets: [
+                    {
+                        voices: [],
+                    },
+                ],
                 availableInstrumentVoices: [],
             };
             setSelectedMusicPieceIndex(0);
@@ -85,7 +89,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         temp[newIndex] = {
             metaData: initialMetaData,
             selectedCast: null,
-            instrumentSheets: [],
+            instrumentSheets: [
+                {
+                    voices: [],
+                },
+            ],
             availableInstrumentVoices: [],
         };
         setMusicPieces([...temp]);
@@ -118,24 +126,30 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     // handle cast update
     const updateCast = (selectedCast, index) => {
         if (musicPieces[index]) {
-            musicPieces[index].selectedCast = selectedCast;
-            musicPieces[index].availableInstrumentVoices = getInstrumentVoicesOfCast(
-                selectedCast,
-                musicPieces[index].instrumentSheets
-            );
-            if (musicPieces[index].instrumentSheets.length > 0) {
-                musicPieces[index].instrumentSheets = musicPieces[index].instrumentSheets?.forEach(
-                    instrumentSheet => {
-                        instrumentSheet.voices = instrumentSheet.voices.filter(voice =>
-                            musicPieces[index].availableInstrumentVoices.some(
-                                v => v.voiceId === voice.voiceId
-                            )
-                        );
+            var tempMusicPiece = { ...musicPieces[index] };
+            tempMusicPiece.selectedCast = selectedCast;
+            // save all uploaded files and move them into an unassinged instrument sheet
+            if (tempMusicPiece.instrumentSheets?.length > 0) {
+                tempMusicPiece.instrumentSheets = [{ voices: [], origFiles: [] }];
+                var temp = musicPieces[index].instrumentSheets?.map(instrumentSheet => {
+                    if (instrumentSheet.origFiles?.length > 0) {
+                        instrumentSheet.origFiles.map(file => {
+                            tempMusicPiece.instrumentSheets[0].origFiles.push(file);
+                        });
                     }
-                );
-                if (musicPieces[index].instrumentSheets === undefined)
-                    musicPieces[index].instrumentSheets = [];
+                });
+                if (tempMusicPiece.instrumentSheets === undefined)
+                    tempMusicPiece.instrumentSheets = [{ voices: [] }];
+                temp = undefined;
+            } else {
+                tempMusicPiece.instrumentSheets = [{ voices: [], origFiles: [] }];
             }
+            // reset available voices
+            tempMusicPiece.availableInstrumentVoices = getInstrumentVoicesOfCast(
+                selectedCast,
+                tempMusicPiece.instrumentSheets
+            );
+            musicPieces[index] = tempMusicPiece;
             setMusicPieces([...musicPieces]);
         } else {
             //console.warn('Invalid index:', index);
@@ -156,27 +170,19 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     };
 
     // handle instrumentSheets update
-    const updateInstrumentSheets = (newInstrumentSheets, index, instrumentSheetIndex) => {
-        console.log('updateInstrumentSheets: ', newInstrumentSheets, index, instrumentSheetIndex);
+    const updateInstrumentSheets = (newInstrumentSheets, index) => {
+        console.log('updateInstrumentSheets: ', newInstrumentSheets, index);
 
-        setMusicPieces(prevMusicPieces => {
-            if (prevMusicPieces[index]) {
-                const updatedMusicPiece = { ...prevMusicPieces[index] };
+        const updatedMusicPiece = { ...musicPieces[index] };
+        updatedMusicPiece.instrumentSheets = newInstrumentSheets;
+        updatedMusicPiece.availableInstrumentVoices = getAvailableVoices(
+            updatedMusicPiece.selectedCast,
+            updatedMusicPiece.instrumentSheets
+        );
 
-                updatedMusicPiece.instrumentSheets = newInstrumentSheets;
+        musicPieces[index] = updatedMusicPiece;
 
-                updatedMusicPiece.availableInstrumentVoices = getAvailableVoices(
-                    updatedMusicPiece.selectedCast,
-                    newInstrumentSheets
-                );
-                return [
-                    ...prevMusicPieces.slice(0, index),
-                    updatedMusicPiece,
-                    ...prevMusicPieces.slice(index + 1),
-                ];
-            }
-            return prevMusicPieces; // If there's no valid index, just return the previous state
-        });
+        setMusicPieces([...musicPieces]);
     };
 
     // handle add voice to musicPiece
@@ -240,14 +246,21 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             index
         ].instrumentSheets[instrumentSheetIndex].voices.filter(v => v.voiceId !== voice.voiceId);
 
-        musicPieces[index].instrumentSheets = musicPieces[index].instrumentSheets.filter(
-            instrumentSheet => instrumentSheet.voices.length > 0
-        );
         musicPieces[index].availableInstrumentVoices = getAvailableVoices(
             musicPieces[index].selectedCast,
             musicPieces[index].instrumentSheets
         );
         setMusicPieces([...musicPieces]);
+    };
+
+    const handleAddEmptyInstrumentSheet = index => {
+        console.log('Add empty instrument sheet clicked', index);
+        var temp = musicPieces;
+        temp[index].instrumentSheets.push({
+            voices: [],
+            origFiles: [],
+        });
+        setMusicPieces([...temp]);
     };
 
     return (
@@ -344,6 +357,9 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         onVoiceClick={handleOnVoiceRemove}
                                         onAddVoiceClick={handleOpenVoiceSelector}
                                         onAddMusicPieceClick={handleAddMusicPiece}
+                                        onAddUnnasignedInstrumentSheetClick={
+                                            handleAddEmptyInstrumentSheet
+                                        }
                                     />
                                 )}
                                 {isMetadataVisible && (

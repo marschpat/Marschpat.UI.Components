@@ -30,6 +30,7 @@ export const de = {
     UPLOADER_TITLE: 'Noten hochladen',
     UPLOADER_SAVE: 'Speichern',
     UPlOADER_ADD_MUSICPIECE: 'Musikstück hinzufügen',
+    UPlOADER_ADD_MUSICSHEET: 'Notenblatt hinzufügen',
     UPLOADER_MUSICPIECESUPLOADED: 'Musikstücke angelegt',
     UPLOADER_MUSICPIECESUPLOADED_DESC:
         'Wähle Musikstücke oder Notenblätter auf der linken Seite aus, um diese zu bearbeiten oder hochzuladen.',
@@ -219,6 +220,7 @@ export const en = {
     UPLOADER_SAVE: 'Save',
     UPLOADER_ACCEPT_NOT: 'Don`t agree',
     UPlOADER_ADD_MUSICPIECE: 'Add music piece',
+    UPlOADER_ADD_MUSICSHEET: 'Add music sheet',
     UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
     UPLOADER_MUSICPIECESUPLOADED_DESC:
         'Select music pieces or sheet music on the left side to edit or upload them.',
