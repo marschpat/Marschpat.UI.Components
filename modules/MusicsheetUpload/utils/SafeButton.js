@@ -12,34 +12,38 @@ const SaveButton = ({ text, onClick, licenseCheckRequired, isMobile }) => {
     const [openLicenseCheckModal, setOpenLicenseCheckModal] = useState(false);
 
     const handeClick = () => {
-        if(licenseCheckRequired) handleLicenseCheck();
+        if (licenseCheckRequired) handleLicenseCheck();
         else onClick();
-    }
+    };
 
     const handleLicenseCheck = () => {
         setOpenLicenseCheckModal(true);
-    }
+    };
 
     const handleClose = () => {
         setOpenLicenseCheckModal(false);
-    }
+    };
 
     const handleConfirm = () => {
         setOpenLicenseCheckModal(false);
-        console.log("Confirm", text);
+        console.log('Confirm', text);
         onClick();
-    }
-
+    };
 
     return (
-        <div className="App flex space-x-4">
+        <div className="App flex">
             <Button
                 onClick={handeClick}
                 className="bg-gray-200"
-                style={{ textTransform: 'none', backgroundColor: 'rgb(220, 173, 85)', active:{backgroundColor: 'rgb(220, 173, 85)'}, hover:{backgroundColor: 'rgb(220, 173, 85)'}}}
+                style={{
+                    textTransform: 'none',
+                    backgroundColor: 'rgb(220, 173, 85)',
+                    active: { backgroundColor: 'rgb(220, 173, 85)' },
+                    hover: { backgroundColor: 'rgb(220, 173, 85)' },
+                }}
             >
                 <div className="flex items-center justify-center font-semibold text-xl text-white pl-8 pr-8">
-                    { text }
+                    {text}
                 </div>
             </Button>
             <Dialog
@@ -50,51 +54,66 @@ const SaveButton = ({ text, onClick, licenseCheckRequired, isMobile }) => {
                 classes={{ paper: 'rounded-lg' }}
             >
                 <div className="p-24 rounded-full">
-                    <DialogTitle id="alert-dialog-title" className="text-center font-bold text-xl">{t('UPLOADER_ACCEPT_NOTICE')}</DialogTitle>
+                    <DialogTitle id="alert-dialog-title" className="text-center font-bold text-xl">
+                        {t('UPLOADER_ACCEPT_NOTICE')}
+                    </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description" className="text-center">
                             {t('UPLOADER_LEGAL_CONSENT')}
                         </DialogContentText>
                     </DialogContent>
                     <DialogActions className="flex items-center justify-center">
-                        {isMobile || <div className="flex items-center justify-center">
-                            <Button 
-                                onClick={handleClose}  
-                                style={{ textTransform: 'none' }} 
-                                className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
-                            >
-                                {t('UPLOADER_ACCEPT_NOT')}
-                            </Button>
-                            <Button 
-                                onClick={handleConfirm}         
-                                style={{ textTransform: 'none', backgroundColor: 'rgb(220, 173, 85)', active:{backgroundColor: 'rgb(220, 173, 85)'}, hover:{backgroundColor: 'rgb(220, 173, 85)'}}}
-                                className="flex items-center justify-center rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4 text-white"
-                            >
-                                {t('UPLOADER_ACCEPT')}
-                            </Button>
-                        </div>}
-                        {isMobile && 
-                        <div className="flex flex-col items-center">
-                            <Button 
-                                onClick={handleConfirm} 
-                                style={{ textTransform: 'none', backgroundColor: 'rgb(220, 173, 85)', active:{backgroundColor: 'rgb(220, 173, 85)'}, hover:{backgroundColor: 'rgb(220, 173, 85)'}}} 
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-white text-center p-8 pl-24 pr-24"
-                            >
-                                {t('UPLOADER_ACCEPT')}
-                            </Button>
-                            <Button 
-                                onClick={handleClose}  
-                                style={{ textTransform: 'none' }} 
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
-                            >
-                                {t('UPLOADER_ACCEPT_NOT')}
-                            </Button>
-                        </div>}
+                        {isMobile || (
+                            <div className="flex items-center justify-center">
+                                <Button
+                                    onClick={handleClose}
+                                    style={{ textTransform: 'none' }}
+                                    className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
+                                >
+                                    {t('UPLOADER_ACCEPT_NOT')}
+                                </Button>
+                                <Button
+                                    onClick={handleConfirm}
+                                    style={{
+                                        textTransform: 'none',
+                                        backgroundColor: 'rgb(220, 173, 85)',
+                                        active: { backgroundColor: 'rgb(220, 173, 85)' },
+                                        hover: { backgroundColor: 'rgb(220, 173, 85)' },
+                                    }}
+                                    className="flex items-center justify-center rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4 text-white"
+                                >
+                                    {t('UPLOADER_ACCEPT')}
+                                </Button>
+                            </div>
+                        )}
+                        {isMobile && (
+                            <div className="flex flex-col items-center">
+                                <Button
+                                    onClick={handleConfirm}
+                                    style={{
+                                        textTransform: 'none',
+                                        backgroundColor: 'rgb(220, 173, 85)',
+                                        active: { backgroundColor: 'rgb(220, 173, 85)' },
+                                        hover: { backgroundColor: 'rgb(220, 173, 85)' },
+                                    }}
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-white text-center p-8 pl-24 pr-24"
+                                >
+                                    {t('UPLOADER_ACCEPT')}
+                                </Button>
+                                <Button
+                                    onClick={handleClose}
+                                    style={{ textTransform: 'none' }}
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
+                                >
+                                    {t('UPLOADER_ACCEPT_NOT')}
+                                </Button>
+                            </div>
+                        )}
                     </DialogActions>
                 </div>
             </Dialog>
         </div>
     );
-}
+};
 
 export default SaveButton;

@@ -12,6 +12,7 @@ import InfoPlaceholder from './components_2.0/InfoPlaceholder';
 import SafeButton from '@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/utils_2.0/SafeButton';
 import useAvailableInstrumentHelper from './utils_2.0/useAvailableInstrumentHelper';
 import { set } from 'lodash';
+import FileEditor from './components_2.0/FileEditor';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -37,6 +38,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [isVoiceSelectorVisible, setIsVoiceSelectorVisible] = useState(true); // used | toggles voice selector | scope Global
     const [tempInstrumentSheetIndexForVoiceAdd, setTempInstrumentSheetIndexForVoiceAdd] =
         useState(null); // used | temp index for voice add | scope Global
+
+    // NEW FOR EDITOR HANDLING
+    const [isFileEditorVisible, setIsFileEditorVisible] = useState(false); // used | toggles file editor | scope Global
+    const [tempFileInEdit, setTempFileInEdit] = useState(null); // used | temp file in edit | scope Global
+    const [tempSelectedVoicesInEdit, setTempSelectedVoicesInEdit] = useState(null); // used | temp selected voices in edit | scope Global
+    const [tempMetaDataInEdit, setTempMetaDataInEdit] = useState(null); // used | temp metadata in edit | scope Global
 
     const initialMetaData = require('./metaData.initial.json');
 
@@ -89,9 +96,45 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handle backend save here
     const handeSaveClicked = () => {
+        /// TODO : save musicPieces to backend
         console.log('Save clicked');
     };
 
+    // handle open file editor
+    const handleOpenFileEditor = (index, instrumentSheetIndex, origFilesIndex) => {
+        console.log('Open file editor clicked', index, instrumentSheetIndex, origFilesIndex);
+
+        setTempFileInEdit({
+            ...musicPieces?.[index]?.instrumentSheets?.[instrumentSheetIndex]?.origFiles?.[
+                origFilesIndex
+            ],
+        });
+
+        setTempSelectedVoicesInEdit([
+            ...musicPieces?.[index]?.instrumentSheets?.[instrumentSheetIndex]?.voices,
+        ]);
+
+        setTempMetaDataInEdit({
+            ...musicPieces?.[index]?.metaData,
+        });
+
+        /// TODO : disable SideBar
+        setIsFileEditorVisible(true);
+    };
+
+    // handle file editor close
+    const handelFileEditorClose = file => {
+        console.log('File editor closed', file);
+        // TODO safe edited file from Editor to musicPieces
+
+        setTempFileInEdit(null);
+        setTempSelectedVoicesInEdit(null);
+        setTempMetaDataInEdit(null);
+        /// TODO : enable SideBar
+        setIsFileEditorVisible(false);
+    };
+
+    // handle add music piece
     const handleAddMusicPiece = () => {
         console.log('Add music piece clicked');
         var temp = musicPieces;
@@ -234,6 +277,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMetadataIsVisible(true);
     };
 
+    // handel visibillity state change
     const handeVisivillityStateChange = (isExpanded, isExpandedInstrumentSheets) => {
         setVisibillityStates({
             isExpanded: isExpanded,
@@ -380,6 +424,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         onAddUnnasignedInstrumentSheetClick={
                                             handleAddEmptyInstrumentSheet
                                         }
+                                        onEditFileClick={handleOpenFileEditor}
                                     />
                                 )}
                                 {isMetadataVisible && (
@@ -405,6 +450,15 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                             </div>
                         )}
                     </div>
+                    {isFileEditorVisible && (
+                        <FileEditor
+                            isOpen={isFileEditorVisible}
+                            originalFile={tempFileInEdit}
+                            onCloseClick={handelFileEditorClose}
+                            selectedVoices={tempSelectedVoicesInEdit}
+                            metaData={tempMetaDataInEdit}
+                        ></FileEditor>
+                    )}
                 </UsagePermissionCheck>
             </UploaderContext.Provider>
         </div>

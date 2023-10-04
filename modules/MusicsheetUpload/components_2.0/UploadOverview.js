@@ -24,6 +24,7 @@ const UploadOverview = ({
     onAddVoiceClick,
     onAddMusicPieceClick,
     onAddUnnasignedInstrumentSheetClick,
+    onEditFileClick,
 }) => {
     const { t } = useTranslation(['uploader']);
     const { isMobile, isMetadataVisible } = useContext(UploaderContext);
@@ -478,6 +479,9 @@ const UploadOverview = ({
                                                                         }
                                                                         onDeleteFileClick={
                                                                             handleDeleteFileClick
+                                                                        }
+                                                                        onEditFileClick={
+                                                                            onEditFileClick
                                                                         }
                                                                     ></NotesOverview>
                                                                 )}

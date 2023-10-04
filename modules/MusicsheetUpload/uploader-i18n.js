@@ -43,6 +43,9 @@ export const de = {
     UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE: 'Stimme auswählen',
     UPLOADER_MUSICPIECESUPLOADED_NO_VOICE: 'Nicht zugewiesen',
 
+    EDITOR_VOICES_IN_EDIT_1: 'Stimme',
+    EDITOR_VOICES_IN_EDIT_2: 'bearbeiten',
+
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -231,6 +234,9 @@ export const en = {
     UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE: 'Add voice',
     UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE: 'Select voice',
     UPLOADER_MUSICPIECESUPLOADED_NO_VOICE: 'Not assigned',
+
+    EDITOR_VOICES_IN_EDIT_1: 'voice',
+    EDITOR_VOICES_IN_EDIT_2: 'in edit',
 
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',

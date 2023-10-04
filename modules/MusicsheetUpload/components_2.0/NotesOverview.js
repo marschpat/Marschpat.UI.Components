@@ -2,6 +2,7 @@ import React, { useContext, useMemo, useState } from 'react';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import { useDropzone } from 'react-dropzone';
@@ -15,6 +16,7 @@ const NotesOverview = ({
     onDrop,
     allowedExtensions,
     onAddFileClick,
+    onEditFileClick,
     onDuplicateFileClick,
     onDeleteFileClick,
 }) => {
@@ -81,6 +83,16 @@ const NotesOverview = ({
                                     className="flex flex-row justify-end w-full"
                                     style={{ right: 0 }}
                                 >
+                                    <IconButton
+                                        className={`bg-gray-200 h-16 w-16 mr-8 ${
+                                            hoveredIndex === i ? '' : 'hidden'
+                                        } transition-opacity duration-300`}
+                                        onClick={() =>
+                                            onEditFileClick(index, instrumentSheetIndex, i)
+                                        }
+                                    >
+                                        <EditIcon />
+                                    </IconButton>
                                     <IconButton
                                         className={`bg-gray-200 h-16 w-16 mr-8 ${
                                             hoveredIndex === i ? '' : 'hidden'
