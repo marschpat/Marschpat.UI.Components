@@ -5,17 +5,17 @@ import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import FormatItalicIcon from '@material-ui/icons/FormatItalic';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
-import DrawIcon from '@material-ui/icons/Create';
 import TextIcon from '@material-ui/icons/Title';
 import DeleteIcon from '@material-ui/icons/Delete';
 import HandIcon from '@material-ui/icons/PanTool';
-import EraserIcon from '@material-ui/icons/FormatColorReset';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Gesture from '@material-ui/icons/Gesture';
 import { SketchPicker } from 'react-color';
 import { fabric } from 'fabric';
 
 const Toolbar = ({ canvas }) => {
     const [mode, setMode] = useState('select'); // 'select', 'text', 'draw'
-    const [colors, setColors] = React.useState(['#f00', '#0f0', '#00f', '#000']);
+    const [colors, setColors] = React.useState(['#f00', '#03AF03', '#4444F3', '#000']);
     const [anchorEl, setAnchorEl] = useState(null);
     const [textOptions, setTextOptions] = useState({
         size: 14,
@@ -29,7 +29,12 @@ const Toolbar = ({ canvas }) => {
     const [showColorPicker, setShowColorPicker] = useState(false);
     const colorPickerRef = useRef();
 
-    React.useEffect(() => {
+    useEffect(() => {
+        setSelectedColor(colors[0]);
+        setSelectedColorIndex(0);
+    }, []);
+
+    useEffect(() => {
         const handleClickOutside = e => {
             if (colorPickerRef.current && !colorPickerRef.current.contains(e.target)) {
                 setShowColorPicker(false);
@@ -47,6 +52,17 @@ const Toolbar = ({ canvas }) => {
             canvas.freeDrawingBrush.color = selectedColor;
         }
     }, [canvas, selectedColor]);
+
+    useEffect(() => {
+        if (canvas && mode === 'select' && selectedColor) {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject === undefined || activeObject === null) return;
+            if (activeObject.type === 'i-text') {
+                activeObject.set({ fill: selectedColor });
+                canvas.renderAll();
+            }
+        }
+    }, [canvas, mode, selectedColor]);
 
     useEffect(() => {
         const handleKeyDown = event => {
@@ -101,20 +117,8 @@ const Toolbar = ({ canvas }) => {
                         canvas.add(text);
                         canvas.setActiveObject(text);
                     }
-                } else if (mode === 'erase') {
-                    const pointer = canvas.getPointer(options.e);
-                    const objects = canvas.getObjects();
-                    objects.forEach(object => {
-                        if (
-                            pointer.x >= object.aCoords.tl.x &&
-                            pointer.x <= object.aCoords.br.x &&
-                            pointer.y >= object.aCoords.tl.y &&
-                            pointer.y <= object.aCoords.br.y
-                        ) {
-                            canvas.remove(object);
-                        }
-                    });
-                    canvas.renderAll(); // Ensure canvas gets re-rendered after an object is removed
+                    // Change mode back to select after adding or selecting text
+                    setMode('select');
                 }
             };
 
@@ -138,6 +142,64 @@ const Toolbar = ({ canvas }) => {
         canvas.setActiveObject(text);
         canvas.renderAll();
     };
+
+    const handleDelete = () => {
+        if (!canvas) return;
+        const activeObjects = canvas.getActiveObjects();
+        if (activeObjects === undefined || activeObjects === null) return;
+        if (activeObjects.length) {
+            canvas.remove(...activeObjects);
+            canvas.discardActiveObject(); // clear the selection after deleting the objects
+            canvas.renderAll();
+        }
+    };
+
+    useEffect(() => {
+        if (canvas && mode === 'select') {
+            const handleSelectionCreated = e => {
+                const activeObject = e.target;
+
+                if (activeObject === undefined || activeObject === null) return;
+                if (activeObject.type === 'i-text') {
+                    setTextOptions({
+                        size: activeObject.fontSize,
+                        weight: activeObject.fontWeight,
+                        italic: activeObject.fontStyle === 'italic',
+                    });
+                }
+            };
+
+            const handleSelectionCleared = () => {
+                setTextOptions({
+                    size: 14,
+                    weight: 400,
+                    italic: false,
+                });
+            };
+
+            canvas.on('selection:created', handleSelectionCreated);
+            canvas.on('selection:cleared', handleSelectionCleared);
+
+            return () => {
+                canvas.off('selection:created', handleSelectionCreated);
+                canvas.off('selection:cleared', handleSelectionCleared);
+            };
+        }
+    }, [canvas, mode]);
+
+    useEffect(() => {
+        if (canvas && mode === 'select') {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject && activeObject.type === 'i-text') {
+                activeObject.set({
+                    fontSize: textOptions.size,
+                    fontWeight: textOptions.weight,
+                    fontStyle: textOptions.italic ? 'italic' : 'normal',
+                });
+                canvas.requestRenderAll();
+            }
+        }
+    }, [canvas, mode, textOptions]);
 
     const handleModeChange = newMode => {
         if (!canvas) return;
@@ -197,60 +259,96 @@ const Toolbar = ({ canvas }) => {
     };
 
     return (
-        <div
-            className="flex flex-row flex-wrap bg-gray-300 rounded p-2"
-            style={{
-                display: 'flex',
-                backgroundColor: 'grey-700',
-                borderRadius: '8px',
-                alignItems: 'center',
-                padding: '8px',
-            }}
-        >
+        <div className="flex flex-row bg-gray-900 justify-between items-center h-32">
             {/* Mode Buttons */}
-            <IconButton
-                color={mode === 'select' ? 'primary' : 'default'}
-                onClick={() => handleModeChange('select')}
-            >
-                <HandIcon />
-            </IconButton>
-            <IconButton
-                color={mode === 'text' ? 'primary' : 'default'}
-                onClick={() => handleModeChange('text')}
-            >
-                <TextIcon />
-            </IconButton>
-            <IconButton
-                color={mode === 'erase' ? 'primary' : 'default'}
-                onClick={() => handleModeChange('erase')}
-            >
-                <EraserIcon />
-            </IconButton>
-            <IconButton
-                color={mode === 'draw' ? 'primary' : 'default'}
-                onClick={() => handleModeChange('draw')}
-            >
-                <DrawIcon />
-            </IconButton>
+            <div className="flex flex-row bg-gray-700 rounded justify-between items-center">
+                <div
+                    className="flex flex-wrap rounded"
+                    style={{
+                        background: mode === 'select' ? 'rgb(220, 173, 85)' : 'transparent',
+                    }}
+                >
+                    <IconButton onClick={() => handleModeChange('select')}>
+                        <HandIcon
+                            style={{
+                                color: 'white',
+                                width: '20px',
+                                height: '20px',
+                            }}
+                        />
+                    </IconButton>
+                </div>
+                <div
+                    className="flex flex-wrap rounded"
+                    style={{
+                        background: mode === 'draw' ? 'rgb(220, 173, 85)' : 'transparent',
+                    }}
+                >
+                    <IconButton onClick={() => handleModeChange('draw')}>
+                        <Gesture
+                            style={{
+                                color: 'white',
+                                width: '24px',
+                                height: '24px',
+                            }}
+                        />
+                    </IconButton>
+                </div>
+                <div
+                    className="flex flex-wrap rounded"
+                    style={{
+                        background: mode === 'text' ? 'rgb(220, 173, 85)' : 'transparent',
+                    }}
+                >
+                    <IconButton onClick={() => handleModeChange('text')}>
+                        <TextIcon
+                            style={{
+                                color: 'white',
+                                width: '24px',
+                                height: '24px',
+                            }}
+                        />
+                    </IconButton>
+                </div>
+            </div>
 
-            <Slider
-                value={lineWidth}
-                min={1}
-                max={10}
-                onChange={(e, newVal) => {
-                    setLineWidth(newVal);
-                    if (canvas) {
-                        canvas.freeDrawingBrush.width = newVal;
-                    }
-                }}
-                aria-labelledby="line-width-slider"
-                className="w-32"
-            />
-
-            {/* Text Options */}
-            <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
-                <TextFieldsIcon />
-            </IconButton>
+            <div className="flex flex-row ml-8 mr-8">
+                {mode === 'draw' && (
+                    <div className="grid w-64 ml-8">
+                        <Slider
+                            value={lineWidth}
+                            min={1}
+                            max={10}
+                            onChange={(e, newVal) => {
+                                setLineWidth(newVal);
+                                if (canvas) {
+                                    canvas.freeDrawingBrush.width = newVal;
+                                }
+                            }}
+                            aria-labelledby="line-width-slider"
+                            style={{ color: 'white' }}
+                        />
+                    </div>
+                )}
+                {mode !== 'draw' && (
+                    <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
+                        <TextFieldsIcon
+                            style={{
+                                color: 'white',
+                                width: '32px',
+                                height: '32px',
+                            }}
+                        />
+                        <ExpandMoreIcon
+                            style={{
+                                color: 'white',
+                                width: '16px',
+                                height: '16px',
+                            }}
+                        />
+                    </IconButton>
+                )}
+            </div>
 
             <Menu
                 anchorEl={anchorEl}
@@ -260,13 +358,15 @@ const Toolbar = ({ canvas }) => {
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 style={{
-                    top: '7%', // 10% from the top
-                    width: '200px',
+                    top: '5%', // 10% from the top
+                    width: '250px',
+                    background: '#212121',
+                    color: 'black',
                 }}
-                className="flex flex-col"
+                className="flex flex-col bg-gray-900"
             >
                 <MenuItem className="flex flex-wrap">
-                    <div className="text-gray-700 text-xl pb-4">Size:</div>
+                    <div className="text-xl pb-4">Size:</div>
                     <Slider
                         min={2}
                         max={96}
@@ -276,7 +376,7 @@ const Toolbar = ({ canvas }) => {
                     />
                 </MenuItem>
                 <MenuItem className="flex flex-wrap">
-                    <div className="text-gray-700 text-xl pb-4">Weight:</div>
+                    <div className="text-xl pb-4">Weight:</div>
                     <Slider
                         min={100}
                         max={900}
@@ -287,7 +387,7 @@ const Toolbar = ({ canvas }) => {
                     />
                 </MenuItem>
                 <MenuItem className="flex flex-row">
-                    <div className="text-gray-700 text-xl pb-4">Italic:</div>
+                    <div className="text-xl pb-4">Italic:</div>
                     <IconButton
                         onClick={() => handleTextOptions('italic', !textOptions.italic)}
                         color={textOptions.italic ? 'primary' : 'default'}
@@ -297,18 +397,44 @@ const Toolbar = ({ canvas }) => {
                 </MenuItem>
             </Menu>
 
-            {colors.map((color, index) => (
-                <IconButton
-                    key={color}
+            {/* Color Buttons */}
+            <div className="flex flex-row ml-4 mr-4">
+                {colors.map((color, index) => (
+                    <IconButton
+                        key={color}
+                        style={{
+                            backgroundColor: color,
+                            borderRadius: '50%',
+                            border:
+                                selectedColor === color
+                                    ? '2px solid #dddddd'
+                                    : '2px solid transparent',
+                        }}
+                        onClick={event => handleColorButtonClick(color, index, event)}
+                        className="m-4 w-36 h-36"
+                    >
+                        <div
+                            style={{
+                                width: selectedColor === color ? '8px' : '0px',
+                                height: selectedColor === color ? '8px' : '0px',
+                                borderRadius: selectedColor === color ? '50%' : '0%',
+                                background: 'white',
+                            }}
+                        />
+                    </IconButton>
+                ))}
+            </div>
+
+            {/* Delete Button */}
+            <IconButton onClick={handleDelete} color="white">
+                <DeleteIcon
                     style={{
-                        backgroundColor: color,
-                        borderRadius: '50%',
-                        border:
-                            selectedColor === color ? '2px solid #2d2d2d' : '2px solid transparent',
+                        color: 'white',
+                        width: '24px',
+                        height: '24px',
                     }}
-                    onClick={event => handleColorButtonClick(color, index, event)}
                 />
-            ))}
+            </IconButton>
 
             {/* Color Picker */}
             {showColorPicker && (
@@ -316,13 +442,17 @@ const Toolbar = ({ canvas }) => {
                     style={{
                         position: 'fixed', // fixed will keep it in place even on scroll
                         zIndex: 2,
-                        top: '10%', // 10% from the top
+                        top: '7%', // 10% from the top
                         left: '50%', // Centered horizontally
                         transform: 'translateX(-50%)', // Ensure it is centered by translating it negatively along the X-axis by half its width
                     }}
                     ref={colorPickerRef} // Using ref to identify the color picker div
                 >
-                    <SketchPicker color={selectedColor} onChangeComplete={handleColorChange} />
+                    <SketchPicker
+                        color={selectedColor}
+                        className="text-gray-900"
+                        onChangeComplete={handleColorChange}
+                    />
                 </div>
             )}
         </div>
