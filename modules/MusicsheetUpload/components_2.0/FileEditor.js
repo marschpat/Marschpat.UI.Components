@@ -1,27 +1,108 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
+import { loadPdf, renderPageAsImage } from '../utils/PdfViewerHelpers';
 import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'; // Import left arrow icon
+import NavigateNextIcon from '@material-ui/icons/NavigateNext'; // Import right arrow icon
 import SafeButton from '../utils_2.0/SafeButton';
+import EditorToolbar from './EditorToolbar';
+import { fabric } from 'fabric';
 
 const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoices }) => {
+    const [images, setImages] = useState([]);
+    const [editedImages, setEditedImages] = useState([]); // NEW: to keep the edited images.
+    const [currentIndex, setCurrentIndex] = useState(0); // NEW: to keep track of the currently displayed image index.
+    const canvasRef = useRef(null); // NEW: Ref to interact with canvas.
+    const containerRef = useRef(null); // NEW: Ref for the canvas container.
     const { isMobile } = useContext(UploaderContext);
     const { t } = useTranslation(['uploader']);
+    const [canvas, setCanvas] = useState(null);
 
     useEffect(() => {
-        console.log('Opened Fullscreen Editor');
-        console.log('originalFile: ', originalFile);
-        console.log('metaData: ', metaData);
-        console.log('selectedVoices: ', selectedVoices);
-        console.log('isOpen: ', isOpen);
-    }, []);
+        if (canvasRef.current && containerRef.current) {
+            const updateCanvasSize = () => {
+                canvasRef.current.width = containerRef.current.clientWidth;
+                canvasRef.current.height = containerRef.current.clientHeight;
+            };
+            updateCanvasSize();
+            setCanvas(new fabric.Canvas(canvasRef.current));
+            window.addEventListener('resize', updateCanvasSize);
+            return () => window.removeEventListener('resize', updateCanvasSize);
+        }
+    }, [containerRef, canvasRef]);
+
+    useEffect(() => {
+        if (originalFile.type === 'image') {
+            setImages([originalFile.data]);
+        } else if (originalFile.type === 'pdf') {
+            loadPdf(originalFile.data).then(pdf => {
+                const newImages = [];
+                for (let i = 1; i <= pdf._pdfInfo.numPages; i++) {
+                    renderPageAsImage(pdf, i).then(img => {
+                        newImages.push(img);
+                        setImages(prevImages => [...prevImages, img]);
+                    });
+                }
+            });
+        }
+    }, [originalFile]);
+
+    useEffect(() => {
+        handleImageChange();
+    }, [images, currentIndex, canvas]);
+
+    const handleImageChange = () => {
+        if (canvas && images[currentIndex]) {
+            fabric.Image.fromURL(
+                images[currentIndex],
+                img => {
+                    const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
+                    img.set({
+                        scaleX: scale,
+                        scaleY: scale,
+                        left: (canvas.width - img.width * scale) / 2,
+                        top: (canvas.height - img.height * scale) / 2,
+                        selectable: false,
+                    });
+                    canvas.clear();
+                    canvas.add(img);
+                    canvas.renderAll();
+                },
+                { crossOrigin: 'anonymous' }
+            );
+        }
+    };
 
     const handleCloseClick = () => {
         onCloseClick();
     };
 
+    const handleNext = () => {
+        if (currentIndex < images.length - 1) {
+            setCurrentIndex(prev => {
+                const newIndex = prev + 1;
+                return newIndex;
+            });
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(prev => {
+                const newIndex = prev - 1;
+                return newIndex;
+            });
+        }
+    };
+
     const handleSaveClicked = () => {
+        // UPDATED: Save the canvas state before closing.
+        if (canvasRef.current) {
+            const canvas = canvasRef.current;
+            setEditedImages(prev => [...prev, canvas.toJSON()]);
+        }
         console.log('Save Editor clicked');
         onCloseClick();
     };
@@ -68,75 +149,6 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
         );
     };
 
-    const Base64Prefix = 'data:application/pdf;base64,';
-    function getPdfHandler() {
-        return window['pdfjs-dist/build/pdf'];
-    }
-
-    function readBlob(blob) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.addEventListener('load', () => resolve(reader.result));
-            reader.addEventListener('error', reject);
-            reader.readAsDataURL(blob);
-        });
-    }
-
-    async function printPDF(pdfData, pages) {
-        const pdfjsLib = await getPdfHandler();
-        pdfData = pdfData instanceof Blob ? await readBlob(pdfData) : pdfData;
-        const data = atob(
-            pdfData.startsWith(Base64Prefix) ? pdfData.substring(Base64Prefix.length) : pdfData
-        );
-        // Using DocumentInitParameters object to load binary data.
-        const loadingTask = pdfjsLib.getDocument({ data });
-        return loadingTask.promise.then(pdf => {
-            const numPages = pdf.numPages;
-            return new Array(numPages).fill(0).map((__, i) => {
-                const pageNumber = i + 1;
-                if (pages && pages.indexOf(pageNumber) == -1) {
-                    return;
-                }
-                return pdf.getPage(pageNumber).then(page => {
-                    //  retina scaling
-                    const viewport = page.getViewport({ scale: window.devicePixelRatio });
-                    // Prepare canvas using PDF page dimensions
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-                    // Render PDF page into canvas context
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: viewport,
-                    };
-                    const renderTask = page.render(renderContext);
-                    return renderTask.promise.then(() => canvas);
-                });
-            });
-        });
-    }
-
-    async function pdfToImage(pdfData, canvas) {
-        const scale = 1 / window.devicePixelRatio;
-        return (await printPDF(pdfData)).map(async c => {
-            canvas.add(
-                new fabric.Image(await c, {
-                    scaleX: scale,
-                    scaleY: scale,
-                })
-            );
-        });
-    }
-
-    const canvas = (this.__canvas = new fabric.Canvas('edit'));
-    document.querySelector('input').addEventListener('change', async e => {
-        text.set('text', 'loading...');
-        canvas.requestRenderAll();
-        await Promise.all(pdfToImage(e.target.files[0], canvas));
-        canvas.remove(text);
-    });
-
     return (
         <div>
             {isOpen && (
@@ -157,7 +169,9 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
                                 <FileInfo />
                             </div>
                         </div>
-                        <h1 className="ml-4 text-white text-lg flex-grow text-center">TITLE</h1>
+                        <h1 className="ml-4 text-white text-lg flex-grow text-center">
+                            <EditorToolbar canvas={canvas} />
+                        </h1>
                         <div className="flex flex-row justify-end mr-4">
                             <SafeButton
                                 text={t('UPLOADER_SAVE')}
@@ -167,8 +181,30 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
                             ></SafeButton>
                         </div>
                     </div>
-                    <div className="flex-grow flex items-center justify-center bg-white w-full h-full">
-                        <canvas id="edit" className="w-full h-full"></canvas>
+                    <div
+                        ref={containerRef}
+                        className="flex-grow flex items-center justify-center bg-white w-full h-full relative"
+                    >
+                        {/* Navigation buttons and canvas remain unchanged. */}
+                        <button
+                            onClick={handlePrevious}
+                            className="absolute left-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-r-md"
+                            style={{ zIndex: 1000 }} // Ensure button overlays canvas
+                        >
+                            <NavigateBeforeIcon />
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            className="absolute right-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-l-md"
+                            style={{ zIndex: 1000 }} // Ensure button overlays canvas
+                        >
+                            <NavigateNextIcon />
+                        </button>
+                        <canvas
+                            id="edit"
+                            ref={canvasRef}
+                            className="absolute top-0 left-0 w-full h-full"
+                        ></canvas>
                     </div>
                 </div>
             )}
