@@ -490,20 +490,22 @@ const UploadOverview = ({
                                                     </div>
                                                 )
                                             )}
+                                        <Button
+                                            variant="contained"
+                                            startIcon={<AddCircleOutlineIcon />}
+                                            className="flex items-center bg-white mt-12 ml-32 rounded-full text-black w-128"
+                                            style={{ textTransform: 'none' }}
+                                            onClick={() =>
+                                                onAddUnnasignedInstrumentSheetClick(index)
+                                            }
+                                        >
+                                            <span className="text-s not-uppercase">
+                                                {t('UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE')}
+                                            </span>
+                                        </Button>
                                     </div>
                                 )}
                             </div>
-                            <Button
-                                variant="contained"
-                                startIcon={<AddCircleOutlineIcon />}
-                                className="flex items-center bg-white mt-12 ml-32 rounded-full text-black"
-                                style={{ textTransform: 'none' }}
-                                onClick={() => onAddUnnasignedInstrumentSheetClick(index)}
-                            >
-                                <span className="text-s not-uppercase">
-                                    {t('UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE')}
-                                </span>
-                            </Button>
                             <div className="fex w-full h-6 bg-grey-300 mt-16 rounded-full"></div>
                         </div>
                     );
