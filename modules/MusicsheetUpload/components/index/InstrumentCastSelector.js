@@ -20,7 +20,7 @@ const InstrumentCastSelector = props => {
     const castOptions = props.castOptions ?? [];
     const [selectedCast, setSelectedCast] = useState(props.initialCast);
     const [tempSelectedCast, setTempSelectedCast] = useState(null);
-    const [igonreCastChange, setIgnoreCastChange] = useState(false);
+    const [ignoreCastChange, setIgnoreCastChange] = useState(false);
     const [isFirstCastChange, setIsFirstCastChange] = useState(true);
     const { inHelpMode, selectedMusicPieceIndex } = useContext(UploaderContext);
     const [openInstrumentationConfirmationModal, setOpenInstrumentationConfirmationModal] =
@@ -68,32 +68,21 @@ const InstrumentCastSelector = props => {
         setOpenInstrumentationConfirmationModal(false);
     };
 
-    // Update selected cast
     useEffect(() => {
-        console.log('selected cast: ', selectedCast);
-        console.log('is first cast change: ', isFirstCastChange);
-        if (isFirstCastChange && selectedCast?.value != null) {
-            setIsFirstCastChange(false);
+        if (selectedCast?.value != null && !isFirstCastChange && !ignoreCastChange) {
             props.handleCastChange(selectedCast);
-            return;
-        }
-        if (igonreCastChange) {
+        } else {
+            setIsFirstCastChange(false);
             setIgnoreCastChange(false);
-            return;
         }
-        if (selectedCast != null) props.handleCastChange(selectedCast);
-        if (selectedCast == undefined) setSelectedCast({});
-    }, [selectedCast]);
+    }, [selectedCast, isFirstCastChange, ignoreCastChange]);
 
-    // Set initial cast if provided
     useEffect(() => {
         if (castOptions && props.initialCast) {
             const castId = props.initialCast.id;
             const initialCastItem = castOptions.find(item => item.value === castId);
-            console.log('initial cast item: ', initialCastItem);
             setIgnoreCastChange(true);
-            if (initialCastItem === undefined) setSelectedCast(null);
-            else setSelectedCast(initialCastItem);
+            setSelectedCast(initialCastItem ?? null);
         } else if (props.initialCast == null) {
             setSelectedCast(null);
         }
@@ -101,7 +90,6 @@ const InstrumentCastSelector = props => {
 
     useEffect(() => {
         if (props.resetState) {
-            console.log('resetting cast');
             setSelectedCast({ ...props.initialCast });
         }
     }, [props.resetState]);

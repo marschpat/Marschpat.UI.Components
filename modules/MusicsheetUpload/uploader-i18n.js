@@ -226,7 +226,7 @@ export const en = {
     UPlOADER_ADD_MUSICPIECE: 'Add music piece',
     UPlOADER_ADD_MUSICSHEET: 'Add music sheet',
     UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
-    UPLOADER_SELECTVOICE_TTP: 'Select instrumentation to see availible voices',
+    UPLOADER_SELECTVOICE_TTP: 'Select instrumentation to see available voices',
     UPLOADER_MUSICPIECESUPLOADED_DESC:
         'Select music pieces or sheet music on the left side to edit or upload them.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP:

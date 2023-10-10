@@ -100,7 +100,7 @@ const UploadVoiceSelector = ({
                 <div className="flex flex-col pl-16">
                     {Object.keys(displayVoices).length > 0 &&
                         Object.keys(displayVoices).map(instrument => (
-                            <div className="grid grid-cols-1">
+                            <div key={instrument} className="grid grid-cols-1">
                                 <p className="text-gray-700 text-lg pt-24 font-semibold">
                                     {instrument}
                                 </p>
@@ -108,6 +108,7 @@ const UploadVoiceSelector = ({
                                     {Object.keys(displayVoices[instrument]).length &&
                                         displayVoices[instrument].map(voice => (
                                             <VoiceButton
+                                                key={voice.id}
                                                 voice={voice}
                                                 onVoiceClick={() =>
                                                     handleOnVoiceClick(

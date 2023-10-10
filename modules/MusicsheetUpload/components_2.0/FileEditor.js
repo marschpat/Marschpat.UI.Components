@@ -218,7 +218,7 @@ const FileEditor = ({
                         </div>
                         <button
                             onClick={handlePrevious}
-                            className="absolute left-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-r-md"
+                            className="absolute left-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-r-md ml-64"
                             style={{
                                 zIndex: 1000,
                                 visibility: images?.length > 1 ? 'visible' : 'hidden',

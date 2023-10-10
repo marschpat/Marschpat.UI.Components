@@ -251,7 +251,7 @@ const UploadOverview = ({
             {Object.keys(musicPieces).length > 0 &&
                 Object.keys(musicPieces).map(index => {
                     return (
-                        <div>
+                        <div key={index}>
                             <div
                                 className={
                                     isMobile
@@ -331,7 +331,7 @@ const UploadOverview = ({
                                                 .length > 0 &&
                                             Object.keys(musicPieces[index].instrumentSheets).map(
                                                 instrument => (
-                                                    <div className="flex w-full">
+                                                    <div key={instrument} className="flex w-full">
                                                         <div className="flex flex-col h-full content-center">
                                                             <div className="flex pl-12 pt-8 h-48 w-48">
                                                                 <CollapseButton
