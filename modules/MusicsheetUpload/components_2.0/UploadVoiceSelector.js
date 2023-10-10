@@ -120,6 +120,13 @@ const UploadVoiceSelector = ({
                                 </div>
                             </div>
                         ))}
+                    {Object.keys(displayVoices).length === 0 && (
+                        <div className="flex flex-wrap items-center justify-center pt-64 pb-128 text-center">
+                            <div className="flex flex-col items-center justify-center pt-64 p-24 w-full text-gray-700 text-lg mb-4 font-semibold">
+                                <div>{t('UPLOADER_SELECTVOICE_TTP')}</div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </section>

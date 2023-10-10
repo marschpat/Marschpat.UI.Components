@@ -10,15 +10,27 @@ import SafeButton from '../utils_2.0/SafeButton';
 import EditorToolbar from './EditorToolbar';
 import { fabric } from 'fabric';
 
-const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoices }) => {
+const FileEditor = ({
+    isOpen,
+    originalFile,
+    editedCanvasProp,
+    onCloseClick,
+    onSaveClick,
+    selectedVoices,
+}) => {
     const [images, setImages] = useState([]);
     const [editedImages, setEditedImages] = useState([]); // NEW: to keep the edited images.
+    const [editedCanvas, setEditedCanvas] = useState([]); // NEW: to keep the edited image.
     const [currentIndex, setCurrentIndex] = useState(0); // NEW: to keep track of the currently displayed image index.
     const canvasRef = useRef(null); // NEW: Ref to interact with canvas.
     const containerRef = useRef(null); // NEW: Ref for the canvas container.
     const { isMobile } = useContext(UploaderContext);
     const { t } = useTranslation(['uploader']);
     const [canvas, setCanvas] = useState(null);
+
+    useEffect(() => {
+        if (editedCanvasProp != null) setEditedCanvas(editedCanvasProp);
+    }, []);
 
     useEffect(() => {
         if (canvasRef.current && containerRef.current) {
@@ -51,27 +63,36 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
 
     useEffect(() => {
         handleImageChange();
-    }, [images, currentIndex, canvas]);
+    }, [images, currentIndex, canvas, editedCanvas]);
 
     const handleImageChange = () => {
-        if (canvas && images[currentIndex]) {
-            fabric.Image.fromURL(
-                images[currentIndex],
-                img => {
-                    const scale = Math.min(canvas.width / img.width, canvas.height / img.height);
-                    img.set({
-                        scaleX: scale,
-                        scaleY: scale,
-                        left: (canvas.width - img.width * scale) / 2,
-                        top: (canvas.height - img.height * scale) / 2,
-                        selectable: false,
-                    });
-                    canvas.clear();
-                    canvas.add(img);
-                    canvas.renderAll();
-                },
-                { crossOrigin: 'anonymous' }
-            );
+        if (canvas) {
+            if (editedCanvas[currentIndex]) {
+                // Deserialization: load from editedCanvas if it exists
+                canvas.loadFromJSON(editedCanvas[currentIndex], canvas.renderAll.bind(canvas));
+            } else if (images[currentIndex]) {
+                // Normal image load if no serialized canvas exists
+                fabric.Image.fromURL(
+                    images[currentIndex],
+                    img => {
+                        const scale = Math.min(
+                            canvas.width / img.width,
+                            canvas.height / img.height
+                        );
+                        img.set({
+                            scaleX: scale,
+                            scaleY: scale,
+                            left: (canvas.width - img.width * scale) / 2,
+                            top: (canvas.height - img.height * scale) / 2,
+                            selectable: false,
+                        });
+                        canvas.clear();
+                        canvas.add(img);
+                        canvas.renderAll();
+                    },
+                    { crossOrigin: 'anonymous' }
+                );
+            }
         }
     };
 
@@ -81,34 +102,30 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
 
     const handleNext = () => {
         if (currentIndex < images.length - 1) {
-            setCurrentIndex(prev => {
-                const newIndex = prev + 1;
-                return newIndex;
-            });
+            serializeCanvas();
+            setCurrentIndex(prev => prev + 1);
         }
     };
 
     const handlePrevious = () => {
         if (currentIndex > 0) {
-            setCurrentIndex(prev => {
-                const newIndex = prev - 1;
-                return newIndex;
-            });
+            serializeCanvas();
+            setCurrentIndex(prev => prev - 1);
         }
     };
 
     const handleSaveClicked = () => {
-        // UPDATED: Save the canvas state before closing.
-        if (canvasRef.current) {
-            const canvas = canvasRef.current;
-            setEditedImages(prev => [...prev, canvas.toJSON()]);
-        }
+        // Serialize current canvas state before saving
+        const newEditedCanvas = [...editedCanvas];
+        newEditedCanvas[currentIndex] = canvas.toJSON();
+
+        // TODO implement conversion into png
+
         console.log('Save Editor clicked');
-        onCloseClick();
+        onSaveClick(newEditedCanvas);
     };
 
     const getDisplayVoices = () => {
-        console.log('selectedVoices.length: ', selectedVoices.length);
         if (selectedVoices.length == 1) return selectedVoices?.[0]?.name;
         else if (selectedVoices.length > 1) return selectedVoices?.[0]?.name + ', ...';
         else return t('UPLOADER_MUSICPIECESUPLOADED_NO_VOICE');
@@ -122,13 +139,24 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
         const fileExtension = filename.split('.').pop();
 
         // Determine max length based on device type
-        const maxLength = isMobile ? 16 : 32;
+        const maxLength = isMobile ? 16 : 24;
 
         // If the filename is longer than maxLength, shorten and add ellipsis, preserving extension
         if (fileBaseName.length > maxLength) {
             return `${fileBaseName.slice(0, maxLength)}...${fileExtension}`;
         } else {
             return filename;
+        }
+    };
+
+    const serializeCanvas = () => {
+        if (canvas) {
+            const serializedCanvas = canvas.toJSON();
+            setEditedCanvas(prevState => {
+                const newEditedCanvas = [...prevState];
+                newEditedCanvas[currentIndex] = serializedCanvas;
+                return newEditedCanvas;
+            });
         }
     };
 
@@ -185,20 +213,28 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
                         ref={containerRef}
                         className="flex-grow flex items-center justify-center bg-white w-full h-full relative"
                     >
-                        {/* Navigation buttons and canvas remain unchanged. */}
+                        <div className="absolute right-0 top-0 p-8 mt-8 mr-8 text-black bg-opacity-50 rounded-md bg-gray-300">
+                            {currentIndex + 1 + '/' + images?.length}
+                        </div>
                         <button
                             onClick={handlePrevious}
                             className="absolute left-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-r-md"
-                            style={{ zIndex: 1000 }} // Ensure button overlays canvas
+                            style={{
+                                zIndex: 1000,
+                                visibility: images?.length > 1 ? 'visible' : 'hidden',
+                            }} // Ensure button overlays canvas
                         >
-                            <NavigateBeforeIcon />
+                            <NavigateBeforeIcon className="w-36 h-36" />
                         </button>
                         <button
                             onClick={handleNext}
                             className="absolute right-0 top-1/2 transform -translate-y-1/2 p-4 text-white bg-black bg-opacity-50 rounded-l-md"
-                            style={{ zIndex: 1000 }} // Ensure button overlays canvas
+                            style={{
+                                zIndex: 1000,
+                                visibility: images?.length > 1 ? 'visible' : 'hidden',
+                            }} // Ensure button overlays canvas
                         >
-                            <NavigateNextIcon />
+                            <NavigateNextIcon className="w-36 h-36" />
                         </button>
                         <canvas
                             id="edit"
@@ -206,6 +242,7 @@ const FileEditor = ({ isOpen, originalFile, onCloseClick, metaData, selectedVoic
                             className="absolute top-0 left-0 w-full h-full"
                         ></canvas>
                     </div>
+                    {/* Navigation buttons and canvas remain unchanged. */}
                 </div>
             )}
         </div>

@@ -12,11 +12,13 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Gesture from '@material-ui/icons/Gesture';
 import { SketchPicker } from 'react-color';
 import { fabric } from 'fabric';
+import { set } from 'lodash';
 
 const Toolbar = ({ canvas }) => {
     const [mode, setMode] = useState('select'); // 'select', 'text', 'draw'
-    const [colors, setColors] = React.useState(['#f00', '#03AF03', '#4444F3', '#000']);
+    const [colors, setColors] = React.useState(['#E10101', '#03AF03', '#4444F3', '#9013FE']);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [isTextOptionsOpen, setIsTextOptionsOpen] = useState(false);
     const [textOptions, setTextOptions] = useState({
         size: 14,
         weight: 400, // Normal font weight
@@ -238,10 +240,8 @@ const Toolbar = ({ canvas }) => {
         // Otherwise, set the color and keep the color picker closed.
         if (selectedColorIndex === index) {
             if (showColorPicker === true) {
-                console.log('toggle color picker false');
                 setShowColorPicker(false);
             } else {
-                console.log('toggle color picker true');
                 setShowColorPicker(true);
             }
         } else {
@@ -249,26 +249,22 @@ const Toolbar = ({ canvas }) => {
         }
     };
 
-    useEffect(() => {
-        console.log('showColorPicker', showColorPicker);
-    }, [showColorPicker]);
-
     const addText = options => {
         const text = new fabric.IText('Hello', options);
         canvas.add(text);
     };
 
     return (
-        <div className="flex flex-row bg-gray-900 justify-between items-center h-32">
+        <div className="flex flex-row bg-gray-900 justify-center items-center h-32">
             {/* Mode Buttons */}
-            <div className="flex flex-row bg-gray-700 rounded justify-between items-center">
+            <div className="flex flex-row bg-gray-700 rounded justify-between items-center p-4 mr-16">
                 <div
                     className="flex flex-wrap rounded"
                     style={{
                         background: mode === 'select' ? 'rgb(220, 173, 85)' : 'transparent',
                     }}
                 >
-                    <IconButton onClick={() => handleModeChange('select')}>
+                    <IconButton onClick={() => handleModeChange('select')} className="w-32 h-32">
                         <HandIcon
                             style={{
                                 color: 'white',
@@ -279,12 +275,12 @@ const Toolbar = ({ canvas }) => {
                     </IconButton>
                 </div>
                 <div
-                    className="flex flex-wrap rounded"
+                    className="flex flex-wrap rounded mr-4 ml-4"
                     style={{
                         background: mode === 'draw' ? 'rgb(220, 173, 85)' : 'transparent',
                     }}
                 >
-                    <IconButton onClick={() => handleModeChange('draw')}>
+                    <IconButton onClick={() => handleModeChange('draw')} className="w-32 h-32">
                         <Gesture
                             style={{
                                 color: 'white',
@@ -300,7 +296,7 @@ const Toolbar = ({ canvas }) => {
                         background: mode === 'text' ? 'rgb(220, 173, 85)' : 'transparent',
                     }}
                 >
-                    <IconButton onClick={() => handleModeChange('text')}>
+                    <IconButton onClick={() => handleModeChange('text')} className="w-32 h-32">
                         <TextIcon
                             style={{
                                 color: 'white',
@@ -311,10 +307,9 @@ const Toolbar = ({ canvas }) => {
                     </IconButton>
                 </div>
             </div>
-
             <div className="flex flex-row ml-8 mr-8">
                 {mode === 'draw' && (
-                    <div className="grid w-64 ml-8">
+                    <div className="grid w-64">
                         <Slider
                             value={lineWidth}
                             min={1}
@@ -331,7 +326,13 @@ const Toolbar = ({ canvas }) => {
                     </div>
                 )}
                 {mode !== 'draw' && (
-                    <IconButton onClick={e => setAnchorEl(e.currentTarget)}>
+                    <IconButton
+                        onClick={e => {
+                            setAnchorEl(e.currentTarget);
+                            setIsTextOptionsOpen(true);
+                        }}
+                        className="w-32 h-32 ml-16 mr-16"
+                    >
                         <TextFieldsIcon
                             style={{
                                 color: 'white',
@@ -353,17 +354,13 @@ const Toolbar = ({ canvas }) => {
             <Menu
                 anchorEl={anchorEl}
                 keepMounted
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                open={isTextOptionsOpen}
+                onClose={() => setIsTextOptionsOpen(false)}
                 transformOrigin={{ vertical: 'top', horizontal: 'center' }}
                 style={{
                     top: '5%', // 10% from the top
                     width: '250px',
-                    background: '#212121',
-                    color: 'black',
                 }}
-                className="flex flex-col bg-gray-900"
             >
                 <MenuItem className="flex flex-wrap">
                     <div className="text-xl pb-4">Size:</div>
@@ -411,12 +408,13 @@ const Toolbar = ({ canvas }) => {
                                     : '2px solid transparent',
                         }}
                         onClick={event => handleColorButtonClick(color, index, event)}
-                        className="m-4 w-36 h-36"
+                        className="m-4 w-28 h-28"
                     >
                         <div
+                            className="w-6 h-6"
                             style={{
-                                width: selectedColor === color ? '8px' : '0px',
-                                height: selectedColor === color ? '8px' : '0px',
+                                width: selectedColor === color ? '6px' : '0px',
+                                height: selectedColor === color ? '6px' : '0px',
                                 borderRadius: selectedColor === color ? '50%' : '0%',
                                 background: 'white',
                             }}
@@ -426,7 +424,7 @@ const Toolbar = ({ canvas }) => {
             </div>
 
             {/* Delete Button */}
-            <IconButton onClick={handleDelete} color="white">
+            <IconButton onClick={handleDelete} className="w-32 h-32">
                 <DeleteIcon
                     style={{
                         color: 'white',

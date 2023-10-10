@@ -44,6 +44,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [tempFileInEdit, setTempFileInEdit] = useState(null); // used | temp file in edit | scope Global
     const [tempSelectedVoicesInEdit, setTempSelectedVoicesInEdit] = useState(null); // used | temp selected voices in edit | scope Global
     const [tempMetaDataInEdit, setTempMetaDataInEdit] = useState(null); // used | temp metadata in edit | scope Global
+    const [tempIndexForFileEdit, setIndexForFileEdit] = useState({
+        index: null,
+        instrumentSheetIndex: null,
+        origFilesIndex: null,
+    });
 
     const initialMetaData = require('./metaData.initial.json');
 
@@ -104,6 +109,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const handleOpenFileEditor = (index, instrumentSheetIndex, origFilesIndex) => {
         console.log('Open file editor clicked', index, instrumentSheetIndex, origFilesIndex);
 
+        setIndexForFileEdit({
+            index: index,
+            instrumentSheetIndex: instrumentSheetIndex,
+            origFilesIndex: origFilesIndex,
+        });
+
         setTempFileInEdit({
             ...musicPieces?.[index]?.instrumentSheets?.[instrumentSheetIndex]?.origFiles?.[
                 origFilesIndex
@@ -126,6 +137,33 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const handelFileEditorClose = file => {
         console.log('File editor closed', file);
         // TODO safe edited file from Editor to musicPieces
+
+        setTempFileInEdit(null);
+        setTempSelectedVoicesInEdit(null);
+        setTempMetaDataInEdit(null);
+        setIndexForFileEdit({ index: null, instrumentSheetIndex: null, origFilesIndex: null });
+        /// TODO : enable SideBar
+        setIsFileEditorVisible(false);
+    };
+
+    const handelFileEditorSave = (serializedCanvas, pngs) => {
+        console.log('File editor saved', serializedCanvas, pngs);
+
+        // TODO safe edited file from Editor to musicPieces
+        if (serializedCanvas && tempIndexForFileEdit?.index) {
+            if (
+                musicPieces?.[tempIndexForFileEdit?.index]?.instrumentSheets?.[
+                    tempIndexForFileEdit?.instrumentSheetIndex
+                ]?.origFiles?.[tempIndexForFileEdit?.origFilesIndex]
+            ) {
+                musicPieces[tempIndexForFileEdit?.index].instrumentSheets[
+                    tempIndexForFileEdit?.instrumentSheetIndex
+                ].origFiles[tempIndexForFileEdit?.origFilesIndex].serializedCanvas =
+                    serializedCanvas;
+
+                setMusicPieces([...musicPieces]);
+            }
+        }
 
         setTempFileInEdit(null);
         setTempSelectedVoicesInEdit(null);
@@ -454,7 +492,13 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                         <FileEditor
                             isOpen={isFileEditorVisible}
                             originalFile={tempFileInEdit}
+                            editedCanvasProp={
+                                tempFileInEdit?.serializedCanvas
+                                    ? tempFileInEdit.serializedCanvas
+                                    : null
+                            }
                             onCloseClick={handelFileEditorClose}
+                            onSaveClick={handelFileEditorSave}
                             selectedVoices={tempSelectedVoicesInEdit}
                             metaData={tempMetaDataInEdit}
                         ></FileEditor>

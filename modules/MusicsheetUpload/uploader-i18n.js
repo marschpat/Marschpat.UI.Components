@@ -32,6 +32,7 @@ export const de = {
     UPlOADER_ADD_MUSICPIECE: 'Musikstück hinzufügen',
     UPlOADER_ADD_MUSICSHEET: 'Notenblatt hinzufügen',
     UPLOADER_MUSICPIECESUPLOADED: 'Musikstücke angelegt',
+    UPLOADER_SELECTVOICE_TTP: 'Bitte Besetzung auswählen um verfügbare Stimmen zu sehen',
     UPLOADER_MUSICPIECESUPLOADED_DESC:
         'Wähle Musikstücke oder Notenblätter auf der linken Seite aus, um diese zu bearbeiten oder hochzuladen.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP:
@@ -225,6 +226,7 @@ export const en = {
     UPlOADER_ADD_MUSICPIECE: 'Add music piece',
     UPlOADER_ADD_MUSICSHEET: 'Add music sheet',
     UPLOADER_MUSICPIECESUPLOADED: 'Music pieces created',
+    UPLOADER_SELECTVOICE_TTP: 'Select instrumentation to see availible voices',
     UPLOADER_MUSICPIECESUPLOADED_DESC:
         'Select music pieces or sheet music on the left side to edit or upload them.',
     UPLOADER_MUSICPIECESUPLOADED_TIPP:
