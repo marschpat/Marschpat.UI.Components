@@ -86,7 +86,7 @@ const NotesOverview = ({
                                 >
                                     <IconButton
                                         className={`bg-gray-200 h-16 w-16 mr-8 ${
-                                            hoveredIndex === i ? '' : 'hidden'
+                                            hoveredIndex === i && !isMobile ? '' : 'hidden'
                                         } transition-opacity duration-300`}
                                         onClick={() => {
                                             if (!isMobile)
