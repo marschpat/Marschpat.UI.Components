@@ -106,17 +106,18 @@ const UploadVoiceSelector = ({
                                 </p>
                                 <div className="flex flex-wrap">
                                     {Object.keys(displayVoices[instrument]).length &&
-                                        displayVoices[instrument].map(voice => (
-                                            <VoiceButton
-                                                key={voice.id}
-                                                voice={voice}
-                                                onVoiceClick={() =>
-                                                    handleOnVoiceClick(
-                                                        voice,
-                                                        selectedMusicPieceIndex
-                                                    )
-                                                }
-                                            />
+                                        displayVoices[instrument].map((voice, index) => (
+                                            <div key={index}>
+                                                <VoiceButton
+                                                    voice={voice}
+                                                    onVoiceClick={() =>
+                                                        handleOnVoiceClick(
+                                                            voice,
+                                                            selectedMusicPieceIndex
+                                                        )
+                                                    }
+                                                />
+                                            </div>
                                         ))}
                                 </div>
                             </div>

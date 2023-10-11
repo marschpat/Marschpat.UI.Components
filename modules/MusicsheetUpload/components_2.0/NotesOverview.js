@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import { useDropzone } from 'react-dropzone';
 import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
+import { is } from 'date-fns/locale';
 
 const NotesOverview = ({
     instrumentSheet,
@@ -49,7 +50,7 @@ const NotesOverview = ({
         const fileExtension = filename.split('.').pop();
 
         // Determine max length based on device type
-        const maxLength = isMobile ? 16 : 22;
+        const maxLength = isMobile ? 16 : 28;
 
         // If the filename is longer than maxLength, shorten and add ellipsis, preserving extension
         if (fileBaseName.length > maxLength) {
@@ -68,17 +69,17 @@ const NotesOverview = ({
                         return (
                             <div
                                 key={i}
-                                className="flex flex-row pl-8 pb-4 w-full"
+                                className="grid grid-cols-2 pl-8 pb-4 w-full"
                                 onMouseEnter={() => setHoveredIndex(i)}
                                 onMouseLeave={() => setHoveredIndex(null)}
                             >
-                                <NumberCircle number={i + 1} />
-                                <p
-                                    className="text-s pt-2 "
-                                    style={{ textAlign: 'left', width: '24vw' }}
+                                <div
+                                    className="flex flex-row justify-start w-full"
+                                    style={{ right: 0 }}
                                 >
-                                    {getDisplayFilename(file?.name)}
-                                </p>
+                                    <NumberCircle number={i + 1} />
+                                    <p className="text-s pt-2">{getDisplayFilename(file?.name)}</p>
+                                </div>
                                 <div
                                     className="flex flex-row justify-end w-full"
                                     style={{ right: 0 }}
@@ -87,9 +88,10 @@ const NotesOverview = ({
                                         className={`bg-gray-200 h-16 w-16 mr-8 ${
                                             hoveredIndex === i ? '' : 'hidden'
                                         } transition-opacity duration-300`}
-                                        onClick={() =>
-                                            onEditFileClick(index, instrumentSheetIndex, i)
-                                        }
+                                        onClick={() => {
+                                            if (!isMobile)
+                                                onEditFileClick(index, instrumentSheetIndex, i);
+                                        }}
                                     >
                                         <EditIcon />
                                     </IconButton>
@@ -121,24 +123,25 @@ const NotesOverview = ({
             <div {...getRootProps({ className: 'cursor-pointer' })} id={index}>
                 <Button
                     className="rounded-full flex items-start h-32 mt-8"
-                    style={{
-                        textTransform: 'none',
-                        color: 'rgb(220, 173, 85) !important',
-                        active: { color: 'rgb(220, 173, 85) !important' },
-                        hover: { color: 'rgb(220, 173, 85) !important' },
-                    }}
                     onClick={onAddFileClick}
                 >
-                    <IconButton className="bg-gray-200 h-24 w-24 mr-8">
-                        <AddCircleOutlineIcon
-                            style={{
-                                color: 'rgb(220, 173, 85) !important',
-                                active: { color: 'rgb(220, 173, 85) !important' },
-                                hover: { color: 'rgb(220, 173, 85) !important' },
-                            }}
-                        />
-                    </IconButton>
-                    <span className="text-gray-800 text-s font-normal not-uppercase">
+                    <AddCircleOutlineIcon
+                        className="bg-gray-200 h-24 w-24 mr-8"
+                        style={{
+                            color: 'rgb(220, 173, 85)',
+                            active: { color: 'rgb(220, 173, 85)' },
+                            hover: { color: 'rgb(220, 173, 85)' },
+                        }}
+                    />
+                    <span
+                        className="text-s font-normal not-uppercase"
+                        style={{
+                            textTransform: 'none',
+                            color: 'rgb(220, 173, 85)',
+                            active: { color: 'rgb(220, 173, 85)' },
+                            hover: { color: 'rgb(220, 173, 85)' },
+                        }}
+                    >
                         {t('UPlOADER_ADD_MUSICSHEET')}
                     </span>
                 </Button>

@@ -33,6 +33,25 @@ const FileEditor = ({
     }, []);
 
     useEffect(() => {
+        if (canvas) {
+            const onWheel = opt => {
+                const zoomPoint = new fabric.Point(opt.e.offsetX, opt.e.offsetY);
+                const delta = opt.e.deltaY;
+                var zoom = canvas.getZoom() + delta / 400;
+                if (zoom > 10) zoom = 10;
+                if (zoom < 0.5) zoom = 0.5;
+                canvas.zoomToPoint(zoomPoint, zoom);
+                opt.e.preventDefault();
+                opt.e.stopPropagation();
+            };
+
+            canvas.on('mouse:wheel', onWheel);
+
+            return () => canvas.off('mouse:wheel', onWheel);
+        }
+    }, [canvas]);
+
+    useEffect(() => {
         if (canvasRef.current && containerRef.current) {
             const updateCanvasSize = () => {
                 canvasRef.current.width = containerRef.current.clientWidth;
@@ -236,11 +255,7 @@ const FileEditor = ({
                         >
                             <NavigateNextIcon className="w-36 h-36" />
                         </button>
-                        <canvas
-                            id="edit"
-                            ref={canvasRef}
-                            className="absolute top-0 left-0 w-full h-full"
-                        ></canvas>
+                        <canvas id="edit" ref={canvasRef} className="w-full h-full"></canvas>
                     </div>
                     {/* Navigation buttons and canvas remain unchanged. */}
                 </div>

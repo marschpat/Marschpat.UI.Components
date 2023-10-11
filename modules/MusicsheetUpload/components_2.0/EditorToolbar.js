@@ -409,17 +409,7 @@ const Toolbar = ({ canvas }) => {
                         }}
                         onClick={event => handleColorButtonClick(color, index, event)}
                         className="m-4 w-28 h-28"
-                    >
-                        <div
-                            className="w-6 h-6"
-                            style={{
-                                width: selectedColor === color ? '6px' : '0px',
-                                height: selectedColor === color ? '6px' : '0px',
-                                borderRadius: selectedColor === color ? '50%' : '0%',
-                                background: 'white',
-                            }}
-                        />
-                    </IconButton>
+                    ></IconButton>
                 ))}
             </div>
 

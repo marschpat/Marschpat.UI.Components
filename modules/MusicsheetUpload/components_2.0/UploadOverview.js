@@ -380,7 +380,10 @@ const UploadOverview = ({
                                                                         instrument
                                                                     ].voices.map(
                                                                         (voice, voiceIndex) => (
-                                                                            <div className="flex flex-wrap">
+                                                                            <div
+                                                                                key={voiceIndex}
+                                                                                className="flex flex-wrap"
+                                                                            >
                                                                                 <VoiceButton
                                                                                     voice={voice}
                                                                                     onVoiceClick={() =>

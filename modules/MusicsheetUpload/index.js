@@ -102,6 +102,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     // handle backend save here
     const handeSaveClicked = () => {
         /// TODO : save musicPieces to backend
+        /// all data is in musicPieces
         console.log('Save clicked');
     };
 
@@ -217,6 +218,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const updateCast = (selectedCast, index) => {
         console.log('updateCast: ', selectedCast, index);
         if (musicPieces[index]) {
+            if (
+                musicPieces[index].selectedCast &&
+                musicPieces[index].selectedCast?.id === selectedCast?.id
+            )
+                return;
+
             var tempMusicPiece = { ...musicPieces[index] };
             tempMusicPiece.selectedCast = selectedCast;
             // save all uploaded files and move them into an unassinged instrument sheet
@@ -390,7 +397,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                             ></SafeButton>
                         </div>
                         {isMobile ? (
-                            <div>
+                            <div className="grid grid-cols-1 gap-4">
                                 <div
                                     className="flex box w-full h-full"
                                     style={{
@@ -399,19 +406,111 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         position: isMetadataVisible ? 'relative' : 'absolute',
                                     }}
                                 >
-                                    <MetaDataForm
-                                        castOptions={castOptions}
-                                        initialMetaData={
-                                            musicPieces[selectedMusicPieceIndex]?.metaData
-                                        }
-                                        handleUpdateErrors={updateErrors}
-                                        handleMetaDataUpdate={setMetaData}
-                                        handleCastChange={updateCast}
-                                        isVisible={isMetadataVisible}
-                                        onMetadataCloseClick={
-                                            handleMetadataIsVisibleStateChangeClose
-                                        }
-                                    />
+                                    {isMetadataVisible && (
+                                        <MetaDataForm
+                                            castOptions={castOptions}
+                                            initialMetaData={
+                                                musicPieces[selectedMusicPieceIndex]?.metaData
+                                            }
+                                            selectedCast={
+                                                musicPieces[selectedMusicPieceIndex]?.selectedCast
+                                            }
+                                            handleUpdateErrors={updateErrors}
+                                            handleMetaDataUpdate={setMetaData}
+                                            handleCastChange={updateCast}
+                                            onMetadataCloseClick={
+                                                handleMetadataIsVisibleStateChangeClose
+                                            }
+                                        />
+                                    )}
+                                    {!isMetadataVisible && (
+                                        <InfoPlaceholder numberOfNoteSheets={musicPieces.length} />
+                                    )}
+                                </div>
+                                <div
+                                    className="flex box w-full h-full"
+                                    style={{
+                                        flex: 1,
+                                        visibility:
+                                            isVoiceSelectorVisible && !isMetadataVisible
+                                                ? 'visible'
+                                                : 'hidden',
+                                        position:
+                                            isVoiceSelectorVisible && !isMetadataVisible
+                                                ? 'relative'
+                                                : 'absolute',
+                                    }}
+                                >
+                                    {isVoiceSelectorVisible && (
+                                        <UploadVoiceSelector
+                                            filename={
+                                                musicPieces[selectedMusicPieceIndex]?.metaData
+                                                    ? musicPieces[selectedMusicPieceIndex]?.metaData
+                                                          .title
+                                                        ? musicPieces[selectedMusicPieceIndex]
+                                                              ?.metaData.title
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                          )
+                                                    : t('UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME')
+                                            }
+                                            instrumentation={
+                                                musicPieces[selectedMusicPieceIndex]?.metaData
+                                                    ? musicPieces[selectedMusicPieceIndex]?.metaData
+                                                          .castName
+                                                        ? musicPieces[selectedMusicPieceIndex]
+                                                              ?.metaData.castName
+                                                        : t(
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                          )
+                                                    : t(
+                                                          'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                      )
+                                            }
+                                            availableVoices={
+                                                musicPieces[selectedMusicPieceIndex]
+                                                    ?.availableInstrumentVoices
+                                            }
+                                            isMetadataVisible={isMetadataVisible}
+                                            onVoiceClick={handleOnVoiceSelect}
+                                            onMetadataEditClick={
+                                                handleMetadataIsVisibleStateChangeOpen
+                                            }
+                                        />
+                                    )}
+                                </div>
+                                <div
+                                    className="flex box w-full h-full"
+                                    style={{
+                                        flex: 1,
+                                        visibility:
+                                            !isVoiceSelectorVisible && !isMetadataVisible
+                                                ? 'visible'
+                                                : 'hidden',
+                                        position:
+                                            !isVoiceSelectorVisible && !isMetadataVisible
+                                                ? 'relative'
+                                                : 'absolute',
+                                    }}
+                                >
+                                    {!isVoiceSelectorVisible && (
+                                        <UploadOverview
+                                            musicPieces={musicPieces}
+                                            visibillityStates={visibillityStates}
+                                            onVisibillityStatesChange={handeVisivillityStateChange}
+                                            onMetadataEditClick={
+                                                handleMetadataIsVisibleStateChangeOpen
+                                            }
+                                            onInstrumentSheetsUpdate={updateInstrumentSheets}
+                                            onVoiceClick={handleOnVoiceRemove}
+                                            onAddVoiceClick={handleOpenVoiceSelector}
+                                            onAddMusicPieceClick={handleAddMusicPiece}
+                                            onAddUnnasignedInstrumentSheetClick={
+                                                handleAddEmptyInstrumentSheet
+                                            }
+                                            onEditFileClick={handleOpenFileEditor}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         ) : (
