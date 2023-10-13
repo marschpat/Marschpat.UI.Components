@@ -37,18 +37,14 @@ const UploadOverview = ({
     useEffect(() => {
         setIsExpanded(visibillityStates.isExpanded);
         setIsExpandedInstrumentSheets(visibillityStates.isExpandedInstrumentSheets);
-        console.log('visibillityStates: ', visibillityStates);
     }, []);
 
     useEffect(() => {
-        console.log('isExpandedInstrumentSheets: ', isExpandedInstrumentSheets);
         onVisibillityStatesChange(isExpanded, isExpandedInstrumentSheets);
     }, [isExpanded, isExpandedInstrumentSheets]);
 
     const onDrop = useCallback(
         (pieceIndex, sheetIndex) => acceptedFiles => {
-            console.log('Dropped on: ', pieceIndex, sheetIndex);
-            console.log('FileObject: ', acceptedFiles);
             const validatedFiles = acceptedFiles
                 .filter(file => FileHelper.validateFileExtension(file, allowedExtensions))
                 .map(file => {
@@ -65,7 +61,6 @@ const UploadOverview = ({
             Promise.all(validatedFiles)
                 .then(files => {
                     if (files && files.length > 0) {
-                        console.log('set tempDropLocation: ', pieceIndex, sheetIndex);
                         setTempDropLocation({ pieceIndex, sheetIndex });
                         setOriginalFiles(files);
                     }
@@ -149,7 +144,6 @@ const UploadOverview = ({
     };
 
     const handleDeleteFileClick = (index, instrumentSheetIndex, fileIndex) => {
-        console.log('handle on delete click: ', index, instrumentSheetIndex, fileIndex);
         if (!musicPieces[index]?.instrumentSheets[instrumentSheetIndex]?.origFiles[fileIndex])
             return;
 
@@ -158,8 +152,6 @@ const UploadOverview = ({
         tempInstrumentSheets[instrumentSheetIndex].origFiles = musicPieces[index].instrumentSheets[
             instrumentSheetIndex
         ].origFiles.filter((file, i) => i !== fileIndex);
-
-        console.log('file delete click: ', tempInstrumentSheets);
 
         onInstrumentSheetsUpdate(tempInstrumentSheets, index);
     };
@@ -174,17 +166,11 @@ const UploadOverview = ({
         else return filename;
     };
 
-    const handleUploadFileClick = obj => {
-        console.log('UploadFileClick', obj);
-    };
-
     const handleOnVoiceRemoveClick = (voice, index, instrumentSheetIndex) => {
-        console.log('handleOnVoiceClick: ', voice, index, instrumentSheetIndex);
         onVoiceClick(voice, index, instrumentSheetIndex);
     };
 
     const handleVoiceAddClick = (index, instrumentSheetIndex) => {
-        console.log('handleVoiceAddClick: ', index, instrumentSheetIndex);
         onAddVoiceClick(index, instrumentSheetIndex);
     };
 
@@ -212,8 +198,6 @@ const UploadOverview = ({
     };
 
     useEffect(() => {
-        console.log('tempDropLocation: ', tempDropLocation);
-        console.log('OriginalFiles: ', originalFiles);
         if (originalFiles && tempDropLocation !== null) {
             // Generate the initial instrumentSheet objects for each dropped original file
             const allInstrumentSheets = originalFiles.map(file => generateInstrumentSheet(file));
@@ -221,10 +205,6 @@ const UploadOverview = ({
             var tempInstrumentSheets = [
                 ...musicPieces[tempDropLocation.pieceIndex]?.instrumentSheets,
             ];
-
-            console.log('tempInstrumentSheets: ', tempInstrumentSheets);
-            console.log('tempDropLocation: ', tempDropLocation);
-            console.log('allInstrumentSheets: ', allInstrumentSheets);
 
             if (!tempInstrumentSheets[tempDropLocation.sheetIndex])
                 tempInstrumentSheets[tempDropLocation.sheetIndex] = { origFiles: [] };
@@ -519,9 +499,7 @@ const UploadOverview = ({
                     style={{ textTransform: 'none' }}
                     onClick={onAddMusicPieceClick}
                 >
-                    <IconButton className="bg-gray-300">
-                        <AddIcon />
-                    </IconButton>
+                    <AddIcon className="bg-gray-300" />
                     <span className="text-gray-800 text-xl font-normal not-uppercase pl-16">
                         {t('UPlOADER_ADD_MUSICPIECE')}
                     </span>

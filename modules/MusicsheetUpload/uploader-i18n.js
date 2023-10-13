@@ -46,6 +46,11 @@ export const de = {
 
     EDITOR_VOICES_IN_EDIT_1: 'Stimme',
     EDITOR_VOICES_IN_EDIT_2: 'bearbeiten',
+    EDITOR_CLOSE_TEXT: 'verwerfen',
+    EDITOR_CLOSE_TITLE: 'Änderungen verwerfen!',
+    EDITOR_CLOSE_INFO: 'Möchtest du die Änderungen wirklich verwerfen?',
+    EDITOR_CLOSE_CONFIRM: 'Verwerfen',
+    EDITOR_CLOSE_CANCEL: 'Abbrechen',
 
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
@@ -239,6 +244,11 @@ export const en = {
 
     EDITOR_VOICES_IN_EDIT_1: 'voice',
     EDITOR_VOICES_IN_EDIT_2: 'in edit',
+    EDITOR_CLOSE_TEXT: 'discard',
+    EDITOR_CLOSE_TITLE: 'discard changes!',
+    EDITOR_CLOSE_INFO: 'Do you really want to discard the changes?',
+    EDITOR_CLOSE_CONFIRM: 'discard',
+    EDITOR_CLOSE_CANCEL: 'cancel',
 
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',

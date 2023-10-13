@@ -4,21 +4,10 @@ import { MP_EDU, MP_WEB } from '@marschpat/Marschpat.UI.Components/utils/Impleme
 
 const useAvailableInstrumentHelper = (implementationMode, organisation) => {
     const [castOptions, setCastOptions] = useState(null); // used | all casts | scope MusicPiece (Global)
-    //const [availableInstrumentVoices, setAvailableInstrumentVoices] = useState(null); // used | all voices of selecte cast (changes on "handleCastChange") | scope MusicPiece
-    //const [instrumentVoicesOfCurrentCast, setInstrumentVoicesOfCurrentCast] = useState(null); // used | listener variable that triggers "handleAvailableVoicesUpdate" when changed | scope MusicPiece
 
     useEffect(() => {
         fetchInstrumentVoicesInCastGroups();
     }, []);
-
-    /**useEffect(() => {
-        handleAvailableVoicesUpdate();
-        console.log('instrumentSheets: ', instrumentSheets);
-    }, [instrumentSheets]);
-
-    useEffect(() => {
-        handleAvailableVoicesUpdate();
-    }, [instrumentVoicesOfCurrentCast]);*/
 
     const getInstrumentVoicesOfCast = selectedCast => {
         return mapCastToInstrumentVoices(selectedCast);
@@ -27,7 +16,7 @@ const useAvailableInstrumentHelper = (implementationMode, organisation) => {
     const getAvailableVoices = (selectedCast, instrumentSheets) => {
         let allAssignedVoices = [];
         instrumentSheets.forEach(instrumentSheet => {
-            if (instrumentSheet.voices && instrumentSheet.voices.length > 0) {
+            if (instrumentSheet?.voices && instrumentSheet?.voices?.length > 0) {
                 allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
             }
         });
@@ -43,12 +32,6 @@ const useAvailableInstrumentHelper = (implementationMode, organisation) => {
         castOptions,
         getInstrumentVoicesOfCast, // (selectedCast) returns all voices of selected cast
         getAvailableVoices, // (selectedCast, instrumentSheets) returns all voices of selected cast that are not assigned to any instrument sheet
-
-        //castOptions,
-        //availableInstrumentVoices,
-        //handleCastChange, // only updates availableInstrumentVoices
-        //handleAvailableVoicesUpdate, // takes selectedCast as input and updates availableInstrumentVoices
-        //handleAvailableVoicesReset, // just sets availableInstrumentVoices to null
     ];
 
     // used | gets all casts and all voices from api | scope MusicPiece (Global)

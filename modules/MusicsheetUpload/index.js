@@ -72,10 +72,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             isExpandedInstrumentSheets: [[]],
         });
 
-        console.log('user ', user);
-        console.log('organisation ', organisation);
-        console.log('implementationMode ', implementationMode);
-
         // Add event listener on component mount for resize event
         window.addEventListener('resize', handleResize);
 
@@ -84,15 +80,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
-    // Debugging Listener's ( TODO: remove )
-    useEffect(() => {
-        console.log('music Pieces after update: ', selectedMusicPieceIndex, musicPieces);
-    }, [musicPieces]);
-
-    useEffect(() => {
-        console.log('selectedMusicPieceIndex after update: ', selectedMusicPieceIndex);
-    }, [selectedMusicPieceIndex]);
 
     // function to handle resize event
     const handleResize = () => {
@@ -103,13 +90,11 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const handeSaveClicked = () => {
         /// TODO : save musicPieces to backend
         /// all data is in musicPieces
-        console.log('Save clicked');
+        console.log('Save clicked: ...insert backend call here...');
     };
 
     // handle open file editor
     const handleOpenFileEditor = (index, instrumentSheetIndex, origFilesIndex) => {
-        console.log('Open file editor clicked', index, instrumentSheetIndex, origFilesIndex);
-
         setIndexForFileEdit({
             index: index,
             instrumentSheetIndex: instrumentSheetIndex,
@@ -135,10 +120,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     };
 
     // handle file editor close
-    const handelFileEditorClose = file => {
-        console.log('File editor closed', file);
-        // TODO safe edited file from Editor to musicPieces
-
+    const handelFileEditorClose = () => {
         setTempFileInEdit(null);
         setTempSelectedVoicesInEdit(null);
         setTempMetaDataInEdit(null);
@@ -148,9 +130,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     };
 
     const handelFileEditorSave = (serializedCanvas, pngs) => {
-        console.log('File editor saved', serializedCanvas, pngs);
-
-        // TODO safe edited file from Editor to musicPieces
         if (serializedCanvas && tempIndexForFileEdit?.index) {
             if (
                 musicPieces?.[tempIndexForFileEdit?.index]?.instrumentSheets?.[
@@ -166,6 +145,19 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             }
         }
 
+        if (pngs && tempIndexForFileEdit?.index) {
+            if (
+                musicPieces?.[tempIndexForFileEdit?.index]?.instrumentSheets?.[
+                    tempIndexForFileEdit?.instrumentSheetIndex
+                ]?.origFiles?.[tempIndexForFileEdit?.origFilesIndex]
+            ) {
+                musicPieces[tempIndexForFileEdit?.index].instrumentSheets[
+                    tempIndexForFileEdit?.instrumentSheetIndex
+                ].origFiles[tempIndexForFileEdit?.origFilesIndex].pngs = pngs;
+
+                setMusicPieces([...musicPieces]);
+            }
+        }
         setTempFileInEdit(null);
         setTempSelectedVoicesInEdit(null);
         setTempMetaDataInEdit(null);
@@ -175,7 +167,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handle add music piece
     const handleAddMusicPiece = () => {
-        console.log('Add music piece clicked');
         var temp = musicPieces;
         const newIndex = musicPieces.length;
         temp[newIndex] = {
@@ -216,7 +207,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handle cast update
     const updateCast = (selectedCast, index) => {
-        console.log('updateCast: ', selectedCast, index);
         if (musicPieces[index]) {
             if (
                 musicPieces[index].selectedCast &&
@@ -254,23 +244,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         }
     };
 
-    const handleAddNewInstrumentSheet = (instrumentSheet, index) => {
-        if (musicPieces[index]) {
-            musicPieces[index].instrumentSheets.push(instrumentSheet);
-            musicPieces[index].availableInstrumentVoices = getAvailableVoices(
-                musicPieces[index].selectedCast,
-                musicPieces[index].instrumentSheets
-            );
-            setMusicPieces([...musicPieces]);
-        } else {
-            //console.warn('Invalid index:', index);
-        }
-    };
-
     // handle instrumentSheets update
     const updateInstrumentSheets = (newInstrumentSheets, index) => {
-        console.log('updateInstrumentSheets: ', newInstrumentSheets, index);
-
         const updatedMusicPiece = { ...musicPieces[index] };
         updatedMusicPiece.instrumentSheets = newInstrumentSheets;
         updatedMusicPiece.availableInstrumentVoices = getAvailableVoices(
@@ -339,7 +314,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handel voice selector visibility
     const handleOnVoiceSelect = (voice, index) => {
-        console.log('Voice selected: ', voice, index);
         if (tempInstrumentSheetIndexForVoiceAdd != null)
             addNewVoiceToMusicPiece(voice, index, tempInstrumentSheetIndexForVoiceAdd);
         else addNewVoiceToMusicPiece(voice, index, 0);
@@ -348,7 +322,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
     // handle voice remove from musicPiece
     const handleOnVoiceRemove = (voice, index, instrumentSheetIndex) => {
-        console.log('Voice removed: ', voice, index, instrumentSheetIndex);
         musicPieces[index].instrumentSheets[instrumentSheetIndex].voices = musicPieces[
             index
         ].instrumentSheets[instrumentSheetIndex].voices.filter(v => v.voiceId !== voice.voiceId);
@@ -361,7 +334,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     };
 
     const handleAddEmptyInstrumentSheet = index => {
-        console.log('Add empty instrument sheet clicked', index);
         var temp = musicPieces;
         temp[index].instrumentSheets.push({
             voices: [],

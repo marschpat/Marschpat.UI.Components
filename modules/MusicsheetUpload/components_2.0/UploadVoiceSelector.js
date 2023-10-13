@@ -23,7 +23,6 @@ const UploadVoiceSelector = ({
     };
 
     const handleOnVoiceClick = (voice, index) => {
-        console.log('handleOnVoiceClick: ', voice, index);
         onVoiceClick(voice, index);
     };
 

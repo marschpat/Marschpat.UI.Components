@@ -2,13 +2,13 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import { loadPdf, renderPageAsImage } from '../utils/PdfViewerHelpers';
 import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
-import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
+import EditorCloseButton from '../utils_2.0/EditorCloseButton';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore'; // Import left arrow icon
 import NavigateNextIcon from '@material-ui/icons/NavigateNext'; // Import right arrow icon
 import SafeButton from '../utils_2.0/SafeButton';
 import EditorToolbar from './EditorToolbar';
 import { fabric } from 'fabric';
+import { set } from 'lodash';
 
 const FileEditor = ({
     isOpen,
@@ -19,7 +19,6 @@ const FileEditor = ({
     selectedVoices,
 }) => {
     const [images, setImages] = useState([]);
-    const [editedImages, setEditedImages] = useState([]); // NEW: to keep the edited images.
     const [editedCanvas, setEditedCanvas] = useState([]); // NEW: to keep the edited image.
     const [currentIndex, setCurrentIndex] = useState(0); // NEW: to keep track of the currently displayed image index.
     const canvasRef = useRef(null); // NEW: Ref to interact with canvas.
@@ -27,6 +26,12 @@ const FileEditor = ({
     const { isMobile } = useContext(UploaderContext);
     const { t } = useTranslation(['uploader']);
     const [canvas, setCanvas] = useState(null);
+
+    useEffect(() => {
+        if (editedCanvasProp !== null) {
+            setEditedCanvas(editedCanvasProp);
+        }
+    }, [editedCanvasProp]);
 
     useEffect(() => {
         if (canvas) {
@@ -51,8 +56,6 @@ const FileEditor = ({
                 }
             });
             canvas.on('mouse:up', function (opt) {
-                // on mouse up we want to recalculate new interaction
-                // for all objects, so we call setViewportTransform
                 this.setViewportTransform(this.viewportTransform);
                 this.isDragging = false;
                 this.selection = true;
@@ -103,7 +106,7 @@ const FileEditor = ({
 
     useEffect(() => {
         handleImageChange();
-    }, [images, currentIndex]);
+    }, [images, currentIndex, editedCanvas]);
 
     const handleImageChange = () => {
         if (canvas) {
@@ -159,10 +162,37 @@ const FileEditor = ({
         const newEditedCanvas = [...editedCanvas];
         newEditedCanvas[currentIndex] = canvas.toJSON();
 
-        // TODO implement conversion into png
+        // Initialize an array to store PNG data
+        const pngDataArray = [];
 
-        console.log('Save Editor clicked');
-        onSaveClick(newEditedCanvas);
+        // Iterate through each editedCanvas and convert it to a PNG
+        newEditedCanvas.forEach((editedCv, index) => {
+            const tempCanvas = new fabric.Canvas();
+            tempCanvas.loadFromJSON(
+                editedCv,
+                () => {
+                    // Once the canvas is rendered from JSON, convert it to PNG data URL
+                    const pngDataUrl = tempCanvas.toDataURL({
+                        format: 'png',
+                        quality: 1.0,
+                    });
+
+                    // Push the PNG data URL to the array
+                    pngDataArray.push(pngDataUrl);
+
+                    // If this is the last iteration, call onSaveClick
+                    if (index === newEditedCanvas.length - 1) {
+                        onSaveClick(newEditedCanvas, pngDataArray);
+                    }
+                },
+                (o, object) => {
+                    // Fire on every object loaded
+                    // You might want to customize certain objects here
+                }
+            );
+        });
+
+        onSaveClick(newEditedCanvas, pngDataArray);
     };
 
     const getDisplayVoices = () => {
@@ -181,7 +211,7 @@ const FileEditor = ({
         // Determine max length based on device type
         const maxLength = isMobile ? 16 : 24;
 
-        // If the filename is longer than maxLength, shorten and add ellipsis, preserving extension
+        // If the filename is longer than maxLength, shorten and preserv extension
         if (fileBaseName.length > maxLength) {
             return `${fileBaseName.slice(0, maxLength)}...${fileExtension}`;
         } else {
@@ -210,7 +240,7 @@ const FileEditor = ({
                         '" ' +
                         t('EDITOR_VOICES_IN_EDIT_2')}
                 </span>
-                <span className="text-s text-grey-300">
+                <span className="text-s text-grey-300 mt-4">
                     {getDisplayFilename(originalFile.name)}
                 </span>
             </div>
@@ -226,14 +256,12 @@ const FileEditor = ({
                 >
                     <div className="p-4 bg-gray-900 grid grid-cols-3 items-center">
                         <div className="flex flex-row ml-64 mt-8 text-white">
-                            <IconButton
-                                aria-label="delete"
-                                className="flex-shrink-0"
+                            <EditorCloseButton
+                                aria-label="discard"
                                 onClick={handleCloseClick}
-                            >
-                                <CloseIcon style={{ color: 'white' }} />
-                            </IconButton>
-                            <div className="ml-8 text-white text-m flex-grow text-left">
+                                isMobile={isMobile}
+                            />
+                            <div className="ml-12 mt-4 text-white text-m flex-grow text-left">
                                 <FileInfo />
                             </div>
                         </div>

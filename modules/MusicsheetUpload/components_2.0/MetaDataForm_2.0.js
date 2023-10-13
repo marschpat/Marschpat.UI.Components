@@ -57,7 +57,6 @@ const MetaDataForm = props => {
 
     // Handle metaData change
     useEffect(() => {
-        console.log('useEffect: metaData: ', metaData);
         if (metaData != null) {
             resetErrors();
             validateRequiredFields(metaData);
