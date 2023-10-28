@@ -8,7 +8,8 @@ import Button from '@material-ui/core/Button';
 import { useDropzone } from 'react-dropzone';
 import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
-import { is } from 'date-fns/locale';
+import { useDraggable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 
 const NotesOverview = ({
     instrumentSheet,
@@ -34,14 +35,6 @@ const NotesOverview = ({
         onDrop: onDropWithIndexes,
     });
 
-    const NumberCircle = ({ number }) => {
-        return (
-            <div className="w-24 h-24 bg-gray-800 text-white p-8 rounded-full flex items-center justify-center mr-8">
-                <span className="text-s">{number}</span>
-            </div>
-        );
-    };
-
     const getDisplayFilename = filename => {
         if (!filename) return null;
 
@@ -60,67 +53,88 @@ const NotesOverview = ({
         }
     };
 
+    const NumberCircle = ({ number }) => {
+        return (
+            <div className="w-24 h-24 bg-gray-800 text-white p-8 rounded-full flex items-center justify-center mr-8">
+                <span className="text-s">{number}</span>
+            </div>
+        );
+    };
+
+    const FileElement = ({ file, i }) => {
+        const { attributes, listeners, setNodeRef, isOver, transform } = useDraggable({
+            id: `file-${index}-${instrumentSheetIndex}-${i}`,
+            snapToCursor: true,
+            data: {
+                type: 'instrumentSheetFile',
+                index: index,
+                instrumentSheetIndex: instrumentSheetIndex,
+                fileIndex: i,
+            },
+        });
+
+        const style = {
+            transform: CSS.Translate.toString(transform),
+            color: isOver ? 'green' : undefined,
+        };
+
+        return (
+            <div
+                key={i}
+                {...attributes}
+                {...listeners}
+                ref={setNodeRef}
+                className="grid grid-cols-2 pl-8 pb-4 w-full"
+                onMouseEnter={() => setHoveredIndex(i)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                style={style}
+            >
+                <div className="flex flex-row justify-start w-full" style={{ right: 0 }}>
+                    <NumberCircle number={i + 1} />
+                    <p className="text-s pt-2">{getDisplayFilename(file?.name)}</p>
+                </div>
+                <div className="flex flex-row justify-end w-full" style={{ right: 0 }}>
+                    <IconButton
+                        className={`bg-gray-200 h-16 w-16 mr-8 ${
+                            hoveredIndex === i && !isMobile ? '' : 'hidden'
+                        } transition-opacity duration-300`}
+                        onClick={() => {
+                            if (!isMobile) onEditFileClick(index, instrumentSheetIndex, i);
+                        }}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                    <IconButton
+                        className={`bg-gray-200 h-16 w-16 mr-8 ${
+                            hoveredIndex === i ? '' : 'hidden'
+                        } transition-opacity duration-300`}
+                        onClick={() => onDuplicateFileClick(index, instrumentSheetIndex, i)}
+                    >
+                        <FileCopyIcon />
+                    </IconButton>
+                    <IconButton
+                        className={`bg-gray-200 h-16 w-16 mr-8 ${
+                            hoveredIndex === i ? '' : 'hidden'
+                        } transition-opacity duration-300`}
+                        onClick={() => onDeleteFileClick(index, instrumentSheetIndex, i)}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="flex flex-wrap w-full">
-            <input {...getInputProps()} accept={allowedExtensions} className="w-full h-full" />
             <div className="flex flex-col justify-start items-start w-full">
                 {instrumentSheet?.origFiles?.length > 0 &&
                     instrumentSheet?.origFiles.map((file, i) => {
-                        return (
-                            <div
-                                key={i}
-                                className="grid grid-cols-2 pl-8 pb-4 w-full"
-                                onMouseEnter={() => setHoveredIndex(i)}
-                                onMouseLeave={() => setHoveredIndex(null)}
-                            >
-                                <div
-                                    className="flex flex-row justify-start w-full"
-                                    style={{ right: 0 }}
-                                >
-                                    <NumberCircle number={i + 1} />
-                                    <p className="text-s pt-2">{getDisplayFilename(file?.name)}</p>
-                                </div>
-                                <div
-                                    className="flex flex-row justify-end w-full"
-                                    style={{ right: 0 }}
-                                >
-                                    <IconButton
-                                        className={`bg-gray-200 h-16 w-16 mr-8 ${
-                                            hoveredIndex === i && !isMobile ? '' : 'hidden'
-                                        } transition-opacity duration-300`}
-                                        onClick={() => {
-                                            if (!isMobile)
-                                                onEditFileClick(index, instrumentSheetIndex, i);
-                                        }}
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton
-                                        className={`bg-gray-200 h-16 w-16 mr-8 ${
-                                            hoveredIndex === i ? '' : 'hidden'
-                                        } transition-opacity duration-300`}
-                                        onClick={() =>
-                                            onDuplicateFileClick(index, instrumentSheetIndex, i)
-                                        }
-                                    >
-                                        <FileCopyIcon />
-                                    </IconButton>
-                                    <IconButton
-                                        className={`bg-gray-200 h-16 w-16 mr-8 ${
-                                            hoveredIndex === i ? '' : 'hidden'
-                                        } transition-opacity duration-300`}
-                                        onClick={() =>
-                                            onDeleteFileClick(index, instrumentSheetIndex, i)
-                                        }
-                                    >
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </div>
-                            </div>
-                        );
+                        return <FileElement key={i} file={file} i={i} />;
                     })}
             </div>
             <div {...getRootProps({ className: 'cursor-pointer' })} id={index}>
+                <input {...getInputProps()} accept={allowedExtensions} className="w-full h-full" />
                 <Button
                     className="rounded-full flex items-start h-32 mt-8"
                     onClick={onAddFileClick}

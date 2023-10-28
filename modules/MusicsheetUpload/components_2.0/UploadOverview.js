@@ -12,7 +12,16 @@ import AddIcon from '@material-ui/icons/Add';
 import FileDropButton from '../utils_2.0/FileDropButton';
 import NotesOverview from './NotesOverview';
 import { generateInstrumentSheet } from '../utils/InstrumentSheetsHelper';
-import is from 'date-fns/esm/locale/is/index.js';
+import {
+    DndContext,
+    DragEndEvent,
+    MouseSensor,
+    TouchSensor,
+    useSensor,
+    useSensors,
+    useDraggable,
+    useDroppable,
+} from '@dnd-kit/core';
 
 const UploadOverview = ({
     musicPieces,
@@ -25,6 +34,7 @@ const UploadOverview = ({
     onAddMusicPieceClick,
     onAddUnnasignedInstrumentSheetClick,
     onEditFileClick,
+    onDragEnd,
 }) => {
     const { t } = useTranslation(['uploader']);
     const { isMobile, isMetadataVisible } = useContext(UploaderContext);
@@ -33,6 +43,24 @@ const UploadOverview = ({
     const allowedExtensions = ['.mxl', '.musicxml', '.pdf', '.png', '.jpg', '.jpeg'];
     const [originalFiles, setOriginalFiles] = useState(null);
     const [tempDropLocation, setTempDropLocation] = useState(null);
+
+    const sensors = useSensors(
+        useSensor(MouseSensor, {
+            activationConstraint: {
+                distance: 16,
+            },
+        }),
+        useSensor(TouchSensor, {
+            activationConstraint: {
+                delay: 1000,
+                tolerance: 6,
+            },
+        })
+    );
+
+    const handleDragEnd = event => {
+        onDragEnd(event);
+    };
 
     useEffect(() => {
         setIsExpanded(visibillityStates.isExpanded);
@@ -226,91 +254,110 @@ const UploadOverview = ({
         }
     }, [originalFiles]);
 
+    const Droppable = props => {
+        const { isOver, setNodeRef } = useDroppable({
+            id: 'drop-area-' + props.index + '-' + props.instrumentSheetIndex,
+            data: {
+                accepts: ['instrumentSheetFile'],
+                index: props.index,
+                instrumentSheetIndex: props.instrumentSheetIndex,
+            },
+        });
+
+        return (
+            <div ref={setNodeRef} className="flex flex-wrap w-full">
+                {props.children}
+            </div>
+        );
+    };
+
     return (
         <section className="block w-full h-wrap p-6 mr-6 bg-gray-200 border border-gray-200 shadow pb-24">
-            {Object.keys(musicPieces).length > 0 &&
-                Object.keys(musicPieces).map(index => {
-                    return (
-                        <div key={index}>
-                            <div
-                                className={
-                                    isMobile
-                                        ? 'relative flex items-center justify-center w-full'
-                                        : 'relative w-full flex items-center'
-                                }
-                            >
-                                {!isMobile && (
-                                    <div className="App flex space-x-4 mt-36">
-                                        <CollapseButton
-                                            isExpanded={getExpandedOfMusicPiece(index)}
-                                            onStateChange={state => {
-                                                const newExpanded = [...isExpanded];
-                                                newExpanded[index] = state;
-                                                setIsExpanded([...newExpanded]);
-                                            }}
-                                        />
-                                    </div>
-                                )}
-                                <div className="flex justify-between items-center w-full grid-cols-1">
-                                    <Button
-                                        variant="contained"
-                                        disableElevation={true}
-                                        className={
-                                            isMobile
-                                                ? 'flex justify-between w-full m-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
-                                                : 'group flex justify-start items-center mt-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
-                                        }
-                                        style={{ textTransform: 'none' }}
-                                        onClick={() => onMetadataEditClick(index)}
-                                    >
-                                        <div className="flex flex-col items-start justify-start">
-                                            <div
-                                                className="text-lg font-light italic text-left"
-                                                style={{ padding: 0, margin: 0 }}
-                                            >
-                                                {getDisplayFilename(
-                                                    musicPieces[index]?.metaData
-                                                        ? musicPieces[index]?.metaData.title
+            <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+                {Object.keys(musicPieces).length > 0 &&
+                    Object.keys(musicPieces).map(index => {
+                        return (
+                            <div key={index}>
+                                <div
+                                    className={
+                                        isMobile
+                                            ? 'relative flex items-center justify-center w-full'
+                                            : 'relative w-full flex items-center'
+                                    }
+                                >
+                                    {!isMobile && (
+                                        <div className="App flex space-x-4 mt-36">
+                                            <CollapseButton
+                                                isExpanded={getExpandedOfMusicPiece(index)}
+                                                onStateChange={state => {
+                                                    const newExpanded = [...isExpanded];
+                                                    newExpanded[index] = state;
+                                                    setIsExpanded([...newExpanded]);
+                                                }}
+                                            />
+                                        </div>
+                                    )}
+                                    <div className="flex justify-between items-center w-full grid-cols-1">
+                                        <Button
+                                            variant="contained"
+                                            disableElevation={true}
+                                            className={
+                                                isMobile
+                                                    ? 'flex justify-between w-full m-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
+                                                    : 'group flex justify-start items-center mt-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
+                                            }
+                                            style={{ textTransform: 'none' }}
+                                            onClick={() => onMetadataEditClick(index)}
+                                        >
+                                            <div className="flex flex-col items-start justify-start">
+                                                <div
+                                                    className="text-lg font-light italic text-left"
+                                                    style={{ padding: 0, margin: 0 }}
+                                                >
+                                                    {getDisplayFilename(
+                                                        musicPieces[index]?.metaData
                                                             ? musicPieces[index]?.metaData.title
+                                                                ? musicPieces[index]?.metaData.title
+                                                                : t(
+                                                                      'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                                  )
                                                             : t(
                                                                   'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
                                                               )
+                                                    )}
+                                                </div>
+                                                <div
+                                                    className="text-s font-light text-black"
+                                                    style={{ padding: 0, margin: 0 }}
+                                                >
+                                                    {musicPieces[index]?.selectedCast
+                                                        ? musicPieces[index]?.selectedCast.label
                                                         : t(
-                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
-                                                          )
-                                                )}
+                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                          )}
+                                                </div>
                                             </div>
-                                            <div
-                                                className="text-s font-light text-black"
-                                                style={{ padding: 0, margin: 0 }}
-                                            >
-                                                {musicPieces[index]?.selectedCast
-                                                    ? musicPieces[index]?.selectedCast.label
-                                                    : t(
-                                                          'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
-                                                      )}
-                                            </div>
-                                        </div>
-                                        <EditIcon className="ml-24" style={{ right: 0 }} />
-                                    </Button>
-                                    <FileDropButton
-                                        index={index}
-                                        instrumentSheetIndex={getUnassignedInstrumentSheetsIndex(
-                                            index
-                                        )}
-                                        onDrop={onDrop}
-                                        allowedExtensions={allowedExtensions}
-                                    />
+                                            <EditIcon className="ml-24" style={{ right: 0 }} />
+                                        </Button>
+                                        <FileDropButton
+                                            index={index}
+                                            instrumentSheetIndex={getUnassignedInstrumentSheetsIndex(
+                                                index
+                                            )}
+                                            onDrop={onDrop}
+                                            allowedExtensions={allowedExtensions}
+                                        />
+                                    </div>
                                 </div>
-                            </div>
-                            <div>
-                                {calcVisible(index) && (
-                                    <div className="flex grid grid-col-1 !pl-8">
-                                        {musicPieces?.[index]?.instrumentSheets &&
-                                            Object.keys(musicPieces[index].instrumentSheets)
-                                                .length > 0 &&
-                                            Object.keys(musicPieces[index].instrumentSheets).map(
-                                                instrument => (
+                                <div>
+                                    {calcVisible(index) && (
+                                        <div className="flex grid grid-col-1 !pl-8">
+                                            {musicPieces?.[index]?.instrumentSheets &&
+                                                Object.keys(musicPieces[index].instrumentSheets)
+                                                    .length > 0 &&
+                                                Object.keys(
+                                                    musicPieces[index].instrumentSheets
+                                                ).map(instrument => (
                                                     <div key={instrument} className="flex w-full">
                                                         <div className="flex flex-col h-full content-center">
                                                             <div className="flex pl-12 pt-8 h-48 w-48">
@@ -442,57 +489,64 @@ const UploadOverview = ({
                                                                     index,
                                                                     instrument
                                                                 ) && (
-                                                                    <NotesOverview
-                                                                        instrumentSheet={
-                                                                            musicPieces[index]
-                                                                                .instrumentSheets[
-                                                                                instrument
-                                                                            ]
-                                                                        }
+                                                                    <Droppable
                                                                         index={index}
                                                                         instrumentSheetIndex={
                                                                             instrument
                                                                         }
-                                                                        onDrop={onDrop}
-                                                                        allowedExtensions={
-                                                                            allowedExtensions
-                                                                        }
-                                                                        onDuplicateFileClick={
-                                                                            handleDuplicateFileClick
-                                                                        }
-                                                                        onDeleteFileClick={
-                                                                            handleDeleteFileClick
-                                                                        }
-                                                                        onEditFileClick={
-                                                                            onEditFileClick
-                                                                        }
-                                                                    ></NotesOverview>
+                                                                    >
+                                                                        <NotesOverview
+                                                                            instrumentSheet={
+                                                                                musicPieces[index]
+                                                                                    .instrumentSheets[
+                                                                                    instrument
+                                                                                ]
+                                                                            }
+                                                                            index={index}
+                                                                            instrumentSheetIndex={
+                                                                                instrument
+                                                                            }
+                                                                            onDrop={onDrop}
+                                                                            allowedExtensions={
+                                                                                allowedExtensions
+                                                                            }
+                                                                            onDuplicateFileClick={
+                                                                                handleDuplicateFileClick
+                                                                            }
+                                                                            onDeleteFileClick={
+                                                                                handleDeleteFileClick
+                                                                            }
+                                                                            onEditFileClick={
+                                                                                onEditFileClick
+                                                                            }
+                                                                        ></NotesOverview>
+                                                                    </Droppable>
                                                                 )}
                                                             </div>
                                                         </div>
                                                     </div>
-                                                )
-                                            )}
-                                        <Button
-                                            variant="contained"
-                                            startIcon={<AddCircleOutlineIcon />}
-                                            className="flex items-center bg-white mt-12 ml-32 rounded-full text-black w-128"
-                                            style={{ textTransform: 'none' }}
-                                            onClick={() =>
-                                                onAddUnnasignedInstrumentSheetClick(index)
-                                            }
-                                        >
-                                            <span className="text-s not-uppercase">
-                                                {t('UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE')}
-                                            </span>
-                                        </Button>
-                                    </div>
-                                )}
+                                                ))}
+                                            <Button
+                                                variant="contained"
+                                                startIcon={<AddCircleOutlineIcon />}
+                                                className="flex items-center bg-white mt-12 ml-32 rounded-full text-black w-128"
+                                                style={{ textTransform: 'none' }}
+                                                onClick={() =>
+                                                    onAddUnnasignedInstrumentSheetClick(index)
+                                                }
+                                            >
+                                                <span className="text-s not-uppercase">
+                                                    {t('UPLOADER_MUSICPIECESUPLOADED_ADD_VOICE')}
+                                                </span>
+                                            </Button>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="fex w-full h-6 bg-grey-300 mt-16 rounded-full"></div>
                             </div>
-                            <div className="fex w-full h-6 bg-grey-300 mt-16 rounded-full"></div>
-                        </div>
-                    );
-                })}
+                        );
+                    })}
+            </DndContext>
             <div className="flex flex-wrap mt-16">
                 <Button
                     className="rounded-full"

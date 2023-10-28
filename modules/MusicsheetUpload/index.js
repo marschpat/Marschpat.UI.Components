@@ -175,6 +175,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
             instrumentSheets: [
                 {
                     voices: [],
+                    origFiles: [],
                 },
             ],
             availableInstrumentVoices: [],
@@ -342,6 +343,28 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMusicPieces([...temp]);
     };
 
+    const handleDragEnd = event => {
+        if (!event.over) return;
+        const element =
+            musicPieces[event.active.data.current.index]?.instrumentSheets[
+                event.active.data.current.instrumentSheetIndex
+            ]?.origFiles[event.active.data.current.fileIndex];
+
+        if (!element) return;
+
+        const updatedMusicPieces = [...musicPieces];
+
+        updatedMusicPieces[event.over.data.current.index].instrumentSheets[
+            event.over.data.current.instrumentSheetIndex
+        ].origFiles.push(element);
+
+        updatedMusicPieces[event.active.data.current.index].instrumentSheets[
+            event.active.data.current.instrumentSheetIndex
+        ].origFiles.splice(event.active.data.current.fileIndex, 1);
+
+        setMusicPieces([...updatedMusicPieces]);
+    };
+
     return (
         <div id="uploader-top">
             <UploaderContext.Provider
@@ -481,6 +504,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                                 handleAddEmptyInstrumentSheet
                                             }
                                             onEditFileClick={handleOpenFileEditor}
+                                            onDragEnd={handleDragEnd}
                                         />
                                     )}
                                 </div>
@@ -534,6 +558,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                             handleAddEmptyInstrumentSheet
                                         }
                                         onEditFileClick={handleOpenFileEditor}
+                                        onDragEnd={handleDragEnd}
                                     />
                                 )}
                                 {isMetadataVisible && (
