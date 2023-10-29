@@ -365,6 +365,10 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMusicPieces([...updatedMusicPieces]);
     };
 
+    useEffect(() => {
+        console.log('musicPieces', musicPieces);
+    }, [musicPieces]);
+
     return (
         <div id="uploader-top">
             <UploaderContext.Provider

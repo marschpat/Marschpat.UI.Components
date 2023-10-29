@@ -450,40 +450,36 @@ const UploadOverview = ({
                                                                         )
                                                                     )}
                                                             </div>
-                                                            {!musicPieces[index]?.instrumentSheets[
+                                                            {musicPieces[index]?.instrumentSheets[
                                                                 instrument
-                                                            ]?.voices ||
-                                                                (musicPieces[index]
-                                                                    ?.instrumentSheets[instrument]
-                                                                    ?.voices?.length === 0 && (
-                                                                    <div className="flex flex-wrap pl-12">
-                                                                        <span className="text-lg font-light italic text-left not-uppercase !p-8 pt-16 pl-0 mr-12">
+                                                            ]?.voices.length == 0 && (
+                                                                <div className="flex flex-wrap pl-12">
+                                                                    <span className="text-lg font-light italic text-left not-uppercase !p-8 pt-16 pl-0 mr-12">
+                                                                        {t(
+                                                                            'UPLOADER_MUSICPIECESUPLOADED_NO_VOICE'
+                                                                        )}
+                                                                    </span>
+                                                                    <Button
+                                                                        variant="contained"
+                                                                        className="flex items-center bg-white mt-12 mr-12 !p-8 pl-16 pr-16 rounded-full text-black"
+                                                                        style={{
+                                                                            textTransform: 'none',
+                                                                        }}
+                                                                        onClick={() =>
+                                                                            handleVoiceAddClick(
+                                                                                index,
+                                                                                instrument
+                                                                            )
+                                                                        }
+                                                                    >
+                                                                        <span className="text-s not-uppercase">
                                                                             {t(
-                                                                                'UPLOADER_MUSICPIECESUPLOADED_NO_VOICE'
+                                                                                'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
                                                                             )}
                                                                         </span>
-                                                                        <Button
-                                                                            variant="contained"
-                                                                            className="flex items-center bg-white mt-12 mr-12 !p-8 pl-16 pr-16 rounded-full text-black"
-                                                                            style={{
-                                                                                textTransform:
-                                                                                    'none',
-                                                                            }}
-                                                                            onClick={() =>
-                                                                                handleVoiceAddClick(
-                                                                                    index,
-                                                                                    instrument
-                                                                                )
-                                                                            }
-                                                                        >
-                                                                            <span className="text-s not-uppercase">
-                                                                                {t(
-                                                                                    'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
-                                                                                )}
-                                                                            </span>
-                                                                        </Button>
-                                                                    </div>
-                                                                ))}
+                                                                    </Button>
+                                                                </div>
+                                                            )}
                                                             <div className="flex flex-wrap mt-16 mb-16">
                                                                 {getExpandedOfInstrumentSheet(
                                                                     index,
