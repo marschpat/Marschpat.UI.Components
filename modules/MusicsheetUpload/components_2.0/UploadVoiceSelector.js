@@ -1,22 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import { UploaderContext } from '../context/UploaderContext';
 import { useTranslation } from 'react-i18next';
 import Button from '@material-ui/core/Button';
 import EditIcon from '@material-ui/icons/Edit';
 import CollapseButton from '../utils_2.0/CollapseButton';
-import VoiceButton from '../utils_2.0/VoiceButton';
+import DroppableVoiceButton from '../utils_2.0/DroppableVoiceButton';
+import FileHelper from '../utils/FileHelper';
 
 const UploadVoiceSelector = ({
     filename,
     instrumentation,
+    voices,
     availableVoices,
     onMetadataEditClick,
     onVoiceClick,
+    onAddInstrumentSheetWithVoice,
+    onAddInstrumentSheetToVoice,
 }) => {
+    const allowedExtensions = ['.mxl', '.musicxml', '.pdf', '.png', '.jpg', '.jpeg'];
     const { t } = useTranslation(['uploader']);
     const { selectedMusicPieceIndex, isMobile, isMetadataVisible } = useContext(UploaderContext);
     const [isExpanded, setIsExpanded] = useState(true);
     const [displayVoices, setDisplayVoices] = useState(false);
+    const [originalFiles, setOriginalFiles] = useState(null);
+    const [tempDropLocation, setTempDropLocation] = useState(null);
+    const [tempVoice, setTempVoice] = useState(null);
 
     const handleExpandStateChange = newState => {
         setIsExpanded(newState);
@@ -36,20 +44,73 @@ const UploadVoiceSelector = ({
         else return filename;
     };
 
+    const onDrop = useCallback(
+        (pieceIndex, voice) => acceptedFiles => {
+            const validatedFiles = acceptedFiles
+                .filter(file => FileHelper.validateFileExtension(file, allowedExtensions))
+                .map(file => {
+                    const fileObject = FileHelper.populateFileObject(file);
+
+                    // special for mxl file types
+                    if (fileObject.extensionType === 'mxl') {
+                        return FileHelper.readAsBinaryString(fileObject);
+                    }
+
+                    // default for all file types
+                    return FileHelper.readFileAsDataUrl(fileObject);
+                });
+            Promise.all(validatedFiles)
+                .then(files => {
+                    if (files && files.length > 0) {
+                        setTempDropLocation(pieceIndex);
+                        setTempVoice(voice);
+                        setOriginalFiles(files);
+                    }
+                })
+                .catch(error => {
+                    console.error('FileDropzone Error: ', error);
+                });
+        },
+        []
+    );
+
     useEffect(() => {
-        if (availableVoices && availableVoices.length > 0) {
-            const groupedData = availableVoices.reduce((acc, item) => {
-                if (!acc[item.group]) {
-                    acc[item.group] = [];
-                }
-                acc[item.group].push(item);
-                return acc;
-            }, {});
+        if (originalFiles && tempDropLocation !== null && tempVoice !== null) {
+            if (!tempVoice.disabled) {
+                onAddInstrumentSheetWithVoice(tempDropLocation, tempVoice, originalFiles);
+            } else {
+                onAddInstrumentSheetToVoice(tempDropLocation, tempVoice, originalFiles);
+            }
+
+            setTempDropLocation(null);
+            setTempVoice(null);
+            setOriginalFiles(null);
+        }
+    }, [originalFiles]);
+
+    useEffect(() => {
+        if (availableVoices && availableVoices.length > 0 && voices && voices.length > 0) {
+            const groupedData = voices
+                .map(voice => {
+                    if (availableVoices.some(voice2 => voice.voiceId === voice2.voiceId)) {
+                        voice.disabled = false;
+                    } else {
+                        voice.disabled = true;
+                    }
+                    return voice;
+                })
+                .reduce((acc, item) => {
+                    if (!acc[item.group]) {
+                        acc[item.group] = [];
+                    }
+                    acc[item.group].push(item);
+                    return acc;
+                }, {});
             setDisplayVoices(groupedData);
         } else {
             setDisplayVoices({});
         }
-    }, [availableVoices]);
+    }, [voices, availableVoices]);
 
     return (
         <section className="block w-full h-full p-6 mr-6 bg-gray-200  border border-gray-200 shadow pb-24">
@@ -106,17 +167,13 @@ const UploadVoiceSelector = ({
                                 <div className="flex flex-wrap">
                                     {Object.keys(displayVoices[instrument]).length &&
                                         displayVoices[instrument].map((voice, index) => (
-                                            <div key={index}>
-                                                <VoiceButton
-                                                    voice={voice}
-                                                    onVoiceClick={() =>
-                                                        handleOnVoiceClick(
-                                                            voice,
-                                                            selectedMusicPieceIndex
-                                                        )
-                                                    }
-                                                />
-                                            </div>
+                                            <DroppableVoiceButton
+                                                key={index}
+                                                voice={voice}
+                                                allowedExtensions={allowedExtensions}
+                                                onVoiceClick={handleOnVoiceClick}
+                                                onDrop={onDrop}
+                                            />
                                         ))}
                                 </div>
                             </div>

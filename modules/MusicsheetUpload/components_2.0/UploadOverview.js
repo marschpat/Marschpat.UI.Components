@@ -9,7 +9,9 @@ import FileHelper from '../utils/FileHelper';
 import VoiceButton from '../utils_2.0/VoiceButton';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
 import FileDropButton from '../utils_2.0/FileDropButton';
+import DeleteButton from '../utils_2.0/DeleteButton';
 import NotesOverview from './NotesOverview';
 import { generateInstrumentSheet } from '../utils/InstrumentSheetsHelper';
 import {
@@ -35,6 +37,8 @@ const UploadOverview = ({
     onAddUnnasignedInstrumentSheetClick,
     onEditFileClick,
     onDragEnd,
+    onDelteMusicPiceClick,
+    onDeleteInstrumentSheetClick,
 }) => {
     const { t } = useTranslation(['uploader']);
     const { isMobile, isMetadataVisible } = useContext(UploaderContext);
@@ -100,6 +104,8 @@ const UploadOverview = ({
         []
     );
 
+    // currently not used | use when needed!
+    // gets the last unassigned instrument sheet index of a music piece
     const getUnassignedInstrumentSheetsIndex = index => {
         // Ensure the piece and instrumentSheets exist and have length
         if (!musicPieces?.[index]?.instrumentSheets?.length) return 0;
@@ -234,19 +240,25 @@ const UploadOverview = ({
                 ...musicPieces[tempDropLocation.pieceIndex]?.instrumentSheets,
             ];
 
-            if (!tempInstrumentSheets[tempDropLocation.sheetIndex])
-                tempInstrumentSheets[tempDropLocation.sheetIndex] = { origFiles: [] };
+            if (tempDropLocation.sheetIndex > -1) {
+                if (!tempInstrumentSheets[tempDropLocation.sheetIndex])
+                    tempInstrumentSheets[tempDropLocation.sheetIndex] = { origFiles: [] };
 
-            if (!tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles)
-                tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles = [];
+                if (!tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles)
+                    tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles = [];
 
-            allInstrumentSheets.forEach(instrumentSheet => {
-                tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles.push(
-                    instrumentSheet.origFiles[0]
-                );
-                if (!tempInstrumentSheets[tempDropLocation.sheetIndex].voices)
-                    tempInstrumentSheets[tempDropLocation.sheetIndex].voices = [];
-            });
+                allInstrumentSheets.forEach(instrumentSheet => {
+                    tempInstrumentSheets[tempDropLocation.sheetIndex].origFiles.push(
+                        instrumentSheet.origFiles[0]
+                    );
+                    if (!tempInstrumentSheets[tempDropLocation.sheetIndex].voices)
+                        tempInstrumentSheets[tempDropLocation.sheetIndex].voices = [];
+                });
+            } else {
+                allInstrumentSheets.forEach(instrumentSheet => {
+                    tempInstrumentSheets.push(instrumentSheet);
+                });
+            }
 
             onInstrumentSheetsUpdate(tempInstrumentSheets, tempDropLocation?.pieceIndex);
             setTempDropLocation(null);
@@ -298,52 +310,61 @@ const UploadOverview = ({
                                         </div>
                                     )}
                                     <div className="flex justify-between items-center w-full grid-cols-1">
-                                        <Button
-                                            variant="contained"
-                                            disableElevation={true}
-                                            className={
-                                                isMobile
-                                                    ? 'flex justify-between w-full m-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
-                                                    : 'group flex justify-start items-center mt-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
-                                            }
-                                            style={{ textTransform: 'none' }}
-                                            onClick={() => onMetadataEditClick(index)}
-                                        >
-                                            <div className="flex flex-col items-start justify-start">
-                                                <div
-                                                    className="text-lg font-light italic text-left"
-                                                    style={{ padding: 0, margin: 0 }}
-                                                >
-                                                    {getDisplayFilename(
-                                                        musicPieces[index]?.metaData
-                                                            ? musicPieces[index]?.metaData.title
+                                        <div className="flex items-center w-full">
+                                            <Button
+                                                variant="contained"
+                                                disableElevation={true}
+                                                className={
+                                                    isMobile
+                                                        ? 'flex justify-between w-full m-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
+                                                        : 'group flex justify-start items-center mt-24 rounded-md text-black transition-colors bg-gray-200 active:bg-gray-200 hover:bg-gray-200 focus:outline-none text-clip'
+                                                }
+                                                style={{ textTransform: 'none' }}
+                                                onClick={() => onMetadataEditClick(index)}
+                                            >
+                                                <div className="flex flex-col items-start justify-start">
+                                                    <div
+                                                        className="text-lg font-light italic text-left"
+                                                        style={{ padding: 0, margin: 0 }}
+                                                    >
+                                                        {getDisplayFilename(
+                                                            musicPieces[index]?.metaData
                                                                 ? musicPieces[index]?.metaData.title
+                                                                    ? musicPieces[index]?.metaData
+                                                                          .title
+                                                                    : t(
+                                                                          'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
+                                                                      )
                                                                 : t(
                                                                       'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
                                                                   )
+                                                        )}
+                                                    </div>
+                                                    <div
+                                                        className="text-s font-light text-black"
+                                                        style={{ padding: 0, margin: 0 }}
+                                                    >
+                                                        {musicPieces[index]?.selectedCast
+                                                            ? musicPieces[index]?.selectedCast.label
                                                             : t(
-                                                                  'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_NAME'
-                                                              )
-                                                    )}
+                                                                  'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
+                                                              )}
+                                                    </div>
                                                 </div>
-                                                <div
-                                                    className="text-s font-light text-black"
-                                                    style={{ padding: 0, margin: 0 }}
-                                                >
-                                                    {musicPieces[index]?.selectedCast
-                                                        ? musicPieces[index]?.selectedCast.label
-                                                        : t(
-                                                              'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
-                                                          )}
-                                                </div>
+                                                <EditIcon
+                                                    className="ml-32 text-grey-800"
+                                                    style={{ right: 0 }}
+                                                />
+                                            </Button>
+                                            <div className="mt-24">
+                                                <DeleteButton
+                                                    onClick={() => onDelteMusicPiceClick(index)}
+                                                />
                                             </div>
-                                            <EditIcon className="ml-24" style={{ right: 0 }} />
-                                        </Button>
+                                        </div>
                                         <FileDropButton
                                             index={index}
-                                            instrumentSheetIndex={getUnassignedInstrumentSheetsIndex(
-                                                index
-                                            )}
+                                            instrumentSheetIndex={-1}
                                             onDrop={onDrop}
                                             allowedExtensions={allowedExtensions}
                                         />
@@ -354,7 +375,7 @@ const UploadOverview = ({
                                         <div className="flex grid grid-col-1 !pl-8">
                                             {musicPieces?.[index]?.instrumentSheets &&
                                                 Object.keys(musicPieces[index].instrumentSheets)
-                                                    .length > 0 &&
+                                                    ?.length > 0 &&
                                                 Object.keys(
                                                     musicPieces[index].instrumentSheets
                                                 ).map(instrument => (
@@ -400,7 +421,7 @@ const UploadOverview = ({
                                                                     musicPieces[index]
                                                                         .instrumentSheets[
                                                                         instrument
-                                                                    ].voices.length > 0 &&
+                                                                    ].voices?.length > 0 &&
                                                                     musicPieces[
                                                                         index
                                                                     ].instrumentSheets[
@@ -411,16 +432,20 @@ const UploadOverview = ({
                                                                                 key={voiceIndex}
                                                                                 className="flex flex-wrap"
                                                                             >
-                                                                                <VoiceButton
-                                                                                    voice={voice}
-                                                                                    onVoiceClick={() =>
-                                                                                        handleOnVoiceRemoveClick(
-                                                                                            voice,
-                                                                                            index,
-                                                                                            instrument
-                                                                                        )
-                                                                                    }
-                                                                                />
+                                                                                <div>
+                                                                                    <VoiceButton
+                                                                                        voice={
+                                                                                            voice
+                                                                                        }
+                                                                                        onVoiceClick={() =>
+                                                                                            handleOnVoiceRemoveClick(
+                                                                                                voice,
+                                                                                                index,
+                                                                                                instrument
+                                                                                            )
+                                                                                        }
+                                                                                    />
+                                                                                </div>
                                                                                 {voiceIndex ===
                                                                                     musicPieces[
                                                                                         index
@@ -428,23 +453,39 @@ const UploadOverview = ({
                                                                                         .instrumentSheets[
                                                                                         instrument
                                                                                     ].voices
-                                                                                        .length -
+                                                                                        ?.length -
                                                                                         1 && (
-                                                                                    <IconButton
-                                                                                        onClick={() =>
-                                                                                            handleVoiceAddClick(
-                                                                                                index,
-                                                                                                instrument
-                                                                                            )
-                                                                                        }
-                                                                                        className="bg-gray-200 mt-16"
-                                                                                        style={{
-                                                                                            height: '32px',
-                                                                                            width: '32px',
-                                                                                        }}
-                                                                                    >
-                                                                                        <AddCircleOutlineIcon />
-                                                                                    </IconButton>
+                                                                                    <div className="flex flex-row">
+                                                                                        <IconButton
+                                                                                            onClick={() =>
+                                                                                                handleVoiceAddClick(
+                                                                                                    index,
+                                                                                                    instrument
+                                                                                                )
+                                                                                            }
+                                                                                            className="bg-gray-200 mt-16"
+                                                                                            style={{
+                                                                                                height: '32px',
+                                                                                                width: '32px',
+                                                                                            }}
+                                                                                        >
+                                                                                            <AddCircleOutlineIcon />
+                                                                                        </IconButton>
+                                                                                        <div className="mt-8">
+                                                                                            <IconButton
+                                                                                                aria-label="close"
+                                                                                                className="flex-shrink-0"
+                                                                                                onClick={() =>
+                                                                                                    onDeleteInstrumentSheetClick(
+                                                                                                        index,
+                                                                                                        instrument
+                                                                                                    )
+                                                                                                }
+                                                                                            >
+                                                                                                <DeleteIcon className="text-grey-600" />
+                                                                                            </IconButton>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 )}
                                                                             </div>
                                                                         )
@@ -452,32 +493,49 @@ const UploadOverview = ({
                                                             </div>
                                                             {musicPieces[index]?.instrumentSheets[
                                                                 instrument
-                                                            ]?.voices.length == 0 && (
+                                                            ]?.voices?.length == 0 && (
                                                                 <div className="flex flex-wrap pl-12">
                                                                     <span className="text-lg font-light italic text-left not-uppercase !p-8 pt-16 pl-0 mr-12">
                                                                         {t(
                                                                             'UPLOADER_MUSICPIECESUPLOADED_NO_VOICE'
                                                                         )}
                                                                     </span>
-                                                                    <Button
-                                                                        variant="contained"
-                                                                        className="flex items-center bg-white mt-12 mr-12 !p-8 pl-16 pr-16 rounded-full text-black"
-                                                                        style={{
-                                                                            textTransform: 'none',
-                                                                        }}
-                                                                        onClick={() =>
-                                                                            handleVoiceAddClick(
-                                                                                index,
-                                                                                instrument
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        <span className="text-s not-uppercase">
-                                                                            {t(
-                                                                                'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
-                                                                            )}
-                                                                        </span>
-                                                                    </Button>
+                                                                    <div>
+                                                                        <Button
+                                                                            variant="contained"
+                                                                            className="flex items-center bg-white mt-12 !p-8 pl-16 pr-16 rounded-full text-black"
+                                                                            style={{
+                                                                                textTransform:
+                                                                                    'none',
+                                                                            }}
+                                                                            onClick={() =>
+                                                                                handleVoiceAddClick(
+                                                                                    index,
+                                                                                    instrument
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <span className="text-s not-uppercase">
+                                                                                {t(
+                                                                                    'UPLOADER_MUSICPIECESUPLOADED_SELECT_VOICE'
+                                                                                )}
+                                                                            </span>
+                                                                        </Button>
+                                                                    </div>
+                                                                    <div className="mt-8">
+                                                                        <IconButton
+                                                                            aria-label="close"
+                                                                            className="flex-shrink-0"
+                                                                            onClick={() =>
+                                                                                onDeleteInstrumentSheetClick(
+                                                                                    index,
+                                                                                    instrument
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            <DeleteIcon className="text-grey-600" />
+                                                                        </IconButton>
+                                                                    </div>
                                                                 </div>
                                                             )}
                                                             <div className="flex flex-wrap mt-16 mb-16">

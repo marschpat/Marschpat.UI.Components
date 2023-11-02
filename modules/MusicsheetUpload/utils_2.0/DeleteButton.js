@@ -1,5 +1,5 @@
 import React from 'react';
-import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
 
 const CloseButton = ({ onClick }) => {
@@ -9,7 +9,7 @@ const CloseButton = ({ onClick }) => {
 
     return (
         <IconButton aria-label="close" className="flex-shrink-0" onClick={handleClick}>
-            <CloseIcon />
+            <DeleteIcon className="text-grey-800" />
         </IconButton>
     );
 };

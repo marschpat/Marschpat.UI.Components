@@ -15,11 +15,13 @@ const useAvailableInstrumentHelper = (implementationMode, organisation) => {
 
     const getAvailableVoices = (selectedCast, instrumentSheets) => {
         let allAssignedVoices = [];
-        instrumentSheets.forEach(instrumentSheet => {
-            if (instrumentSheet?.voices && instrumentSheet?.voices?.length > 0) {
-                allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
-            }
-        });
+        if (instrumentSheets.length > 0) {
+            instrumentSheets.forEach(instrumentSheet => {
+                if (instrumentSheet?.voices && instrumentSheet?.voices?.length > 0) {
+                    allAssignedVoices = allAssignedVoices.concat(instrumentSheet.voices);
+                }
+            });
+        }
         const availableVoices = determineRenamingVoices(allAssignedVoices, selectedCast);
         return availableVoices;
     };
@@ -31,6 +33,7 @@ const useAvailableInstrumentHelper = (implementationMode, organisation) => {
     return [
         castOptions,
         getInstrumentVoicesOfCast, // (selectedCast) returns all voices of selected cast
+        mapCastToInstrumentVoices, // (castItem) returns all voices of castItem
         getAvailableVoices, // (selectedCast, instrumentSheets) returns all voices of selected cast that are not assigned to any instrument sheet
     ];
 

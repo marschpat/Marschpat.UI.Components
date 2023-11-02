@@ -28,7 +28,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [isMobile, setIsMobile] = useState(window.innerWidth < 720); // used | checks if app runs on mobile | scope Global
     const [visibillityStates, setVisibillityStates] = useState({}); // used | safes the collapsed states of UploadOverview | scope Global
 
-    const [castOptions, getInstrumentVoicesOfCast, getAvailableVoices] =
+    const [castOptions, getInstrumentVoicesOfCast, mapCastToInstrumentVoices, getAvailableVoices] =
         useAvailableInstrumentHelper(implementationMode, organisation);
 
     // NEW AFTER REFACTORING
@@ -343,6 +343,82 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
         setMusicPieces([...temp]);
     };
 
+    const handleAddInstrumentSheetWithVoice = (index, voice, files) => {
+        var temp = musicPieces;
+        temp[index].instrumentSheets.push({
+            voices: [],
+            origFiles: [],
+        });
+
+        temp[index].instrumentSheets[temp[index].instrumentSheets.length - 1].voices.push(voice);
+        files.map(originalFile => {
+            const file = {
+                name: originalFile.file.name,
+                type: originalFile.extensionType,
+                data: originalFile.dataUrlString,
+                blob: originalFile?.blob ?? null,
+                uuid: originalFile.uuid,
+            };
+            temp[index].instrumentSheets[temp[index].instrumentSheets.length - 1].origFiles.push(
+                file
+            );
+        });
+
+        temp[index].availableInstrumentVoices = getAvailableVoices(
+            temp[index].selectedCast,
+            temp[index].instrumentSheets
+        );
+
+        setMusicPieces([...temp]);
+    };
+
+    const handleAddInstrumentSheetToVoice = (index, voice, files) => {
+        var temp = musicPieces;
+
+        const instrumentSheetIndex = temp[index].instrumentSheets.findIndex(instrumentSheet =>
+            instrumentSheet.voices.some(v => v.voiceId === voice.voiceId)
+        );
+
+        files.map(originalFile => {
+            const file = {
+                name: originalFile.file.name,
+                type: originalFile.extensionType,
+                data: originalFile.dataUrlString,
+                blob: originalFile?.blob ?? null,
+                uuid: originalFile.uuid,
+            };
+            temp[index].instrumentSheets[instrumentSheetIndex].origFiles.push(file);
+        });
+
+        temp[index].availableInstrumentVoices = getAvailableVoices(
+            temp[index].selectedCast,
+            temp[index].instrumentSheets
+        );
+
+        setMusicPieces([...temp]);
+    };
+
+    const handleDeleteMusicPiece = index => {
+        if (musicPieces.length == 1) return;
+        var temp = musicPieces.filter((_, i) => i != index);
+        setMusicPieces([...temp]);
+    };
+
+    const handleDeleteInstrumentSheet = (index, instrumentSheetIndex) => {
+        var temp = musicPieces[index]?.instrumentSheets;
+        if (temp == null) return;
+        temp = temp.filter((_, i) => i != instrumentSheetIndex);
+
+        musicPieces[index].instrumentSheets = temp;
+
+        musicPieces[index].availableInstrumentVoices = getAvailableVoices(
+            musicPieces[index].selectedCast,
+            musicPieces[index].instrumentSheets
+        );
+
+        setMusicPieces([...musicPieces]);
+    };
+
     const handleDragEnd = event => {
         if (!event.over) return;
         const element =
@@ -364,10 +440,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
 
         setMusicPieces([...updatedMusicPieces]);
     };
-
-    useEffect(() => {
-        console.log('musicPieces', musicPieces);
-    }, [musicPieces]);
 
     return (
         <div id="uploader-top">
@@ -466,6 +538,14 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                                           'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
                                                       )
                                             }
+                                            voices={
+                                                musicPieces[selectedMusicPieceIndex]?.selectedCast
+                                                    ? mapCastToInstrumentVoices(
+                                                          musicPieces[selectedMusicPieceIndex]
+                                                              ?.selectedCast
+                                                      )
+                                                    : []
+                                            }
                                             availableVoices={
                                                 musicPieces[selectedMusicPieceIndex]
                                                     ?.availableInstrumentVoices
@@ -474,6 +554,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                             onVoiceClick={handleOnVoiceSelect}
                                             onMetadataEditClick={
                                                 handleMetadataIsVisibleStateChangeOpen
+                                            }
+                                            onAddInstrumentSheetWithVoice={
+                                                handleAddInstrumentSheetWithVoice
+                                            }
+                                            onAddInstrumentSheetToVoice={
+                                                handleAddInstrumentSheetToVoice
                                             }
                                         />
                                     )}
@@ -509,6 +595,10 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                             }
                                             onEditFileClick={handleOpenFileEditor}
                                             onDragEnd={handleDragEnd}
+                                            onDelteMusicPiceClick={handleDeleteMusicPiece}
+                                            onDeleteInstrumentSheetClick={
+                                                handleDeleteInstrumentSheet
+                                            }
                                         />
                                     )}
                                 </div>
@@ -539,6 +629,14 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                                       'UPLOADER_MUSICPIECESUPLOADED_DEFAULT_INSTRUMENTATION'
                                                   )
                                         }
+                                        voices={
+                                            musicPieces[selectedMusicPieceIndex]?.selectedCast
+                                                ? mapCastToInstrumentVoices(
+                                                      musicPieces[selectedMusicPieceIndex]
+                                                          ?.selectedCast
+                                                  )
+                                                : []
+                                        }
                                         availableVoices={
                                             musicPieces[selectedMusicPieceIndex]
                                                 ?.availableInstrumentVoices
@@ -546,6 +644,12 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         isMetadataVisible={isMetadataVisible}
                                         onVoiceClick={handleOnVoiceSelect}
                                         onMetadataEditClick={handleMetadataIsVisibleStateChangeOpen}
+                                        onAddInstrumentSheetWithVoice={
+                                            handleAddInstrumentSheetWithVoice
+                                        }
+                                        onAddInstrumentSheetToVoice={
+                                            handleAddInstrumentSheetToVoice
+                                        }
                                     />
                                 )}
                                 {!isVoiceSelectorVisible && (
@@ -563,6 +667,8 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         }
                                         onEditFileClick={handleOpenFileEditor}
                                         onDragEnd={handleDragEnd}
+                                        onDelteMusicPiceClick={handleDeleteMusicPiece}
+                                        onDeleteInstrumentSheetClick={handleDeleteInstrumentSheet}
                                     />
                                 )}
                                 {isMetadataVisible && (
