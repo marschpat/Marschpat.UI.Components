@@ -17,7 +17,7 @@ const DroppableVoiceButton = ({ voice, allowedExtensions, onVoiceClick, onDrop }
             {!voice.disabled && (
                 <Button
                     variant="contained"
-                    className="flex items-center bg-white mt-12 mr-12 rounded-full text-black"
+                    className="flex items-center bg-white mt-12 mr-12 p-8 rounded-full text-black"
                     style={{
                         textTransform: 'none',
                     }}
@@ -30,11 +30,11 @@ const DroppableVoiceButton = ({ voice, allowedExtensions, onVoiceClick, onDrop }
                 </Button>
             )}
             {voice.disabled && (
-                <div className="flex items-center bg-grey-500 mt-12 mr-12 p-8 rounded-full text-grey-300">
+                <div className="flex items-center bg-grey-300 mt-12 mr-12 pr-8 pl-10 pt-10 pb-10 rounded-full text-gray-600">
                     <div className="mr-4">
                         <AddCircleOutlineIcon />
                     </div>
-                    <span className="text-s not-uppercase mt-2">{voice.label}</span>
+                    <span className="text-s not-uppercase">{voice.label}</span>
                 </div>
             )}
         </div>
