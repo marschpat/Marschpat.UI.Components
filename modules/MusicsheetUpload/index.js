@@ -11,8 +11,8 @@ import UploadOverview from './components_2.0/UploadOverview';
 import InfoPlaceholder from './components_2.0/InfoPlaceholder';
 import SafeButton from '@marschpat/Marschpat.UI.Components/modules/MusicsheetUpload/utils_2.0/SafeButton';
 import useAvailableInstrumentHelper from './utils_2.0/useAvailableInstrumentHelper';
-import { set } from 'lodash';
 import FileEditor from './components_2.0/FileEditor';
+import VoiceEditor from './components_2.0/VoiceEditor/VoiceEditorIndex';
 
 i18next.addResourceBundle('de', 'uploader', de);
 i18next.addResourceBundle('en', 'uploader', en);
@@ -51,6 +51,25 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     });
 
     const initialMetaData = require('./metaData.initial.json');
+
+    // TEST PURPOSES ONLY START (feature VoiceEditor)
+    const [voiceEditorOpen, setVoiceEditorOpen] = useState(false); // used | toggles voice editor | scope Global
+    const [voiceEditorCast, setVoiceEditorCast] = useState(null);
+
+    useEffect(() => {
+        console.log('voiceEditorCast', voiceEditorCast);
+    }, [voiceEditorCast]);
+
+    const handleVoiceEditorOpenlick = selectedCast => {
+        if (voiceEditorCast == null) setVoiceEditorCast(selectedCast);
+        setVoiceEditorOpen(true);
+    };
+
+    const handleVoiceEditorClose = editedCast => {
+        setVoiceEditorCast(editedCast);
+        setVoiceEditorOpen(false);
+    };
+    // TEST PURPOSES ONLY END (feature VoiceEditor)
 
     useEffect(() => {
         if (musicPieces.length == 0) {
@@ -605,7 +624,19 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                             </div>
                         ) : (
                             <div className="grid grid-cols-2 gap-4">
-                                {isVoiceSelectorVisible && (
+                                {/* TEST PURPOSES ONLY START (feature VoiceEditor) */}
+                                {/* 
+                                    When removing the VoiceEditor component, please remove all occurences of 'voiceEditorOpen'
+                                */}
+                                {voiceEditorOpen && (
+                                    <VoiceEditor
+                                        isOpen={voiceEditorOpen}
+                                        cast={voiceEditorCast}
+                                        onVoiceEditorClose={handleVoiceEditorClose}
+                                    ></VoiceEditor>
+                                )}
+                                {/* TEST PURPOSES ONLY END (feature VoiceEditor) */}
+                                {isVoiceSelectorVisible && !voiceEditorOpen && (
                                     <UploadVoiceSelector
                                         filename={
                                             musicPieces[selectedMusicPieceIndex]?.metaData
@@ -652,7 +683,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         }
                                     />
                                 )}
-                                {!isVoiceSelectorVisible && (
+                                {!isVoiceSelectorVisible && !voiceEditorOpen && (
                                     <UploadOverview
                                         musicPieces={musicPieces}
                                         visibillityStates={visibillityStates}
@@ -686,6 +717,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                         onMetadataCloseClick={
                                             handleMetadataIsVisibleStateChangeClose
                                         }
+                                        onVoiceEditorOpenlick={handleVoiceEditorOpenlick}
                                     />
                                 )}
                                 {!isMetadataVisible && (

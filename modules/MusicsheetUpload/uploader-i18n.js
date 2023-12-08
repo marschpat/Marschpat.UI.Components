@@ -52,6 +52,24 @@ export const de = {
     EDITOR_CLOSE_CONFIRM: 'Verwerfen',
     EDITOR_CLOSE_CANCEL: 'Abbrechen',
 
+    //VOICE EDITOR
+    VOICEEDITOR_CAST_NAME_PLACEHOLDER: 'Besetzungsname',
+    VOICEEDITOR_CAST_NAME_LABEL: 'Besetzungsname',
+    VOICEEDITOR_CAST_NAME_HELPERTEXT: 'Bitte Besetzungsname eingeben',
+    VOICEEDITOR_CAST_NAME_WARNING_TITLE: 'Besetzungsname darf nicht leer sein!',
+    VOICEEDITOR_CAST_NAME_WARNING_TEXT: 'Bitte Besetzungsname eingeben',
+    VOICEEDITOR_CAST_NAME_WARNING_CONFIRM: 'OK',
+    VOICEEDITOR_IINSTRUMENT_NAME_LABEL: 'Gruppenname',
+    VOICEEDITOR_ADD_VOICE: 'Stimme hinzufügen',
+    VOICEEDITOR_ADD_INSTRUMENTGROUP: 'Instrumentengruppe hinzufügen',
+    VOICEEDITOR_DELETE_VOICE_TITLE: 'Stimme löschen!',
+    VOICEEDITOR_DELETE_VOICE_TEXT: 'Möchtest du diese Stimme wirklich löschen:',
+    VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE: 'Instrumentengruppe löschen!',
+    VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT:
+        'Möchtest du diese Instrumentengruppe wirklich löschen:',
+    VOICEEDITOR_DELETE_CONFIRM: 'Löschen',
+    VOICEEDITOR_DELETE_CANCEL: 'Abbrechen',
+
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'Datei',
     UPLOADER_INDEX_ALREADY_ADDED: 'bereits hinzugefügt',
@@ -249,6 +267,23 @@ export const en = {
     EDITOR_CLOSE_INFO: 'Do you really want to discard the changes?',
     EDITOR_CLOSE_CONFIRM: 'discard',
     EDITOR_CLOSE_CANCEL: 'cancel',
+
+    //VOICE EDITOR
+    VOICEEDITOR_CAST_NAME_PLACEHOLDER: 'cast name',
+    VOICEEDITOR_CAST_NAME_LABEL: 'cast name',
+    VOICEEDITOR_CAST_NAME_HELPERTEXT: 'Please enter a cast name',
+    VOICEEDITOR_CAST_NAME_WARNING_TITLE: 'Cast name cannot be empty!',
+    VOICEEDITOR_CAST_NAME_WARNING_TEXT: 'Please enter a cast name',
+    VOICEEDITOR_CAST_NAME_WARNING_CONFIRM: 'OK',
+    VOICEEDITOR_IINSTRUMENT_NAME_LABEL: 'group name',
+    VOICEEDITOR_ADD_VOICE: 'Add voice',
+    VOICEEDITOR_ADD_INSTRUMENTGROUP: 'Add instrument group',
+    VOICEEDITOR_DELETE_VOICE_TITLE: 'Delete voice!',
+    VOICEEDITOR_DELETE_VOICE_TEXT: 'Do you really want to delete this voice:',
+    VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE: 'Delete instrument group!',
+    VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT: 'Do you really want to delete this instrument group:',
+    VOICEEDITOR_DELETE_CONFIRM: 'Delete',
+    VOICEEDITOR_DELETE_CANCEL: 'Cancel',
 
     //NEW BY CINIMOD
     UPLOADER_INDEX_FILE: 'File',

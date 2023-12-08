@@ -15,15 +15,6 @@ const useAvailableInstrumentVoices = (
         fetchInstrumentVoicesInCastGroups();
     }, []);
 
-    /**useEffect(() => {
-        handleAvailableVoicesUpdate();
-        console.log('instrumentSheets: ', instrumentSheets);
-    }, [instrumentSheets]);
-
-    useEffect(() => {
-        handleAvailableVoicesUpdate();
-    }, [instrumentVoicesOfCurrentCast]);*/
-
     const handleCastChange = selectedCast => {
         const availableInstruments = mapCastToInstrumentVoices(selectedCast);
         setInstrumentVoicesOfCurrentCast(availableInstruments);

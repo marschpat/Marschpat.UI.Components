@@ -607,7 +607,7 @@ const UploadOverview = ({
                     style={{ textTransform: 'none' }}
                     onClick={onAddMusicPieceClick}
                 >
-                    <AddIcon className="bg-gray-300" />
+                    <AddIcon className="bg-gray-300 rounded-full" />
                     <span className="text-gray-800 text-xl font-normal not-uppercase pl-16">
                         {t('UPlOADER_ADD_MUSICPIECE')}
                     </span>

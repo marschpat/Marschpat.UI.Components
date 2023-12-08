@@ -13,7 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import CloseButton from '../utils_2.0/CloseButton';
 import CollapseButton from '../utils_2.0/CollapseButton';
-import { set } from 'lodash';
 
 const initialMetaData = require('../metaData.initial.json');
 
@@ -30,6 +29,37 @@ const MetaDataForm = props => {
         t,
         implementationMode
     );
+
+    // TEST PURPOSES ONLY START (feature VoiceEditor
+    const handleVoiceEditorOpenlick = () => {
+        if (!props.selectedCast) {
+            props.onVoiceEditorOpenlick(null);
+            return;
+        }
+
+        let castToEdit = {
+            name: props.selectedCast.name,
+            instruments: [],
+        };
+
+        props.selectedCast.groups.forEach(group => {
+            let groupToPush = {
+                name: group.name,
+                voices: [],
+            };
+            if (!group.instruments) return;
+            group.instruments.forEach(instrument => {
+                if (!instrument.voices) return;
+                instrument.voices.forEach(voice => {
+                    groupToPush.voices.push(voice);
+                });
+            });
+            castToEdit.instruments.push(groupToPush);
+        });
+
+        props.onVoiceEditorOpenlick(castToEdit);
+    };
+    // TEST PURPOSES ONLY END (feature VoiceEditor)
 
     const handleMetadataCloseClick = () => {
         props.onMetadataCloseClick();
@@ -115,16 +145,24 @@ const MetaDataForm = props => {
 
                 {/* NO CastSelector option only in Marschpat Edu WebApp available */}
                 {implementationMode !== MP_EDU && (
-                    <InstrumentCastSelector
-                        castOptions={props.castOptions}
-                        initialCast={selectedCast}
-                        handleCastChange={handleCastChange}
-                        handleVoicesAssignementReset={props.handleVoicesAssignementReset}
-                        castWarningRequired={props.castWarningRequired}
-                        resetState={resetSelectedCast}
-                        error={checkIfError('cast')}
-                        isMobile={isMobile}
-                    />
+                    <div className="flex flex-wrap items-center w-full h-full">
+                        <InstrumentCastSelector
+                            castOptions={props.castOptions}
+                            initialCast={selectedCast}
+                            handleCastChange={handleCastChange}
+                            handleVoicesAssignementReset={props.handleVoicesAssignementReset}
+                            castWarningRequired={props.castWarningRequired}
+                            resetState={resetSelectedCast}
+                            error={checkIfError('cast')}
+                            isMobile={isMobile}
+                        />
+                        <button
+                            className="text-blue-300 bg-transparent border-none focus:outline-none focus:ring-0 mt-8 text-mg ml-4"
+                            onClick={() => handleVoiceEditorOpenlick()}
+                        >
+                            VoiceEditor
+                        </button>
+                    </div>
                 )}
                 <div className="flex flex-wrap items-center">
                     <div className="text-black text-lg pt-24 font-bold">
