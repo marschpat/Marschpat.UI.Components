@@ -61,6 +61,8 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
                 instrument.isExpanded = true;
             });
             setCastInEdit(castInEditCopy);
+        } else {
+            setCastInEdit({ instruments: [], voices: [] });
         }
     }, []);
 
