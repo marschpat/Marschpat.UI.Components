@@ -244,11 +244,9 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
                                 </div>
                             )}
                         </div>
-                        {!isMetadataEditOpen && (
-                            <div className="w-32 h-32 mt-20 mr-20">
-                                <CloseButton onClick={handleVoiceEditorClose} />
-                            </div>
-                        )}
+                        <div className="w-32 h-32 mt-20 mr-20">
+                            <CloseButton onClick={handleVoiceEditorClose} />
+                        </div>
                     </div>
                     {castInEdit?.instruments?.length > 0 &&
                         castInEdit?.instruments?.map((instrument, i) => {
