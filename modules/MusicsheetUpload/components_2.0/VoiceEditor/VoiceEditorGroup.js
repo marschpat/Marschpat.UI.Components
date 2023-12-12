@@ -251,11 +251,11 @@ const VoiceEditorGroup = ({
                         <div className="flex flex-row w-full">
                             {!inAddOrEdtirVoiceMode && instrument.isExpanded && (
                                 <Button
-                                    className="rounded-full flex items-start h-32 mt-16"
+                                    className="rounded-full flex items-start h-32 mt-16 hover:bg-gray-300"
                                     onClick={() => handleAddVoiceClick()}
                                 >
                                     <AddCircleOutlineIcon
-                                        className="bg-gray-200 h-24 w-24 mr-8"
+                                        className="bg-opacity-100 h-24 w-24 mr-8"
                                         style={{
                                             color: 'rgb(220, 173, 85)',
                                             active: { color: 'rgb(220, 173, 85)' },
