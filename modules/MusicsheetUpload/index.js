@@ -507,6 +507,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                             onMetadataCloseClick={
                                                 handleMetadataIsVisibleStateChangeClose
                                             }
+                                            onVoiceEditorOpenlick={handleVoiceEditorOpenlick}
                                         />
                                     )}
                                     {!isMetadataVisible && (
@@ -527,7 +528,19 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                                 : 'absolute',
                                     }}
                                 >
-                                    {isVoiceSelectorVisible && (
+                                    {/* TEST PURPOSES ONLY START (feature VoiceEditor) */}
+                                    {/* 
+                                    When removing the VoiceEditor component, please remove all occurences of 'voiceEditorOpen'
+                                */}
+                                    {voiceEditorOpen && (
+                                        <VoiceEditor
+                                            isOpen={voiceEditorOpen}
+                                            cast={voiceEditorCast}
+                                            onVoiceEditorClose={handleVoiceEditorClose}
+                                        ></VoiceEditor>
+                                    )}
+                                    {/* TEST PURPOSES ONLY END (feature VoiceEditor) */}
+                                    {isVoiceSelectorVisible && !voiceEditorOpen && (
                                         <UploadVoiceSelector
                                             filename={
                                                 musicPieces[selectedMusicPieceIndex]?.metaData
@@ -593,7 +606,7 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
                                                 : 'absolute',
                                     }}
                                 >
-                                    {!isVoiceSelectorVisible && (
+                                    {!isVoiceSelectorVisible && !voiceEditorOpen && (
                                         <UploadOverview
                                             musicPieces={musicPieces}
                                             visibillityStates={visibillityStates}
