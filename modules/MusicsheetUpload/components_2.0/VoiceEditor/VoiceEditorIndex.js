@@ -190,7 +190,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
                 <div className="flex flex-col items-start w-full">
                     <div className="flex flex-row w-full">
-                        <div className="flex-flex-col items-center w-full mr-8">
+                        <div className="flex-flex-col items-center w-full ml-8 mr-8">
                             <Button
                                 variant="contained"
                                 className="flex justify-between w-full mt-24 rounded-md text-white transition-colors bg-blue-600 active:bg-blue-600 hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue"
