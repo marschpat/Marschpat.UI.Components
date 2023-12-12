@@ -34,7 +34,7 @@ const VoiceEditorGroup = ({
     const [inAddOrEdtirVoiceMode, setInAddOrEditVoiceMode] = useState(false);
     const [inAddVoiceMode, setInAddVoiceMode] = useState(false);
     const [tempVoiceInEditIndex, setTempVoiceInEditIndex] = useState(null);
-    const [voiceToDeleteIndex, setVoiceToDeleteIndex] = useState(null);
+    const [voiceToDelete, setVoiceToDelete] = useState(null);
     const [instrumentGroupToDeleteIndex, setInstrumentGroupToDeleteIndex] = useState(null);
     const [tempInstrumentGroupName, setTempInstrumentGroupName] = useState(null);
     const [tempVoiceName, setTempVoiceName] = useState(null);
@@ -47,6 +47,19 @@ const VoiceEditorGroup = ({
             voiceInEditIndex: tempVoiceInEditIndex,
         },
     });
+
+    const getInstrumentGroupName = () => {
+        if (!instrument || !instrument.name || instrument.name.length < 1)
+            return t('VOICEEDITOR_ADD_INSTRUMENTGROUP_LABEL');
+        if (instrument.name.length > 50) return instrument.name.slice(0, 50) + '...';
+        else return instrument.name;
+    };
+
+    const getVoiceName = name => {
+        if (!name || name.length < 1) return t('VOICEEDITOR_ADD_INSTRUMENTGROUP_LABEL');
+        if (name.length > 50) return name.slice(0, 50) + '...';
+        else return name;
+    };
 
     const handleAddVoiceClick = () => {
         setTempVoiceInEditIndex(onAddVoice(index));
@@ -63,7 +76,7 @@ const VoiceEditorGroup = ({
     };
 
     const handleVoiceDeleteClick = i => {
-        setVoiceToDeleteIndex({ indexVoice: i, index: index, name: instrument.voices[i].name });
+        setVoiceToDelete({ indexVoice: i, index: index, name: instrument?.voices?.[i]?.name });
         setopenVoiceDeleteModal(true);
     };
 
@@ -116,34 +129,31 @@ const VoiceEditorGroup = ({
     };
 
     const handleVoiceDialogClose = () => {
-        setVoiceToDeleteIndex(null);
         setopenVoiceDeleteModal(false);
+        setVoiceToDelete(null);
     };
 
     const handleVoiceDialogConfirm = () => {
-        if (
-            tempVoiceInEditIndex != null &&
-            tempVoiceInEditIndex === voiceToDeleteIndex.indexVoice
-        ) {
+        setopenVoiceDeleteModal(false);
+        if (tempVoiceInEditIndex != null && tempVoiceInEditIndex === voiceToDelete.indexVoice) {
             setTempVoiceInEditIndex(null);
             setInAddOrEditVoiceMode(false);
             setTempVoiceName(null);
             onEditUnlock();
         }
-        onDeleteVoice(voiceToDeleteIndex.index, voiceToDeleteIndex.indexVoice);
-        setVoiceToDeleteIndex(null);
-        setopenVoiceDeleteModal(false);
+        onDeleteVoice(voiceToDelete.index, voiceToDelete.indexVoice);
+        setVoiceToDelete(null);
     };
 
     const handleInstrumentGroupDialogClose = () => {
-        setInstrumentGroupToDeleteIndex(null);
         setOpenInstrumentGroupDeleteModal(false);
+        setInstrumentGroupToDeleteIndex(null);
     };
 
     const handleInstrumentGroupDialogConfirm = () => {
+        setOpenInstrumentGroupDeleteModal(false);
         onInstrumentGroupDelete(instrumentGroupToDeleteIndex);
         setInstrumentGroupToDeleteIndex(null);
-        setOpenInstrumentGroupDeleteModal(false);
     };
 
     return (
@@ -174,7 +184,7 @@ const VoiceEditorGroup = ({
                     >
                         {!inNameEditMode && (
                             <span className="text-lg w-full mt-12 font-medium text-grey-700">
-                                {instrument.name}
+                                {getInstrumentGroupName()}
                             </span>
                         )}
                         {hovered && !inNameEditMode && (
@@ -279,7 +289,7 @@ const VoiceEditorGroup = ({
                                     <div className="w-full">
                                         <TextField
                                             className="w-full mt-12 ml-4 mr-12"
-                                            label={t('VOICEEDITOR_IINSTRUMENT_NAME_LABEL')}
+                                            label={t('VOICEEDITOR_VOICE_NAME_LABEL')}
                                             value={
                                                 instrument.voices?.[tempVoiceInEditIndex]?.name ??
                                                 ''
@@ -322,22 +332,24 @@ const VoiceEditorGroup = ({
                 open={openVoiceDeleteModal}
                 title={t('VOICEEDITOR_DELETE_VOICE_TITLE')}
                 text={t('VOICEEDITOR_DELETE_VOICE_TEXT')}
-                objectName={voiceToDeleteIndex?.name}
+                objectName={voiceToDelete?.name}
                 cancelText={t('VOICEEDITOR_DELETE_CANCEL')}
                 confirmText={t('VOICEEDITOR_DELETE_CONFIRM')}
                 onConfirm={handleVoiceDialogConfirm}
                 onCancel={handleVoiceDialogClose}
             />
-            <VoiceEditorModal
-                open={openInstrumentGroupDeleteModal}
-                title={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE')}
-                text={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT')}
-                objectName={instrument.name}
-                cancelText={t('VOICEEDITOR_DELETE_CANCEL')}
-                confirmText={t('VOICEEDITOR_DELETE_CONFIRM')}
-                onConfirm={handleInstrumentGroupDialogConfirm}
-                onCancel={handleInstrumentGroupDialogClose}
-            />
+            {openInstrumentGroupDeleteModal && (
+                <VoiceEditorModal
+                    open={openInstrumentGroupDeleteModal}
+                    title={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE')}
+                    text={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT')}
+                    objectName={instrument.name}
+                    cancelText={t('VOICEEDITOR_DELETE_CANCEL')}
+                    confirmText={t('VOICEEDITOR_DELETE_CONFIRM')}
+                    onConfirm={handleInstrumentGroupDialogConfirm}
+                    onCancel={handleInstrumentGroupDialogClose}
+                />
+            )}
         </div>
     );
 };

@@ -56,10 +56,6 @@ const MusicsheetUpload = ({ user, organisation, implementationMode, dispatchFlas
     const [voiceEditorOpen, setVoiceEditorOpen] = useState(false); // used | toggles voice editor | scope Global
     const [voiceEditorCast, setVoiceEditorCast] = useState(null);
 
-    useEffect(() => {
-        console.log('voiceEditorCast', voiceEditorCast);
-    }, [voiceEditorCast]);
-
     const handleVoiceEditorOpenlick = selectedCast => {
         if (voiceEditorCast == null) setVoiceEditorCast(selectedCast);
         setVoiceEditorOpen(true);

@@ -27,7 +27,6 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             {
                 eventName: 'onPointerDown',
                 handler: ({ nativeEvent: event }) => {
-                    console.log('onPointerDown', isEditLocked);
                     if (isEditLocked > 0) {
                         return false;
                     }
@@ -54,10 +53,6 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     useEffect(() => {
         setCastInEdit(cast);
     }, [cast]);
-
-    useEffect(() => {
-        console.log('castInEdit', castInEdit);
-    }, [castInEdit]);
 
     useEffect(() => {
         if (castInEdit) {
@@ -144,12 +139,10 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             });
         });
         highestVoiceId++;
-        console.log('getNextHighestVoice', highestVoiceId);
         return highestVoiceId;
     };
 
     const addVoice = index => {
-        console.log('addVoice', index);
         let castInEditCopy = { ...castInEdit };
         let nextVoiceId = getNextHighestVoice();
         castInEditCopy.instruments[index].voices.push({
@@ -171,7 +164,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     const addInstrumentGroup = () => {
         let castInEditCopy = { ...castInEdit };
         castInEditCopy.instruments.push({
-            name: 'New Group',
+            name: t('VOICEEDITOR_ADD_INSTRUMENTGROUP_LABEL'),
             voices: [],
             isExpanded: true,
         });
@@ -204,20 +197,22 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
                                 style={{ textTransform: 'none' }}
                                 onClick={() => setIsMetadataEditOpen(!isMetadataEditOpen)}
                             >
-                                <div className="flex flex-col items-start justify-start">
-                                    <div
-                                        className="text-lg font-light italic text-left"
-                                        style={{ padding: 0, margin: 0 }}
-                                    >
-                                        {getDisplayCastName()}
+                                <div className="flex flex-row justify-between w-full">
+                                    <div className="flex flex-col items-start justify-start">
+                                        <div
+                                            className="text-lg font-light italic text-left"
+                                            style={{ padding: 0, margin: 0 }}
+                                        >
+                                            {getDisplayCastName()}
+                                        </div>
                                     </div>
+                                    {isMetadataEditOpen && (
+                                        <CheckIcon className="ml-24 mt-4" style={{ right: 0 }} />
+                                    )}
+                                    {isMetadataEditOpen || (
+                                        <EditIcon className="ml-24 mt-4" style={{ right: 0 }} />
+                                    )}
                                 </div>
-                                {isMetadataEditOpen && (
-                                    <CheckIcon className="ml-24" style={{ right: 0 }} />
-                                )}
-                                {isMetadataEditOpen || (
-                                    <EditIcon className="ml-24" style={{ right: 0 }} />
-                                )}
                             </Button>
                             {isMetadataEditOpen && (
                                 <div

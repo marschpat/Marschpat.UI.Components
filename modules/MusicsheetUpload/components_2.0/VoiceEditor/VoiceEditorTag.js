@@ -40,6 +40,11 @@ const VoiceEditorTag = ({
         onVoiceDeleteClick(index);
     };
 
+    const getVoiceDisplayName = name => {
+        if (name.length > 50) return name.slice(0, 50) + '...';
+        else return name;
+    };
+
     return (
         <div
             key={index}
@@ -65,7 +70,7 @@ const VoiceEditorTag = ({
                 }}
                 onClick={onVoiceClick}
             >
-                <span className="text-s not-uppercase">{voice.name}</span>
+                <span className="text-s not-uppercase">{getVoiceDisplayName(voice.name)}</span>
             </Button>
             {hovered && !isOverGroup && !isDragging && (
                 <div className="absolute flex flex-row">

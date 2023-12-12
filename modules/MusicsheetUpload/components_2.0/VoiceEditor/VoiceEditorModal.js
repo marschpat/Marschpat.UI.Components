@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -17,6 +17,11 @@ const VoiceEditorModal = ({
     onCancel,
 }) => {
     const [isMobile] = useState(window.innerWidth < 720);
+    const [name, setName] = useState(objectName);
+
+    useEffect(() => {
+        if (objectName != undefined && objectName != null) setName(objectName);
+    }, [objectName]);
 
     return (
         <Dialog
@@ -28,12 +33,12 @@ const VoiceEditorModal = ({
         >
             <div className="p-24 pt-0 rounded-full">
                 <DialogTitle id="alert-dialog-title" className="text-center font-bold">
-                    <h1>{title}</h1>
+                    {title}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description" className="text-center">
                         {text}
-                        <p className="text-black mt-8 text-lg">{' ' + objectName}</p>
+                        <div className="text-black mt-8 text-lg">{' ' + name}</div>
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className="flex items-center justify-center">
