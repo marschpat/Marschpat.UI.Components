@@ -12,7 +12,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import TextField from '@material-ui/core/TextField';
 import { useDroppable } from '@dnd-kit/core';
-import { set } from 'lodash';
 
 const VoiceEditorGroup = ({
     instrument,
