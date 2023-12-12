@@ -5,6 +5,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
+import './TouchActionNone.css';
 
 const VoiceEditorTag = ({
     voice,
@@ -12,7 +13,6 @@ const VoiceEditorTag = ({
     groupIndex,
     inEditIndex,
     isOverGroup,
-    onVoiceClick,
     onVoiceEditClick,
     onVoiceDeleteClick,
 }) => {
@@ -30,6 +30,7 @@ const VoiceEditorTag = ({
 
     const style = {
         transform: CSS.Translate.toString(transform),
+        zIndex: isDragging ? 9999 : 0,
     };
 
     const handleOnEditClick = () => {
@@ -56,24 +57,22 @@ const VoiceEditorTag = ({
             onMouseLeave={() => setHovered(false)}
             className={
                 index === inEditIndex
-                    ? 'flex justify-center items-center mt-12 mr-12 border-2 border-blue-600 rounded-full'
-                    : 'flex justify-center items-center mt-12 mr-12'
+                    ? 'flex justify-center items-center mt-12 mr-12 border-2 border-blue-600 rounded-full touch-action-none'
+                    : 'flex justify-center items-center mt-12 mr-12 touch-action-none'
             }
         >
             <Button
-                disabled={hovered && !isDragging}
+                disabled={hovered && !isOverGroup && !isDragging}
                 variant="contained"
-                className="flex items-center bg-white hover:bg-white rounded-full text-black"
+                className="flex items-center bg-white hover:bg-white rounded-full text-black touch-action-none"
                 style={{
                     textTransform: 'none',
-                    zIndex: isDragging ? 1000 : 1,
                 }}
-                onClick={onVoiceClick}
             >
                 <span className="text-s not-uppercase">{getVoiceDisplayName(voice.name)}</span>
             </Button>
             {hovered && !isOverGroup && !isDragging && (
-                <div className="absolute flex flex-row">
+                <div className="absolute flex flex-row touch-action-none">
                     <IconButton
                         aria-label="edit"
                         className="flex w-24 h-24"

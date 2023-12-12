@@ -54,12 +54,6 @@ const VoiceEditorGroup = ({
         else return instrument.name;
     };
 
-    const getVoiceName = name => {
-        if (!name || name.length < 1) return t('VOICEEDITOR_ADD_INSTRUMENTGROUP_LABEL');
-        if (name.length > 50) return name.slice(0, 50) + '...';
-        else return name;
-    };
-
     const handleAddVoiceClick = () => {
         setTempVoiceInEditIndex(onAddVoice(index));
         setInAddOrEditVoiceMode(true);
@@ -156,15 +150,14 @@ const VoiceEditorGroup = ({
     };
 
     return (
-        <div
-            ref={setNodeRef}
-            className={
-                isOver
-                    ? 'flex flex-wrap w-full bg-grey-100 border-blue-600 border-2 rounded-md'
-                    : 'flex flex-wrap w-full'
-            }
-        >
-            <div className="flex flex-row w-full h-full mt-12">
+        <div ref={setNodeRef} className="flex flex-wrap w-full">
+            <div
+                className={
+                    isOver
+                        ? 'flex flex-row w-full h-full mt-12 bg-grey-100 border-blue-600 border-2 rounded-md'
+                        : 'flex flex-row w-full h-full mt-12'
+                }
+            >
                 <div className="flex flex-col items-center">
                     <CollapseButton
                         className="w-32 h-32"
@@ -250,7 +243,6 @@ const VoiceEditorGroup = ({
                                         groupIndex={index}
                                         inEditIndex={tempVoiceInEditIndex}
                                         isOverGroup={isOver}
-                                        onVoiceClick={handleVoiceEditClick}
                                         onVoiceEditClick={handleVoiceEditClick}
                                         onVoiceDeleteClick={handleVoiceDeleteClick}
                                     />
@@ -337,18 +329,16 @@ const VoiceEditorGroup = ({
                 onConfirm={handleVoiceDialogConfirm}
                 onCancel={handleVoiceDialogClose}
             />
-            {openInstrumentGroupDeleteModal && (
-                <VoiceEditorModal
-                    open={openInstrumentGroupDeleteModal}
-                    title={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE')}
-                    text={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT')}
-                    objectName={instrument.name}
-                    cancelText={t('VOICEEDITOR_DELETE_CANCEL')}
-                    confirmText={t('VOICEEDITOR_DELETE_CONFIRM')}
-                    onConfirm={handleInstrumentGroupDialogConfirm}
-                    onCancel={handleInstrumentGroupDialogClose}
-                />
-            )}
+            <VoiceEditorModal
+                open={openInstrumentGroupDeleteModal}
+                title={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TITLE')}
+                text={t('VOICEEDITOR_DELETE_INSTRUMENTGROUP_TEXT')}
+                objectName={instrument.name}
+                cancelText={t('VOICEEDITOR_DELETE_CANCEL')}
+                confirmText={t('VOICEEDITOR_DELETE_CONFIRM')}
+                onConfirm={handleInstrumentGroupDialogConfirm}
+                onCancel={handleInstrumentGroupDialogClose}
+            />
         </div>
     );
 };

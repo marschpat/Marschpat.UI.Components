@@ -12,11 +12,18 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import CloseButton from '../../utils_2.0/CloseButton';
 import VoiceEditorGroup from './VoiceEditorGroup';
-import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
-import { set } from 'lodash';
+import {
+    DndContext,
+    MouseSensor,
+    TouchSensor,
+    KeyboardSensor,
+    useSensor,
+    useSensors,
+} from '@dnd-kit/core';
 
 const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     const { t } = useTranslation(['uploader']);
+    const [isMobile] = useState(window.innerWidth < 720);
     const [castInEdit, setCastInEdit] = useState(cast);
     const [isEditLocked, setIsEditLocked] = useState(0);
     const [isMetadataEditOpen, setIsMetadataEditOpen] = useState(true);
@@ -35,20 +42,20 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             },
         ];
     }
+    const mouseSensor = useSensor(isMobile ? MouseSensor : MyMouseSensor, {
+        activationConstraint: {
+            distance: 12,
+        },
+    });
+    const touchSensor = useSensor(TouchSensor, {
+        activationConstraint: {
+            delay: 500,
+            tolerance: 6,
+        },
+    });
+    const keyboardSensor = useSensor(KeyboardSensor);
 
-    const sensors = useSensors(
-        useSensor(MyMouseSensor, {
-            activationConstraint: {
-                distance: 16,
-            },
-        }),
-        useSensor(TouchSensor, {
-            activationConstraint: {
-                delay: 1000,
-                tolerance: 6,
-            },
-        })
-    );
+    const sensors = useSensors(mouseSensor, touchSensor, keyboardSensor);
 
     useEffect(() => {
         setCastInEdit(cast);
@@ -189,7 +196,11 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
 
     return (
         <section className="block w-full h-full p-6 mr-6 bg-gray-200  border border-gray-200 shadow pb-24">
-            <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+            <DndContext
+                sensors={sensors}
+                onDragEnd={handleDragEnd}
+                autoScroll={{ acceleration: 1 }}
+            >
                 <div className="flex flex-col items-start w-full">
                     <div className="flex flex-row w-full">
                         <div className="flex-flex-col items-center w-full ml-8 mr-8">
