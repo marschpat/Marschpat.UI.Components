@@ -23,7 +23,9 @@ import {
 
 const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     const { t } = useTranslation(['uploader']);
-    const [isMobile] = useState(window.innerWidth < 720);
+    const [isMobile, setIsMobile] = useState(isTouchDevice());
+    const [activeGroupIndex, setActiveGroupIndex] = useState(null);
+    const [activeVoiceIndex, setActiveVoiceIndex] = useState(null);
     const [castInEdit, setCastInEdit] = useState(cast);
     const [isEditLocked, setIsEditLocked] = useState(0);
     const [isMetadataEditOpen, setIsMetadataEditOpen] = useState(true);
@@ -49,7 +51,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     });
     const touchSensor = useSensor(TouchSensor, {
         activationConstraint: {
-            delay: 500,
+            delay: 250,
             tolerance: 6,
         },
     });
@@ -71,6 +73,14 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
         } else {
             setCastInEdit({ instruments: [], voices: [], name: '' });
         }
+
+        // Add event listener on component mount for resize event
+        window.addEventListener('resize', setIsMobile(isTouchDevice()));
+
+        // Cleanup the event listener on component unmount
+        return () => {
+            window.removeEventListener('resize', setIsMobile(isTouchDevice()));
+        };
     }, []);
 
     const handleVoiceEditorClose = () => {
@@ -80,6 +90,11 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             return;
         }
         onVoiceEditorClose(castInEdit);
+    };
+
+    const handleDragStart = event => {
+        setActiveGroupIndex(event.active.data.current.groupIndex);
+        setActiveVoiceIndex(event.active.data.current.index);
     };
 
     const handleDragEnd = event => {
@@ -98,6 +113,8 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
 
             setCastInEdit(castInEditCopy);
         }
+        setActiveGroupIndex(null);
+        setActiveVoiceIndex(null);
     };
 
     const updateCastName = newCastName => {
@@ -195,9 +212,10 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     };
 
     return (
-        <section className="block w-full h-full p-6 mr-6 bg-gray-200  border border-gray-200 shadow pb-24">
+        <section className="block w-full p-6 mr-6 bg-gray-200  border border-gray-200 shadow pb-24 section-h-100">
             <DndContext
                 sensors={sensors}
+                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 autoScroll={{ acceleration: 1 }}
             >
@@ -255,6 +273,9 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
                                     <VoiceEditorGroup
                                         instrument={instrument}
                                         index={i}
+                                        isMobile={isMobile}
+                                        activeGroupIndex={activeGroupIndex}
+                                        activeVoiceIndex={activeVoiceIndex}
                                         onCollapseButtonChange={handleCollapseButtonChange}
                                         onInstrumentGroupNameChange={updateInstrumenGroupName}
                                         onInstrumentGroupDelete={deleteInstrumentGroup}
@@ -313,5 +334,11 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
         </section>
     );
 };
+
+function isTouchDevice() {
+    return (
+        'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0
+    );
+}
 
 export default VoiceEditor;

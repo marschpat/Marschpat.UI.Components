@@ -1,15 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
-import { useDraggable } from '@dnd-kit/core';
+import { DragOverlay, useDraggable } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import './TouchActionNone.css';
 
 const VoiceEditorTag = ({
     voice,
     index,
+    activeGroupIndex,
+    activeVoiceIndex,
+    isMobile,
     groupIndex,
     inEditIndex,
     isOverGroup,
@@ -47,50 +49,75 @@ const VoiceEditorTag = ({
     };
 
     return (
-        <div
-            key={index}
-            {...attributes}
-            {...listeners}
-            ref={inEditIndex ? null : setNodeRef}
-            style={style}
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
-            className={
-                index === inEditIndex
-                    ? 'flex justify-center items-center mt-12 mr-12 border-2 border-blue-600 rounded-full touch-action-none'
-                    : 'flex justify-center items-center mt-12 mr-12 touch-action-none'
-            }
-        >
-            <Button
-                disabled={hovered && !isOverGroup && !isDragging}
-                variant="contained"
-                className="flex items-center bg-white hover:bg-white rounded-full text-black touch-action-none"
-                style={{
-                    textTransform: 'none',
+        <div>
+            <div
+                key={index}
+                {...attributes}
+                {...listeners}
+                ref={inEditIndex ? null : setNodeRef}
+                style={style}
+                onMouseEnter={() => {
+                    if (!isMobile) setHovered(true);
                 }}
+                onMouseDown={() => {
+                    if (isMobile) setHovered(true);
+                }}
+                onMouseLeave={() => setHovered(false)}
+                className={
+                    index === inEditIndex
+                        ? 'flex justify-center items-center mt-12 mr-12 border-2 border-blue-600 rounded-full '
+                        : 'flex justify-center items-center mt-12 mr-12 '
+                }
             >
-                <span className="text-s not-uppercase">{getVoiceDisplayName(voice.name)}</span>
-            </Button>
-            {hovered && !isOverGroup && !isDragging && (
-                <div className="absolute flex flex-row touch-action-none">
-                    <IconButton
-                        aria-label="edit"
-                        className="flex w-24 h-24"
-                        onClick={handleOnEditClick}
+                {isDragging || (
+                    <Button
+                        variant="contained"
+                        className="flex items-center bg-white hover:bg-white rounded-full text-black "
+                        style={{
+                            textTransform: 'none',
+                        }}
                     >
-                        {' '}
-                        <EditIcon className="text-gray-800 hover:text-blue-600" />
-                    </IconButton>
-                    <IconButton
-                        aria-label="delete"
-                        className="flex w-24 h-24 ml-8"
-                        onClick={handleOnDeleteClick}
+                        <span className="text-s not-uppercase ">
+                            {getVoiceDisplayName(voice.name)}
+                        </span>
+                    </Button>
+                )}
+                {hovered && !isOverGroup && !isDragging && (
+                    <div className="absolute flex flex-row ">
+                        <IconButton
+                            aria-label="edit"
+                            className="flex w-24 h-24 "
+                            onClick={handleOnEditClick}
+                        >
+                            {' '}
+                            <EditIcon className="text-gray-800 hover:text-blue-600 " />
+                        </IconButton>
+                        <IconButton
+                            aria-label="delete"
+                            className="flex w-24 h-24 ml-8 "
+                            onClick={handleOnDeleteClick}
+                        >
+                            {' '}
+                            <DeleteIcon className="text-gray-800 hover:text-red-600 " />
+                        </IconButton>
+                    </div>
+                )}
+            </div>
+            <DragOverlay dropAnimation={null}>
+                {activeGroupIndex == groupIndex && activeVoiceIndex == index && (
+                    <Button
+                        variant="contained"
+                        className="flex items-center bg-white hover:bg-white rounded-full text-black "
+                        style={{
+                            textTransform: 'none',
+                        }}
                     >
-                        {' '}
-                        <DeleteIcon className="text-gray-800 hover:text-red-600" />
-                    </IconButton>
-                </div>
-            )}
+                        <span className="text-s not-uppercase ">
+                            {getVoiceDisplayName(voice.name)}
+                        </span>
+                    </Button>
+                )}
+            </DragOverlay>
         </div>
     );
 };

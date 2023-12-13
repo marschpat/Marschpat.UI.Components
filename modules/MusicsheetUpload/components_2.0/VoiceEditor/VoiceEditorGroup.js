@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CollapseButton from '../../utils_2.0/CollapseButton';
 import VoiceEditorTag from './VoiceEditorTag';
@@ -16,6 +16,9 @@ import { useDroppable } from '@dnd-kit/core';
 const VoiceEditorGroup = ({
     instrument,
     index,
+    isMobile,
+    activeGroupIndex,
+    activeVoiceIndex,
     onCollapseButtonChange,
     onInstrumentGroupNameChange,
     onInstrumentGroupDelete,
@@ -171,7 +174,12 @@ const VoiceEditorGroup = ({
                 <div className="flex flex-col ml-8 w-full">
                     <div
                         className="flex flex-row items-center w-full"
-                        onMouseEnter={() => setHovered(true)}
+                        onMouseEnter={() => {
+                            if (!isMobile) setHovered(true);
+                        }}
+                        onMouseDown={() => {
+                            if (isMobile) setHovered(true);
+                        }}
                         onMouseLeave={() => setHovered(null)}
                     >
                         {!inNameEditMode && (
@@ -240,6 +248,9 @@ const VoiceEditorGroup = ({
                                         key={j}
                                         voice={voice}
                                         index={j}
+                                        activeGroupIndex={activeGroupIndex}
+                                        activeVoiceIndex={activeVoiceIndex}
+                                        isMobile={isMobile}
                                         groupIndex={index}
                                         inEditIndex={tempVoiceInEditIndex}
                                         isOverGroup={isOver}

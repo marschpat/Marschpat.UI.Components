@@ -64,14 +64,14 @@ const VoiceEditorModal = ({
                             <Button
                                 onClick={() => onConfirm()}
                                 style={{ textTransform: 'none' }}
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center p-8 pl-24 pr-24"
+                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg text-red-600 w-full text-center p-8 pl-24 pr-24"
                             >
                                 {confirmText}
                             </Button>
                             <Button
                                 onClick={() => onCancel()}
                                 style={{ textTransform: 'none' }}
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg text-red-600 w-full text-center mt-12 p-8 pl-24 pr-24"
+                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
                             >
                                 {cancelText}
                             </Button>
