@@ -69,7 +69,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             });
             setCastInEdit(castInEditCopy);
         } else {
-            setCastInEdit({ instruments: [], voices: [] });
+            setCastInEdit({ instruments: [], voices: [], name: '' });
         }
     }, []);
 
@@ -302,7 +302,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
                             <Button
                                 onClick={() => setIsWarningModalOpen(false)}
                                 style={{ textTransform: 'none' }}
-                                className="flex items-left justify-center bg-blue-600 active:bg-blue-600 hover:bg-blue-600 rounded-lg font-semibold text-white text-lg pl-24 pr-24 mr-4 ml-4"
+                                className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
                             >
                                 {t('VOICEEDITOR_CAST_NAME_WARNING_CONFIRM')}
                             </Button>
