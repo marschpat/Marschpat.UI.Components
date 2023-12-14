@@ -72,7 +72,11 @@ const VoiceEditorTag = ({
                 {isDragging || (
                     <Button
                         variant="contained"
-                        className="flex items-center bg-white hover:bg-white rounded-full text-black "
+                        className={
+                            hovered
+                                ? 'flex items-center bg-white hover:bg-white rounded-full text-gray-500'
+                                : 'flex items-center bg-white hover:bg-white rounded-full text-gray-800'
+                        }
                         style={{
                             textTransform: 'none',
                         }}
@@ -107,7 +111,7 @@ const VoiceEditorTag = ({
                 {activeGroupIndex == groupIndex && activeVoiceIndex == index && (
                     <Button
                         variant="contained"
-                        className="flex items-center bg-white hover:bg-white rounded-full text-black "
+                        className="flex items-center bg-white hover:bg-white rounded-full text-gray-800"
                         style={{
                             textTransform: 'none',
                         }}

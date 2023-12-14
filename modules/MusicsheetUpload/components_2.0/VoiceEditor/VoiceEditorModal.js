@@ -41,42 +41,44 @@ const VoiceEditorModal = ({
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions className="flex items-center justify-center">
-                    {isMobile || (
-                        <div className="flex items-center justify-center">
-                            <Button
-                                onClick={() => onCancel()}
-                                style={{ textTransform: 'none' }}
-                                className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
-                            >
-                                {cancelText}
-                            </Button>
-                            <Button
-                                onClick={() => onConfirm()}
-                                style={{ textTransform: 'none' }}
-                                className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg text-red-600 pl-24 pr-24 mr-4 ml-4"
-                            >
-                                {confirmText}
-                            </Button>
-                        </div>
-                    )}
-                    {isMobile && (
-                        <div className="flex flex-col items-center">
-                            <Button
-                                onClick={() => onConfirm()}
-                                style={{ textTransform: 'none' }}
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg text-red-600 w-full text-center p-8 pl-24 pr-24"
-                            >
-                                {confirmText}
-                            </Button>
-                            <Button
-                                onClick={() => onCancel()}
-                                style={{ textTransform: 'none' }}
-                                className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
-                            >
-                                {cancelText}
-                            </Button>
-                        </div>
-                    )}
+                    <div className="flex items-center justify-center">
+                        {isMobile || (
+                            <div className="flex items-center justify-center">
+                                <Button
+                                    onClick={() => onCancel()}
+                                    style={{ textTransform: 'none' }}
+                                    className="flex items-left justify-center bg-grey-200 rounded-lg font-semibold text-lg pl-24 pr-24 mr-4 ml-4"
+                                >
+                                    {cancelText}
+                                </Button>
+                                <Button
+                                    onClick={() => onConfirm()}
+                                    style={{ textTransform: 'none' }}
+                                    className="flex items-center justify-center bg-grey-200 rounded-lg font-semibold text-lg text-red-600 pl-24 pr-24 mr-4 ml-4"
+                                >
+                                    {confirmText}
+                                </Button>
+                            </div>
+                        )}
+                        {isMobile && (
+                            <div className="flex flex-col items-center">
+                                <Button
+                                    onClick={() => onConfirm()}
+                                    style={{ textTransform: 'none' }}
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg text-red-600 w-full text-center p-8 pl-24 pr-24"
+                                >
+                                    {confirmText}
+                                </Button>
+                                <Button
+                                    onClick={() => onCancel()}
+                                    style={{ textTransform: 'none' }}
+                                    className="items-center justify-center bg-gray-200 rounded-lg font-semibold text-lg w-full text-center mt-12 p-8 pl-24 pr-24"
+                                >
+                                    {cancelText}
+                                </Button>
+                            </div>
+                        )}
+                    </div>
                 </DialogActions>
             </div>
         </Dialog>

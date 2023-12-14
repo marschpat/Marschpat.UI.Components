@@ -51,7 +51,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
     });
     const touchSensor = useSensor(TouchSensor, {
         activationConstraint: {
-            delay: 250,
+            delay: 125,
             tolerance: 6,
         },
     });
@@ -311,7 +311,7 @@ const VoiceEditor = ({ cast, onVoiceEditorClose }) => {
             >
                 <div className="p-24 pt-0 rounded-full">
                     <DialogTitle id="alert-dialog-title" className="text-center font-bold">
-                        <h1>{t('VOICEEDITOR_CAST_NAME_WARNING_TITLE')}</h1>
+                        {t('VOICEEDITOR_CAST_NAME_WARNING_TITLE')}
                     </DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description" className="text-center">
