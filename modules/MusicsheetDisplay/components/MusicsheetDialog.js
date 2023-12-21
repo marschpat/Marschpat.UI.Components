@@ -69,6 +69,11 @@ const MusicsheetDialog = () => {
     );
 
     function closeDialog() {
+        if(history.action !== 'POP' && history.location.lastLocation !== "/login") {
+            history.goBack();
+            return;
+        }
+        
         const urlParams = new URLSearchParams(window.location.search);
         const fromPlaylist = urlParams.get('pl');
         const goBackPath = fromPlaylist
