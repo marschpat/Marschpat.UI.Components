@@ -93,7 +93,7 @@ const MetaDataForm = props => {
                 <ChooseOrCreateSelector
                     label={t('PUBLISHER')}
                     labelAttr="name"
-                    fetchOptionsUrl="/publisher?publisherUnderLicenseOnly=true"
+                    fetchOptionsUrl="v1/publisher?publisherUnderLicenseOnly=true"
                     initialValue={metaData.publisherId}
                     initialCustomOption={metaData.publisher}
                     resetState={props.resetState}
@@ -194,7 +194,7 @@ const MetaDataForm = props => {
     // @ToDo: See above... Look out for  a niceer solution to remove the "fetching" logic from here
     function fetchPersonOptions() {
         axios
-            .get('/persons')
+            .get('v1/persons')
             .then(response => {
                 setPersonOptions(
                     response.data?.map(item => ({

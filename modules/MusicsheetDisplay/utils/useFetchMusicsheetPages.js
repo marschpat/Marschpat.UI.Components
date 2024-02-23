@@ -20,7 +20,7 @@ function useFetchMusicsheetPages() {
     async function fetchAllMusicsheetVoicePages(sheetId, voiceId, type = 'rendered') {
         try {
             const response = await axios.post(
-                `musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
+                `v1/musiclibrary/${sheetId}/download/${voiceId}/?type=${type}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : t('MSD_ERROR_NORESPONSE');

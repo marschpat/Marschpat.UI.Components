@@ -56,7 +56,7 @@ const SketchpadDrawPage = forwardRef((props, ref) => {
         try {
             // @ToDo: Backend: be sure to return a new **unique** link here!
             const response = await axios.post(
-                `musiclibrary/${sheetId}/download/${voiceId}/${pageIndex}`
+                `v1/musiclibrary/${sheetId}/download/${voiceId}/${pageIndex}`
             );
             const success = response?.data ? true : false;
             const data = success ? response.data : t('MSD_ERROR_NORESPONSE');

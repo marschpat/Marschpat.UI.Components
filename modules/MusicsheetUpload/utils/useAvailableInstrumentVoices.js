@@ -58,8 +58,8 @@ const useAvailableInstrumentVoices = (
     function fetchInstrumentVoicesInCastGroups() {
         const castRoute =
             implementationMode === MP_WEB && organisation
-                ? `/cast?organisationId=${organisation.organisationId}`
-                : '/cast';
+                ? `v1/cast?organisationId=${organisation.organisationId}`
+                : 'v1/cast';
 
         axios
             .get(castRoute)

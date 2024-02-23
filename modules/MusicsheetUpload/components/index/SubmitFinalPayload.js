@@ -62,7 +62,7 @@ const SubmitFinalPayload = props => {
         };
         if (inDebugMode) console.log('submit final payload: ', payload);
         axios
-            .post('/musicsheet-upload', { ...payload }, { onUploadProgress: handleUploadProgress })
+            .post('v1/musicsheet-upload', { ...payload }, { onUploadProgress: handleUploadProgress })
             .then(resp => {
                 const response = new MusicsheetUploadResponse(resp);
                 if (response.isSheetMusicPersisted()) {

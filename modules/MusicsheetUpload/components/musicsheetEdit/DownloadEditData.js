@@ -31,7 +31,7 @@ const DownloadEditData = props => {
     };
 
     const downloadEditData = sheetId => {
-        const path = `/musicsheet-upload/${sheetId}`;
+        const path = `v1/musicsheet-upload/${sheetId}`;
         axios
             .get(path)
             .then(response => {
