@@ -29,7 +29,7 @@ const UploadSuccess = props => {
                     <div className="mt-16 w-full flex justify-around">
                         <Button
                             component={Link}
-                            to={apiRoutes[implementationMode].musiclibrary}
+                            to="/musiclibrary"
                             variant="contained"
                             color="primary"
                         >
