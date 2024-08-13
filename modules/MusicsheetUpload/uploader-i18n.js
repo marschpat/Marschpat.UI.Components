@@ -15,8 +15,8 @@ export const de = {
         'Besetzung wirklich ändern? Zuordnung bereits zugewiesener Stimmen gehen dadurch verloren.',
     CAST_WARNING_CONFIRM: 'Besetzung auswählen',
     ERROR_CAST: 'Bitte Besetzung auswählen',
-    TAGS: 'Tags',
-    TAGS_SELECT: "Tag's zuordnen",
+    TAGS: 'Kategorien',
+    TAGS_SELECT: "Kategorien zuordnen",
     ASSIGNMENT: 'Zuordnung',
     ASSIGNMENT_TEXT:
         'Lege fest ob das Musikstück nur für dich (in deiner privaten Notenbibliothek - "NOTEN UPLOADS - privater Context") oder für alle Mitglieder deines Vereins / deiner Musikschule ("NOTEN UPLOADS - Vereinscontext") zur Verfügung stehen soll.',
@@ -39,8 +39,8 @@ export const de = {
     UPLOADER_HOWTOCAST: 'Wie funktioniert die "Besetzung"?',
     UPLOADER_HOWTOCAST_DESC:
         'Die Wahl der Besetzung hat Auswirkung auf die zur Verfügung stehenden Instrumentenstimmen und Zuordnung in MARSCHPAT!',
-    UPLOADER_HOWTOTAGS: `Wozu Tag's?`,
-    UPLOADER_HOWTOTAGS_DESC: `Tag's helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden`,
+    UPLOADER_HOWTOTAGS: `Wozu Kategorien?`,
+    UPLOADER_HOWTOTAGS_DESC: `Kategorien helfen dir Musikstücke zu kategorisieren und einfacher wiederzufinden`,
     UPLOADER_VOICES: 'Stimmen',
     UPLOADER_VOICES_TTP:
         'Hier siehst du alle Instrumentenstimmen des Musikstücks und kannst diese im Detail bearbeiten',
@@ -185,8 +185,8 @@ export const en = {
         'Really change the instrumentation? Assignments of already assigned instrument voices are lost as a result.',
     CAST_WARNING_CONFIRM: 'Change instrumentation',
     ERROR_CAST: 'Please select instrumentation',
-    TAGS: 'Tags',
-    TAGS_SELECT: 'Select tags',
+    TAGS: 'Categories',
+    TAGS_SELECT: 'Select categories',
     ASSIGNMENT: 'Assignment',
     ASSIGNMENT_TEXT:
         'Specify whether the music sheet should only be available for you (in your private library of music sheets) or for all members of your band.',
@@ -210,8 +210,8 @@ export const en = {
     UPLOADER_HOWTOCAST: 'How does the "instrumentation" works?',
     UPLOADER_HOWTOCAST_DESC:
         'The choice of instrumentation has an effect on the available instrumental voices and mapping in MARSCHPAT software!',
-    UPLOADER_HOWTOTAGS: `Why tags?`,
-    UPLOADER_HOWTOTAGS_DESC: `Tags help you to categorise music and find it more easily.`,
+    UPLOADER_HOWTOTAGS: `Why categories?`,
+    UPLOADER_HOWTOTAGS_DESC: `Categories help you to categorise music and find it more easily.`,
     UPLOADER_VOICES: 'instrument voices',
     UPLOADER_VOICES_TTP:
         'Here you can see all the instrument voices of the music sheet and edit them in detail.',
